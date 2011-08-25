@@ -639,6 +639,9 @@ $('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddres
     
 	//load modify ip field
 	modifyipaddress(action,id,subnetId);
+	
+	//hide edit subnet if opened
+	$('div.edit_subnet').slideUp('fast');
 });
 
 
@@ -651,7 +654,9 @@ $('img.edit_subnet').live("click", function () {
     locationAction = "IPaddresses";
     //format posted values
 	postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction + "&location=" + locationAction;
-
+	//hide addnew IP address ad if present
+	$('div.addnew').slideUp('fast');
+	
 	$.post('site/admin/manageSubnetEdit.php', postdata, function(data) {
 		$('div.edit_subnet').html(data).addClass('edit_subnet').slideDown('fast');
 	});	
@@ -664,6 +669,9 @@ $('img.mail_ipaddress').live("click", function () {
 	var IPid = $(this).attr('id');
 	//hide tooltip
 	$('.tooltipTop').hide();
+	
+	//hide edit subnet if opened
+	$('div.edit_subnet').slideUp('fast');
 	
 	$.post('site/mailNotifyIP.php', { id:IPid }, function(data) {
 		$('div.addnew').html(data).addClass('mail').slideDown('fast');
