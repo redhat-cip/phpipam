@@ -411,6 +411,10 @@ ul.topNav li input {
 /********************
 	site sections
 ********************/
+div.wrapper,
+div.footer {
+	min-width: 1024px;
+}
 div.sections_overlay {
 	background: #CEE3F6;
 	background: #40464a;
@@ -536,6 +540,9 @@ table.newSections ul li.active {
 table.requestedIPaddresses img {
 	cursor: pointer;
 }
+table.settings td {
+	vertical-align: middle !important;
+}
 table.settings td.title {
 	width: 50px;
 }
@@ -545,9 +552,13 @@ table.settings td:nth-child(2) {
 table.settings td.info {
 	font-style: italic;
 	white-space: normal;
+	font-size: 12px;
 }
 table.settings td.submit {
 	text-align: right;
+}
+table.settings input[type=text] {
+	padding: 5px;
 }
 div.settingsEdit {
 	display: none;
@@ -1537,10 +1548,10 @@ table.donate td {
 	color: #D5D5D5;
 	padding: 0px 10px;
 	text-shadow: 1px 1px 1px black;
+	border-left: 1px solid #D5D5D5;
 }
-table.donate td:nth-child(1),
-table.donate td:nth-child(2) {
-	border-right: 1px solid #D5D5D5;
+table.donate td:nth-child(1) {
+	border-left: none;
 }
 
 
