@@ -22,8 +22,8 @@
 	<!-- js -->
 	<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
-<!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
-	<script type="text/javascript" src="js/magic.js"></script>
+	<script type="text/javascript" src="js/magic.min.js"></script>
+<!-- 	<script type="text/javascript" src="js/magic.js"></script> -->
 	<script type="text/javascript" src="js/buttons.js"></script>
 	<?php 
 	if ($settings['showTooltips'] == 1) { 
