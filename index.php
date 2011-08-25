@@ -67,6 +67,7 @@ include('functions/checkPhpBuild.php');
 
 <!-- pusher -->
 <div class="pusher"></div>
+
 <!-- end wrapper -->
 </div>
 
