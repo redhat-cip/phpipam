@@ -1,0 +1,21 @@
+0.4 release
+
+	- devices table;
+
+
+next releases
+
+	- domain authentication;
+	- better exception handling (functions);
+	- User-defined IP address fields;
+	- User-defined subnet fields;
+	- Overlapping subnets option in config files;
+	- RDNS zone file export (in admin!)
+	- IPv6 migration guide document
+	- show request IP address history;
+	- Subnet scan for alive IP addresses (ICMP);
+	- ICMP check if IP is alive;
+	
+	- AS import
+		#>telnet whois.ripe.net 43
+		-GRK -i origin as8591

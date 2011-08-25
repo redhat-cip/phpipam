@@ -1,0 +1,85 @@
+== 0.4
+
+	New features:
+	-------------
+	+ Massive add / edit / delete by specifying IP range (e.g. 10.10.0.1 - 10.10.0.254);
+	+ Database upgrade / install from browser -> simplified installation/update procedure;
+	+ New usertype viewer - can only view IP address list;
+	+ Subnets can now be edited directly from IP address list;
+	+ Option to lock subnet for writing to no-admin users;
+	+ Device and Host list;
+	+ Option to specify which subnet can have IP requests when editing / adding subnet if module is enabled;
+	+ Latest version check on admin page;
+
+	Bugfixes / enhancements:
+	------------------------
+	+ Fixed overspanning of multiple sections;
+	+ Admin menu and add subnet now shown only to admins;
+	+ Fixed VLAN table to show nesting and IP request option and statistics;
+	+ Fixed subnet table to show nesting and IP request option;
+	+ Subnet Adding shows only master subnets in section not in all sections;
+	+ Tooltips and button hovers are now in separate javascript file;
+	+ Graphs show only subnets with non-0 ip addresses;
+	+ Various code enhancements + improved error handling;
+	+ Fixed URL links not updating after few clicks;
+	+ If loading slave subnet directly the subnet menu drops down and shows active slave subnet; 
+	+ Clicking on master shubnet shows all nested subnets and statistics;
+	+ Redesigned log table;
+	+ Fixed search;
+	
+
+== 0.3 (First public version)
+
+	New features:
+	-------------
+	+ Subnet nesting - you can now have master subnet and normal subnets belonging to it;
+	+ Server settings are now moved to database and can be set under admin menu (database settings & debugging remain in config.php);
+	+ Request IP module on login page with email notification;
+	+ Confirm/reject IP address request from admin page with mail notification;
+	+ Admin dashboard notification of new requests; 
+	+ Autocomplete of owner and Switch name from all available when adding/editing IP address;
+	+ New settings quick access on button hover;
+	+ Option to export each subnet indivudually;
+
+	Bugfixes / enhancements:
+	------------------------
+	+ jQuery update from 1.6 to 1.6.2;
+	+ VLANs are now grouped by section;
+	+ Direct access to subnet from vlan table;
+	+ UI enhancements;
+	+ Fixed user editing bug where user update broke password;
+	+ Fixed password in new account notification;
+	+ Fixed percentage display on Dashboard;
+	+ IPv6 calculator /64 limit fixed;
+	+ Changed tooltip effect to appear instantly for smoother display;
+	+ Login functions are now separate file;
+	
+
+== 0.2 (Second test version)
+
+	Bugfixes / enhancements:
+	------------------------
+	+ now also works with php 5.2;
+	+ fixed empty fields in xls import;
+	+ passwords are now stored in md5 hash;
+	+ high numbers for free/used IP addresses (mainly IPv6) are now represented in k/m/G values to improve readibility;
+	+ fixed log search bug;
+	+ cursor not displayed as link on images and non-href links;
+	+ same add image on all pages;
+	+ fixed IP mail notification apperance;
+	+ UI enhancements and bugfixes;
+	+ Fixed some javascript bugs;
+	+ Minified javascript to make loading faster;
+	+ adding new ip address now automatically provides first available IP address in subnet;
+	
+	New features:
+	-------------
+	+ added switch / port fields to IP addresses;
+	+ hide subets on request to get better view;
+	+ Informational tooltips added + option to disable them in config file if someone finds them annoying;
+	+ export whole IP address database to XLS file from admin menu;
+	+ create MySQL database dump from admin menu;
+	+ added IP instructions for users, that can be edited from admin menu;
+	
+	
+== 0.1 (First test version)

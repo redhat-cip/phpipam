@@ -1,0 +1,33 @@
+#
+# phpipam update instructions
+#
+
+It is recommended that you backup the old phpipam database before you upgrade to new version (change username and pass to ones in config.php):
+	/usr/bin/mysqldump -u ipv6 -pipv6admin phpipam > <my_backup_dir>/phpipam_<version>_migration_backup.db
+
+Backup phpipam files:
+	mv <mywebdir>/phpipam <myphpipamdir>/phpipam-<version>
+
+
+
+#
+# a) Automatic upgrade procedure
+#
+
+1.) Extract files form tar package:
+		tar -xvf phpipam-0.3.tar
+2.) Set database connection settings in config.php;
+3.) Open phpipam in browser and update database;
+
+ 
+
+#
+# b) Manual upgrade procedure
+#
+1.) Extract files form tar package:
+		tar -xvf phpipam-0.3.tar
+2.) Set database connection settings in config.php;
+3.) Manual database structure update
+		Update database structure by importing database scheme for your version.
+		If you have version 0.2 and want to upgrade to 0.4 use UPDATE-v0.2.sql file;
+			mysql -u root -p phpipam < db/UPDATE-v0.2.sql

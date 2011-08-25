@@ -1,0 +1,102 @@
+#
+# phpipam install instructions
+#
+
+phpipam has the following requirements to run:
+
+    - Apache2 web server
+    - Mysql server (5.1+)
+    - PHP version 5.3+ with following modules
+        + + mysqli              : Adds support for the improved mySQL libraries
+        + + session             : Adds persistent session support
+        + + gmp                 : Adds support for dev-libs/gmp (GNU MP library) -> to calculate IPv6 networks
+	- PHP PEAR support (dev-php/pear)
+    
+
+The above requirements should be met to continue with installation.
+Please also note that clients must have javascript enabled in browser for app to work, also browser with HTML5 support is *highly* recommended!
+
+!!!! important !!!!
+Since this is beta version security aspects were not taken into consideration, therefore DO NOT put this page to internet, it is suitable only for intranet.
+!!!! /important !!!!
+ 
+
+#
+# Install procedure:
+#
+----------------------------------
+1.) Configure the config.php file
+----------------------------------
+config.php file is where site configuration and database details are configured. Please edit it according to your needs and installation.
+	vi config.php
+
+---------------------------------------------
+2a.) Automatic installation of database files
+---------------------------------------------
+Since v0.4 phpipam can automatically install database files for you.
+Point browser to phpipam directory and set MySQL login details (root username and password).
+
+
+Finished! Launch browser, go to website and if something is missing / not configured properly the error will appear.
+
+
+------------------------------------------
+2b.) First installation of database files
+------------------------------------------
+Optional method to be used instead of automatic configuration.
+
+MySQL schema file is available under db folder.
+First you must create new database, and then import SCHEMA file into database. Instructions below are for command-line import with local mysql installation.
+------
+mysql -u root -p 
+create database phpipam;
+exit
+------
+
+Import database SCHEME.sql file:
+------
+mysql -u root -p phpipam < db/SCHEMA.sql
+------
+
+Create user for database interaction from website and grant permissions to ipam tables. Please change the username and password (ipv6, ipv6admin) according to your needs - you must also replace default ones in config file, which will be covered in step 2.
+------
+mysql -u root -p
+grant ALL on phpipam.* to ipv6@localhost identified by "ipv6admin";
+exit
+------
+
+
+
+
+
+
+----------------------------------
+3.) (optional) Database backups
+----------------------------------
+It is *strongly* advised to backup database at least on weekly basis -> put following command to your crontab:
+------
+# Backup IP address table
+0 1 * * 1 /usr/bin/mysqldump -u ipv6 -pipv6admin phpipam > <ipam_dir>/db/bkp/phpipam_bkp_$(date +"\%y\%m\%d").db
+------
+It will backup ipam table each monday at 1AM. Change directories accordingly.
+
+
+----------------------------------
+4.) Misc stuff
+----------------------------------
+- Chrome frame
+	For older, non HTML5 capable browsers install Chrome frame, which adds support from HTML5 and significantyl sppeds up javascript rendering
+	http://code.google.com/chrome/chromeframe/
+
+-FreeBSD: Required PHP modules can be installed through following ports:
+	databases/php5-mysqli
+	math/php5-gmp
+	devel/pear
+
+-Gentoo 
+	php with mysqli, session and gmp use flags
+	dev-php/pear
+	
+- Debian / ubuntu
+	apt-get install php5-gmp
+	apt-get install php-pear
