@@ -1,0 +1,18 @@
+/**
+ *
+ * IE special formatting
+ *
+ */
+ 
+div.loading {
+    border: 1px solid black;
+    background: #494949;
+}
+
+table.ipaddresses td.ipaddress {
+	width: 80px;
+}
+
+table.ipaddresses td.hostname {
+	width: 80px;
+}
