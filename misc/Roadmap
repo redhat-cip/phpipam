@@ -1,9 +1,4 @@
-0.4 release
-
-	- devices table;
-
-
-next releases
+features for next releases
 
 	- domain authentication;
 	- better exception handling (functions);

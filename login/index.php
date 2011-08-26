@@ -50,6 +50,8 @@ session_destroy();
 	<!-- js -->
 	<script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../js/login.js"></script>
+	<script type="text/javascript" src="../js/jquery.tools.tooltip.min.js"></script>
+	<script type="text/javascript" src="../js/tooltips.js"></script>
 		
 </head>
 
@@ -64,6 +66,9 @@ session_destroy();
 	$locationPrefix = "../";		//prefix for ccs in case of login page checkPhpBuild.php fails
 	include('../functions/checkPhpBuild.php');
 	?>
+	
+	<!-- wrapper -->
+	<div class="wrapper">
 
     <!-- jQuery error -->
     <div class="jqueryError"><br><br><br><br><br><br><br>jQuery error!</div>
@@ -76,13 +81,18 @@ session_destroy();
     
 	<!-- login form -->
 	<div id="login"></div>
-	
-     <!-- contact -->
-     <div id="contact"><a href="mailto:<?php print $settings['siteAdminMail']; ?>?subject=Login_problem">Contact</a></div>
 
     <!-- login response -->
     <div id="loginCheck"><?php if (isset($logout)) print '<div class="success">You have logged out.</div>'; ?></div>
 
+	<!-- pusher -->
+	<div class="pusher"></div>
+
+	<!-- end wrapper -->
+	</div>
+	
+	<!-- Page footer -->
+	<div class="footer"><?php include_once('../site/footer.php'); ?></div>
 
 </body>
 

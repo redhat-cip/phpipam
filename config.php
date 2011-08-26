@@ -13,6 +13,6 @@ $db['name'] = "phpipam";
  * 1 = SHOW all php errors
  * 0 = HIDE all php errors
  ******************************/
-$debugging = 0;
+$debugging = 1;
 
 ?>
