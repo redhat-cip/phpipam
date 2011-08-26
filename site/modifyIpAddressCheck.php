@@ -115,6 +115,12 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 	/* go from start to stop and insert / update / delete IPs */
 	$start = transform2decimal($ip['start']);
 	$stop  = transform2decimal($ip['stop']);
+
+	/* we can add only 200 IP's at once! */
+	$size = gmp_strval(gmp_sub($stop,$start));
+	if($size > 200) {
+		die('<div class="error">Only 200 IP addresses at once!</div>');
+	}
 	
 	/* set limits */
 	$m = gmp_strval($start);
