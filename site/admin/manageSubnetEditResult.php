@@ -14,7 +14,7 @@ checkAdmin();
 CheckReferrer();
 
 /* set post data */
-$subnetDetails = $_REQUEST;
+$subnetDetails = $_POST;
 
 /*
 print_r($subnetDetails);

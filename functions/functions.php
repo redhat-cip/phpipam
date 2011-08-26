@@ -1336,19 +1336,11 @@ function modifyIpAddress ($ip)
     /* set query, open db connection and fetch results */
     $query    = SetInsertQuery($ip);
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    
-    /* set log file */
-    $log = "";
-    foreach($ip as $key=>$req) {
-		$log .= " ". $key . ": " . $req . "<br>";
-	}
 
     if ( !$database->executeQuery($query) ) {
-/*         updateLogTable ('Ip address '. $ip['action'] .' failed ('.$ip['ip_addr'].')', $log, 2); */
         return false;
     }
     else {
-/*         updateLogTable ('Ip address '. $ip['action'] .' success ('. $ip['ip_addr'] .')', $log, 1); */
         return true;
     }
 }
@@ -1441,10 +1433,7 @@ function UpdateSection ($update)
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
 
     /* set log file */
-    $log = "";
-    foreach($update as $key=>$req) {
-		$log .= " ". $key . ": " . $req . "<br>";
-	}
+	$log = prepareLogFromArray ($update);
 
     /* delete and edit requires multiquery */
     if ( ( $update['action'] == "Delete") || ( $update['action'] == "Edit") )
@@ -1641,10 +1630,7 @@ function updateUserById ($userModDetails) {
     }
     
     /* set log file */
-    $log = "";
-    foreach($userModDetails as $key=>$user) {
-		$log .= " ". $key . ": " . $user . "<br>";
-	}
+	$log = prepareLogFromArray ($userModDetails);
     
     /* execute query */
     if (!$database->executeQuery($query)) {
@@ -1678,10 +1664,7 @@ function selfUpdateUser ($userModDetails)
     $query .= 'where id   = "'. $userModDetails['id'] .'";';
     
     /* set log file */
-    $log = "";
-    foreach($userModDetails as $key=>$user) {
-		$log .= " ". $key . ": " . $user . "<br>";
-	}
+    $log = prepareLogFromArray ($userModDetails);
                     
     /* execute query */
     if (!$database->executeQuery($query)) {
@@ -2100,9 +2083,7 @@ function modifySubnetDetails ($subnetDetails)
     $query = setModifySubnetDetailsQuery ($subnetDetails);
     
     /* set log details */
-	foreach($subnetDetails as $key=>$line) {
-		$log .= " ". $key . ": " . $line . "<br>";
-	}
+	$log = prepareLogFromArray ($subnetDetails);
 
     /* execute query */
     if (!$database->executeMultipleQuerries($query)) {
@@ -2269,6 +2250,29 @@ function countAllLogs ()
     
     /* return vlans */
     return $logs[0]['count(*)'];
+}
+
+
+/**
+ *	Prepare log file from array
+ */
+function prepareLogFromArray ($logs)
+{
+	$result = "";
+	
+	/* reformat */
+    foreach($logs as $key=>$req) {
+    
+    	//ignore __ and PHPSESSID
+    	if( (substr($key,0,2) == '__') || (substr($key,0,9) == 'PHPSESSID') ) {
+		}
+    	else {
+    		$result .= " ". $key . ": " . $req . "<br>";
+    	}
+	}
+	
+	/* return result */
+	return $result;
 }
 
 
@@ -2446,9 +2450,7 @@ function importCSVline ($line, $subnetId)
 	$query .= "('". $subnetId ."', '". Transform2decimal( $line[0] ) ."', '". $line[1] ."', '". $line[2] ."', '". $line[3] ."', '". $line[4] ."', '". $line[5] ."', '". $line[6] ."');";
 	
 	/* set log details */
-	foreach($line as $key=>$line) {
-		$log .= " ". $key . ": " . $line . "<br>";
-	}
+	$log = prepareLogFromArray ($line);
 	
 	/* insert IP address */
     if ( !$database->executeQuery($query) ) {
@@ -2565,10 +2567,7 @@ function addNewRequest ($request)
     $query .= ' "'. $request['dns_name'] .'", "'. $request['owner'] .'",   "'. $request['requester'] .'", "'. $request['comment'] .'", "0");';
 
 	/* set log file */
-	$log = "";
-    foreach($request as $key=>$req) {
-		$log .= " ". $key . ": " . $req . "<br>";
-	}
+	$log = prepareLogFromArray ($request);
 
     /* execute query */
     if (!$database->executeQuery($query)) {

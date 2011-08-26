@@ -148,12 +148,7 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 	/* print errors if they exist */
 	if(isset($errors)) {
 		print '<div class="error">';
-		$log = "";
-			
-		foreach($errors as $error) {
-			print $error;
-			$log .= $error. "<br>";
-		}
+		$log = prepareLogFromArray ($errors);
 			
 		print '</div>';
 		updateLogTable ('Error '. $ip['action'] .' range '. $ip['start'] .' - '. $ip['stop'], $log, 2);
