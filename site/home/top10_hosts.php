@@ -45,30 +45,35 @@ foreach ($subnets as $subnet)
 }
 
 
-/* we have subnets now. Calculate usage for each */
-foreach ($subnetHost as $subnet)
-{
-	$i = $subnet['id'];
-	/* get count */
-	$count = countIpAddressesBySubnetId ($subnet['id']);
+if(sizeof($subnetHost) != 0) {
+	/* we have subnets now. Calculate usage for each */
+	foreach ($subnetHost as $subnet)
+	{
+		$i = $subnet['id'];
+		/* get count */
+		$count = countIpAddressesBySubnetId ($subnet['id']);
 	
-	/* add to existing array */
-	$subnetHost[$i]['usage'] = $count;
-	
-	/* unset empty subnets */
-	if($subnetHost[$i]['usage'] == 0) {
-		unset($subnetHost[$i]);
+		/* add to existing array */
+		$subnetHost[$i]['usage'] = $count;
+		
+		/* unset empty subnets */
+		if($subnetHost[$i]['usage'] == 0) {
+			unset($subnetHost[$i]);
+		}
 	}
 }
 
 
 /* sort by usage - keys change! */
 unset($usageSort);
-foreach ($subnetHost as $key => $row) {
-    $usageSort[$key]  = $row['usage']; 	
-}
-array_multisort($usageSort, SORT_DESC, $subnetHost);
 
+if(sizeof($subnetHost) != 0) {
+	foreach ($subnetHost as $key => $row) {
+	    $usageSort[$key]  = $row['usage']; 	
+	}
+
+	array_multisort($usageSort, SORT_DESC, $subnetHost);
+}
 
 /* remove all but top 10 */
 $max = sizeof($subnetHost);
@@ -85,7 +90,7 @@ for ($m = 0; $m <= $max; $m++) {
 
 
 <!-- graph holder -->
-<div id="<?php print $type; ?>top10Hosts" style="height:200px"></div>
+<div id="<?php print $type; ?>top10Hosts" style="height:200px">No subnet configured!</div>
 
 
 <!-- create data! -->
