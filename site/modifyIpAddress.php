@@ -133,7 +133,9 @@ $(function() {
 
 	<!-- DNS name -->
 	<tr>
-		<td>DNS name</td>
+		<td>DNS name
+			<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
+		</td>
 		<td>
 			<input type="text" name="dns_name" value="<?php if(isset($details['dns_name'])) { print $details['dns_name'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 

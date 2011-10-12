@@ -134,7 +134,7 @@ subnet details upper table
 	}
 	
 	/* Edit subnet for admins */
-	if(checkAdmin(true)) {
+	if(checkAdmin(false)) {
 		print '<tr class="info edit_subnet">'. "\n";
 		print '	<td><img src="css/images/edit.png" class="edit_subnet" title="Edit subnet properties"></td>'. "\n";
 		print '	<td>Edit properties for this subnet</td>'. "\n";
@@ -165,7 +165,7 @@ subnet details upper table
 	}
 	
 	/* Edit subnet holder */
-	if(checkAdmin(true)) {
+	if(checkAdmin(false)) {
 		print '<!-- addnew holder -->' . "\n";
 		print '<tr class="edit_subnet">' . "\n";
 		print '	<td></td>' . "\n";
@@ -303,6 +303,7 @@ else
 		print '<td class="delete">' . "\n";
 		print '	<img class="delete_ipaddress" src="css/images/deleteIP.png" id2="'. Transform2long($ipaddress['ip_addr']) .'" id="'. $ipaddress['id']. '" title="Delete IP address">' . "\n";
 		print '</td>'. "\n";
+		
 		}
 		else {
     		print '<td colspan="3"></td>';

@@ -208,8 +208,6 @@ function validateVlan ($vlan)
 }
 
 
-
-
 /****************************************
  * 
  *      IP calculation functions

@@ -1,5 +1,8 @@
 features for next releases
 
+	- button to check for hostname
+	- VRF support
+
 	- domain authentication;
 	- better exception handling (functions);
 	- User-defined IP address fields;
