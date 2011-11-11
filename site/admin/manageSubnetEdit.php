@@ -13,6 +13,7 @@ if (!checkAdmin()) die('');
 /* verify post */
 CheckReferrer();
 
+
 /* postdata */
 $subnetData = $_POST;
 
@@ -21,8 +22,8 @@ if ($subnetData['subnetAction'] != "Add") {
     $subnetDataOld = getSubnetDetailsById ($subnetData['subnetId']);
 }
 
-/* if request came from subnets table se different name and ID! */
-if ($subnetData['location'] == "subnets") {
+/* if request came from subnets table se different name and ID! (Or ipcalc) */
+if (($subnetData['location'] == "subnets") || ($subnetData['location'] == "ipcalc") ) {
     $className = "manageSubnetEditFromSubnets";
     $sectionName = getSectionDetailsById ($subnetData['sectionId']);
     Print '<h3>Add new subnet to '. $sectionName['name'] .'</h3>';
@@ -40,7 +41,15 @@ else {
     <tr>
         <td>Subnet</td>
         <td>
-            <input type="text" name="subnet"      value="<?php if ($subnetData['subnetAction'] != "Add") {print transform2long($subnetDataOld['subnet']) .'/'. $subnetDataOld['mask'];} ?>" <?php if ($subnetData['subnetAction']=="Edit") print "readonly"; ?>>
+            <input type="text" name="subnet"      value="<?php 
+            	if ($subnetData['subnetAction'] != "Add") {
+            		print transform2long($subnetDataOld['subnet']) .'/'. $subnetDataOld['mask'];
+            	} 
+            	if ($subnetData['location'] == "ipcalc") {
+            		print $subnetData['subnet'] .'/'. $subnetData['bitmask'];
+            	} 
+            ?>" 
+            <?php if ($subnetData['subnetAction']=="Edit") print "readonly"; ?>>
         </td>
         <td class="info">Enter subnet in CIDR format (e.g. 192.168.1.1/24)</td>
     </tr>

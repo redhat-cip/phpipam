@@ -67,6 +67,9 @@ function loadSubnets(section) {
 	});
 	//set text in content div
 	$('div.content').html('<h4>Please select Subnet from left menu!</h4>');
+	
+	//hide Spinner
+	hideSpinner();
 }
 
 /*	load ip addresses
@@ -1128,6 +1131,28 @@ $('form#ipCalc').live('submit', function () {
 $('form#ipCalc input.reset').live('click', function () {
     $('form#ipCalc input[type="text"]').val('');
     $('div.ipCalcResult').slideUp('fast');
+});
+
+/*	Add subnet from result
+***************************/
+$('img.createSubnetFromCalc').live('click', function () {
+	$('tr#selectSection').show();
+});
+$('select#selectSectionfromIPCalc').live('change', function () {
+	//get details - we need Section, network and subnet bitmask
+	var sectionId = $(this).val();
+	var subnet	  = $('table.ipCalcResult td#sub2').html();
+	var bitmask	  = $('table.ipCalcResult td#sub4').html();
+	var postdata  = "sectionId=" + sectionId + "&subnet=" + subnet + "&bitmask=" + bitmask + "&subnetAction=Add&location=ipcalc";
+	//make section active
+	$('table.newSections ul#sections li#' + sectionId ).addClass('active');
+	//now load the section and add subnet
+	loadSubnets(sectionId);
+	//load add Subnet
+	$.post('site/admin/manageSubnetEdit.php', postdata , function(data) {
+		$('div.content').html(data).slideDown('fast');
+		hideSpinner();
+	});	
 });
 
 /*	VLAN link to subnets
