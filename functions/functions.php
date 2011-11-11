@@ -2370,6 +2370,26 @@ function searchAddresses ($query)
 
 
 /**
+ * Search subnets
+ */
+function searchSubnets ($searchterm, $searchTermEdited = "")
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* set query */    
+	$query = 'select * from `subnets` where `description` like "%'. $searchterm .'%" or `subnet` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'";';
+
+	/* execute query */
+    $search = $database->getArray($query); 
+    
+    /* return result */
+    return $search;
+}
+
+
+/**
  *	fetch instructions
  */
 function fetchInstructions () 
