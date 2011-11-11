@@ -20,7 +20,7 @@
 	<link rel="shortcut icon" href="css/images/favicon.ico">
 		
 	<!-- js -->
-	<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.7.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
 <!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
 	<script type="text/javascript" src="js/magic.js"></script>
@@ -33,7 +33,7 @@
 	?>
 
 	<!-- HighCharts script -->
-	<script type="text/javascript" src="js/Highcharts-2.1.2/highcharts.js"></script>
+	<script type="text/javascript" src="js/Highcharts-2.1.8/highcharts.js"></script>
 
 	<!--[if gt IE 6]>
     <link rel="stylesheet" type="text/css" href="css/ie.css" />

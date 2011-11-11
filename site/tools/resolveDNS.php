@@ -5,5 +5,10 @@
  */
 $hostname = gethostbyaddr($_POST['ipaddress']);
 
-print $hostname;
+if($hostname == $_POST['ipaddress']) {
+	print "";
+}
+else {
+	print $hostname;
+}
 ?>

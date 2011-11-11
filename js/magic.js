@@ -119,7 +119,9 @@ $('img.refreshHostname').live('click', function() {
 	showSpinner();
 	var ipaddress = $('input[name=ip_addr]').val();
 	$.post('site/tools/resolveDNS.php', {ipaddress:ipaddress}, function(data) {
-		$('input[name=dns_name]').val(data);
+		if(data.length != 0) {
+			$('input[name=dns_name]').val(data);
+		}
 		hideSpinner();
 	});
 });

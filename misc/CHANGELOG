@@ -8,7 +8,8 @@
 	+ Fixed dashboard errors if no IPv4/IPv6 subnets configured;
 	+ Fixed errors with viewing / modifying IP addresses for Operator users;
 	+ Added DNS resolving when editing/addin IP address;
-	
+	+ jQuery update from 1.6.2 to 1.7;	
+	+ Highcharts update from 2.1.2 to 2.1.8;
 		
 
 == 0.4

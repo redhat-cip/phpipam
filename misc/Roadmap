@@ -2,13 +2,13 @@ features for next releases
 
 	
 	Planned
-		- VRF support
+		- VRF support			https://sourceforge.net/tracker/?func=detail&aid=3410556&group_id=555701&atid=2254863
 		- domain authentication;
 	
 	SF requests
 		- sorting				https://sourceforge.net/tracker/?func=detail&aid=3435991&group_id=555701&atid=2254863
 		- MAC address	 		https://sourceforge.net/tracker/?func=detail&aid=3435687&group_id=555701&atid=2254863
-		- Subnets from IP calc	https://sourceforge.net/tracker/?func=detail&aid=3426835&group_id=555701&atid=2254863
+		- Set up switches 		https://sourceforge.net/tracker/?func=detail&aid=3434299&group_id=555701&atid=2254863
 
 	
 	Optional
@@ -19,6 +19,8 @@ features for next releases
 		- RDNS zone file export (in admin!)
 		- IPv6 migration guide document
 		- show request IP address history;
+	
+	Problematic
 		- Subnet scan for alive IP addresses (ICMP);
 		- ICMP check if IP is alive;
 	
