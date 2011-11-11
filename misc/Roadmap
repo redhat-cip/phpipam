@@ -9,6 +9,7 @@ features for next releases
 		- sorting				https://sourceforge.net/tracker/?func=detail&aid=3435991&group_id=555701&atid=2254863
 		- MAC address	 		https://sourceforge.net/tracker/?func=detail&aid=3435687&group_id=555701&atid=2254863
 		- Set up switches 		https://sourceforge.net/tracker/?func=detail&aid=3434299&group_id=555701&atid=2254863
+		- search returns subnet	https://sourceforge.net/tracker/?func=detail&aid=3412277&group_id=555701&atid=2254863
 
 	
 	Optional
@@ -23,7 +24,3 @@ features for next releases
 	Problematic
 		- Subnet scan for alive IP addresses (ICMP);
 		- ICMP check if IP is alive;
-	
-	- AS import
-		#>telnet whois.ripe.net 43
-		-GRK -i origin as8591

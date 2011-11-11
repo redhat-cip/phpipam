@@ -1243,6 +1243,45 @@ $('form#userModSelf').live('submit', function () {
     return false;
 });
 
+/*	AS import
+****************************/
+$('form#ripeImport').live('submit', function() {
+	
+	var as = $(this).serialize();
+	
+    $.post('site/admin/ripeImportTelnet.php', as, function(data) {
+        $('div.ripeImportTelnet').html(data).fadeIn('fast');
+    });
+	
+
+	return false;
+});
+/*	ripe as import
+***************************/
+$('table.asImport td.img').live('click', function () {
+	$(this).parent('tr').remove();
+});
+$('form#asImport').live('submit', function () {
+	showSpinner();
+	//get subnets to add
+	var importData = $(this).serialize();
+	
+	$.post('site/admin/ripeImportResult.php', importData, function(data) {
+		$('div.ripeImportResult').html(data).slideDown('fast');
+
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("ripeImport"); parameter = null;}, reloadTimeout); 
+        }
+        else {
+			hideSpinner();
+        }		
+	});
+	
+	return false;
+});
+
+
 /*	Generate random pass 
 ***************************/
 $('a#randomPassSelf').live('click', function () {
@@ -1337,6 +1376,7 @@ $('table.homeStats a.instructions, table.homeStats img.instructions').live('clic
 $('#adminRequestNotif').live('click', function () {
 	hashLoadAdmin("Administration", "manageRequests");
 });
+
 
 
 return false;

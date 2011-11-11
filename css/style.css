@@ -1567,6 +1567,15 @@ table.ipCalcResult td:nth-child(1) {
 table.ipCalcResult td:nth-child(2) {
     font-weight: bold;
 }
+table.asImport {
+}
+table.asImport td {
+	padding: 3px 10px;
+}
+table.asImport td.img {
+	padding: 3px 3px;
+	cursor: pointer;
+}
 
 div.logs {
 	margin-top: 8px;

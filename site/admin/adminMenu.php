@@ -21,6 +21,11 @@ $settings = getAllSettings();
     <tr id="settings" class="settings">
         <td link="Administration|settings">Server management</td>
     </tr>
+
+    <!-- edit instructions -->
+    <tr id="instructions" class="instructions">
+        <td link="Administration|instructions">Edit instructions</td>
+    </tr>
    
     <!-- log -->
     <tr id="log" class="log">
@@ -48,9 +53,9 @@ $settings = getAllSettings();
         <td link="Administration|manageSubnet">Subnet management</td>
     </tr>
 
-    <!-- edit instructions -->
-    <tr id="instructions" class="instructions">
-        <td link="Administration|instructions">Edit instructions</td>
+    <!-- RIPE import -->
+    <tr id="ripeImport" class="ripeImport">
+        <td link="Administration|ripeImport">RIPE import</td>
     </tr>
 
     <!-- IP requests -->
