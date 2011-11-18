@@ -53,6 +53,11 @@ $settings = getAllSettings();
         <td link="Administration|manageSubnet">Subnet management</td>
     </tr>
 
+    <!-- Switch management -->
+    <tr id="manageSwitches" class="manageSwitches">
+        <td link="Administration|manageSwitches">Switch management</td>
+    </tr>
+
     <!-- RIPE import -->
     <tr id="ripeImport" class="ripeImport">
         <td link="Administration|ripeImport">RIPE import</td>

@@ -1,5 +1,5 @@
 /************************
-Update from v 0.3 to 0.4 
+Update from v 0.3 to 0.5 
 ************************/
 
 /* Add allowRequests and adminLock fields to subnets table */
@@ -18,3 +18,17 @@ UPDATE `settings` set `donate` = '0';
 
 /* Expand logs table */
 ALTER TABLE `logs` ADD `details` varchar(1024) DEFAULT '0';
+
+# Dump of table requests
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `switches`;
+
+CREATE TABLE `switches` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `hostname` varchar(32) DEFAULT NULL,
+  `ip_addr` varchar(100) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `notes` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hostname` (`hostname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

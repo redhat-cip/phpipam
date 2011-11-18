@@ -69,6 +69,7 @@ if($settings['enableIPrequests'] == 1) {
 print '<dd section="Administration" id="settings">Server management</dd>';
 print '<dd section="Administration" id="manageSection">Sections</dd>';
 print '<dd section="Administration" id="manageSubnet">Subnets</dd>';
+print '<dd section="Administration" id="manageSwitches">Switches</dd>';
 print '<dd section="Administration" id="userMod">Users</dd>';
 print '<dd section="Administration" id="log">Log files</dd>';
 print '<dd section="Administration" id="all">Show all settings</dd>';

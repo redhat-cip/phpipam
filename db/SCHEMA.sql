@@ -214,6 +214,21 @@ CREATE TABLE `requests` (
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 
+# Dump of table requests
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `switches`;
+
+CREATE TABLE `switches` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `hostname` varchar(32) DEFAULT NULL,
+  `ip_addr` varchar(100) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `notes` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hostname` (`hostname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

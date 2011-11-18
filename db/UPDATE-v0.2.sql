@@ -1,5 +1,5 @@
 /************************
-Update from v 0.2 to 0.4 
+Update from v 0.2 to 0.5 
 ************************/
 
 /* Add note field to ipaddresses table */
@@ -58,3 +58,18 @@ INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `si
 VALUES
 	(1,'phpipam IP address management (v0.4)','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.4');
 UNLOCK TABLES;
+
+
+# Dump of table requests
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `switches`;
+
+CREATE TABLE `switches` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `hostname` varchar(32) DEFAULT NULL,
+  `ip_addr` varchar(100) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `notes` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hostname` (`hostname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

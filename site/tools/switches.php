@@ -14,15 +14,19 @@ isUserAuthenticated ();
 /* get all unique switches */
 $switches = getAllUniqueSwitches();
 
+/* add unspecified */
+$switches[] = $switch['hostname'];
+
+
 /* print */
 foreach($switches as $switch) {
 
 	/* Get all I addresses belonging to switch */
-	$ipaddresses = getIPaddressesBySwitchName ( $switch['switch'] );
+	$ipaddresses = getIPaddressesBySwitchName ( $switch['hostname'] );
 	
 	/* reformat if empty */
-	if(empty($switch['switch'])) {
-		$switch['switch'] = "Unspecified";
+	if(empty($switch['hostname'])) {
+		$switch['hostname'] = "Unspecified";
 	}
 	
 	/* count size */
@@ -34,7 +38,7 @@ foreach($switches as $switch) {
 	
 	/* Switch name */
 	print '<tr class="th">'. "\n";
-	print '	<th colspan="8"><h3>'. $switch['switch'] .'</h3></th>'. "\n";
+	print '	<th colspan="8"><h3>'. $switch['hostname'] .'</h3></th>'. "\n";
 	print '</tr>'. "\n";
 	
 	/* title */

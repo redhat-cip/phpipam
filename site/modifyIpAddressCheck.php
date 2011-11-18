@@ -169,10 +169,19 @@ else {
 
 	/* verify ip address */
 	$verify = VerifyIpAddress( $ip['ip_addr'], $ip['subnet'] );
+	
+	/* verify switches! */
+	$switchVerify = true;
+	if(!empty($ip['switch'])) {
+		$switchVerify = verifySwitchByName($ip['switch']);
+	}
 
 	/* if errors are present print them, else execute query! */
 	if($verify) {
 		die('<div class="error">Error: '. $verify .' ('. $ip['ip_addr'] .')</div>');
+	}
+	else if (!$switchVerify) {
+		die('<div class="error">Error: Switch does not exist! (Use blank or existing)</div>');
 	}
 	else {
 	

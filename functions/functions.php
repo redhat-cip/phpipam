@@ -50,7 +50,9 @@ function CheckReferrer()
 function isUserAuthenticated() 
 {
     /* open session and get username / pass */
-    session_start();
+	if (!isset($_SESSION)) { 
+		session_start();
+	}
     
     /* redirect if not authenticated */
     if (empty($_SESSION['ipamusername'])) {
@@ -69,7 +71,9 @@ function isUserAuthenticated()
 function isUserAuthenticatedNoAjax () 
 {
     /* open session and get username / pass */
-/*     session_start(); */
+	if (!isset($_SESSION)) { 
+		session_start();
+	}
     
     /* redirect if not authenticated */
     if (empty($_SESSION['ipamusername'])) {
@@ -533,6 +537,35 @@ function verifyCidr( $cidr , $subnet = 1 )
 	/* return array of errors */
 	return($errors);
 }
+
+/**
+ * Verify that switch exists
+ */
+function verifySwitchByName ($hostname)
+{
+    /* get variables from config file */
+    global $db;
+    
+    /* set check query and get result */
+    $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
+    $query = 'select * from `switches` where `hostname` = "'. $hostname .'";';
+    
+    /* fetch role */
+    $role = $database->getRow($query);
+
+    /* close database connection */
+    $database->close();
+    
+    /* return true if viewer, else false */
+    if (!$role) {
+        return false;
+    }
+    else {
+        return true;
+    }
+
+}
+
 
 
 /**
@@ -2124,7 +2157,8 @@ function getAllUniqueSwitches ()
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all vlans, descriptions and subnets */
-    $query   = 'SELECT distinct(switch) FROM ipaddresses order by switch DESC;';
+/*     $query   = 'SELECT distinct(switch) FROM ipaddresses order by switch DESC;'; */
+    $query   = 'SELECT `hostname` FROM `switches` order by `hostname` ASC;';
     $devices = $database->getArray($query);  
     
     /* return unique devices */
@@ -2291,25 +2325,6 @@ function getHighestLogId()
     return $logs[0]['id'];
 }
 
-
-/**
- *	Get all switches
- */
-function getUniqueSwitches ()
-{
-    /* get variables from config file */
-    global $db;
-    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
-
-	/* execute query */
-    $query    	= 'select distinct switch from ipaddresses where switch is not NULL;';  
-
-	/* execute query */
-    $switches       = $database->getArray($query);  
-    
-    /* return result */
-    return $switches;
-}
 
 
 /**

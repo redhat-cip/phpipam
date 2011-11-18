@@ -75,9 +75,9 @@ $(function() {
 	//get all swiches
 	var switches = [
 		<?php 
-		$allSwitches = getUniqueSwitches ();
+		$allSwitches = getAllUniqueSwitches ();
 		foreach ($allSwitches as $switch) {
-			print '"'. $switch['switch'] .'", ';
+			print '"'. $switch['hostname'] .'", ';
 		}
 		?>
 	];
