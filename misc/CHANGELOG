@@ -6,7 +6,7 @@
 
 	Bugfixes / enhancements:
 	------------------------
-	+ Added DNS resolving when editing/addin IP address;
+	+ Added DNS resolving when editing/adding IP address;
 	+ Search returns also subnets;
 	+ jQuery update from 1.6.2 to 1.7;	
 	+ Highcharts update from 2.1.2 to 2.1.8;
@@ -16,7 +16,9 @@
 	+ Fixed errors with viewing / modifying IP addresses for Operator users 
 		(https://sourceforge.net/tracker/?func=detail&aid=3421129&group_id=555701&atid=2254860);
 	+ Fixed session cookie error on hosts 
-		(http://sourceforge.net/tracker/?func=detail&atid=2254860&aid=3407962&group_id=555701)
+		(http://sourceforge.net/tracker/?func=detail&atid=2254860&aid=3407962&group_id=555701);
+	+ Fixed error when saving settings
+		(http://sourceforge.net/tracker/?func=detail&aid=3437029&group_id=555701&atid=2254860);
 		
 
 == 0.4

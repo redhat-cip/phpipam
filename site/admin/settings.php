@@ -100,7 +100,7 @@ $settings = getAllSettings();
 <tr>
 	<td class="title">Domain auth</td>
 	<td>
-		<input type="checkbox" value="1" name="domainAuth" <?php if($settings['domainAuth'] == 1) print 'checked'; ?>>
+		<input type="checkbox" value="1" name="domainAuth" <?php /* if($settings['domainAuth'] == 1) print 'checked'; */ ?>>
 	</td>
 	<td class="info">
 		Use domain authentication for users.<br>

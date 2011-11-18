@@ -2721,7 +2721,8 @@ function updateSettings($settings)
     $query   .= '`siteURL` 			  = "'. $settings['siteURL'] .'", ' . "\n";
     $query   .= '`siteAdminName` 	  = "'. $settings['siteAdminName'] .'", ' . "\n";
     $query   .= '`siteAdminMail` 	  = "'. $settings['siteAdminMail'] .'", ' . "\n";
-	$query   .= '`domainAuth` 		  = "'. $settings['domainAuth'] .'", ' . "\n";
+/* 	$query   .= '`domainAuth` 		  = "'. $settings['domainAuth'] .'", ' . "\n"; */
+	$query   .= '`domainAuth` 		  = "0", ' . "\n";
 	$query   .= '`showTooltips`		  = "'. $settings['showTooltips'] .'", ' . "\n";
 	$query   .= '`enableIPrequests`   = "'. $settings['enableIPrequests'] .'", ' . "\n";
 	$query   .= '`donate`   		  = "'. $settings['donate'] .'", ' . "\n";
