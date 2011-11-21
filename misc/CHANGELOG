@@ -19,6 +19,8 @@
 		(http://sourceforge.net/tracker/?func=detail&atid=2254860&aid=3407962&group_id=555701);
 	+ Fixed error when saving settings
 		(http://sourceforge.net/tracker/?func=detail&aid=3437029&group_id=555701&atid=2254860);
+	+ Added IE compatibility meta tag
+		(http://sourceforge.net/tracker/?func=detail&aid=3440424&group_id=555701&atid=2254863);
 		
 
 == 0.4

@@ -2883,11 +2883,12 @@ function getLatestPHPIPAMversion()
 	
 		$temp = fgets($handle);
 	
-		if(strpos($temp, 'a href="http://sourceforge.net/projects/phpipam/files/current/phpipam-')) {
+		if(strpos($temp, 'small title="/current/phpipam')) {
 			$temp = explode('"', $temp);
 			
 			$version = explode("/",$temp[1]);
-			$version = $version[7];				//phpipam-0.3.tar
+		
+			$version = $version[2];				//phpipam-0.3.tar
 			$version = str_replace(array("phpipam-", ".tar"), "", $version);
 		}		
 	}

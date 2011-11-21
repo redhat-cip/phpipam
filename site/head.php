@@ -8,6 +8,7 @@
 	<meta name="Description" content=""> 
 	<meta name="title" content="<?php print $settings['siteTitle']; ?>"> 
 	<meta name="robots" content="noindex, nofollow"> 
+	<meta http-equiv="X-UA-Compatible" content="IE=9" >
 	
 	<!-- chrome frame support -->
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
