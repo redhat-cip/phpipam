@@ -87,7 +87,7 @@ for ($m = 0; $m <= $max; $m++) {
 
 
 <!-- graph holder -->
-<div id="<?php print $type; ?>top10" style="height:200px">aaa</div>
+<div id="<?php print $type; ?>top10" style="height:200px"></div>
 
 
 <!-- create data! -->
