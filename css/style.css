@@ -506,7 +506,10 @@ table.newSections td.tools {
 
 	vertical-align: text-top;
 
-	padding: 5px 15px 5px 15px;
+	padding: 5px 10px 5px 5px;
+
+	border-left:  !important 1px solid transparent;
+	border-right: !important 1px solid transparent;
 	
 	color: white;
 
@@ -547,7 +550,7 @@ table.newSections td#Administration {
 	border-left: 1px solid #293339;
 	border-right: 1px solid #293339;
 	
-	padding: 5px 15px 5px 15px;
+	padding: 5px 10px 5px 5px;
 	
 	border-left:  !important 1px solid transparent;
 	border-right: !important 1px solid transparent;
@@ -665,7 +668,7 @@ div.adminMenuDropdown {
 	overflow: hidden;
 }
 div.toolsMenuDropdown {
-	right: 30px;
+	right: 43px;
 }
 div.toolsMenuDropdown dd,
 div.adminMenuDropdown dd {
@@ -1156,8 +1159,8 @@ table.admin th {
 	white-space: nowrap;
 	border-bottom: 1px solid white;	
 
-	background: transparent -webkit-gradient(linear, 0% 100%, 0% 0%, from(rgba(172,0,27,0.2)), to(rgba(255,255,255,0))) no-repeat;
-	background: transparent -moz-linear-gradient(top, rgba(255,255,255,0), rgba(172,0,27,0.2));	
+	background: transparent -webkit-gradient(linear, 0% 100%, 0% 0%, from(rgba(172,0,27,0.4)), to(rgba(255,255,255,0))) no-repeat;
+	background: transparent -moz-linear-gradient(top, rgba(255,255,255,0), rgba(172,0,27,0.4));	
 }
 
 table.admin tr.selected td {
@@ -1939,6 +1942,10 @@ table.searchTable tr#searchHeader th {
 }
 table.search td.note {
 	width: 1px;
+}
+input.search {
+	background: white url(images/search.png) no-repeat 2px 3px;
+	padding-left: 20px;
 }
 
 

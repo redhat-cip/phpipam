@@ -192,9 +192,9 @@ print IP address table
 <!-- headers -->
 <tr class="th">
 	<th>IP address</th>
+	<th>Hostname</th>
 	<th>Description</th>
 	<th class="vlan"></th>
-	<th>Hostname</th>
 	<th class="vlan">Switch</th>
 	<th class="vlan">Port</th>
 	<th class="vlan">Owner</th>	
@@ -250,11 +250,25 @@ else
         	$stateClass = "reserved";
         }
 
-        /*	print current IP address
+        /*	print IP address
         ***********************************/
     	print '<tr class="'. $stateClass .'">'. "\n";
 		print '<td class="ipaddress">'. Transform2long( $ipaddress['ip_addr']) .'</td>'. "\n";
-    	//show description
+
+
+		/*	resolve dns name if not provided, else print it - IPv4 only!
+		*****************************************************************/
+		if ( (empty($ipaddress['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress['ip_addr']) == "IPv4") ) {
+			$dnsResolved = ResolveDnsName ( $ipaddress['ip_addr'] );
+		}
+		else {
+			$dnsResolved['class'] = "";
+		  	$dnsResolved['name']  = $ipaddress['dns_name'];
+		}
+		print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";  		
+		
+        /*	print description
+        ***********************************/
     	if ( ($ipaddress['state'] == "0") || ($ipaddress['state'] == "2") ) {
 			print '<td class="description">'. $ipaddress['description'] .' ('. reformatIPState($ipaddress['state']) .')</td>'. "\n";
 		}
@@ -267,20 +281,11 @@ else
 		print '<td>' . "\n";
 		if(!empty($ipaddress['note'])) {
 			$ipaddress['note'] = str_replace("\n", "<br>",$ipaddress['note']);
-			print '	<img class="info" src="css/images/infoIP.png" title="'. $ipaddress['note']. '">' . "\n";
+/* 			print '	<img class="info" src="css/images/infoIP.png" title="'. $ipaddress['note']. '">' . "\n"; */
+			print '	<img class="info" src="css/images/note.png" title="'. $ipaddress['note']. '">' . "\n";
 		}
 		print '</td>'. "\n";
-		
-		/*	resolve dns name if not provided, else print it - IPv4 only!
-		*****************************************************************/
-		if ( (empty($ipaddress['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress['ip_addr']) == "IPv4") ) {
-			$dnsResolved = ResolveDnsName ( $ipaddress['ip_addr'] );
-		}
-		else {
-			$dnsResolved['class'] = "";
-		  	$dnsResolved['name']  = $ipaddress['dns_name'];
-		}
-		print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";    
+		  
 	
 		/*	print switch / port
 		***********************/

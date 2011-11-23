@@ -39,12 +39,12 @@ print '<td section="tools" id="instructions" title="Show IP addressing Guide"><i
 
 
 /* tools */
-print '<td section="tools" id="tools" class="tools">Tools</td>'. "\n";
+print '<td section="tools" id="tools" class="tools"><img src="css/images/tools.png" style="float:left">&nbsp; tools</td>'. "\n";
 
 
 /* admin */
 if(checkAdmin(false)) {
-	print '<td section="Administration" id="Administration">Administration</td>'. "\n";
+	print '<td section="Administration" id="Administration"><img src="css/images/settings.png" style="float:left">&nbsp; Administration</td>'. "\n";
 }
 else {
 	print '</td>'. "\n";

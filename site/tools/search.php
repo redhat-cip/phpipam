@@ -13,7 +13,7 @@ if($_POST['ip']) {
 <!-- search form -->
 <form id="search" name="search">
 	Enter search term (IP address / hostname / description / switch / port):<br>
-	<input type="text" name="ip" value="<?php print $searchTerm; ?>" style="width:250px">
+	<input type="text" name="ip" value="<?php print $searchTerm; ?>" style="width:250px" class="search">
 	<input type="submit" value="search">
 </form>
 
