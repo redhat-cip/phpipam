@@ -1,3 +1,22 @@
+<?php
+
+/**
+ * Script to display switches
+ *
+ */
+
+/* include required scripts */
+require_once('../../functions/functions.php');
+
+/* verify that user is authenticated! */
+isUserAuthenticated ();
+
+/* get all unique switches */
+$settings = getAllSettings();
+
+
+?>
+
 <table class="menu normalTable">
 
     <!-- title -->
@@ -44,11 +63,16 @@
     </tr>
 
     <!-- VRF -->
-    <tr id="vrf" class="vrf">
-        <td>
-            <a href="#tools|vrf" id="vrf">VRF</a>
-        </td>
-    </tr>
+    <?php 
+    if($settings['enableVRF'] == 1) {
+    	print '<tr id="vrf" class="vrf">'. "\n";
+        print '	<td>'. "\n";
+        print '		<a href="#tools|vrf" id="vrf">VRF</a>'. "\n";
+        print '	</td>'. "\n";
+    	print '</tr>'. "\n";
+    }
+    
+    ?>
 
     <!-- hosts -->
     <tr id="hosts" class="hosts">

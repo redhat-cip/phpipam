@@ -2608,6 +2608,32 @@ function getVRFDetailsById ($vrfId)
 }
 
 
+
+/**
+ *	get all subnets belonging to vrf
+ */
+function getAllSubnetsInVRF($vrfId)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* execute query */
+	$query = 'select * from `subnets` where `vrfId` = "'. $vrfId .'";';
+    
+  	/* update database */
+   	$vrf = $database->getArray($query);
+   	
+   	/* return false if none, else list */
+	if(sizeof($vrf) == 0) {
+		return false;
+	}
+	else {
+		return $vrf;
+	}
+}
+
+
 /**
  * Update switch details
  */
