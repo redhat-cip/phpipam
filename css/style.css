@@ -734,8 +734,8 @@ table.subnets td.subnet {
 /* 	min-width: 130px; */
 	text-align: left;
 }
-table.subnets tr.hover, 
-table.admin tr.hover {
+table.subnets tr:hover, 
+table.admin tr:hover {
 	background: #dbdde0;	/* non-rgba browsers */
 	background: rgba(255,255,255,0.5);
 
@@ -764,8 +764,33 @@ table.subnets tr.selected td dd,
 table.admin tr.selected td, 
 table.admin tr.selected td dd {
 	font-weight: bold;
-/* 	color: #ac001b; */
+	color: white;
 }
+
+
+table.admin tr.selected,
+table.admin tr.selected:hover {
+	background: #40464A;
+	
+	border-bottom: 1px solid white;
+	border-top:    1px solid white;
+
+	background: #494949;
+	background: -webkit-gradient(linear, 0% 100%, 0% 0%, from( rgba(0,0,0,0.3) ), to( rgba(0,0,0,0.5) )) no-repeat;
+	background: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.3) );
+
+	background: -moz-linear-gradient(top, rgba(29,36,41,0.9) 0%, rgba(41,51,57,0.7) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(29,36,41,0.9)), color-stop(100%,rgba(41,51,57,0.7))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* IE10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* W3C */	
+
+}
+
+
+
 table.subnets tr.info {
     border-top: 1px solid rgba(64, 64, 64, 0.05);
 }
@@ -1134,10 +1159,13 @@ table.admin th {
 	background: transparent -webkit-gradient(linear, 0% 100%, 0% 0%, from(rgba(172,0,27,0.2)), to(rgba(255,255,255,0))) no-repeat;
 	background: transparent -moz-linear-gradient(top, rgba(255,255,255,0), rgba(172,0,27,0.2));	
 }
-table.admin tr.selected td, 
+
+table.admin tr.selected td {
+	
+} 
 table.admin tr.selected td a {
 	font-weight: bold;
-	color: #ac001b;
+	color: white
 }
 
 

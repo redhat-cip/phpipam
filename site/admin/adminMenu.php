@@ -58,6 +58,11 @@ $settings = getAllSettings();
         <td link="Administration|manageSwitches">Switch management</td>
     </tr>
 
+    <!-- VRF management -->
+    <tr id="manageVRF" class="manageVRF">
+        <td link="Administration|manageVRF">VRF management</td>
+    </tr>
+
     <!-- RIPE import -->
     <tr id="ripeImport" class="ripeImport">
         <td link="Administration|ripeImport">RIPE import</td>

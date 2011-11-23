@@ -43,6 +43,13 @@
         </td>
     </tr>
 
+    <!-- VRF -->
+    <tr id="vrf" class="vrf">
+        <td>
+            <a href="#tools|vrf" id="vrf">VRF</a>
+        </td>
+    </tr>
+
     <!-- hosts -->
     <tr id="hosts" class="hosts">
         <td>
