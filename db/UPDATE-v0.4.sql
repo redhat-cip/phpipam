@@ -3,7 +3,7 @@ Update from v 0.4 to 0.5
 ************************/
 
 
-# Dump of table requests
+# Dump of table switches
 # ------------------------------------------------------------
 DROP TABLE IF EXISTS `switches`;
 
@@ -18,3 +18,20 @@ CREATE TABLE `switches` (
   PRIMARY KEY (`id`),
   KEY `hostname` (`hostname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+# Dump of table vrf
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `vrf`;
+
+CREATE TABLE `vrf` (
+  `vrfId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL DEFAULT '',
+  `rd` varchar(32) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`vrfId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+/* Add vrf to subnets */
+ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;

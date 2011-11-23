@@ -60,7 +60,10 @@ print '</table>' ."\n";
 print '<div class="toolsMenuDropdown">'. "\n";
 print '	<dd section="tools" id="ipCalc">IP calculator</dd>';
 print '	<dd section="tools" id="switches">Switches</dd>';
+
+if($settings['enableVRF'] == 1) { 
 print '	<dd section="tools" id="vrf">VRF list</dd>';
+}
 print '	<dd section="tools" id="vlan">VLAN table</dd>';
 print '	<dd section="tools" id="hosts">Host list</dd>';
 print '	<dd section="tools" id="search">Search</dd>';
@@ -82,7 +85,9 @@ print '<dd section="Administration" id="settings">Server management</dd>';
 print '<dd section="Administration" id="manageSection">Sections</dd>';
 print '<dd section="Administration" id="manageSubnet">Subnets</dd>';
 print '<dd section="Administration" id="manageSwitches">Switches</dd>';
+if($settings['enableVRF'] == 1) { 
 print '<dd section="Administration" id="manageVRF">VRF</dd>';
+}
 print '<dd section="Administration" id="userMod">Users</dd>';
 print '<dd section="Administration" id="log">Log files</dd>';
 print '<dd section="Administration" id="all">Show all settings</dd>';

@@ -9,6 +9,7 @@ ALTER TABLE `ipaddresses` ADD `note` text;
 ALTER TABLE `subnets` ADD `masterSubnetId` varchar(32) DEFAULT NULL;
 ALTER TABLE `subnets` ADD `allowRequests` tinyint(1) DEFAULT '0';
 ALTER TABLE `subnets` ADD `adminLock` binary(1) DEFAULT '0';
+ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 
 /* Add domain auth option field to users table */
 ALTER TABLE `users` ADD `domainUser` binary(1) DEFAULT '0';
@@ -30,7 +31,7 @@ CREATE TABLE `requests` (
   `accepted` binary(1) DEFAULT NULL,
   `adminComment` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 
 /* create table settings */
@@ -50,7 +51,7 @@ CREATE TABLE `settings` (
   `version` varchar(4) DEFAULT NULL,
   `donate` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /* populate default requests */
 LOCK TABLES `settings` WRITE;
@@ -74,4 +75,17 @@ CREATE TABLE `switches` (
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hostname` (`hostname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+# Dump of table vrf
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `vrf`;
+
+CREATE TABLE `vrf` (
+  `vrfId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL DEFAULT '',
+  `rd` varchar(32) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`vrfId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

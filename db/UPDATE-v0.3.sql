@@ -5,6 +5,7 @@ Update from v 0.3 to 0.5
 /* Add allowRequests and adminLock fields to subnets table */
 ALTER TABLE `subnets` ADD `allowRequests` tinyint(1) DEFAULT '0';
 ALTER TABLE `subnets` ADD `adminLock` binary(1) DEFAULT '0';
+ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 
 /* Add version field to settings */
 ALTER TABLE `settings` ADD `version` varchar(4) DEFAULT NULL;
@@ -33,4 +34,16 @@ CREATE TABLE `switches` (
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hostname` (`hostname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# Dump of table vrf
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `vrf`;
+
+CREATE TABLE `vrf` (
+  `vrfId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL DEFAULT '',
+  `rd` varchar(32) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`vrfId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

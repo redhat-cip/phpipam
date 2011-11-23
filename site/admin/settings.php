@@ -131,6 +131,17 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
+<!-- VRF -->
+<tr>
+	<td class="title">Enable VRF support</td>
+	<td>
+		<input type="checkbox" value="1" name="enableVRF" <?php if($settings['enableVRF'] == 1) print 'checked'; ?>>
+	</td>
+	<td class="info">
+		Enable or disable VRF module.
+	</td>
+</tr>
+
 <!-- DNS resolving -->
 <tr>
 	<td class="title">Resolve DNS names</td>

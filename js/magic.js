@@ -1110,6 +1110,50 @@ $('form#switchManagementEdit').live('submit', function() {
 });
 
 
+/*	Edit VRF
+********************************/
+$('table.vrfManagement img').live('click', function() {
+	showSpinner();
+
+	var vrfId   = $(this).attr('vrfId');
+	var action   = $(this).attr('class');
+	var switchpost = "vrfId=" + vrfId + "&action=" + action;
+	
+	$.post('site/admin/manageVRFEdit.php', switchpost, function(data) {
+		$('div.vrfManagementEdit').html(data).slideDown('fast');
+		hideSpinner();
+	});
+	return false;	
+});
+/*	Edit VRF result
+********************************/
+$('form#vrfManagementEdit').live('submit', function() {
+	showSpinner();
+
+	var vrfdata = $(this).serialize();
+
+	$.post('site/admin/manageVRFEditResult.php', vrfdata, function(data) {
+		$('div.vrfManagementEditResult').html(data).slideDown('fast');
+
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("manageVRF"); parameter = null;}, reloadTimeout);
+        }
+        else {
+        	hideSpinner();
+        }
+	});
+
+	return false;
+});
+
+
+
+
+
+
+
+
 /***************************************************************
 		tools section
 ***************************************************************/

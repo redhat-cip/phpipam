@@ -58,10 +58,15 @@ $settings = getAllSettings();
         <td link="Administration|manageSwitches">Switch management</td>
     </tr>
 
-    <!-- VRF management -->
-    <tr id="manageVRF" class="manageVRF">
-        <td link="Administration|manageVRF">VRF management</td>
-    </tr>
+   <!-- VRF management -->
+    <?php
+    /* show IP request link if enabled in config file!  */
+    if($settings['enableVRF'] == 1) {    
+   		print '<tr id="manageVRF" class="manageVRF">'. "\n";
+        print '<td link="Administration|manageVRF">VRF management</td>'. "\n";
+    	print '</tr>'. "\n";
+    }
+    ?>
 
     <!-- RIPE import -->
     <tr id="ripeImport" class="ripeImport">

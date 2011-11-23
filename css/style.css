@@ -1627,6 +1627,32 @@ form#switchManagementEdit textarea {
 }
 
 
+/* VRF management */
+table.vrfManagement td.actions {
+	width: 10px;
+}
+table.vrfManagement td.name,
+table.vrfManagement td.rd {
+	width: 100px;
+}
+table.vrfManagement td img {
+	cursor: pointer;
+}
+table.vrfManagement td.description {
+	white-space: normal;
+}
+div.vrfManagementEdit {
+	display: none;
+}
+div.vrfManagementEditResult {
+	display: none;
+}
+div.vrfManagementEdit2 {
+	display: block;
+	width: 300px;
+}
+
+
 /*******************
 	site footer
 *******************/

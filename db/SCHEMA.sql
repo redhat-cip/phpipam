@@ -26,7 +26,7 @@ CREATE TABLE `settings` (
   `version` varchar(4) DEFAULT NULL,
   `donate` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
@@ -104,6 +104,7 @@ CREATE TABLE `subnets` (
   `sectionId` varchar(20) DEFAULT NULL,
   `description` text NOT NULL,
   `VLAN` int(255) NOT NULL,
+  `vrfId` int(3) DEFAULT NULL,
   `masterSubnetId` varchar(32) DEFAULT NULL,
   `allowRequests` tinyint(1) DEFAULT '0',
   `adminLock` binary(1) DEFAULT '0',
@@ -211,7 +212,7 @@ CREATE TABLE `requests` (
   `accepted` binary(1) DEFAULT NULL,
   `adminComment` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 
 # Dump of table requests
@@ -229,6 +230,20 @@ CREATE TABLE `switches` (
   PRIMARY KEY (`id`),
   KEY `hostname` (`hostname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+# Dump of table vrf
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `vrf`;
+
+CREATE TABLE `vrf` (
+  `vrfId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL DEFAULT '',
+  `rd` varchar(32) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`vrfId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

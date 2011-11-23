@@ -2559,6 +2559,93 @@ function writeInstructions ($instructions)
 
 
 /**
+ *	get all VRFs
+ */
+function getAllVRFs () 
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* execute query */
+	$query = "select * from `vrf`;";
+    
+  	/* update database */
+   	$vrfs = $database->getArray($query);
+   	
+   	/* return false if none, else list */
+	if(sizeof($vrfs) == 0) {
+		return false;
+	}
+	else {
+		return $vrfs;
+	}
+}
+
+
+/**
+ *	get vrf details by id
+ */
+function getVRFDetailsById ($vrfId)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* execute query */
+	$query = 'select * from `vrf` where `vrfId` = "'. $vrfId .'";';
+    
+  	/* update database */
+   	$vrf = $database->getArray($query);
+   	
+   	/* return false if none, else list */
+	if(sizeof($vrf) == 0) {
+		return false;
+	}
+	else {
+		return $vrf[0];
+	}
+}
+
+
+/**
+ * Update switch details
+ */
+function updateVRFDetails($vrf)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* set querry based on action */
+    if($vrf['action'] == "add") {
+    	$query  = 'insert into `vrf` '. "\n";
+    	$query .= '(`name`,`rd`,`description`) values '. "\n";
+   		$query .= '("'. $vrf['name'] .'", "'. $vrf['rd'] .'", "'. $vrf['description'] .'" ); '. "\n";
+    }
+    else if($vrf['action'] == "edit") {
+    	$query  = 'update `vrf` set '. "\n";    
+    	$query .= '`name` = "'. $vrf['name'] .'", `rd` = "'. $vrf['rd'] .'", `description` = "'. $vrf['description'] .'" '. "\n";     
+    	$query .= 'where `vrfId` = "'. $vrf['vrfId'] .'";'. "\n";    
+    }
+    else if($vrf['action'] == "delete") {
+    	$query  = 'delete from `vrf` where `vrfId` = "'. $vrf['vrfId'] .'";'. "\n";
+    }
+    
+    /* execute query */
+    $vrf    = $database->executeQuery($query);  
+    
+    /* return details */
+    if($vrf) {
+    	return true;
+    }
+    else {
+    	return false;
+    }
+}
+
+
+/**
  * CSV import IP address
  *
  *		provided input is CSV line!
@@ -2837,6 +2924,7 @@ function updateSettings($settings)
 	$query   .= '`domainAuth` 		  = "0", ' . "\n";
 	$query   .= '`showTooltips`		  = "'. $settings['showTooltips'] .'", ' . "\n";
 	$query   .= '`enableIPrequests`   = "'. $settings['enableIPrequests'] .'", ' . "\n";
+	$query   .= '`enableVRF`   		  = "'. $settings['enableVRF'] .'", ' . "\n";
 	$query   .= '`donate`   		  = "'. $settings['donate'] .'", ' . "\n";
 	$query   .= '`enableDNSresolving` = "'. $settings['enableDNSresolving'] .'" ' . "\n";   
 	$query   .= 'where id = 1;' . "\n";   
