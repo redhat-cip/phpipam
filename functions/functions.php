@@ -2073,6 +2073,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= ' "'. $subnetDetails['sectionId'] 	 .'", ' . "\n"; 
         $query .= ' "'. htmlentities($subnetDetails['description']) .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['VLAN'] 			 .'", ' . "\n"; 
+        $query .= ' "'. $subnetDetails['vrfId'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['masterSubnetId'] .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['allowRequests']  .'", ' . "\n";
         $query .= ' "'. $subnetDetails['adminLock']  	 .'" ' . "\n";
@@ -2091,6 +2092,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query  = 'update subnets set '. "\n";
         $query .= '`description` 	= "'. htmlentities($subnetDetails['description']) .'", '. "\n";
         $query .= '`VLAN`        	= "'. $subnetDetails['VLAN'] 			.'", '. "\n";
+        $query .= '`vrfId`        	= "'. $subnetDetails['vrfId'] 			.'", '. "\n";
         $query .= '`masterSubnetId` = "'. $subnetDetails['masterSubnetId'] 	.'", '. "\n";
         $query .= '`allowRequests`  = "'. $subnetDetails['allowRequests'] 	.'", '. "\n";
         $query .= '`adminLock` 		= "'. $subnetDetails['adminLock'] 		.'"  '. "\n";

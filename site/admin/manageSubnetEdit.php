@@ -101,11 +101,50 @@ else {
     </tr>
 
     <?php
-	/* allow / deny IP requests if enabled in settings */
-
     /* get all site settings */
 	$settings = getAllSettings();
+	$VRFs 	  = getAllVRFs();
 	
+	/* set default value */
+	if(empty($subnetDataOld['vrfId'])) {
+		$subnetDataOld['vrfId'] = "0";
+	}
+	/* set default value */
+	if(empty($subnetDataOld['allowRequests'])) {
+		$subnetDataOld['allowRequests'] = "1";
+	}
+
+	/* if vlan support is enabled print available vlans */	
+	if($settings['enableVRF'] == 1) {
+	
+		print '<tr>' . "\n";
+        print '	<td>VRF</td>' . "\n";
+        print '	<td>' . "\n";
+        print '	<select name="vrfId">'. "\n";
+        
+        foreach($VRFs as $vrf) {
+        
+        	if ($vrf['vrfId'] == $subnetDataOld['vrfId']) {
+        		print '<option value="'. $vrf['vrfId'] .'" selected>'. $vrf['name'] .'</option>';
+        	}
+        	else {
+        	    print '<option value="'. $vrf['vrfId'] .'">'. $vrf['name'] .'</option>';
+        	}
+        }
+        
+        print ' </select>'. "\n";
+        print '	</td>' . "\n";
+        print '	<td class="info">Add this subnet to VRF</td>' . "\n";
+    	print '</tr>' . "\n";
+	
+	}
+	else {
+		print '<tr style="display:none"><td colspan="8"><input type="hidden" name="vrfId" value="'. $subnetDataOld['vrfId'] .'"></td></tr>'. "\n";
+	}
+	
+	
+	
+	/* allow / deny IP requests if enabled in settings */	
 	if($settings['enableIPrequests'] == 1) {
 	
 		print '<tr>' . "\n";
@@ -123,7 +162,9 @@ else {
     	print '</tr>' . "\n";
 	
 	}
-	
+	else {
+		print '<tr style="display:none"><td colspan="8"><input type="hidden" name="allowRequests" value="'. $subnetDataOld['allowRequests'] .'"></td></tr>'. "\n";
+	}	
 	
 	/* option to loch subnet writing only for admins */
 		print '<tr>' . "\n";
