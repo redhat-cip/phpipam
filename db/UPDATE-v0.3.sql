@@ -10,6 +10,7 @@ ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 /* Add version field to settings */
 ALTER TABLE `settings` ADD `version` varchar(4) DEFAULT NULL;
 ALTER TABLE `settings` ADD `donate` tinyint(1) DEFAULT 0;
+ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
 
 /* Add version */
 UPDATE `settings` set `version` = '0.4' where `id` = '1';

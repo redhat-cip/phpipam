@@ -47,6 +47,7 @@ CREATE TABLE `settings` (
   `domainAuth` tinyint(1) DEFAULT NULL,
   `showTooltips` tinyint(1) DEFAULT NULL,
   `enableIPrequests` tinyint(1) DEFAULT NULL,
+  `enableVRF` tinyint(1) DEFAULT '1',
   `enableDNSresolving` tinyint(1) DEFAULT NULL,
   `version` varchar(4) DEFAULT NULL,
   `donate` tinyint(1) DEFAULT 0,
