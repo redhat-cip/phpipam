@@ -24,4 +24,9 @@ if(upgradeDatabase($version)) {
 	print '<div class="success">Database upgraded successfully!</div>';
 }
 
+/* update switches from old versions if needed */
+if($version < "0.5") {
+	 updateSwitchFromOldVersions();
+}
+
 ?>

@@ -179,6 +179,11 @@ function hashLoadAdmin   (section, subpage) {
     setTimeout(function (){loadAdminSubpage(subpage); parameter = null;}, 100);
     setTimeout(function (){addActiveAdminClass(subpage); parameter = null;}, 100);
 }
+function hashLoadTools   (section, subpage) {
+    loadToolsMenu(section, subpage);
+    setTimeout(function (){loadToolsSubpage(subpage); parameter = null;}, 100);
+/*     setTimeout(function (){addActiveToolsClass(subpage); parameter = null;}, 100); */
+}
 
 /*	set active subnet on hash-load 
 *************************************/
@@ -187,6 +192,9 @@ function addActiveSubnetClass (subpage) {
 }
 function addActiveAdminClass (subpage) {
     $('table.admin tr.' + subpage).addClass('selected');
+}
+function addActiveToolsClass (subpage) {
+    $('table.subnets tr.' + subpage).addClass('selected');
 }
 
 /*	Load admin subpage 
@@ -333,18 +341,6 @@ function hideSpinner() {
     $('div.loading').fadeOut('fast');
 }
 
-/*
-general table style
-*****************************/
-//normalTable hover
-$('table.normalTable tr[class!=th]').live("mouseover mouseout", function(event) {
-	if (event.type == 'mouseover')
-		$(this).addClass('hover');
-	else
-		$(this).removeClass('hover');	
-});
-
-
 
 
 /***************************************************************
@@ -405,7 +401,7 @@ else
 /****************************************************************
 		section menu 
 ***************************************************************/
-$('table.newSections ul li, table.newSections td#Administration, table.newSections td#instructions').live('click', function () {
+$('table.newSections ul li, table.newSections td#Administration, table.newSections td#instructions, table.newSections td.tools').live('click', function () {
 	//get requested location - section
 	sectionName = $(this).attr('section');
 	sectionId   = $(this).attr('id');
@@ -418,13 +414,15 @@ $('table.newSections ul li, table.newSections td#Administration, table.newSectio
 	$(this).addClass('active');
 	
 	//if info load info
-	if (sectionId == "instructions") {
+	if (sectionId == "instructions" || sectionId == "tools") {
 		loadToolsMenuAndSubpage (sectionId);
 	}
-	//loadmainpage 
+	//load mainpage 
 	else {
 		loadSubnets(sectionId);
 	}
+	
+	return false;
 });
 
 
@@ -454,7 +452,7 @@ $('table.newSections td#Administration').live("mouseover mouseout", function(eve
 		$('div.adminMenuDropdown').stop(true,true).fadeIn('fast');
 	}
 	else {
-		$('div.adminMenuDropdown').delay(500).fadeOut('fast');	
+		$('div.adminMenuDropdown')/* .delay(500) */.fadeOut('fast');	
 	}
 });
 $('div.adminMenuDropdown dd').live("mouseenter", function() {
@@ -463,8 +461,42 @@ $('div.adminMenuDropdown dd').live("mouseenter", function() {
 });
 
 $('div.adminMenuDropdown').live("mouseleave", function() {
-	$(this).delay(300).fadeOut('fast');
+	$(this)/* .delay(300) */.fadeOut('fast');
 });
+
+
+
+/*	load tools subpage form tools hover
+*****************************************/
+$('div.toolsMenuDropdown dd').live('click', function() {
+	//get variables
+	sectionName = $(this).attr('section');
+	subpage = $(this).attr("id");
+	//set href
+	document.location.href = "#" + sectionName + "|" + subpage;
+	//load proper page
+	hashLoadTools('tools', subpage);
+});
+
+/*	Show/hide tools hover menu
+*****************************************/
+$('table.newSections td.tools').live("mouseover mouseout", function(event) {
+	if(event.type == "mouseover") {
+		$('div.toolsMenuDropdown').stop(true,true).fadeIn('fast');
+	}
+	else {
+		$('div.toolsMenuDropdown').fadeOut('fast');	
+	}
+});
+$('div.toolsMenuDropdown dd').live("mouseenter", function() {
+	$('div.toolsMenuDropdown').stop(true,true);
+	$('div.toolsMenuDropdown').show();
+});
+
+$('div.toolsMenuDropdown').live("mouseleave", function() {
+	$(this).fadeOut('fast');
+});
+
 
 
 
@@ -473,17 +505,6 @@ $('div.adminMenuDropdown').live("mouseleave", function() {
 /***************************************************************
 		subnets 
 ***************************************************************/
-//table hover
-$('table.subnets tr[class!=th]').live("mouseover mouseout", function(event) {
-	if (event.type == 'mouseover') {
-		$(this).addClass('hover');
-		$(this).children('td').children('img').attr("src","css/images/expandHover.png");
-	}
-	else {
-		$(this).removeClass('hover');	
-		$(this).children('td').children('img').attr("src","css/images/expand.png");
-	}
-});
 
 /*	click on subnets to load it into content
 *********************************************/
@@ -651,7 +672,8 @@ $('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddres
 		
 	action	  = $(this).attr('class');
 	id	      = $(this).attr('id');
-	subnetId  = $('table.subnets tr.selected').attr('id');
+/* 	subnetId  = $('table.subnets tr.selected').attr('id'); */
+	subnetId  = $('div#subnetId').html();
     
 	//load modify ip field
 	modifyipaddress(action,id,subnetId);
@@ -741,24 +763,6 @@ $('table.slaveSubnet tr[class!=th]').live('click', function() {
 /***************************************************************
 		admin section
 ***************************************************************/
-
-/*	left table hover
-**********************/
-$('table.admin tr[class!=th]').live("mouseover mouseout", function(event) {
-	if (event.type == 'mouseover')
-		$(this).addClass('hover');
-	else
-		$(this).removeClass('hover');	
-});
-
-/*	subpage table hover
-**************************/
-$('table.manageSection tr[class!=th], table.manageSubnets tr[class!=th]').live("mouseover mouseout", function(event) {
-	if (event.type == 'mouseover')
-		$(this).addClass('hover');
-	else
-		$(this).removeClass('hover');	
-});
 
 /*	load admin subpage
 ************************/
@@ -963,15 +967,6 @@ $('form#logs input').live('click', function() {
     });    
 });
 
-/*	Hover over table
-********************/
-$('table.logs tr[class!=th]').live("mouseover mouseout", function(event) {
-	if (event.type == 'mouseover')
-		$(this).addClass('hover');
-	else
-		$(this).removeClass('hover');	
-});
-
 
 /*	XLS export
 ***********************/
@@ -1076,20 +1071,48 @@ $('form.manageRequestEdit .reject').live('click', function() {
 });
 
 
+/*	Edit switch
+********************************/
+$('table.switchManagement img').live('click', function() {
+	showSpinner();
+
+	var switchId = $(this).attr('switchId');
+	var action   = $(this).attr('class');
+	var switchpost = "switchId=" + switchId + "&action=" + action;
+	
+	$.post('site/admin/manageSwitchesEdit.php', switchpost, function(data) {
+		$('div.switchManagementEdit').html(data).slideDown('fast');
+		hideSpinner();
+	});
+	return false;	
+});
+
+/*	Edit switch result
+********************************/
+$('form#switchManagementEdit').live('submit', function() {
+	showSpinner();
+
+	var switchdata = $(this).serialize();
+
+	$.post('site/admin/manageSwitchesEditResult.php', switchdata, function(data) {
+		$('div.switchManagementEditResult').html(data).slideDown('fast');
+
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("manageSwitches"); parameter = null;}, reloadTimeout);
+        }
+        else {
+        	hideSpinner();
+        }
+	});
+
+	return false;
+});
 
 
 /***************************************************************
 		tools section
 ***************************************************************/
-
-/*	hover topNav
-**********************/
-$('ul.topNav li').live("mouseover mouseout", function(event) {
-	if (event.type == 'mouseover')
-		$(this).addClass('hover');
-	else
-		$(this).removeClass('hover');	
-});
 
 /* load tools subpage on topnav click
 **************************************/

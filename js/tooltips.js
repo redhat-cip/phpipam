@@ -16,6 +16,8 @@ $("body").live("mouseover",function () {
 	$('table.ipaddresses img.info').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('table.slaveSubnet td.lock,table.slaveSubnet td.requests').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('img.addIpAddress,img.refreshHostname').tooltip({position: "top center", tipClass:'tooltipTop' });
+	/* switch management */
+	$('table.switchManagement img').tooltip({position: "top center", tipClass:'tooltipTop' });
 	
 	/* hide all on hover */
 	$('.tooltipTop, .tooltip, .tooltipBottom, tooltipLeft').mouseenter(function () { $(this).hide();});

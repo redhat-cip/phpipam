@@ -91,11 +91,18 @@ $(function() {
 		}
 		?>
 	];
-		
+	
 	//autocomplete switches
-	$( "#switch" ).autocomplete({ source: switches });
+	$( "#switch" ).autocomplete({ source: switches, minLength: 0 }).focus(function(){
+	if (this.value == "")
+		$(this).trigger('keydown.autocomplete');
+	});
 	//autocomplete users
-	$( "#owner" ).autocomplete({ source: users });
+	$( "#owner" ).autocomplete({ source: users, minLength: 0 }).focus(function(){
+	if (this.value == "")
+		$(this).trigger('keydown.autocomplete');
+	});
+
 });
 </script>
 
@@ -108,16 +115,16 @@ $(function() {
 
 	<!-- title -->
 	<tr>
-		<th colspan="2"><h4><?php print $btnName; ?> IP address</h4></th>
+		<th colspan="3"><h4><?php print $btnName; ?> IP address</h4></th>
 	</tr>
 
 	<!-- IP address -->
 	<tr>
 		<td>IP address 
-			<img class="addIpAddress" src="css/images/infoAdd.png" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)">
 		</td>
 		<td>
 			<input type="text" name="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30">
+    	<img class="addIpAddress" src="css/images/infoAdd.png" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)">
     	</td>
 	</tr>
 
@@ -127,19 +134,21 @@ $(function() {
 		<td>
 			<input type="text" name="description" value="<?php if(isset($details['description'])) {print $details['description'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly";} ?> 
-			></td>
+			>
+		</td>
 	</tr>
 
 
 	<!-- DNS name -->
 	<tr>
 		<td>DNS name
-			<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
 		</td>
 		<td>
 			<input type="text" name="dns_name" value="<?php if(isset($details['dns_name'])) { print $details['dns_name'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			></td>
+			>
+		<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
+		</td>
 	</tr>
 
 
@@ -149,21 +158,21 @@ $(function() {
 		<td>
 			<input type="text" name="owner" id="owner" value="<?php if(isset($details['owner'])) {print $details['owner'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			></td>
+			>
+		</td>
 	</tr>
 
 	<!-- switch / port -->
 	<tr>
 		<td>Switch / port</td>
-		
-		
 		<td>
 			<input type="text" name="switch" id="switch" value="<?php if(isset($details['switch'])) { print $details['switch'];} ?>" size="13" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
 			>/
 			<input type="text" name="port" value="<?php if(isset($details['port'])) { print $details['port'];} ?>" size="9" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			></td>
+			>
+		</td>
 	</tr>
 
 	<!-- note -->

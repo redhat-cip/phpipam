@@ -23,6 +23,7 @@ $users = getAllUsers();
 
 <!-- Headers -->
 <tr class="th">
+	<th></th>
     <th>Real Name</th>
     <th>Username</th>
     <th>E-mail</th>
@@ -35,6 +36,15 @@ $users = getAllUsers();
 foreach ($users as $user)
 {
 	print '<tr>' . "\n";
+	
+	//set icon based on normal user or admin
+	if($user['role'] == "Administrator") {
+		print '	<td><img src="css/images/userVader.png" title="Administrator"></td>'. "\n";
+	}
+	else {
+		print '	<td><img src="css/images/userTrooper.png" title="'. $user['role'] .'"></td>'. "\n";	
+	}
+	
 	print '	<td>' . $user['real_name'] . '</td>'. "\n";
 	print '	<td>' . $user['username']  . '</td>'. "\n";
 	print '	<td>' . $user['email']     . '</td>'. "\n";

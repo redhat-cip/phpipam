@@ -24,6 +24,16 @@ foreach($switches as $switch) {
 	/* Get all I addresses belonging to switch */
 	$ipaddresses = getIPaddressesBySwitchName ( $switch['hostname'] );
 	
+	/* Get switch details */
+	$switchDetails = getSwitchDetailsByHostname($switch['hostname']);
+	
+	if(sizeof($switchDetails['hostname']) == 0) {
+		$switchDetails['hostname'] = 'Not specified';
+	}
+	else {
+		$switchDetails['ip_addr'] = '(' . $switchDetails['ip_addr'] .')';
+	}
+	
 	/* reformat if empty */
 	if(empty($switch['hostname'])) {
 		$switch['hostname'] = "Unspecified";
@@ -38,7 +48,7 @@ foreach($switches as $switch) {
 	
 	/* Switch name */
 	print '<tr class="th">'. "\n";
-	print '	<th colspan="8"><h3>'. $switch['hostname'] .'</h3></th>'. "\n";
+	print '	<th colspan="8"><h3>'. $switchDetails['hostname'] .' '. $switchDetails['ip_addr'] .'</h3></th>'. "\n";
 	print '</tr>'. "\n";
 	
 	/* title */

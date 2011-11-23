@@ -37,7 +37,10 @@ print '</td>'. "";
 /* info */
 print '<td section="tools" id="instructions" title="Show IP addressing Guide"><img src="css/images/info.png" style="width:20px;"></td>'. "\n";
 
-print '</td>'. "";
+
+/* tools */
+print '<td section="tools" id="tools" class="tools">Tools</td>'. "\n";
+
 
 /* admin */
 if(checkAdmin(false)) {
@@ -46,16 +49,25 @@ if(checkAdmin(false)) {
 else {
 	print '</td>'. "\n";
 }
-print '</td>'. "";
+/* print '</td>'. ""; */
 
 /* end table */
 print '</tr>'. "\n";
 print '</table>' ."\n";
 
 
+/* tools menu dropdown */
+print '<div class="toolsMenuDropdown">'. "\n";
+print '	<dd section="tools" id="ipCalc">IP calculator</dd>';
+print '	<dd section="tools" id="switches">Switches</dd>';
+print '	<dd section="tools" id="vrf">VRF list</dd>';
+print '	<dd section="tools" id="vlan">VLAN table</dd>';
+print '	<dd section="tools" id="hosts">Host list</dd>';
+print '	<dd section="tools" id="search">Search</dd>';
+print '</div>'. "\n";
+
 /* admin menu dropdown */
 print '<div class="adminMenuDropdown">'. "\n";
-
 
 /* show IP request link if enabled in config file!  */
 if($settings['enableIPrequests'] == 1) {    

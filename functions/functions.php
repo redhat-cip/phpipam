@@ -538,6 +538,7 @@ function verifyCidr( $cidr , $subnet = 1 )
 	return($errors);
 }
 
+
 /**
  * Verify that switch exists
  */
@@ -2183,6 +2184,117 @@ function getIPaddressesBySwitchName ( $name )
     /* return vlans */
     return $ip;
 }
+
+
+/**
+ * Get switch details by hostname
+ */
+function getSwitchDetailsByHostname($hostname) 
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all vlans, descriptions and subnets */
+    $query = 'SELECT * FROM `switches` where `hostname` = "'. $hostname .'" limit 1;';
+    $ip    = $database->getArray($query);  
+    
+    /* return details */
+    if($ip) {
+    	return $ip[0];
+    }
+    else {
+    	return false;
+    }
+}
+
+
+/**
+ * Get switch details by id
+ */
+function getSwitchDetailsById($id) 
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all vlans, descriptions and subnets */
+    $query = 'SELECT * FROM `switches` where `id` = "'. $id .'";';
+    $switch    = $database->getArray($query);  
+    
+    /* return details */
+    if($switch) {
+    	return $switch[0];
+    }
+    else {
+    	return false;
+    }
+}
+
+
+/**
+ * Update IP address list when switch hostname changes
+ */
+function updateIPaddressesOnSwitchChange($old, $new) 
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all vlans, descriptions and subnets */
+    $query = 'update `ipaddresses` set `switch` = "'. $new .'" where `switch` = "'. $old .'";';
+    
+    /* update */
+    $switch    = $database->executeQuery($query);  
+    
+    /* return details */
+    if($switch) {
+    	return true;
+    }
+    else {
+    	return false;
+    }
+}
+
+
+/**
+ * Update switch details
+ */
+function updateSwitchDetails($switch)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* set querry based on action */
+    if($switch['action'] == "add") {
+    	$query  = 'insert into `switches` '. "\n";
+    	$query .= '(`hostname`,`ip_addr`,`vendor`,`model`,`version`,`description`) values '. "\n";
+   		$query .= '("'. $switch['hostname'] .'", "'. $switch['ip_addr'] .'", "'. $switch['vendor'] .'", '. "\n";
+   		$query .= ' "'. $switch['model'] .'", "'. $switch['version'] .'", "'. $switch['description'] .'" );'. "\n";
+    }
+    else if($switch['action'] == "edit") {
+    	$query  = 'update `switches` set '. "\n";    
+    	$query .= '`hostname` = "'. $switch['hostname'] .'", `ip_addr` = "'. $switch['ip_addr'] .'", `vendor` = "'. $switch['vendor'] .'", '. "\n";    
+    	$query .= '`model` = "'. $switch['model'] .'", `version` = "'. $switch['version'] .'", `description` = "'. $switch['description'] .'" '. "\n";    
+    	$query .= 'where `id` = "'. $switch['switchId'] .'";'. "\n";    
+    }
+    else if($switch['action'] == "delete") {
+    	$query  = 'delete from `switches` where id = "'. $switch['switchId'] .'";'. "\n";
+    }
+    
+    /* execute query */
+    $switch    = $database->executeQuery($query);  
+    
+    /* return details */
+    if($switch) {
+    	return true;
+    }
+    else {
+    	return false;
+    }
+}
+
 
 
 /**

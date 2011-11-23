@@ -59,9 +59,13 @@ if($settings['version'] != $latest) {
 	else if ( (!fieldExists("subnets", "allowRequests2")) || (!fieldExists("subnets", "adminLock")) ) {
 		$version = "0.3";	
 	}
+	/* v0.4 check -> table switches does not exist yet */
+	else if (!tableExists("switches")) {
+		$version = "0.4";	
+	}
 	/* ok, latest version */
 	else {
-		$version = "0.4";
+		$version = "0.5";
 	}
 
 	/* if version is not the latest print warning that it will be upgraded! */
@@ -150,7 +154,7 @@ if($settings['version'] != $latest) {
 		$tables 	= getAllTables();
 
 		/* required tables */
-		$requiredTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "subnets", "users");
+		$requiredTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "subnets", "users", "switches");
 
 		/* reformat available tables */
 		foreach ($tables as $table) {

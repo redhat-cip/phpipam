@@ -42,7 +42,7 @@ foreach ($sections as $section)
 ?>
 
 <!-- add new section -->
-<tr class="th" >
+<tr class="th add">
     <td colspan=4 class="info">
         <img src="css/images/add.png" class="sectionAdd" title="Create new section"> Add new section
     </td>

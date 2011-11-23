@@ -9,6 +9,15 @@ $('table.subnets tr th').live("mouseover mouseout", function(event) {
 	else
 		$('img.rewind').attr("src","css/images/rewind.png");
 });
+//subnets img hover
+$('table.subnets tr[class!=th]').live("mouseover mouseout", function(event) {
+	if (event.type == 'mouseover') {
+		$(this).children('td').children('img').attr("src","css/images/expandHover.png");
+	}
+	else {	
+		$(this).children('td').children('img').attr("src","css/images/expand.png");
+	}
+});
 $('table.ipaddress_subnet tr.add_ipaddress').live("mouseover mouseout", function(event) {
 	if (event.type == 'mouseover') {
 		$('img.add_ipaddress').attr("src","css/images/addHover.png");

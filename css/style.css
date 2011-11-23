@@ -165,6 +165,9 @@ table.normalTable td {
 	text-align: left;
 	vertical-align: middle;    
 }
+table.normalTable tr {
+	border: none;
+}
 table.normalTable th {
 	text-shadow: 1px 1px 2px white;
 	border-bottom: 1px solid white;	
@@ -196,17 +199,40 @@ table.normalTable th.reversed {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
 	background: linear-gradient(top, rgba(255,255,255,0.9) 0%,rgba(255,255,255,0) 100%); /* W3C */
 }
-
+table.normalTable tr.add {
+	border-top: 1px solid rgba(255,255,255,0.2);
+}
 table.normalTable tr:lastChild {
     border-bottom: none;
 }
 table.normalTable tr td {
     padding: 3px 5px;
 }
+table.normalTable tr.selected,
+table.normalTable tr.selected:hover {
+	background: #40464A;
+	
+	border-bottom: 1px solid white;
+	border-top:    1px solid white;
+
+	background: #494949;
+	background: -webkit-gradient(linear, 0% 100%, 0% 0%, from( rgba(0,0,0,0.3) ), to( rgba(0,0,0,0.5) )) no-repeat;
+	background: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.3) );
+
+	background: -moz-linear-gradient(top, rgba(29,36,41,0.9) 0%, rgba(41,51,57,0.7) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(29,36,41,0.9)), color-stop(100%,rgba(41,51,57,0.7))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* IE10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%); /* W3C */	
+
+}
 table.normalTable tr.selected td, 
 table.normalTable tr.selected td a {
-	font-weight: bold;
-	color: #ac001b;
+/* 	font-weight: bold; */
+/* 	color: #ac001b; */
+	color: white;
 }
 table.normalTable td.info, 
 table.normalTable td.info a {
@@ -218,13 +244,16 @@ table.normalTable td.info a {
 table.normalTable td.submit {
     text-align: right;
 }
-table.normalTable tr.hover {
+table.normalTable tr:hover {
 	background: #dbdde0;	/* non-rgba browsers */
 	background: transparent -webkit-gradient(linear, 0% 100%, 0% 0%, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0.0))) no-repeat;
 	background: transparent -moz-linear-gradient(top, rgba(0,0,0,0.0), rgba(0,0,0,0.1));
 }
-table.normalTable tr.hover td.info, 
-table.normalTable tr.hover td.info a {
+table.normalTable tr.th:hover {
+	background: transparent;
+}
+table.normalTable tr:hover td.info, 
+table.normalTable tr:hover td.info a {
     color: #2E2E2E;
     text-shadow: none;
     font-style: normal;
@@ -380,8 +409,9 @@ ul.topNav li a {
     
     color: #F0F0F0;
 }
-ul.topNav li a.hover {
-    color: white;
+ul.topNav li a:hover,
+ul.topNav li:hover {
+    color: #A0001B;
 }
 ul.topNav li ul.subNav {
 	list-style: none;
@@ -469,8 +499,41 @@ table.newSections ul li {
 	color: silver;
 	cursor: pointer;	
 }
+table.newSections td.tools {
+	cursor: pointer;
+	
+	width: 1px;
+
+	vertical-align: text-top;
+
+	padding: 5px 15px 5px 15px;
+	
+	color: white;
+
+	background: rgb(79,80,82);
+	background: -moz-linear-gradient(top,  rgba(79,80,82,1) 0%, rgba(17,17,17,1) 97%, rgba(79,80,82,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(79,80,82,1)), color-stop(97%,rgba(17,17,17,1)), color-stop(100%,rgba(79,80,82,1)));
+	background: -webkit-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
+	background: -o-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
+	background: linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5052', endColorstr='#4f5052',GradientType=0 );
+}
+table.newSections td.tools:hover {
+	background: rgb(79,80,82);
+	background: -moz-linear-gradient(top,  rgba(79,80,82,1) 0%, rgba(17,17,17,1) 3%, rgba(79,80,82,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(79,80,82,1)), color-stop(3%,rgba(17,17,17,1)), color-stop(100%,rgba(79,80,82,1)));
+	background: -webkit-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 3%,rgba(79,80,82,1) 100%);
+	background: -o-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 3%,rgba(79,80,82,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 3%,rgba(79,80,82,1) 100%);
+	background: linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 3%,rgba(79,80,82,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5052', endColorstr='#4f5052',GradientType=0 );
+
+}
 table.newSections td#instructions {
 	width: 10px;
+	padding-right: 5px;
+	padding-top: 2px;
 	cursor: pointer;
 	vertical-align: top;
 }
@@ -564,6 +627,7 @@ div.settingsEdit {
 	display: none;
 }
 /* Admin dropdown menu */
+div.toolsMenuDropdown,
 div.adminMenuDropdown {
 	position: absolute;
 	float: right;
@@ -600,6 +664,10 @@ div.adminMenuDropdown {
 	display: none;
 	overflow: hidden;
 }
+div.toolsMenuDropdown {
+	right: 30px;
+}
+div.toolsMenuDropdown dd,
 div.adminMenuDropdown dd {
 	width: 100%;
 	padding: 5px 15px;
@@ -608,6 +676,7 @@ div.adminMenuDropdown dd {
 	color: #ececec;
 	cursor: pointer;	
 }
+div.toolsMenuDropdown dd:hover,
 div.adminMenuDropdown dd:hover {
 	background: rgba(64,64,64,0.9);
 	background: #293339 -webkit-gradient(linear, 0% 100%, 0% 0%, from(#1D2429), to(#293339)) no-repeat;
@@ -662,7 +731,7 @@ table.subnets dd {
 	margin-left: 0px;
 }
 table.subnets td.subnet {
-	min-width: 130px;
+/* 	min-width: 130px; */
 	text-align: left;
 }
 table.subnets tr.hover, 
@@ -695,7 +764,7 @@ table.subnets tr.selected td dd,
 table.admin tr.selected td, 
 table.admin tr.selected td dd {
 	font-weight: bold;
-	color: #ac001b;
+/* 	color: #ac001b; */
 }
 table.subnets tr.info {
     border-top: 1px solid rgba(64, 64, 64, 0.05);
@@ -823,6 +892,9 @@ table.ipaddress_subnet th {
 }
 table.ipaddress_subnet div.addnew {
 	display: none;
+}
+table.ipaddress_subnet div.addnew img {
+	margin-top: 2px;
 }
 table.ipaddress_subnet div.mail {
 	background: rgba(255,255,255, 0.2);
@@ -1044,11 +1116,14 @@ table.admin td {
 	padding-right: 0px;
     padding-right: 5px;
 }
-table.admin tr.hover {
+table.admin tr:hover {
 	background: rgba(255,255,255,0.5);
 
 	background: transparent -webkit-gradient(linear, 0% 100%, 0% 0%, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0.0))) no-repeat;
 	background: transparent -moz-linear-gradient(top, rgba(0,0,0,0.0), rgba(0,0,0,0.1));
+}
+table.admin tr.th:hover {
+	background: transparent;
 }
 table.admin th {
 	text-align: right;
@@ -1490,7 +1565,35 @@ table.requestIP div#requestIPresult {
 	display: none;
 }
 
+/* switch management */
+table.switchManagement td {
+	border: none;
+}
+table.switchManagement td.actions {
+	width: 10px;
+}
+table.switchManagement td img {
+	cursor: pointer;
+}
+table.switchManagement td.description {
+	white-space: normal;
+}
+div.switchManagementEdit {
+	display: none;
+}
+div.switchManagementEdit2 {
+	display: block;
+	width: 300px;
+}
+form#switchManagementEdit textarea {
+	border: 1px solid silver;
+	padding: 5px;
+	margin: 0px;
 
+	-webkit-border-radius: 	4px;
+	-moz-border-radius: 	4px;
+	border-radius: 			4px;
+}
 
 
 /*******************
@@ -2041,7 +2144,7 @@ div.jqueryError {
 	margin-bottom: 2px;
 }
 .tooltipRightSubnets {
-	margin-left: 0px;
+	margin-left: 20px;
 }
 .tooltip hr {
 	padding: 0px;

@@ -58,6 +58,9 @@ content print!
 <div class="ipaddresses">	<!-- overlay div -->
 
 
+<!-- for adding IP address! -->
+<div id="subnetId" style="display:none"><?php print $subnetId; ?></div>
+
 <!-- 
 subnet details upper table 
 -->

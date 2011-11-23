@@ -101,8 +101,8 @@ if (!empty($subnets)) {
     }
 
     /* add new link */
-    print '	<tr class="addNew info">' . "\n";
-    print '		<td colspan=5 class="info">' . "\n";
+    print '	<tr class="addNew info add">' . "\n";
+    print '		<td colspan="8" class="info">' . "\n";
     print '			<img src="css/images/add.png" class="Add" sectionId="'. $section['id'] .'" title="Add new subnet to '. $section['name'] .'"> Add new subnet to '. $section['name'] . "\n";
     print '		</td>' . "\n";
     print '	</tr>' . "\n";
