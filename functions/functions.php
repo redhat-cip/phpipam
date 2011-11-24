@@ -2066,7 +2066,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $subnetDetails['mask']        = $subnetDetails['subnet_temp'][1];
         
         $query  = 'insert into subnets '. "\n";
-        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `VLAN`, `masterSubnetId`, `allowRequests`, `adminLock`) ' . "\n";
+        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `VLAN`, `vrfId`, `masterSubnetId`, `allowRequests`, `adminLock`) ' . "\n";
         $query .= 'values (' . "\n";
         $query .= ' "'. $subnetDetails['subnet'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['mask'] 			 .'", ' . "\n"; 

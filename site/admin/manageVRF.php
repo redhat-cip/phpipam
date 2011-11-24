@@ -13,7 +13,6 @@ checkAdmin();
 
 /* get all available VRFs */
 $allVRFs = getAllVRFs ();
-
 ?>
 
 <h3>Manage VRFs</h3>
@@ -34,7 +33,7 @@ $allVRFs = getAllVRFs ();
 <?php
 
 /* first check if they exist! */
-if(sizeof($allVRFs) == 0) {
+if(!$allVRFs) {
 	print '<tr class="th">'. "\n";
 	print '	<td colspan="7">No VRFs configured!</td>'. "\n";
 	print '</tr>'. "\n";

@@ -20,7 +20,11 @@ print '<h3>Available VRFs and belonging subnets</h3>'. "\n";
 
 
 /* for each VRF check which subnet has it configured */
-foreach ($vrfs as $vrf) {
+if(!$vrfs) {
+	print 'No VRFs configured!';
+}
+else {
+	foreach ($vrfs as $vrf) {
 
 	/*  print VLANs */
 	print '<br>'. "\n";
@@ -134,6 +138,7 @@ foreach ($vrfs as $vrf) {
 	/* end */
 	print '</table>';
 	print '</div>';
+}
 }
 
 ?>
