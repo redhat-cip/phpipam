@@ -33,6 +33,7 @@ CREATE TABLE `switches` (
   `model` varchar(124) DEFAULT NULL,
   `version` varchar(128) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
+  `sections` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hostname` (`hostname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

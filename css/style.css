@@ -1635,6 +1635,15 @@ div.switchSections {
 	-webkit-border-radius: 	4px;
 	-moz-border-radius: 	4px;
 	border-radius: 			4px;
+
+	background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255, 255, 255, 0)), color-stop(100%,rgba(255, 255, 255, 0.9)));
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%,rgba(255, 255, 255, 0.9) 100%);
+	background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%,rgba(255, 255, 255, 0.9) 100%);
+	background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%,rgba(255, 255, 255, 0.9) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e6ffffff',GradientType=0 );
+	background: linear-gradient(top, rgba(255, 255, 255, 0) 0%,rgba(255, 255, 255, 0.9) 100%);
+
 }
 
 
