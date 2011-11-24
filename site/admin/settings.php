@@ -96,18 +96,16 @@ $settings = getAllSettings();
 </tr>
 
 <!-- Domain auth -->
-<!--
 <tr>
 	<td class="title">Domain auth</td>
 	<td>
-		<input type="checkbox" value="1" name="domainAuth" <?php /* if($settings['domainAuth'] == 1) print 'checked'; */ ?>>
+		<input type="checkbox" value="1" name="domainAuth" <?php if($settings['domainAuth'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
 		Use domain authentication for users.<br>
-		Please set settings in functions/adLDAP/src/asLDAP.php<br>
+		Please set settings in functions/adLDAP/src/adLDAP.php<br>
 	</td>
 </tr>
--->
 
 <!-- Tooltips -->
 <tr>

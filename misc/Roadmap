@@ -2,8 +2,8 @@ features for next releases
 
 	
 	Planned
-		- VRF support			https://sourceforge.net/tracker/?func=detail&aid=3410556&group_id=555701&atid=2254863
 		- domain authentication;
+		- selectable fields (mac, switch, port, ...)
 	
 	SF requests
 		- sorting				https://sourceforge.net/tracker/?func=detail&aid=3435991&group_id=555701&atid=2254863
@@ -15,8 +15,6 @@ features for next releases
 	
 	Optional
 		- better exception handling (functions);
-		- User-defined IP address fields;
-		- User-defined subnet fields;
 		- Overlapping subnets option in config files;
 		- RDNS zone file export (in admin!)
 		- IPv6 migration guide document

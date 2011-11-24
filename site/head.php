@@ -9,6 +9,7 @@
 	<meta name="title" content="<?php print $settings['siteTitle']; ?>"> 
 	<meta name="robots" content="noindex, nofollow"> 
 	<meta http-equiv="X-UA-Compatible" content="IE=9" >
+	<meta name="viewport" content="width=1024, initial-scale=1, user-scalable=yes">
 	
 	<!-- chrome frame support -->
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
