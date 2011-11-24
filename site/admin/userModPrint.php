@@ -35,7 +35,7 @@ else {
 
 <div class="normalTable userMod">
 
-<form id="userMod">
+<form id="userMod" name="userMod">
 
 <table class="userMod normalTable">
 
@@ -108,15 +108,34 @@ else {
     	<li>Administrator is almighty</li>
     	<li>Operator can view/edit IP addresses (cannot add section, subnets, modify server settings etc)</li>
     	<li>Viewer can only view IP addresses</li>
+    </ul>
     </td>  
 </tr>
+
+<!-- type -->
+<tr>
+    <td>User Type</td> 
+    <td>
+        <select name="domainUser">
+            <option value="0" <?php if ($user['domainUser'] == "0") print "selected"; ?>>Local user</option>
+            <option value="1" <?php if ($user['domainUser'] == "1") print "selected"; ?>>Domain user</option> 
+        </select>
+    </td> 
+    <td class="info">Set user type
+    <ul>
+    	<li>Local authenticates here</li>
+    	<li>Domain authenticates on AD, but still needs to be setup here for permissions etc.</li>
+    </ul>
+    </td>  
+</tr>
+
 
 <!-- Submit and hidden values -->
 <tr class="th">
     <td></td> 
     <td class="submit">
-        <input type="hidden" name="id"     value="<?php print $user['id']; ?>">
-        <input type="hidden" name="action" value="<?php print $action;     ?>">
+        <input type="hidden" name="userId" value="<?php if(isset($user['id'])) { print $user['id']; } ?>">
+        <input type="hidden" name="action" value="<?php print $action; ?>">
         
         <input type="submit" value="<?php print $action; ?> User">
     </td>   

@@ -28,6 +28,7 @@ $users = getAllUsers();
     <th>Username</th>
     <th>E-mail</th>
     <th>Role</th>
+    <th>Type</th>
     <th colspan=2></th>
 </tr>
 
@@ -35,6 +36,7 @@ $users = getAllUsers();
 /* print existing sections */
 foreach ($users as $user)
 {
+
 	print '<tr>' . "\n";
 	
 	//set icon based on normal user or admin
@@ -49,6 +51,15 @@ foreach ($users as $user)
 	print '	<td>' . $user['username']  . '</td>'. "\n";
 	print '	<td>' . $user['email']     . '</td>'. "\n";
 	print '	<td>' . $user['role']      . '</td>'. "\n";
+	
+	//local or ldap?
+	if($user['domainUser'] == 0) {
+	print '	<td>Local</td>'. "\n";
+	}
+	else {
+	print '	<td>Domain</td>'. "\n";
+	}
+	
 	print '	<td class="edit"><img src="css/images/edit.png"   class="Edit"   id="' . $user['id'] . '" title="Edit user '. $user['username'] .'"></td>'. "\n";
 	print '	<td class="edit"><img src="css/images/deleteIP.png" class="Delete" id="' . $user['id'] . '" title="Delete user '. $user['username'] .'"></td>'. "\n";
 	print '</tr>' . "\n";

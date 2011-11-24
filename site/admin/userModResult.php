@@ -10,6 +10,7 @@ require_once('../../functions/functions.php');
 /* verify that user is admin */
 checkAdmin();
  
+ 
 
 /**
  * First get posted variables
@@ -36,7 +37,7 @@ else if ($userModDetails['action'] == "Edit") {
     $errors = verifyUserModInput($userModDetails);
 }
 else if ($userModDetails['action'] == "Delete") {
-    if (!deleteUserById($userModDetails['id'], $userModDetails['username'])) {
+    if (!deleteUserById($userModDetails['userId'], $userModDetails['username'])) {
         print '<div class="error>Cannot delete user '. $userModDetails['username'] .'!</div>"';
     }
     else {

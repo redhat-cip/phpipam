@@ -893,7 +893,6 @@ add, edit, delete users
 /*	Add new user form
 **********************/
 $('form#userMod').live('submit', function () {
-
     loginData = $(this).serialize();
     
     $.post('site/admin/userModResult.php', loginData, function(data) {

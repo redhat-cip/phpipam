@@ -1580,12 +1580,14 @@ function verifyUserModInput ($userModDetails)
     if ($userModDetails['password1'] != $userModDetails['password2']) {
         $errors[] = "Passwords do not match!";
     }
-    //pass must be at least 8 chars long
-    if ((strlen($userModDetails['password1']) < 8 ) && (strlen($userModDetails['password1']) != 0)) {
-        $errors[] = "Password must be at least 8 characters long!";
-    }
-    else if (($userModDetails['action'] == "Add") && (strlen($userModDetails['password1']) < 8 )) {
-        $errors[] = "Password must be at least 8 characters long!";    
+    //pass must be at least 8 chars long for non-domain users
+    if($userModDetails['domainUser'] != 1 ) { 
+    	if ((strlen($userModDetails['password1']) < 8 ) && (strlen($userModDetails['password1']) != 0)) {
+    	    $errors[] = "Password must be at least 8 characters long!";
+    	}
+    	else if (($userModDetails['action'] == "Add") && (strlen($userModDetails['password1']) < 8 )) {
+        	$errors[] = "Password must be at least 8 characters long!";    
+    	}
     }
     
     //email format must be valid
@@ -1643,11 +1645,12 @@ function updateUserById ($userModDetails) {
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
 
     /* set query */
-    if (empty($userModDetails['id'])) {
+    if (empty($userModDetails['userId'])) {
         $query  = 'insert into users ' . "\n";
-        $query .= '(`username`, `password`, `role`, `real_name`, `email`) '. "\n"; 
+        $query .= '(`username`, `password`, `role`, `real_name`, `email`, `domainUser`) '. "\n"; 
         $query .= 'values '. "\n"; 
-        $query .= '("'. $userModDetails['username'] .'", "'. $userModDetails['password1'] .'", "'. $userModDetails['role'] .'", "'. $userModDetails['real_name'] .'", "'. $userModDetails['email'] .'" );';
+        $query .= '("'. $userModDetails['username'] .'", "'. $userModDetails['password1'] .'", "'. $userModDetails['role'] .'", '. "\n";
+        $query .= ' "'. $userModDetails['real_name'] .'", "'. $userModDetails['email'] .'", "'. $userModDetails['domainUser'] .'" );';
     }
     else {
         $query  = 'update users set '. "\n"; 
@@ -1657,8 +1660,9 @@ function updateUserById ($userModDetails) {
         }
         $query .= '`role`     = "'. $userModDetails['role'] .'", '. "\n"; 
         $query .= '`real_name`= "'. $userModDetails['real_name'] .'", '. "\n"; 
-        $query .= '`email`    = "'. $userModDetails['email'] .'" '. "\n"; 
-        $query .= 'where id   = "'. $userModDetails['id'] .'";';
+        $query .= '`email`    = "'. $userModDetails['email'] .'", '. "\n"; 
+        $query .= '`domainUser`= "'. $userModDetails['domainUser'] .'" '. "\n"; 
+        $query .= 'where id   = "'. $userModDetails['userId'] .'";';
     }
     
     /* set log file */
