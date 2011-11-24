@@ -78,6 +78,32 @@ else 								{ $readonly = ""; }
 	</td>
 </tr>
 
+<!-- Sections -->
+<tr>
+	<td colspan="2">Sections to display switch in:</td>
+</tr>
+<tr>
+	<td></td>
+	<td>
+		<?php
+		$sections = fetchSections();
+		
+		/* reformat switch sections */ 
+		$switchSections = reformatSwitchSections($switch['sections']);
+		
+		foreach($sections as $section) {
+		
+			if(in_array($section['id'], $switchSections)) {
+				print '<input type="checkbox" name="section-'. $section['id'] .'" value="on" checked>'. $section['name'] .'<br>'. "\n";			
+			}
+			else {
+				print '<input type="checkbox" name="section-'. $section['id'] .'" value="on">'. $section['name'] .'<br>'. "\n";
+			}
+		}
+		?>
+	</td>
+</tr>
+
 <!-- submit -->
 <tr>
 	<td></td>

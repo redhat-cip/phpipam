@@ -2271,14 +2271,15 @@ function updateSwitchDetails($switch)
     /* set querry based on action */
     if($switch['action'] == "add") {
     	$query  = 'insert into `switches` '. "\n";
-    	$query .= '(`hostname`,`ip_addr`,`vendor`,`model`,`version`,`description`) values '. "\n";
+    	$query .= '(`hostname`,`ip_addr`,`vendor`,`model`,`version`,`description`,`sections`) values '. "\n";
    		$query .= '("'. $switch['hostname'] .'", "'. $switch['ip_addr'] .'", "'. $switch['vendor'] .'", '. "\n";
-   		$query .= ' "'. $switch['model'] .'", "'. $switch['version'] .'", "'. $switch['description'] .'" );'. "\n";
+   		$query .= ' "'. $switch['model'] .'", "'. $switch['version'] .'", "'. $switch['description'] .'", "'. $switch['sections'] .'" );'. "\n";
     }
     else if($switch['action'] == "edit") {
     	$query  = 'update `switches` set '. "\n";    
     	$query .= '`hostname` = "'. $switch['hostname'] .'", `ip_addr` = "'. $switch['ip_addr'] .'", `vendor` = "'. $switch['vendor'] .'", '. "\n";    
-    	$query .= '`model` = "'. $switch['model'] .'", `version` = "'. $switch['version'] .'", `description` = "'. $switch['description'] .'" '. "\n";    
+    	$query .= '`model` = "'. $switch['model'] .'", `version` = "'. $switch['version'] .'", `description` = "'. $switch['description'] .'", '. "\n";    
+    	$query .= '`sections` = "'. $switch['sections'] .'" '. "\n"; 
     	$query .= 'where `id` = "'. $switch['switchId'] .'";'. "\n";    
     }
     else if($switch['action'] == "delete") {
@@ -2295,6 +2296,37 @@ function updateSwitchDetails($switch)
     else {
     	return false;
     }
+}
+
+
+/**
+ * reformat sections!
+ *		sections are separated with ;
+ */
+function reformatSwitchSections ($sections) {
+
+	if(sizeof($sections != 0)) {
+	
+		//first reformat
+		$temp = explode(";", $sections);
+
+		foreach($temp as $section) {
+			//we have sectionId, so get its name
+			$out = getSectionDetailsById($section);
+			$out = $out['name'];
+			
+			//format output
+			$result[$out] = $section;
+		}
+	}
+	
+	//return result if it exists
+	if($result) {
+		return $result;
+	}
+	else {
+		return false;
+	}
 }
 
 

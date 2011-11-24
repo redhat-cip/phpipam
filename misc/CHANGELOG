@@ -4,6 +4,7 @@
 	-------------
 	+ Importing subnets from RIPE by AS in admin section;
 	+ Added switch management and changed switch logic;
+	+ Added VRF support;
 
 	Bugfixes / enhancements:
 	------------------------

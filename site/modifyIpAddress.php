@@ -21,6 +21,7 @@ $id      = $_REQUEST['id'];
 
 /* set subnet -> for adding new only */
 $subnet = getSubnetDetailsById($subnetId);
+$subnet2 = $subnet;
 $subnet = transform2long($subnet['subnet']) . "/" . $subnet['mask'];
 
 /* verify that subnet is not write-protected */
@@ -68,7 +69,7 @@ else {
 ?>
 
 <!-- autocomplete -->
-<link type="text/css" href="css/ui-darkness/jquery-ui-1.8.14.custom.css" rel="stylesheet">	
+<link type="text/css" href="css/jquery-ui-1.8.14.custom.css" rel="stylesheet">	
 <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
 <script>
 $(function() {
@@ -76,8 +77,20 @@ $(function() {
 	var switches = [
 		<?php 
 		$allSwitches = getAllUniqueSwitches ();
+		
 		foreach ($allSwitches as $switch) {
-			print '"'. $switch['hostname'] .'", ';
+			//get switch details
+			$switchTemp = getSwitchDetailsByHostname($switch['hostname']); 
+			//only show ones in this section!
+			$temp = explode(";", $switchTemp['sections']);
+			
+			foreach($temp as $line) {
+			
+				if($line == $subnet2['sectionId']) {
+					print '"'. $switch['hostname'] .'", ';	
+				}
+			
+			}
 		}
 		?>
 	];

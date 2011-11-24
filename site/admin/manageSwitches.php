@@ -30,6 +30,7 @@ $switches = getAllUniqueSwitches();
 	<th>Model</th>
 	<th>SW version</th>
 	<th>Description</th>
+	<th>Sections</th>
 	<th></th>
 </tr>
 
@@ -40,7 +41,7 @@ $switches = getAllUniqueSwitches();
 /* first check if they exist! */
 if(sizeof($switches) == 0) {
 	print '<tr class="th">'. "\n";
-	print '	<td colspan="7">No switches configured!</td>'. "\n";
+	print '	<td colspan="8">No switches configured!</td>'. "\n";
 	print '</tr>'. "\n";
 }
 /* Print them out */
@@ -59,6 +60,17 @@ else {
 	print '	<td>'. $switchDetails['model'] .'</td>'. "\n";
 	print '	<td>'. $switchDetails['version'] .'</td>'. "\n";
 	print '	<td class="description">'. $switchDetails['description'] .'</td>'. "\n";
+	
+	//sections
+	print '	<td class="sections">';
+		$temp = explode(";",$switchDetails['sections']);
+		foreach($temp as $line) {
+			$section = getSectionDetailsById($line);
+			print '<div class="switchSections">'. $section['name'] .'</div>'. "\n";
+		}
+	
+	print '	</td>'. "\n";
+	
 	print '	<td class="actions">'. "\n";
 	print '		<img src="css/images/edit.png" class="edit" switchId="'. $switchDetails['id'] .'" title="Edit switch details">'. "\n";
 	print '		<img src="css/images/deleteIP.png" class="delete" switchId="'. $switchDetails['id'] .'" title="Delete switch">'. "\n";
@@ -72,7 +84,7 @@ else {
 
 <!-- add new -->
 <tr class="add">
-	<td colspan="7" class="info">
+	<td colspan="8" class="info">
 	<img src="css/images/add.png" class="add" title="Add new switch">
 	Add new switch
 	</td>

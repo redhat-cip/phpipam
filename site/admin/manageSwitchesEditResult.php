@@ -10,9 +10,24 @@ require_once('../../functions/functions.php');
 /* verify that user is admin */
 if (!checkAdmin()) die('');
 
-
 /* get modified details */
 $switch = $_POST;
+
+
+/* available switches */
+foreach($switch as $key=>$line) {
+	if (strlen(strstr($key,"section-"))>0) {
+		$key2 = str_replace("section-", "", $key);
+		$temp[] = $key2;
+		
+		unset($switch[$key]);
+	}
+}
+/* glue sections together */
+$switch['sections'] = implode(";", $temp);
+
+
+
 
 /* if we edit hostname we must also update all hosts! */
 if($switch['action'] == "edit") {

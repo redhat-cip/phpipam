@@ -1625,6 +1625,18 @@ form#switchManagementEdit textarea {
 	-moz-border-radius: 	4px;
 	border-radius: 			4px;
 }
+div.switchSections {
+	border: 1px solid white;
+	margin: 2px;
+	padding: 2px 5px;
+	
+	white-space: nowrap;
+
+	-webkit-border-radius: 	4px;
+	-moz-border-radius: 	4px;
+	border-radius: 			4px;
+}
+
 
 
 /* VRF management */
