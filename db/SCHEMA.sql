@@ -34,7 +34,7 @@ LOCK TABLES `settings` WRITE;
 
 INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableDNSresolving`, `version`)
 VALUES
-	(1,'phpipam IP address management (v0.4)','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.4');
+	(1,'phpipam IP address management (v0.5)','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.5');
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;

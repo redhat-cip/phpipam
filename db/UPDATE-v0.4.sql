@@ -39,3 +39,6 @@ ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 
 /* Add enableVRF to settings */
 ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
+
+/* UPDATE version */
+UPDATE `settings` set `version` = '0.5';

@@ -13,7 +13,7 @@ ALTER TABLE `settings` ADD `donate` tinyint(1) DEFAULT 0;
 ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
 
 /* Add version */
-UPDATE `settings` set `version` = '0.4' where `id` = '1';
+UPDATE `settings` set `version` = '0.5';
 
 /* Reset donations */
 UPDATE `settings` set `donate` = '0'; 
