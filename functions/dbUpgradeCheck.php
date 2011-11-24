@@ -33,7 +33,7 @@ require_once('config.php');
 require_once('functions.php');
 
 /* set latest version */
-$latest = "0.4";
+$latest = "0.5";
 
 /* get all site settings */
 $settings = getAllSettings();
@@ -56,7 +56,7 @@ if($settings['version'] != $latest) {
 		$version = "0.2";
 	}
 	/* v0.3 check -> subnets have admin lock and and requests */
-	else if ( (!fieldExists("subnets", "allowRequests2")) || (!fieldExists("subnets", "adminLock")) ) {
+	else if ( (!fieldExists("subnets", "allowRequests")) || (!fieldExists("subnets", "adminLock")) ) {
 		$version = "0.3";	
 	}
 	/* v0.4 check -> table switches does not exist yet */

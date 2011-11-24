@@ -32,7 +32,7 @@ require_once('../config.php');
 require_once('loginFunctions.php');
 
 /* set latest version */
-$latest = "0.4";
+$latest = "0.5";
 
 /* get all site settings */
 $settings = getAllSettings();
@@ -131,12 +131,12 @@ if($settings['version'] != $latest) {
 		print '</div>';
 		die();
 	}
-	/* Check if all the tables are present! */
+	/* Check if all the tables are present! */	
 	else {
 		$tables 	= getAllTables();
 
 		/* required tables */
-		$requiredTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "subnets", "users");
+		$requiredTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "subnets", "users"/* , "switches", "vrf" */);
 
 		/* reformat available tables */
 		foreach ($tables as $table) {

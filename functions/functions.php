@@ -2330,6 +2330,31 @@ function reformatSwitchSections ($sections) {
 }
 
 
+/**
+ * Since 0.5 the switch management changed, so if upgrading from old version
+ * we must get all existing switch names and insert it to switch table!
+ */
+function updateSwitchFromOldVersions() 
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all existing switches */
+    $query 	  = 'select distinct(`switch`) from `ipaddresses` where `switch` not like "";';
+    $switches = $database->getArray($query); 
+        
+    /* import each to database */
+    foreach($switches as $switch) {
+    	$query 	  = 'insert into `switches` (`hostname`) values ("'. $switch['switch'] .'");';
+    	$database->executeQuery($query);
+    }
+    
+    return true;
+}
+
+
+
 
 /**
  * Update log table
