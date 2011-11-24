@@ -64,9 +64,11 @@ else {
 	//sections
 	print '	<td class="sections">';
 		$temp = explode(";",$switchDetails['sections']);
+		if( (sizeof($temp) > 0) && (!empty($temp[0])) ) {
 		foreach($temp as $line) {
 			$section = getSectionDetailsById($line);
 			print '<div class="switchSections">'. $section['name'] .'</div>'. "\n";
+		}
 		}
 	
 	print '	</td>'. "\n";

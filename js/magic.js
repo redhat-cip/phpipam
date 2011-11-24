@@ -1313,11 +1313,15 @@ $('form#userModSelf').live('submit', function () {
 /*	AS import
 ****************************/
 $('form#ripeImport').live('submit', function() {
+
+	showSpinner();
 	
 	var as = $(this).serialize();
 	
     $.post('site/admin/ripeImportTelnet.php', as, function(data) {
         $('div.ripeImportTelnet').html(data).fadeIn('fast');
+        
+        hideSpinner();
     });
 	
 
