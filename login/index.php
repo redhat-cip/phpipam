@@ -58,6 +58,16 @@ session_destroy();
 
 <body>
 
+
+
+
+
+
+
+
+
+
+
 	<?php
 	/* check if database needs upgrade */
 	include('../functions/dbInstallCheck.php');

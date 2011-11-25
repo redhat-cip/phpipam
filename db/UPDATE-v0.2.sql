@@ -5,17 +5,21 @@ Update from v 0.2 to 0.5
 /* Add note field to ipaddresses table */
 ALTER TABLE `ipaddresses` ADD `note` text;
 
+
 /* Add masterSubnetId, allowRequests and adminLock fields to subnets table */
 ALTER TABLE `subnets` ADD `masterSubnetId` varchar(32) DEFAULT NULL;
 ALTER TABLE `subnets` ADD `allowRequests` tinyint(1) DEFAULT '0';
 ALTER TABLE `subnets` ADD `adminLock` binary(1) DEFAULT '0';
 ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 
+
 /* Add domain auth option field to users table */
 ALTER TABLE `users` ADD `domainUser` binary(1) DEFAULT '0';
 
+
 /* Expand logs table */
 ALTER TABLE `logs` ADD `details` varchar(1024) DEFAULT '0';
+
 
 /* create table requests */
 CREATE TABLE `requests` (
@@ -54,6 +58,7 @@ CREATE TABLE `settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+
 /* populate default requests */
 LOCK TABLES `settings` WRITE;
 INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableDNSresolving`, `version`)
@@ -90,4 +95,20 @@ CREATE TABLE `vrf` (
   `rd` varchar(32) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`vrfId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+# Dump of table settingsDomain
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `settingsDomain`;
+
+CREATE TABLE `settingsDomain` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `account_suffix` varchar(256) DEFAULT '@domain.local',
+  `base_dn` varchar(256) DEFAULT 'CN=Users,CN=Company,DC=domain,DC=local',
+  `domain_controllers` varchar(256) DEFAULT 'dc1.domain.local;dc2.domain.local',
+  `use_ssl` tinyint(1) DEFAULT '0',
+  `use_tls` tinyint(1) DEFAULT '0',
+  `ad_port` int(5) DEFAULT '389',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

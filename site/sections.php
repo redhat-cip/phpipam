@@ -57,7 +57,12 @@ print '</table>' ."\n";
 
 
 /* tools menu dropdown */
+if(!checkAdmin(false)) { 
+print '<div class="toolsMenuDropdown" style="right:0px">'. "\n";		//fix for non-admin display of tools
+}
+else {
 print '<div class="toolsMenuDropdown">'. "\n";
+}
 print '	<dd section="tools" id="ipCalc">IP calculator</dd>';
 print '	<dd section="tools" id="switches">Switches</dd>';
 

@@ -34,6 +34,22 @@ CREATE TABLE `vrf` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+# Dump of table settingsDomain
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `settingsDomain`;
+
+CREATE TABLE `settingsDomain` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `account_suffix` varchar(256) DEFAULT '@domain.local',
+  `base_dn` varchar(256) DEFAULT 'CN=Users,CN=Company,DC=domain,DC=local',
+  `domain_controllers` varchar(256) DEFAULT 'dc1.domain.local;dc2.domain.local',
+  `use_ssl` tinyint(1) DEFAULT '0',
+  `use_tls` tinyint(1) DEFAULT '0',
+  `ad_port` int(5) DEFAULT '389',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 /* Add vrf to subnets */
 ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 

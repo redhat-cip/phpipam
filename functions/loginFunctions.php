@@ -135,6 +135,49 @@ function getAllSettings()
 
 
 /**
+ * Get Domain settings for authentication
+ */
+function getADSettings()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass']); 
+
+    /* Check connection */
+    if ($database->connect_error) {
+    	die('Connect Error (' . $database->connect_errno . '): '. $database->connect_error);
+	}
+	
+    /* first check if table settings exists */
+    $query    = 'SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = "'. $db['name'] .'" AND table_name = "settingsDomain";';
+    $count	  = $database->getArray($query); 
+  
+	/* return true if it exists */
+	if($count[0]['count'] == 1) {
+
+		/* select database */
+		$database->selectDatabase($db['name']);
+	
+	    /* first update request */
+	    $query    = 'select * from `settingsDomain` limit 1;';
+	    $settings = $database->getArray($query); 
+	    
+	    /* reformat DC */
+  		$dc = str_replace(" ", "", $settings[0]['domain_controllers']);
+  		$dcTemp = explode(";", $dc);
+  		$settings[0]['domain_controllers'] = $dcTemp;
+  		  
+		/* return settings */
+		return($settings[0]);
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+/**
  * Login authentication
  *
  * First we try to authenticate via local database
@@ -183,26 +226,65 @@ function checkLogin ($username, $md5password, $rawpassword)
 }
 
 
+
 /**
  * Check user against AD
  */
 function checkADLogin ($username, $password)
 {
-	//include login script
-	require_once('adLDAP/src/adLDAP.php');
-	$adldap = new adLDAP();
+	/* first checked if it is defined in database - username and ad option */
+    /* get variables from config file */
+    global $db;
+/*     global $ad; */
+    
+    /* check if user exists in local database */
+    $database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
+    $query 		= 'select count(*) as count from users where `username` = binary "'. $username .'" and `domainUser` = "1";';
+    
+    /* fetch results */
+    $result  	= $database->getArray($query); 
 
-	//user authentication
-	$authUser = $adldap->authenticate($username, $password);
+    /* close database connection */
+    $database->close();
+
+
+    
+    /* if yes try with AD */
+    if($result[0]['count'] == 1) {
+
+		//include login script
+		include (dirname(__FILE__) . "/adLDAP/src/adLDAP.php");
 	
-	if($authUser == true) { 
-		return true; 
-		updateLogTable ('User '. $username .' authenticated via AD.', "", 2);
-	}
-	else { 
-		return false; 
-		updateLogTable ('User '. $username .' failed to authenticate via AD.', "", 2);
-	}
+		//open connection
+		try {
+			//get settings for connection
+			$ad = getADSettings();
+			
+	    	$adldap = new adLDAP(array( 'base_dn'=>$ad['base_dn'], 'account_suffix'=>$ad['account_suffix'], 
+	    								'domain_controllers'=>$ad['domain_controllers'], 'use_ssl'=>$ad['use_ssl'],
+	    								'use_tls'=> $ad['use_tls'], 'ad_port'=> $ad['ad_port']
+	    								));
+		}
+		catch (adLDAPException $e) {
+			die('<div class="error">'. $e .'</div>');
+		}
+
+		//user authentication
+		$authUser = $adldap->authenticate($username, $password);
+		
+		if($authUser == true) { 
+			return 'ok'; 
+			updateLogTable ('User '. $username .' authenticated via AD.', "", 2);
+		}
+		else { 
+			return 'Failed to authenticate user via AD!'; 
+			updateLogTable ('User '. $username .' failed to authenticate via AD.', "", 2);
+		}
+    }
+    //user not defined as AD user or user not existing
+    else {
+    	return false;
+    }
 }
 
 
