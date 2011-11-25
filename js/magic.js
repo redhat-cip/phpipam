@@ -1147,7 +1147,41 @@ $('form#vrfManagementEdit').live('submit', function() {
 });
 
 
+/*	Edit AD settings
+********************************/
+$('form#ad').live('submit', function() {
+	showSpinner();
 
+	var addata = $(this).serialize();
+
+	$.post('site/admin/manageADresult.php', addata, function(data) {
+		$('div.manageADresult').html(data).slideDown('fast');
+
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("manageAD"); parameter = null;}, reloadTimeout);
+        }
+        else {
+        	hideSpinner();
+        }
+	});
+
+	return false;
+});
+/*	check AD settings
+********************************/
+$('#checkAD').live('click', function() {
+	showSpinner();
+
+	var addata = $('form#ad').serialize();
+
+	$.post('site/admin/manageADcheck.php', addata, function(data) {
+		$('div.manageADresult').html(data).slideDown('fast');
+        	hideSpinner();
+	});
+
+	return false;
+});
 
 
 

@@ -1403,6 +1403,20 @@ table.manageRequestEdit input[type=button]:hover {
 	text-shadow: 1px 1px 1px black;	
 }
 
+/*  */
+table.ad td.info {
+	white-space: normal;
+}
+form#ad table.ad td.base_dn input[type=text] {
+	width: 500px;
+}
+form#ad table.ad td.port input[type=text] {
+	width: 50px;
+}
+form#ad input[type=text] {
+	width: 300px;
+}
+
 
 
 /*******************

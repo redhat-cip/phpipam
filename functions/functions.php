@@ -3035,6 +3035,63 @@ function updateSettings($settings)
 }
 
 
+
+/**
+ * Get Domain settings for authentication
+ */
+function getADSettings()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+
+    /* Check connection */
+    if ($database->connect_error) {
+    	die('Connect Error (' . $database->connect_errno . '): '. $database->connect_error);
+	}
+	
+	/* first update request */
+	$query    = 'select * from `settingsDomain` limit 1;';
+	$settings = $database->getArray($query); 
+  		  
+	/* return settings */
+	if($settings) {
+		return($settings[0]);
+	}
+	else {
+		return false;
+	}
+}
+
+
+/**
+ * Get Domain settings for authentication
+ */
+function updateADsettings($ad)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+
+    /* Check connection */
+    if ($database->connect_error) {
+    	die('Connect Error (' . $database->connect_errno . '): '. $database->connect_error);
+	}
+	
+    /* set query and update */
+    $query    = 'update `settingsDomain` set '. "\n";
+    $query   .= '`domain_controllers` = "'. $ad['domain_controllers'] .'", `base_dn` = "'. $ad['base_dn'] .'", `account_suffix` = "'. $ad['account_suffix'] .'", '. "\n";
+    $query   .= '`use_ssl` = "'. $ad['use_ssl'] .'", `use_tls` = "'. $ad['use_tls'] .'", `ad_port` = "'. $ad['ad_port'] .'"; '. "\n";
+    
+    if(!$database->executeQuery($query)) {
+    	return false;
+    }
+    else {
+    	return true;
+    }
+}
+
+
 /**
  * Check if subnet is admin-locked
  */

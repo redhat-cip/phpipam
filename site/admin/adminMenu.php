@@ -22,6 +22,16 @@ $settings = getAllSettings();
         <td link="Administration|settings">Server management</td>
     </tr>
 
+   <!-- Domain settings -->
+    <?php
+    /* show domain settings if enabled in config!  */
+    if($settings['domainAuth'] == 1) {    
+   		print '<tr id="manageAD" class="manageAD">'. "\n";
+        print '<td link="Administration|manageAD">AD settings</td>'. "\n";
+    	print '</tr>'. "\n";
+    }
+    ?>
+
     <!-- edit instructions -->
     <tr id="instructions" class="instructions">
         <td link="Administration|instructions">Edit instructions</td>
