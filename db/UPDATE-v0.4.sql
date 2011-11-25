@@ -49,6 +49,9 @@ CREATE TABLE `settingsDomain` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+insert into `settingsDomain` (`account_suffix`, `base_dn`, `domain_controllers`, `use_ssl`, `use_tls`, `ad_port` )
+values ("@domain.local", "CN=Users,CN=Company,DC=domain,DC=local", "dc1.domain.local;dc2.domain.local", "0", "0", "389");
+
 
 /* Add vrf to subnets */
 ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
