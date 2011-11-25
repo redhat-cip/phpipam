@@ -15,6 +15,10 @@ ALTER TABLE `settings` ADD `donate` tinyint(1) DEFAULT 0;
 ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
 
 
+/* add mac to address table */
+ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
+
+
 /* Add version */
 UPDATE `settings` set `version` = '0.5';
 

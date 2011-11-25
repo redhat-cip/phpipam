@@ -4,6 +4,7 @@ Update from v 0.2 to 0.5
 
 /* Add note field to ipaddresses table */
 ALTER TABLE `ipaddresses` ADD `note` text;
+ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
 
 
 /* Add masterSubnetId, allowRequests and adminLock fields to subnets table */

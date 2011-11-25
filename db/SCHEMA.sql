@@ -138,6 +138,7 @@ CREATE TABLE `ipaddresses` (
   `ip_addr` varchar(100) NOT NULL,
   `description` varchar(64) DEFAULT NULL,
   `dns_name` varchar(32) NOT NULL,
+  `mac` varchar(20) DEFAULT NULL,
   `owner` varchar(32) DEFAULT NULL,
   `state` varchar(1) DEFAULT '1',
   `switch` varchar(32) DEFAULT NULL,

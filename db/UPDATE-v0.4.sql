@@ -57,5 +57,8 @@ ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
 ALTER TABLE `settings` ADD `donate` tinyint(1) DEFAULT 0;
 
+/* add mac to ipaddresses */
+ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
+
 /* UPDATE version */
 UPDATE `settings` set `version` = '0.5';
