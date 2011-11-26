@@ -102,8 +102,8 @@ $settings = getAllSettings();
 		<input type="checkbox" value="1" name="domainAuth" <?php if($settings['domainAuth'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-		Use domain authentication for users.<br>
-		Please set settings in functions/adLDAP/src/adLDAP.php<br>
+		Use domain authentication for users. Requires php LDAP support.<br>
+		Set connection settings in admin menu.<br>
 	</td>
 </tr>
 

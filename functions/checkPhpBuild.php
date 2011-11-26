@@ -26,7 +26,7 @@ else{
 
 
 /* Required extensions */
-$requiredExt  = array("session", "mysqli", "gmp");
+$requiredExt  = array("session", "mysqli", "gmp", "ldap");
 
 /* Available extensions */
 $availableExt = get_loaded_extensions();

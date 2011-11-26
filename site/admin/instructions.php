@@ -32,7 +32,7 @@ if($rowcount < 22) {
 <form name="instructions" id="instructions">
 
 	<!-- instructions -->
-	<textarea name="instructions" id="instructions" rows="<?php print $rowcount; ?>"><?php print $instructions[0]['instructions']; ?></textarea>
+	<textarea name="instructions" id="instructions" rows="<?php print $rowcount; ?>"><?php print stripslashes($instructions[0]['instructions']); ?></textarea>
 	
 	<!-- preview, submit -->
 	<br>

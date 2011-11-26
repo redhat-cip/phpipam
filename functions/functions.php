@@ -2606,8 +2606,10 @@ function writeInstructions ($instructions)
     global $db;
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
+	$instructions = $database->real_escape_string($instructions);	//this hides code
+	
 	/* execute query */
-	$query 			= "update `instructions` set `instructions` = '". $instructions ."' where id = 1;";
+	$query 			= "update `instructions` set `instructions` = '". $instructions ."';";
     
   	/* update database */
    	if ( !$database->executeQuery($query) ) {

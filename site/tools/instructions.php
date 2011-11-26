@@ -13,6 +13,7 @@ $instructions = $instructions[0]['instructions'];
 
 /* format line breaks */
 $instructions = str_replace("\n\r", "<br>", $instructions);
+$instructions = stripslashes($instructions);		//show html
 
 ?>
 
