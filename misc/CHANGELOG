@@ -19,6 +19,7 @@
 	+ Fixed errors with viewing / modifying IP addresses for Operator users;
 	+ Fixed session cookie error on hosts; 
 	+ Fixed error when saving settings;
+	+ Fixed instructions errors when inserting html code
 		
 
 == 0.4
