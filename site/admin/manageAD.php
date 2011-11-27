@@ -24,6 +24,18 @@ First create new user under user management with <u>same username as on AD</u> a
 
 <h3>adLDAP Settings</h3>
 
+
+<!-- check for ldap support in php! -->
+<?php
+/* Available extensions */
+$availableExt = get_loaded_extensions();
+/* check if ldap exists */
+if (!in_array("ldap", $availableExt)) {
+	print '<div class="error">ldap support not enabled in php!</div>';
+}
+
+?>
+
 <div class="normalTable ad">
 <form id="ad">
 <table class="normalTable ad">
