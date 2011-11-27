@@ -54,5 +54,14 @@
 		</ul>
 	
 	</li>
+	<br>
+
+	<!-- MAC address-->
+	<li><b>MAC search tips</b>
+		<ul>
+			<li>You can search by MAC address list entering MAC in 00:1cd:d4:78:ec:46 or 001dd478ec46 format, or search multiple with 00:1c:c4:</li>
+		</ul>
+	
+	</li>
 
 </ul>

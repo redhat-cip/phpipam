@@ -160,10 +160,21 @@ $(function() {
 			<input type="text" name="dns_name" value="<?php if(isset($details['dns_name'])) { print $details['dns_name'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
 			>
-		<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
+			<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
 		</td>
 	</tr>
 
+
+	<!-- MAC address -->
+	<tr>
+		<td>MAC address
+		</td>
+		<td>
+			<input type="text" name="mac" value="<?php if(isset($details['mac'])) { print $details['mac'];} ?>" size="30" 
+			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
+			>
+		</td>
+	</tr>
 
 	<!-- owner -->
 	<tr>
@@ -192,7 +203,7 @@ $(function() {
 	<tr class="note">
 		<td>Note</td>
 		<td class="note">
-			<textarea name="note" cols="22" rows="2"><?php if(isset($details['note'])) { print $details['note']; } ?></textarea>
+			<textarea name="note" cols="23" rows="2"><?php if(isset($details['note'])) { print $details['note']; } ?></textarea>
 		</td>
 	</tr>
 

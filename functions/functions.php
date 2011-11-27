@@ -920,9 +920,11 @@ function SetInsertQuery( $ip )
 	if( $ip['action'] == "Add" ) 
 	{
 		$query  = "insert into ipaddresses ";
-		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`, `owner`, `state`, `switch`, `port`, `note`) ";
+		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note`) ";
 		$query .= "values ";
-		$query .= "('". $ip['subnetId'] ."', '". $ip['description'] ."', '". Transform2decimal( $ip['ip_addr'] ) ."', '". $ip['dns_name'] ."', '". $ip['owner'] ."', '". $ip['state'] ."', '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."');";
+		$query .= "('". $ip['subnetId'] ."', '". $ip['description'] ."', '". Transform2decimal( $ip['ip_addr'] ) ."', ". "\n"; 
+		$query .= " '". $ip['dns_name'] ."', '". $ip['mac'] ."', '". $ip['owner'] ."', '". $ip['state'] ."', ". "\n";
+		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."');";
 	}
 	/* edit multiple */
 	else if( ($ip['action'] == "Edit") && ($ip['type'] == "series") ) 
@@ -930,6 +932,7 @@ function SetInsertQuery( $ip )
 		$query  = "update ipaddresses ";
 		$query .= "set `description` = '". $ip['description'] ."', ";
 		$query .= "`dns_name` = '". $ip['dns_name'] ."' ,"; 
+		$query .= "`mac` = '". $ip['mac'] ."' ,"; 
 		$query .= "`owner` = '". $ip['owner'] ."' ,"; 
 		$query .= "`state` = '". $ip['state'] ."',";
 		$query .= "`switch` = '". $ip['switch'] ."',";
@@ -941,7 +944,9 @@ function SetInsertQuery( $ip )
 	else if( $ip['action'] == "Edit" ) 
 	{
 		$query  = "update ipaddresses ";
-		$query .= "set `description` = '". $ip['description'] ."', `dns_name` = '". $ip['dns_name'] ."' , `owner` = '". $ip['owner'] ."' , `state` = '". $ip['state'] ."', `switch` = '". $ip['switch'] ."', `port` = '". $ip['port'] ."', `note` = '". $ip['note'] ."' ";
+		$query .= "set `description` = '". $ip['description'] ."', `dns_name` = '". $ip['dns_name'] ."' , `mac` = '". $ip['mac'] ."', ". "\n"; 
+		$query .= "`owner` = '". $ip['owner'] ."' , `state` = '". $ip['state'] ."', `switch` = '". $ip['switch'] ."', ". "\n"; 
+		$query .= "`port` = '". $ip['port'] ."', `note` = '". $ip['note'] ."' ";
 		$query .= "where `id` = '". $ip['id'] ."';";	
 	}
 	/* delete multiple */
@@ -2571,6 +2576,7 @@ function searchAddresses ($query)
  */
 function searchSubnets ($searchterm, $searchTermEdited = "")
 {
+	
     /* get variables from config file */
     global $db;
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 

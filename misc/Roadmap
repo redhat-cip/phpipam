@@ -3,12 +3,13 @@ features for next releases
 	
 	Planned
 		- selectable fields (mac, switch, port, ...)
+		- MAC address
 		- subnet splitting
 		- search for available subnets
 		- translations 
 		- Sorting
-		- MAC address	 		https://sourceforge.net/tracker/?func=detail&aid=3435687&group_id=555701&atid=2254863
 		- custom CSS
+		- database check if all fields are present
 	
 	Optional
 		- better exception handling (functions);

@@ -18,16 +18,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
+/* hide errors! */
+ini_set('display_errors', 0);
+
+
 /* change * to % for database wildchar */
 $searchTerm = str_replace("*", "%", $searchTerm);
 
 
-/* identify address type */
-$type = IdentifyAddress( $searchTerm );
+/* check if mac address */
+if(strlen($searchTerm) == 17) {
+	//count : -> must be 5
+	if(substr_count($searchTerm, ":") == 5) {
+		$type = "mac";
+	}
+}
+else if(strlen($searchTerm) == 12) {
+	//no dots or : -> mac without :
+	if( (substr_count($searchTerm, ":") == 0) && (substr_count($searchTerm, ".") == 0) ) {
+		$type = "mac";
+	}	
+}
+/* ok, not MAC! */
+else {
+	/* identify address type */
+	$type = IdentifyAddress( $searchTerm );
+}
+
 
 if ($type == "IPv4") {
 	/* reformat the IPv4 address! */
 	$searchTermEdited = reformatIPv4forSearch ($searchTerm);
+}
+else if ($type == "mac") {
 }
 else {
 	/* reformat the IPv4 address! */
@@ -41,14 +64,15 @@ $subnets = searchSubnets ($searchTerm, $searchTermEdited);
 /* set the query */
 $query  = 'select * from ipaddresses where ';
 /* $query .= 'ip_addr like "' . $searchTerm . '%" '; */					//ip address in decimal
-$query .= 'ip_addr between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" ';	//ip range
-$query .= 'or dns_name like "%' . $searchTerm . '%" ';					//hostname
-$query .= 'or owner like "%' . $searchTerm . '%" ';						//owner
-$query .= 'or switch like "%' . $searchTerm . '%" ';
-$query .= 'or port like "%' . $searchTerm . '%" ';						//port search
-$query .= 'or description like "%' . $searchTerm . '%" ';				//descriptions
-$query .= 'or note like "%' . $searchTerm . '%" ';						//note
-$query .= 'order by ip_addr asc;';
+$query .= '`ip_addr` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" ';	//ip range
+$query .= 'or `dns_name` like "%' . $searchTerm . '%" ';					//hostname
+$query .= 'or `owner` like "%' . $searchTerm . '%" ';						//owner
+$query .= 'or `switch` like "%' . $searchTerm . '%" ';
+$query .= 'or `port` like "%' . $searchTerm . '%" ';						//port search
+$query .= 'or `description` like "%' . $searchTerm . '%" ';				//descriptions
+$query .= 'or `note` like "%' . $searchTerm . '%" ';						//note
+$query .= 'or `mac` like "%' . $searchTerm . '%" ';						//mac
+$query .= 'order by `ip_addr` asc;';
 
 /* get result */
 $result = searchAddresses ($query);
@@ -69,11 +93,12 @@ $result = searchAddresses ($query);
 -->
 	<th>IP address</th>
 	<th>VLAN</th>
-	<th colspan="2">Description</th>
+	<th>Description</th>
 	<th>Hostname</th>
+	<th></th>
 	<th>Switch</th>
 	<th>Port</th>
-	<th>Owner</th>
+	<th colspan="2">Owner</th>
 </tr>
 
 <!-- IP addresses -->
@@ -96,7 +121,7 @@ else {
 		//detect section change and print headers
 		if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
 			print '<tr class="th">' . "\n";
-			print '	<th colspan="8">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
+			print '	<th colspan="9">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
 			print '</tr>';
 		}
 		$m++;
@@ -112,18 +137,25 @@ else {
 		print ' <td>'. $subnet['VLAN']  .'</td>' . "\n";
 		print ' <td>'. ShortenText($line['description'], $chars = 50) .'</td>' . "\n";
 	
+		print ' <td>'. $line['dns_name']  .'</td>' . "\n";
+		
+		print '	<td>'. "\n";
+		if(isset($line['mac'])) {
+			print '<img class="info" src="css/images/lan.png" title="MAC: '. $line['mac'] .'">'. "\n";
+		}
+		print '	</td>'. "\n";
+		
+		print ' <td>'. $line['switch']  .'</td>' . "\n";
+		print ' <td>'. $line['port']  .'</td>' . "\n";
+		print ' <td>'. $line['owner']  .'</td>' . "\n";
+
 		// print info button for hover
 		print '<td class="note">' . "\n";
 		if(!empty($line['note'])) {
 			$line['note'] = str_replace("\n", "<br>",$line['note']);
-			print '	<img class="info" src="css/images/infoIP.png" title="'. $line['note']. '">' . "\n";
+			print '	<img class="info" src="css/images/note.png" title="'. $line['note']. '">' . "\n";
 		}
 		print '</td>'. "\n";
-	
-		print ' <td>'. $line['dns_name']  .'</td>' . "\n";
-		print ' <td>'. $line['switch']  .'</td>' . "\n";
-		print ' <td>'. $line['port']  .'</td>' . "\n";
-		print ' <td>'. $line['owner']  .'</td>' . "\n";
 		print '</tr>' . "\n";
 	}
 }
@@ -132,24 +164,15 @@ else {
 </div>
 
 
-<?php
-if(sizeof($subnets) == 0) {
-	die('<tr class="th"><td>Nothing found for search query "'. $_REQUEST['ip'] .'" in ip address list or subnets!</td><tr>');
-}
-?>
-
-<h3>Search results (Subnet list):</h3>
 
 <!-- search result table -->
+<h3>Search results (Subnet list):</h3>
+
 <div class="searchTable normalTable">
 <table class="searchTable normalTable">
 
 <!-- headers -->
 <tr class="th" id="searchHeader">
-<!--
-	<th>Section</th>
-	<th>Subnet</th>
--->
 	<th>Section</th>
 	<th>Subnet</th>
 	<th>Mask</th>
@@ -160,42 +183,46 @@ if(sizeof($subnets) == 0) {
 	<th><img src="css/images/lock.png"></th>
 </tr>
 
-<!-- subnets -->
+
 <?php
+if(sizeof($subnets) == 0) {
+	print '<tr class="th"><td colspan="9">Nothing found for search query "'. $_REQUEST['ip'] .'" in subnets!</td><tr>'. "\n";
+}
+else {
 
+	foreach($subnets as $line) {
 
-foreach($subnets as $line) {
-
-	//get section details 
-	$section = getSectionDetailsById ($line['sectionId']);
+		//get section details 
+		$section = getSectionDetailsById ($line['sectionId']);
 	
-	//format requests
-	if($line['allowRequests'] == 1) { $line['allowRequests'] = "enabled"; }
-	else 							{ $line['allowRequests'] = "disabled"; }
+		//format requests
+		if($line['allowRequests'] == 1) { $line['allowRequests'] = "enabled"; }
+		else 							{ $line['allowRequests'] = "disabled"; }
 	
-	//format lock
-	if($line['adminLock'] == 1) 	{ $img = '<img src="css/images/lock.png">'; }
-	else 							{ $img = ""; }
+		//format lock
+		if($line['adminLock'] == 1) 	{ $img = '<img src="css/images/lock.png">'; }
+		else 							{ $img = ""; }
 	
-	//format master subnet
-	if($line['masterSubnetId'] == 0) { $line['masterSubnetId'] = "/"; }
-	else {
-		$line['masterSubnetId'] = getSubnetDetailsById ($line['masterSubnetId']);
-		$line['masterSubnetId'] = transform2long($line['masterSubnetId']['subnet']) .'/'. $line['masterSubnetId']['mask'];
-	}
+		//format master subnet
+		if($line['masterSubnetId'] == 0) { $line['masterSubnetId'] = "/"; }
+		else {
+			$line['masterSubnetId'] = getSubnetDetailsById ($line['masterSubnetId']);
+			$line['masterSubnetId'] = transform2long($line['masterSubnetId']['subnet']) .'/'. $line['masterSubnetId']['mask'];
+		}
 		
-	print '<tr>'. "\n";
+		print '<tr>'. "\n";
 
-	print '	<td>'. $section['name'] . '</td>'. "\n"; 
-	print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 
-	print ' <td>'. $line['mask'] .'</td>' . "\n";
-	print ' <td>'. $line['description'] .'</td>' . "\n";
-	print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
-	print ' <td>'. $line['VLAN'] .'</td>' . "\n";
-	print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
-	print ' <td>'. $img .'</td>' . "\n";
+		print '	<td>'. $section['name'] . '</td>'. "\n"; 
+		print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 
+		print ' <td>'. $line['mask'] .'</td>' . "\n";
+		print ' <td>'. $line['description'] .'</td>' . "\n";
+		print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
+		print ' <td>'. $line['VLAN'] .'</td>' . "\n";
+		print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
+		print ' <td>'. $img .'</td>' . "\n";
 	
-	print '</tr>'. "\n";
+		print '</tr>'. "\n";
+	}
 }
 ?>
 

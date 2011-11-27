@@ -17,7 +17,7 @@ $instructions = stripslashes($instructions);		//show html
 
 /* prevent <script> */
 $instructions = str_replace("<script", "<div class='error'><xmp><script", $instructions);
-$instructions = str_replace("</script>", "</xmp></script></div>", $instructions);
+$instructions = str_replace("</script>", "</script></xmp></div>", $instructions);
 
 ?>
 

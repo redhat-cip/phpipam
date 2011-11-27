@@ -936,6 +936,13 @@ table.ipaddresses tr td.ipaddress {
 table.ipaddresses td.hostname {
 	width: 80px;
 }
+table.ipaddresses td.mac {
+	padding: 0px;
+	width: 1px;
+}
+table.ipaddresses td.mac img {
+	margin-top: 2px;
+}
 table.ipaddresses th, 
 table.ipaddress_subnet th {
 	text-shadow: 1px 1px 2px white;

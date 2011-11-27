@@ -193,6 +193,7 @@ print IP address table
 <tr class="th">
 	<th>IP address</th>
 	<th>Hostname</th>
+	<th></th>						<!-- MAC address -->
 	<th>Description</th>
 	<th class="vlan"></th>
 	<th class="vlan">Switch</th>
@@ -266,6 +267,15 @@ else
 		  	$dnsResolved['name']  = $ipaddress['dns_name'];
 		}
 		print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";  		
+
+
+		/*	Print mac address icon!
+		*****************************************************************/
+		print '<td class="mac">' . "\n";
+		if(!empty($ipaddress['mac'])) {
+			print '	<img class="info mac" src="css/images/lan.png" title="MAC: '. $ipaddress['mac']. '">' . "\n";
+		}
+		print '</td>'. "\n";
 		
         /*	print description
         ***********************************/

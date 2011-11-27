@@ -28,6 +28,7 @@ print '<table class="normalTable hosts">'. "\n";
 print '<tr class="th">'. "\n";
 print '	<th>Hostname</th>'. "\n";
 print '	<th>IP address</th>'. "\n";
+print '	<th></th>'. "\n";			//mac
 print '	<th>Switch</th>'. "\n";
 print '	<th>Port</th>'. "\n";
 print '	<th>Subnet</th>'. "\n";
@@ -69,6 +70,13 @@ foreach($ipAddresses as $ip) {
 	}
 	
 	print '	<td class="ip">'. transform2long($ip['ip_addr']) .'/'. $subnet['mask'] .'</td>'. "\n";
+	
+	print '	<td class="mac">'. "\n";
+	if(isset($ip['mac'])) {
+	print '<img class="info" src="css/images/lan.png" title="MAC: '. $ip['mac'] .'">'. "\n";
+	}
+	print '</td>'. "\n";
+	
 	print '	<td class="switch">'. $ip['switch'] .'</td>'. "\n";
 	print '	<td class="port">'. $ip['port'] .'</td>'. "\n";
 	print '	<td class="subnet">'. $subnet['description'] .'</td>'. "\n";	
@@ -78,7 +86,7 @@ foreach($ipAddresses as $ip) {
 	print '<td class="note">' . "\n";
 	if(!empty($ip['note'])) {
 		$ip['note'] = str_replace("\n", "<br>",$ip['note']);
-		print '	<img class="info" src="css/images/infoIP.png" title="'. $ip['note']. '">' . "\n";
+		print '	<img class="info" src="css/images/note.png" title="'. $ip['note']. '">' . "\n";
 	}
 	print '</td>'. "\n";
 	

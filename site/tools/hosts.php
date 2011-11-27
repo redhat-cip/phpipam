@@ -13,7 +13,7 @@ isUserAuthenticated ();
 ?>
 
 <!-- autocomplete -->
-<link type="text/css" href="css/ui-darkness/jquery-ui-1.8.14.custom.css" rel="stylesheet">	
+<link type="text/css" href="css/jquery-ui-1.8.14.custom.css" rel="stylesheet">	
 <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
 <script>
 $(function() {
@@ -28,7 +28,10 @@ $(function() {
 	];
 		
 	//autocomplete hostnames
-	$( "#hostsFilter" ).autocomplete({ source: hostnames });
+	$( "#hostsFilter" ).autocomplete({ source: hostnames, minLength: 0 }).focus(function(){
+	if (this.value == "")
+		$(this).trigger('keydown.autocomplete');
+	});
 });
 </script>
 

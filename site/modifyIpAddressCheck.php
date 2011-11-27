@@ -43,6 +43,14 @@ else {
 	$ip['dns_name'] = "";
 }
 
+//mac
+if ( !empty($_REQUEST['mac']) ) {
+	$ip['mac'] = htmlentities($_REQUEST['mac']);
+}
+else {
+	$ip['mac'] = "";
+}
+
 //owner
 if ( !empty($_REQUEST['owner']) ) {
 	$ip['owner'] = htmlentities($_REQUEST['owner']);
