@@ -2078,7 +2078,6 @@ table.dbUpgrade input {
 *******************/
 div.error {
 	background: #f3dfe1;	/* non-rgba browsers */
-	background: url(images/close.png) no-repeat rgba(255, 0, 0, 0.046875);
 	
 	border: 1px solid red;
 	border: 1px solid rgba(255, 0, 0, 0.199219);
@@ -2087,6 +2086,8 @@ div.error {
 /* 	background-image: url(images/add.png) no-repeat; */
 	background-position: left center;
 	padding-left: 20px;
+	
+	white-space: normal;
 }
 div.success {
 	background: #E0F8E0; 	/* non-rgba browsers */
@@ -2095,6 +2096,10 @@ div.success {
 	border: 1px solid green;	/* non-rgba browsers */
 	border: 1px solid rgba(0, 255, 0, 0.3);
 	text-align: center;
+}
+div.error:before {
+	content: url(images/close.png);
+	padding-right: 5px;
 }
 div.success:before {
 	content: url(images/infoAdd.png);
@@ -2111,7 +2116,6 @@ div.warning {
 /* 	font-family: 'Droid Sans Mono', Courier; */
 
 	color: #3F3F3F;
-	
 	
 	padding: 3px;
 	margin-top: 5px;

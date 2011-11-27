@@ -15,6 +15,10 @@ $instructions = $instructions[0]['instructions'];
 $instructions = str_replace("\n\r", "<br>", $instructions);
 $instructions = stripslashes($instructions);		//show html
 
+/* prevent <script> */
+$instructions = str_replace("<script", "<div class='error'><xmp><script", $instructions);
+$instructions = str_replace("</script>", "</xmp></script></div>", $instructions);
+
 ?>
 
 <h3>Instructions for managing IP addresses</h3>

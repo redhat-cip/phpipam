@@ -97,6 +97,13 @@ $settings = getAllSettings();
     	print '</tr>' . "\n";
     }
     ?>
+
+    <!-- Filter IP list -->
+<!--
+    <tr id="filterIPFields" class="filterIPFields">
+        <td link="Administration|filterIPFields">Filter IP fields</td>
+    </tr>
+-->
         
     <!-- space holder -->    
     <tr class="th">

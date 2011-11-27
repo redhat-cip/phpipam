@@ -36,12 +36,16 @@ catch (adLDAPException $e) {
 }
 
 
-$fp = fsockopen($ad['domain_controllers'][0], $ad['ad_port'], $errno, $errstr, 3); 
-if (!$fp) {
-	die('<div class="error">'. $errstr .' ('. $errno .')</div>');
-}
-else {
-	print '<div class="success">AD network connection ok!</div>';
+foreach($ad['domain_controllers'] as $line) {
+
+	$fp = fsockopen($line, $ad['ad_port'], $errno, $errstr, 3); 
+	if (!$fp) {
+		print '<div class="error">'. $line .': '. $errstr .' ('. $errno .')</div>';
+	}
+	else {
+		print '<div class="success">'. $line .': AD network connection ok!</div>';
+	}
+
 }
 
 

@@ -31,7 +31,7 @@ First create new user under user management with <u>same username as on AD</u> a
 $availableExt = get_loaded_extensions();
 /* check if ldap exists */
 if (!in_array("ldap", $availableExt)) {
-	print '<div class="error">ldap support not enabled in php!</div>';
+	print '<div class="error">ldap extension not enabled in php!</div>';
 }
 
 ?>

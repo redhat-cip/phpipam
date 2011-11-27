@@ -1017,7 +1017,10 @@ function isUserViewer ()
     global $db;
     
     /* first get active username */
-    session_start();
+	if (!isset($_SESSION)) { 
+		session_start();
+	}
+	
     $ipamusername = $_SESSION['ipamusername'];
     session_write_close();
     
@@ -1048,6 +1051,10 @@ function isUserViewer ()
 function getActiveUserDetails ()
 {
 /*     session_start(); */
+	if (!isset($_SESSION)) { 
+		session_start();
+	}
+
 	if(isset($_SESSION['ipamusername'])) {
     	return getUserDetailsByName ($_SESSION['ipamusername']);
     }
