@@ -1128,7 +1128,7 @@ function fetchAllIPAddresses ($hostnameSort = false)
     }
     else {
 /*     	$query 	   = 'select * from ipaddresses where `dns_name` != "" order by dns_name asc;';  */
-    	$query 	   = 'select * from ipaddresses order by dns_name asc;'; 
+    	$query 	   = 'select * from ipaddresses order by dns_name desc;'; 
     }
 
     /* fetch results */
@@ -1151,7 +1151,7 @@ function fetchAllIPAddressesByName ($hostname)
     global $db;
 
     /* set query */
-    $query 	  = 'select * from ipaddresses where `dns_name` like "%'. $hostname .'%" order by dns_name asc;';
+    $query 	  = 'select * from ipaddresses where `dns_name` like "%'. $hostname .'%" order by `dns_name` desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
 
     /* fetch results */
@@ -2544,7 +2544,7 @@ function getUniqueHosts ()
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
-    $query    	= 'select distinct dns_name from ipaddresses;';  
+    $query    	= 'select distinct dns_name from `ipaddresses` order by `dns_name` desc;';  
 
 	/* execute query */
     $hosts       = $database->getArray($query);  

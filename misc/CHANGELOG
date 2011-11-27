@@ -6,12 +6,14 @@
 	+ Added switch management and changed switch logic;
 	+ Added VRF support;
 	+ Added AD domain authentication;
+	+ Added MAC address field to ip address;
+	+ Added database table and belonging fields check under admin;
 
 	Bugfixes / enhancements:
 	------------------------
 	+ Added DNS resolving when editing/adding IP address;
 	+ Added IE compatibility meta tag;
-	+ Search returns also subnets;
+	+ Search returns also subnets and MAC searches;
 	+ jQuery update from 1.6.2 to 1.7;	
 	+ Highcharts update from 2.1.2 to 2.1.8;
 	

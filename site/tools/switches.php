@@ -78,7 +78,7 @@ foreach($switches as $switch) {
 		print '<td class="note">' . "\n";
 		if(!empty($ip['note'])) {
 			$ip['note'] = str_replace("\n", "<br>",$ip['note']);
-			print '	<img class="info" src="css/images/infoIP.png" title="'. $ip['note']. '">' . "\n";
+			print '	<img class="info" src="css/images/note.png" title="'. $ip['note']. '">' . "\n";
 		}
 		print '</td>'. "\n";
 		

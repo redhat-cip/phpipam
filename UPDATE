@@ -15,7 +15,7 @@ Backup phpipam files:
 #
 
 1.) Extract files form tar package:
-		tar -xvf phpipam-0.3.tar
+		tar -xvf phpipam-0.5.tar
 2.) Set database connection settings in config.php;
 3.) Open phpipam in browser and update database;
 
@@ -25,9 +25,9 @@ Backup phpipam files:
 # b) Manual upgrade procedure
 #
 1.) Extract files form tar package:
-		tar -xvf phpipam-0.3.tar
+		tar -xvf phpipam-0.5.tar
 2.) Set database connection settings in config.php;
 3.) Manual database structure update
 		Update database structure by importing database scheme for your version.
-		If you have version 0.2 and want to upgrade to 0.4 use UPDATE-v0.2.sql file;
-			mysql -u root -p phpipam < db/UPDATE-v0.2.sql
+		If you have version 0.2 and want to upgrade to 0.5 use UPDATE-v0.2.sql file;
+			mysql -u root -p phpipam < db/UPDATE-v0.5.sql

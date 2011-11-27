@@ -140,6 +140,11 @@ $settings = getAllSettings();
         <td link="Administration|versionCheck">Version check</td>
     </tr>
 
+   <!-- verify database-->
+    <tr id="verifyDatabase" class="verifyDatabase">
+        <td link="Administration|verifyDatabase">Verify database</td>
+    </tr>
+
     <!-- export database -->
     <tr id="export" class="export">
         <td link="Administration|export">Export database</td>

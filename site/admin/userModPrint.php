@@ -10,6 +10,9 @@ require_once('../../functions/functions.php');
 /* verify that user is admin */
 checkAdmin();
 
+/* get all settings */
+$settings = getAllSettings();
+
 /**
  * If action is not set get it form post variable!
  */
@@ -113,21 +116,36 @@ else {
 </tr>
 
 <!-- type -->
-<tr>
-    <td>User Type</td> 
-    <td>
-        <select name="domainUser">
-            <option value="0" <?php if ($user['domainUser'] == "0") print "selected"; ?>>Local user</option>
-            <option value="1" <?php if ($user['domainUser'] == "1") print "selected"; ?>>Domain user</option> 
-        </select>
-    </td> 
-    <td class="info">Set user type
-    <ul>
-    	<li>Local authenticates here</li>
-    	<li>Domain authenticates on AD, but still needs to be setup here for permissions etc.</li>
-    </ul>
-    </td>  
-</tr>
+<?php
+/* if domainauth is not enabled default to local user */
+if($settings['domainAuth'] == 0) {
+	print '<input type="hidden" name="domainUser" value="'. $user['domainUser'] .'">'. "\n";
+}
+else {
+
+	print '<tr>'. "\n";
+    print '	<td>User Type</td> '. "\n";
+    print '	<td>'. "\n";
+    print '	<select name="domainUser">'. "\n";
+    print '	<option value="0" '. "\n";
+    		if ($user['domainUser'] == "0") print "selected"; 
+    print '	>Local user</option>'. "\n";
+    print '	<option value="1" '. "\n"; 
+    		if ($user['domainUser'] == "1") print "selected"; 
+    print '	>Domain user</option> '. "\n";
+    print '	</select>'. "\n";
+    print '	</td> '. "\n";
+    print '	<td class="info">Set user type'. "\n";
+    print '	<ul>'. "\n";
+    print '		<li>Local authenticates here</li>'. "\n";
+    print '		<li>Domain authenticates on AD, but still needs to be setup here for permissions etc.</li>'. "\n";
+    print '	</ul>'. "\n";
+    print '	</td>  '. "\n";
+	print '</tr>'. "\n";
+
+}
+
+?>
 
 
 <!-- Submit and hidden values -->
