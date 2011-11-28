@@ -121,7 +121,7 @@ $('img.refreshHostname').live('click', function() {
 	showSpinner();
 	var ipaddress = $('input[name=ip_addr]').val();
 	$.post('site/tools/resolveDNS.php', {ipaddress:ipaddress}, function(data) {
-		if(data.length != 0) {
+		if(data.length !== 0) {
 			$('input[name=dns_name]').val(data);
 		}
 		hideSpinner();
@@ -676,8 +676,7 @@ function loadAddSectionFromSubnets(postdata) {
 $('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddress_lock').live("click", function () {
 		
 	action	  = $(this).attr('class');
-	id	      = $(this).attr('id');
-/* 	subnetId  = $('table.subnets tr.selected').attr('id'); */
+	id        = $(this).attr('id');
 	subnetId  = $('div#subnetId').html();
     
 	//load modify ip field
@@ -958,7 +957,7 @@ $('form#logs input').live('click', function() {
         var lastId = $('table.logs tr:last').attr('id');
     }
     else {
-        var lastId = $('table.logs tr:nth-child(2)').attr('id');    	
+		var lastId = $('table.logs tr:nth-child(2)').attr('id');
     }
     
     /* set complete post */
@@ -1026,7 +1025,7 @@ $('table.requestedIPaddresses img').live('click', function() {
 	
     $.post('site/admin/manageRequestEdit.php', { requestId: requestId }, function(data) {
         $('div.manageRequestEdit').html(data).fadeIn('fast');
-        $('div.manageRequestEdit div').fadeIn('fast')
+        $('div.manageRequestEdit div').fadeIn('fast');
         hideSpinner();
     });
     return false;	
@@ -1107,7 +1106,7 @@ $('form#switchManagementEdit').live('submit', function() {
             setTimeout(function (){loadAdminSubpage ("manageSwitches"); parameter = null;}, reloadTimeout);
         }
         else {
-        	hideSpinner();
+			hideSpinner();
         }
 	});
 
@@ -1145,7 +1144,7 @@ $('form#vrfManagementEdit').live('submit', function() {
             setTimeout(function (){loadAdminSubpage ("manageVRF"); parameter = null;}, reloadTimeout);
         }
         else {
-        	hideSpinner();
+			hideSpinner();
         }
 	});
 
@@ -1168,7 +1167,7 @@ $('form#ad').live('submit', function() {
             setTimeout(function (){loadAdminSubpage ("manageAD"); parameter = null;}, reloadTimeout);
         }
         else {
-        	hideSpinner();
+			hideSpinner();
         }
 	});
 
@@ -1183,7 +1182,7 @@ $('#checkAD').live('click', function() {
 
 	$.post('site/admin/manageADcheck.php', addata, function(data) {
 		$('div.manageADresult').html(data).slideDown('fast');
-        	hideSpinner();
+			hideSpinner();
 	});
 
 	return false;

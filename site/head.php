@@ -18,14 +18,13 @@
 	<title><?php print $settings['siteTitle']; ?></title>
 	
 	<!-- css -->
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.min.css">
 	<link rel="shortcut icon" href="css/images/favicon.ico">
 		
 	<!-- js -->
 	<script type="text/javascript" src="js/jquery-1.7.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
-<!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
-	<script type="text/javascript" src="js/magic.js"></script>
+	<script type="text/javascript" src="js/magic.min.js"></script>
 	<script type="text/javascript" src="js/buttons.js"></script>
 	<?php 
 	if ($settings['showTooltips'] == 1) { 
