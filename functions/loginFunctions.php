@@ -27,36 +27,41 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
 {
     /* get variables from config file */
     global $db;
-    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    $database    = new database($db['host'], $db['user'], $db['pass']); 
     
-    /* Check connection */
-    if (!$database->connect_error) {
-
-	    /* set variable */
-	    $date = date("Y-m-d h:i:s");
-	    $user = getActiveUserDetails();
-	    $user = $user['username'];
     
-    	/* set query */
-    	$query  = 'insert into logs '. "\n";
-        $query .= '(`severity`, `date`,`username`,`command`,`details`)'. "\n";
-        $query .= 'values'. "\n";
-        $query .= '("'.  $severity .'", "'. $date .'", "'. $user .'", "'. $command .'", "'. $details .'");';
-	    
-	    /* execute */
-    	try {
-    		$database->executeMultipleQuerries($query);
-    	}
-    	catch (Exception $e) {
-    		$error =  $e->getMessage();
+    /* select database */
+    if(!$database->selectDatabase($db['name'])) {
     		return false;
-		}
-		
-		return true;
+    }
+    else {
+	    /* Check connection */
+	    if (!$database->connect_error) {
 
-	}
-	else {
+		    /* set variable */
+		    $date = date("Y-m-d h:i:s");
+		    $user = getActiveUserDetails();
+		    $user = $user['username'];
+    
+	    	/* set query */
+	    	$query  = 'insert into logs '. "\n";
+	        $query .= '(`severity`, `date`,`username`,`command`,`details`)'. "\n";
+	        $query .= 'values'. "\n";
+	        $query .= '("'.  $severity .'", "'. $date .'", "'. $user .'", "'. $command .'", "'. $details .'");';
+	    
+		    /* execute */
+	    	try {
+	    		$database->executeMultipleQuerries($query);
+	    	}
+	    	catch (Exception $e) {
+	    		$error =  $e->getMessage();
+	    		return false;
+			}
+			return true;
+		}
+		else {
 		return false;
+		}
 	}
 }
 
