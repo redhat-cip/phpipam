@@ -15,6 +15,7 @@ ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
 
 /* UPDATE version */
 UPDATE `settings` set `version` = '0.5';
+UPDATE `settings` set `siteTitle` = 'phpIPAM IP address management';
 
 
 # Dump of table switches

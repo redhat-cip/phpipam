@@ -24,6 +24,7 @@ ALTER TABLE `logs` ADD `details` varchar(1024) DEFAULT '0';
 
 /* Add version */
 UPDATE `settings` set `version` = '0.5';
+UPDATE `settings` set `siteTitle` = 'phpIPAM IP address management';
 
 
 # Dump of table requests
