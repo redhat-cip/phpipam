@@ -62,7 +62,7 @@ LOCK TABLES `users` WRITE;
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `real_name`, `email`, `domainUser`)
 VALUES
-	(2,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965','Administrator','Admin user','admin@domain.local',X'30');
+	(2,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965','Administrator','Admin user','admin@domain.local','30');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -217,7 +217,7 @@ CREATE TABLE `requests` (
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 
-# Dump of table requests
+# Dump of table switches
 # ------------------------------------------------------------
 DROP TABLE IF EXISTS `switches`;
 
@@ -233,6 +233,10 @@ CREATE TABLE `switches` (
   PRIMARY KEY (`id`),
   KEY `hostname` (`hostname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+insert into `switches` (`id`, `hostname`, `ip_addr`, `vendor`, `model`, `version`, `description`, `sections` )
+values ('1', 'Switch01', '', 'Cisco', '', '', 'Default switch', '1;2;3');
 
 
 # Dump of table vrf

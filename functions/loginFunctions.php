@@ -56,7 +56,7 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
 
 	}
 	else {
-		return true;
+		return false;
 	}
 }
 
