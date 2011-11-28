@@ -31,37 +31,40 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
     
     
     /* select database */
-    if(!$database->selectDatabase($db['name'])) {
-    		return false;
+    try {
+    	$database->selectDatabase($db['name']);
     }
-    else {
-	    /* Check connection */
-	    if (!$database->connect_error) {
+    catch (Exception $e) {
+    	return false;
+    	die();
+	}
+	
+    /* Check connection */
+	if (!$database->connect_error) {
 
-		    /* set variable */
-		    $date = date("Y-m-d h:i:s");
-		    $user = getActiveUserDetails();
-		    $user = $user['username'];
+	   	/* set variable */
+	    $date = date("Y-m-d h:i:s");
+	    $user = getActiveUserDetails();
+	    $user = $user['username'];
     
-	    	/* set query */
-	    	$query  = 'insert into logs '. "\n";
-	        $query .= '(`severity`, `date`,`username`,`command`,`details`)'. "\n";
-	        $query .= 'values'. "\n";
-	        $query .= '("'.  $severity .'", "'. $date .'", "'. $user .'", "'. $command .'", "'. $details .'");';
+    	/* set query */
+    	$query  = 'insert into logs '. "\n";
+        $query .= '(`severity`, `date`,`username`,`command`,`details`)'. "\n";
+        $query .= 'values'. "\n";
+        $query .= '("'.  $severity .'", "'. $date .'", "'. $user .'", "'. $command .'", "'. $details .'");';
 	    
-		    /* execute */
-	    	try {
-	    		$database->executeMultipleQuerries($query);
-	    	}
-	    	catch (Exception $e) {
-	    		$error =  $e->getMessage();
-	    		return false;
-			}
-			return true;
+	    /* execute */
+    	try {
+    		$database->executeMultipleQuerries($query);
+    	}
+    	catch (Exception $e) {
+    		$error =  $e->getMessage();
+    		return false;
 		}
-		else {
+		return true;
+	}
+	else {
 		return false;
-		}
 	}
 }
 
@@ -490,7 +493,7 @@ function installDatabase($root)
 	    
     /* return true, if some errors occured script already died! */
     sleep(1);
-   	updateLogTable ('Database installed successfully!', "version 0.4 installed", 1);
+   	updateLogTable ('Database installed successfully!', "version 0.5 installed", 1);
    	return true;
 }
 
