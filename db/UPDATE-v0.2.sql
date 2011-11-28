@@ -6,17 +6,14 @@ Update from v 0.2 to 0.5
 ALTER TABLE `ipaddresses` ADD `note` text;
 ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
 
-
 /* Add masterSubnetId, allowRequests and adminLock fields to subnets table */
 ALTER TABLE `subnets` ADD `masterSubnetId` varchar(32) DEFAULT NULL;
 ALTER TABLE `subnets` ADD `allowRequests` tinyint(1) DEFAULT '0';
 ALTER TABLE `subnets` ADD `adminLock` binary(1) DEFAULT '0';
 ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 
-
 /* Add domain auth option field to users table */
 ALTER TABLE `users` ADD `domainUser` binary(1) DEFAULT '0';
-
 
 /* Expand logs table */
 ALTER TABLE `logs` ADD `details` varchar(1024) DEFAULT '0';

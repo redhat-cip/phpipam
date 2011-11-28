@@ -19,16 +19,16 @@ $request = getIPrequestById ($requestId);
 ?>
 
 <!-- autocomplete -->
-<link type="text/css" href="css/ui-darkness/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	
+<link type="text/css" href="css/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	
 <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
-<script>
+<script type="text/javascript">
 $(function() {
 	//get all swiches
 	var switches = [
 		<?php 
 		$allSwitches = getAllUniqueSwitches ();
 		foreach ($allSwitches as $switch) {
-			print '"'. $switch['switch'] .'", ';
+			print '"'. $switch['hostname'] .'", ';
 		}
 		?>
 	];
@@ -44,10 +44,18 @@ $(function() {
 	];
 		
 	//autocomplete switches
-	$( "#switch" ).autocomplete({ source: switches });
-	//autocomplete users
-	$( "#owner" ).autocomplete({ source: users });
+	$( "#switch" ).autocomplete({ source: switches, minLength: 0 }).focus(function(){
+		if (this.value == "") {
+			$(this).trigger('keydown.autocomplete');
+		}
 	});
+	//autocomplete users
+	$( "#owner" ).autocomplete({ source: users, minLength: 0 }).focus(function(){
+	if (this.value == "") {
+			$(this).trigger('keydown.autocomplete');
+		}
+	});
+});
 </script>
 
 

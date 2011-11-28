@@ -38,6 +38,7 @@ $("body").live("mouseover",function () {
 	$('table.manageSubnets td img').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('table.manageSubnets td.lock').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('table.userPrint td img').tooltip({position: "top center", tipClass:'tooltipTop' });
+	$('table.asImport td img.info').tooltip({position: "top center", tipClass:'tooltipTop' });
 	
 	/* search, switches and devices info */
 	$('table.searchTable img.info,table.hosts img.info,table.switches img.info').tooltip({position: "top center", tipClass:'tooltipTop' });

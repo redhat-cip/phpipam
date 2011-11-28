@@ -67,7 +67,7 @@ print '<h3>'. $ipamusername['real_name'] .', here you can change your account de
 <tr class="th">
     <td></td> 
     <td class="submit">
-        <input type="hidden" name="id"     value="<?php print $ipamusername['id']; ?>">
+        <input type="hidden" name="userId"     value="<?php print $ipamusername['id']; ?>">
         <input type="submit" value="Edit">
     </td>   
     <td></td>

@@ -74,7 +74,7 @@ else {
 
 		//delete
 		print '<td class="img">'. "\n";
-		print '<img src="css/images/deleteIP.png">'. "\n";
+		print '<img class="info" src="css/images/deleteIP.png" title="Remove this subnet">'. "\n";
 		print '</td>'. "\n";
 
 		//subnet

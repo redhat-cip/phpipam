@@ -16,16 +16,11 @@ CheckReferrer();
 /* set post data */
 $subnetDetails = $_POST;
 
-/*
-print_r($subnetDetails);
-die('error');
-*/
-
 /**
  * Execute checks on add only and when root subnet is being added
  */
-if (($subnetDetails['subnetAction'] == "Add") && ($subnetDetails['masterSubnetId'] == 0))
-{
+if (($subnetDetails['subnetAction'] == "Add") && ($subnetDetails['masterSubnetId'] == 0)) {
+
     /* first verify user input */
     $errors   	= verifyCidr ($subnetDetails['subnet']);
 
@@ -37,8 +32,8 @@ if (($subnetDetails['subnetAction'] == "Add") && ($subnetDetails['masterSubnetId
 /**
  * Execute different checks on add only and when subnet is nested
  */
-else if ($subnetDetails['subnetAction'] == "Add")
-{
+else if ($subnetDetails['subnetAction'] == "Add") {
+
     /* first verify user input */
     $errors   	= verifyCidr ($subnetDetails['subnet']);
 

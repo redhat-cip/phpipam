@@ -55,11 +55,13 @@ function loadSubnets(section) {
 	//slide down slave subnets
 	var hash = document.location.toString();
 	var slaveId = hash.split('|')[1];
+	
+	var subnetDetails = "section=" + section + "&slaveId=" + slaveId;
     
     //show subnets td if hidden
     $('td#subnets').slideDown();
 	
-	$.post('site/subnets.php', {section:section, slaveId:slaveId}, function(data) {
+	$.post('site/subnets.php', subnetDetails, function(data) {
 		$('div.subnets').html(data).slideDown('fast');
 		hideSpinner();
 		//redirect to home if "please login first"
@@ -228,8 +230,6 @@ function showManageSubnetsBody (sectionId) {
     $('div.manageSubnetEdit').hide();
     //show all belonging to selected class
     $('table.manageSubnets tbody.'+ sectionId ).show('fast');
-    //check redirection
-    checkRedirection(data);
 }
 
 /*	function to load admin subpage
@@ -417,6 +417,11 @@ $('table.newSections ul li, table.newSections td#Administration, table.newSectio
 	if (sectionId == "instructions" || sectionId == "tools") {
 		loadToolsMenuAndSubpage (sectionId);
 	}
+/*
+	else if (sectionId == "tools") {
+		
+	}
+*/
 	//load mainpage 
 	else {
 		loadSubnets(sectionId);
@@ -1021,6 +1026,7 @@ $('table.requestedIPaddresses img').live('click', function() {
 	
     $.post('site/admin/manageRequestEdit.php', { requestId: requestId }, function(data) {
         $('div.manageRequestEdit').html(data).fadeIn('fast');
+        $('div.manageRequestEdit div').fadeIn('fast')
         hideSpinner();
     });
     return false;	

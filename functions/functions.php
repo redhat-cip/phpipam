@@ -1709,7 +1709,7 @@ function selfUpdateUser ($userModDetails)
     }
     $query .= '`real_name`= "'. $userModDetails['real_name'] .'", ' . "\n";
     $query .= '`email`    = "'. $userModDetails['email'] .'"' . "\n";
-    $query .= 'where id   = "'. $userModDetails['id'] .'";';
+    $query .= 'where id   = "'. $userModDetails['userId'] .'";';
     
     /* set log file */
     $log = prepareLogFromArray ($userModDetails);
