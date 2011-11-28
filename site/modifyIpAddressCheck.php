@@ -180,7 +180,7 @@ else {
 	
 	/* verify switches! */
 	$switchVerify = true;
-	if(!empty($ip['switch'])) {
+	if( (!empty($ip['switch'])) && ($ip['action'] != "Delete") ) {
 		$switchVerify = verifySwitchByName($ip['switch']);
 	}
 

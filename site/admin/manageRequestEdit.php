@@ -179,7 +179,7 @@ $(function() {
 	</tr>
 
 	<!-- submit -->
-	<tr>
+	<tr class="th">
 		<td></td>
 		<td>
 			<input type="hidden" name="requestId" value="<?php print $request['id']; ?>">

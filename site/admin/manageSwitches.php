@@ -23,7 +23,7 @@ $switches = getAllUniqueSwitches();
 <table class="normalTable switchManagement">
 
 <!-- headers -->
-<tr>
+<tr class="th">
 	<th>Hostname</th>
 	<th>IP address</th>
 	<th>Vendor</th>
@@ -85,7 +85,7 @@ else {
 ?>
 
 <!-- add new -->
-<tr class="add">
+<tr class="add th">
 	<td colspan="8" class="info">
 	<img src="css/images/add.png" class="add" title="Add new switch">
 	Add new switch

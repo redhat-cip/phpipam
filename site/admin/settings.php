@@ -22,7 +22,7 @@ $settings = getAllSettings();
 <table class="normalTable settings">
 
 <!-- site settings -->
-<tr>
+<tr class="th">
 	<th colspan="3">Site settings</th>
 </tr>
 
@@ -59,7 +59,7 @@ $settings = getAllSettings();
 </tr>
 
 <!-- Admin settings -->
-<tr>
+<tr class="th">
 	<th colspan="3">Admin settings</th>
 </tr>
 
@@ -91,7 +91,7 @@ $settings = getAllSettings();
 </tr>
 
 <!-- features -->
-<tr>
+<tr class="th">
 	<th colspan="3">Feature settings</th>
 </tr>
 

@@ -105,7 +105,7 @@ function loadSlaveIPAddresses(subnetId) {
 ********************************/
 function modifyipaddress(action,id,$subnetId) {
     //format posted values
-	postdata = "action=" + action + "&id=" + id + "&subnetId=" + $subnetId;
+	var postdata = "action=" + action + "&id=" + id + "&subnetId=" + $subnetId;
 	
 	$.post('site/modifyIpAddress.php', postdata, function(data) {
 		$('div.addnew_check').slideDown('fast');
@@ -134,12 +134,12 @@ function modifyipaddresscheck() {
 	//show spinner
 	showSpinner();
 	//get active section
-	section = $('table.newSections li.active').attr('id');
+	var section = $('table.newSections li.active').attr('id');
 	//get form values + add subnet
-	postdata = $('form.editipaddress').serialize() + "&section=" + section;
+	var postdata = $('form.editipaddress').serialize() + "&section=" + section;
 	
 	//we need subnetId to reload after successfull edit / add / delete
-	subnetId = $('table.subnets tr.selected').attr('id');
+	var subnetId = $('table.subnets tr.selected').attr('id');
 
 	$.post('site/modifyIpAddressCheck.php', postdata, function(data) {
 		$('div.addnew_check').html(data);
@@ -259,8 +259,8 @@ function loadAdminIPRequestSubpage () {
 /*	generate random password
 ******************************/
 function randomPass() {
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-    pass = "";
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    var pass = "";
     for(x=0; x<10; x++) {
         i = Math.floor(Math.random() * 62);
         pass += chars.charAt(i);
@@ -403,8 +403,8 @@ else
 ***************************************************************/
 $('table.newSections ul li, table.newSections td#Administration, table.newSections td#instructions, table.newSections td.tools').live('click', function () {
 	//get requested location - section
-	sectionName = $(this).attr('section');
-	sectionId   = $(this).attr('id');
+	var sectionName = $(this).attr('section');
+	var sectionId   = $(this).attr('id');
 	
 	//set href
 	document.location.href = "#" + sectionName;
@@ -442,8 +442,8 @@ $('div.header a').click(function () {
 *****************************************/
 $('div.adminMenuDropdown dd').live('click', function() {
 	//get variables
-	sectionName = $(this).attr('section');
-	subpage = $(this).attr("id");
+	var sectionName = $(this).attr('section');
+	var subpage = $(this).attr("id");
 	//set href
 	document.location.href = "#" + sectionName + "|" + subpage;
 	//load proper page
@@ -475,8 +475,8 @@ $('div.adminMenuDropdown').live("mouseleave", function() {
 *****************************************/
 $('div.toolsMenuDropdown dd').live('click', function() {
 	//get variables
-	sectionName = $(this).attr('section');
-	subpage = $(this).attr("id");
+	var sectionName = $(this).attr('section');
+	var subpage = $(this).attr("id");
 	//set href
 	document.location.href = "#" + sectionName + "|" + subpage;
 	//load proper page
@@ -515,8 +515,8 @@ $('div.toolsMenuDropdown').live("mouseleave", function() {
 *********************************************/
 $('table.subnets tr[class!=th] dd[class!=slavesToggle]').live("click", function () {
 	//get subnet and link
-	subnet = $(this).attr('id');
-	link   = $(this).attr('section');
+	var subnet = $(this).attr('id');
+	var link   = $(this).attr('section');
 	
 	//set href
 	document.location.href = "#" + link;
@@ -547,15 +547,15 @@ $('table.subnets tr[class!=th] dd.slavesToggle').live("click", function () {
 ****************************************/
 $('table.subnets td.plusSubnet').live("click", function () {
     //set variables
-    sectionId = $("table.newSections li.active").attr('id');
-    postdata  = "sectionId=" + sectionId + "&subnetAction=Add&location=subnets";
+    var sectionId = $("table.newSections li.active").attr('id');
+    var postdata  = "sectionId=" + sectionId + "&subnetAction=Add&location=subnets";
     loadAddSectionFromSubnets(postdata);
 });
 
 /*	export Subnet and IP addresses
 ****************************************/
 $('img.csvExport').live("click", function () {
-	subnetId = $(this).attr('subnetId');
+	var subnetId = $(this).attr('subnetId');
 
 	$("div.dl").remove();	//remove old innerDiv
 	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportSubnet.php?subnetId=" + subnetId + "'></iframe></div>");
@@ -635,7 +635,7 @@ $('input#csvImportYes').live('click',function () {
 ********************/
 $('form#manageSubnetEditFromSubnets').live('submit', function () {
 
-    subnetData = $(this).serialize();
+    var subnetData = $(this).serialize();
     //load results
     $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
         $('div.manageSubnetEditResult').html(data).slideDown('fast');
@@ -675,9 +675,9 @@ function loadAddSectionFromSubnets(postdata) {
 ****************************************/
 $('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddress_lock').live("click", function () {
 		
-	action	  = $(this).attr('class');
-	id        = $(this).attr('id');
-	subnetId  = $('div#subnetId').html();
+	var action	  = $(this).attr('class');
+	var id        = $(this).attr('id');
+	var subnetId  = $("div#subnetId").html();
     
 	//load modify ip field
 	modifyipaddress(action,id,subnetId);
@@ -690,12 +690,12 @@ $('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddres
 /*	edit subnet
 ****************************************/
 $('img.edit_subnet').live("click", function () {
-	subnetId  = $('table.subnets tr.selected').attr('id');
-	sectionId = $('table.newSections li.active').attr('id');
-    subnetAction = "Edit";
-    locationAction = "IPaddresses";
+	var subnetId  = $('table.subnets tr.selected').attr('id');
+	var sectionId = $('table.newSections li.active').attr('id');
+    var subnetAction = "Edit";
+    var locationAction = "IPaddresses";
     //format posted values
-	postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction + "&location=" + locationAction;
+	var postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction + "&location=" + locationAction;
 	//hide addnew IP address ad if present
 	$('div.addnew').slideUp('fast');
 	
@@ -771,10 +771,10 @@ $('table.slaveSubnet tr[class!=th]').live('click', function() {
 /*	load admin subpage
 ************************/
 $('table.admin tr[class!=th]').live('click', function () {
-    subpage = $(this).attr("id");
+    var subpage = $(this).attr("id");
     
     //set href
-    link    = $(this).children('td').attr('link');
+    var link    = $(this).children('td').attr('link');
     document.location.href = "#" + link;
     
 	//make it selected!
@@ -800,8 +800,8 @@ $('#settings').live('submit', function() {
 /*	add, edit, delete sections
 ********************************/
 $('img.sectionAdd, img.sectionDelete, img.sectionEdit').live("click", function () {
-	action	  = $(this).attr('class');
-	id	      = $(this).attr('id');
+	var action	  = $(this).attr('class');
+	var id	      = $(this).attr('id');
 	//load modify field
 	$.post('site/admin/manageSectionEdit.php', { action:action, id:id }, function(data) {
 		$('div.manageSectionEdit').html(data).slideDown('fast');
@@ -812,7 +812,7 @@ $('img.sectionAdd, img.sectionDelete, img.sectionEdit').live("click", function (
 /* section edit result
 ************************/
 $('form.sectionEdit').live('submit', function () {
-    sectionDetails = $(this).serialize();
+    var sectionDetails = $(this).serialize();
 	$.post('site/admin/manageSectionEditResult.php', sectionDetails, function(data) {
 	
 		$('div.sectionEditResult').hide().html(data).slideDown('fast');
@@ -837,11 +837,11 @@ $('input.cancelSectionEdit').live('click', function () {
 /*	add, edit, delete subnets inside admin
 *******************************************/
 $('table.manageSubnets img').live('click', function () {
-    sectionId    = $(this).attr('sectionId');
-    subnetId     = $(this).attr('subnetId');
-    subnetAction = $(this).attr('class');
+    var sectionId    = $(this).attr('sectionId');
+    var subnetId     = $(this).attr('subnetId');
+    var subnetAction = $(this).attr('class');
     //format posted values
-	postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction;
+	var postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction;
     
     //load edit data
     $.post("site/admin/manageSubnetEdit.php", postdata, function(data) {
@@ -853,7 +853,7 @@ $('table.manageSubnets img').live('click', function () {
 	and show only ones in requested section
 **************************************************/
 $('table.manageSubnets thead').live('click', function () {
-    sectionId = $(this).attr('class');
+    var sectionId = $(this).attr('class');
     showManageSubnetsBody (sectionId);
 });
 
@@ -866,7 +866,9 @@ $('form#manageSubnetEdit input.cancel').live('click', function () {
 });
 $('form#manageSubnetEdit').live('submit', function () {
 
-    subnetData = $(this).serialize();
+    var subnetData = $(this).serialize();
+    var sectionId  = $("input[name=sectionId]").val();
+    
     //load results
     $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
         $('div.manageSubnetEditResult').html(data).slideDown('fast');
@@ -882,7 +884,7 @@ $('form#manageSubnetEdit').live('submit', function () {
             }
             else {
                 //reload Admin Subpage and subnets body
-				setTimeout(function (){showManageSubnetsPageAndBody(subpage, sectionId); parameter = null;}, reloadTimeout);
+				setTimeout(function (){showManageSubnetsPageAndBody("manageSubnet", sectionId); parameter = null;}, reloadTimeout);
 			}
 		}
     });
@@ -897,7 +899,7 @@ add, edit, delete users
 /*	Add new user form
 **********************/
 $('form#userMod').live('submit', function () {
-    loginData = $(this).serialize();
+    var loginData = $(this).serialize();
     
     $.post('site/admin/userModResult.php', loginData, function(data) {
         $('div.userModResult').html(data).slideDown('fast');
@@ -914,7 +916,7 @@ $('form#userMod').live('submit', function () {
 /* generate random pass
 *************************/
 $('a#randomPass').live('click', function () {
-    password = randomPass();
+    var password = randomPass();
     $('input.userPass').val(password);
     $(this).html( password );
 });
@@ -922,10 +924,10 @@ $('a#randomPass').live('click', function () {
 /*	Edit existing user
 ***************************/
 $('table.userPrint td.edit img').live('click', function () {
-    id     = $(this).attr('id');
-    action = $(this).attr('class');
+    var id     = $(this).attr('id');
+    var action = $(this).attr('class');
     //format posted values
-	postdata     = "id=" + id + "&action=" + action;
+	var postdata     = "id=" + id + "&action=" + action;
 	
 	$.post('site/admin/userModPrint.php', postdata, function(data) {
 	   $('div.userEditLoad').html(data).slideDown('fast');
@@ -961,7 +963,7 @@ $('form#logs input').live('click', function() {
     }
     
     /* set complete post */
-    postData = logSelection + "&direction=" + direction + "&lastId=" + lastId;
+    var postData = logSelection + "&direction=" + direction + "&lastId=" + lastId;
 
 	/* show logs */
     $.post('site/admin/logResult.php', postData, function(data1) {
@@ -1037,8 +1039,8 @@ $('form.manageRequestEdit').live('submit', function() {
 
 	showSpinner();
 	
-	postValues = $(this).serialize();
-	postData   = postValues + "&action=confirmed";
+	var postValues = $(this).serialize();
+	var postData   = postValues + "&action=confirmed";
 
 	$.post('site/admin/manageRequestResult.php', postData, function(data) {
 		$('div.manageRequestResult').html(data);
@@ -1059,8 +1061,8 @@ $('form.manageRequestEdit .reject').live('click', function() {
 
 	showSpinner();
 	
-	postValues = $('form.manageRequestEdit').serialize();
-	postData   = postValues + "&action=reject";
+	var postValues = $('form.manageRequestEdit').serialize();
+	var postData   = postValues + "&action=reject";
 
 	$.post('site/admin/manageRequestResult.php', postData, function(data) {
 		$('div.manageRequestResult').html(data);
@@ -1207,7 +1209,7 @@ $('ul.topNav li[id!=search], ul.subNav li').live('click', function () {
     var link = $(this).attr('link');
 	document.location.href = "#" + link;
 
-    subPage = $(this).attr('id');
+    var subPage = $(this).attr('id');
     loadToolsMenu (subPage);
     
     $('table.newSections li').removeClass('active');
@@ -1215,7 +1217,7 @@ $('ul.topNav li[id!=search], ul.subNav li').live('click', function () {
     setTimeout(function (){loadToolsSubpage (subPage); parameter = null;}, 100);
 });
 $('table.menu a').live('click', function () {
-    subPage = $(this).attr('id');
+    var subPage = $(this).attr('id');
     loadToolsSubpage (subPage);  
 });
 
@@ -1394,7 +1396,7 @@ $('form#asImport').live('submit', function () {
 /*	Generate random pass 
 ***************************/
 $('a#randomPassSelf').live('click', function () {
-    password = randomPass();
+    var password = randomPass();
     $('input.userPass').val(password);
     $(this).html( password );
     return false;
@@ -1434,7 +1436,7 @@ $('form#userMenuSearch input[type=text]').live('click', function () {
 /*	search - submit userMenu form (top right)
 **********************************************/
 $('form#userMenuSearch').live('submit', function () {
-	searchTerm = $(this).serialize();
+	var searchTerm = $(this).serialize();
     loadSearchPage(searchTerm);
     return false;
 });
@@ -1443,7 +1445,7 @@ $('form#userMenuSearch').live('submit', function () {
 ********************************************/
 $('table.homeStats td.HomeManage input').live('click', function () {
 	
-	section2	= 'Administration';
+	var section2	= 'Administration';
 	var subpage =  $(this).attr('name');
 	
 	hashLoadAdmin(section2, subpage);

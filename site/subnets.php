@@ -88,7 +88,7 @@ else {
     	
     	/* print also slaves if they exist! */
     	if ($slaves) {
-			print '<tr>' . "\n";
+			print '<tr class="th">' . "\n";
 			print '<td colspan="3" class="slaveSubnets"><div class="slaveSubnets slaveSubnets-'. $subnet['id'] .'">'. "\n";
 				
 			$slaveSubnets = getAllSlaveSubnetsBySubnetId($subnet['id']);

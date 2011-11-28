@@ -24,7 +24,7 @@ if(sizeof($allActiveRequests) == 0) {
 <table class="normalTable requestedIPaddresses">
 
 <!-- headers -->
-<tr>
+<tr class="th">
 	<th></th>
 	<th>IP address</th>
 	<th>Subnet</th>

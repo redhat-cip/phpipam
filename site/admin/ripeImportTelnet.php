@@ -109,7 +109,7 @@ else {
 	}
 
 	//submit
-	print '<tr style="border-top:1px solid white">'. "\n";
+	print '<tr style="border-top:1px solid white" class="th">'. "\n";
 	print '<td colspan="5" style="text-align:right">'. "\n";
 	print '	<input type="submit" value="Import to database">'. "\n";
 	print '</td>'. "\n";
@@ -118,7 +118,7 @@ else {
 }
 
 //Result
-print '<tr>'. "\n";
+print '<tr class="th">'. "\n";
 print '<td colspan="5" style="text-align:right">'. "\n";
 print '	<div class="ripeImportResult"></div>'. "\n";
 print '</td>'. "\n";

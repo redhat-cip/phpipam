@@ -10,7 +10,7 @@ checkAdmin();
 $settings = getAllSettings();
 ?>
 
-<table class="admin">
+<table class="subnets admin normalTable">
 
     <!-- Server management -->
     <tr class="th">

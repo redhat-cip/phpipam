@@ -13,12 +13,18 @@ div.loading {
     background: #494949;
 }
 
+/* IP addresses */
 table.ipaddresses td.ipaddress {
 	width: 80px;
 }
-
 table.ipaddresses td.hostname {
 	width: 80px;
+}
+div.addnew { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5ecee', endColorstr='#f4dee3',GradientType=0 ); /* IE6-9 */
+}
+table.ipaddress_subnet div.mail {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99dbf0f6', endColorstr='#99c5e8f1',GradientType=0 ); /* IE6-9 */
 }
 
 table.newSections td.tools {
@@ -29,6 +35,13 @@ table.newSections td.tools:hover {
 }
 
 
+table.requestIP input.backToLogin {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+table.requestIP input.backToLogin:hover { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+}
+
 table.normalTable th {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e6ffffff',GradientType=0 ); /* IE6-9 */
 }
@@ -37,7 +50,25 @@ table.normalTable tr.selected:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5052', endColorstr='#4f5052',GradientType=0 );
 }
 
+/* admin headers */
+table.admin th {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#66ac001b',GradientType=0 );
+}
+table.admin tr.selected,
+table.admin tr.selected:hover {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
+}
 
+div.switchSections {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e6ffffff',GradientType=0 );
+}
+
+/* requests */
+table.manageRequestEdit input[type=button]:hover {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d0019', endColorstr='#a90329',GradientType=0 ); /* IE6-9 */
+}
+
+/* knofi */
 input[type=submit], 
 input[type=button] { { 
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 );
@@ -48,6 +79,14 @@ input[type=button]:hover {
 div.homeStats input[type=button] {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d3d3d3',GradientType=0 ); /* IE6-9 */
 }
+table.manageRequestEdit input[type=submit],
+table.manageRequestEdit input[type=button] {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+table.manageRequestEdit input[type=submit]:hover {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006b05', endColorstr='#03a015',GradientType=0 ); /* IE6-9 */
+}
+
 
 /* logs button */
 form#logs input[type=button] {
@@ -64,7 +103,7 @@ form#logs input[type=button] {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
 }
 .tooltipBottom {
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 ); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
 }
 
 

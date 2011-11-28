@@ -22,7 +22,7 @@ $allVRFs = getAllVRFs ();
 <table class="normalTable vrfManagement">
 
 <!-- headers -->
-<tr>
+<tr class="th">
 	<th>Name</th>
 	<th>RD</th>
 	<th>Description</th>
@@ -60,7 +60,7 @@ else {
 ?>
 
 <!-- add new -->
-<tr class="add">
+<tr class="add th">
 	<td colspan="4" class="info">
 	<img src="css/images/add.png" class="add" title="Add new VRF">
 	Add new VRF

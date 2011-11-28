@@ -220,7 +220,7 @@ $type = IdentifyAddress( $SubnetDetails['subnet'] );
 if (!$ipaddresses) 
 {
     $unused = FindUnusedIpAddresses ( Transform2decimal($SubnetParsed['network']), Transform2decimal($SubnetParsed['broadcast']), $type, 1 );
-    print '<tr class="th"><td></td><td colspan=3 class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
+    print '<tr class="th"><td></td><td colspan="9" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
 }
 else
 {
@@ -238,7 +238,7 @@ else
         /*	if there is some result for unused print it 
         ****************************************************/
         if ( $unused  ) {
-            print '<tr class="th"><td></td><td colspan=6 class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td></tr>'. "\n";
+            print '<tr class="th"><td></td><td colspan="10" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td></tr>'. "\n";
         }
         
         /*	set class for reserved and offline
@@ -335,7 +335,7 @@ else
         {   
             $unused = FindUnusedIpAddresses ( $ipaddresses[$n]['ip_addr'], Transform2decimal($SubnetParsed['broadcast']), $type, 1 );
             if ( $unused  ) {
-                print '<tr class="th"><td></td><td colspan=3 class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
+                print '<tr class="th"><td></td><td colspan="9" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
             }    
         }
 
