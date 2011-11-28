@@ -39,12 +39,13 @@ session_destroy();
 	
 	<meta name="robots" content="noindex, nofollow"> 
 	<meta name="Description" content="IPv4/v6 address management. Please login"> 
-	
-	<meta http-equiv="X-UA-Compatible" content="IE=9" >
-	<meta name="viewport" content="width=1024, initial-scale=1, user-scalable=yes">
-	
-	<!-- chrome frame support -->
+
+	<!-- IE crap -->
+	<meta http-equiv="X-UA-Compatible" content="IE=9" >	
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  	<!-- Mobile devices -->
+	<meta name="viewport" content="width=1024, initial-scale=1, user-scalable=yes">
   
 	<!-- title -->
 	<title><?php print $settings['siteTitle']; ?> | login</title>
@@ -58,6 +59,14 @@ session_destroy();
 	<script type="text/javascript" src="../js/login.js"></script>
 	<script type="text/javascript" src="../js/jquery.tools.tooltip.min.js"></script>
 	<script type="text/javascript" src="../js/tooltips.js"></script>
+
+	<!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="../css/ie.css" />
+    <![endif]-->
+    
+    <!--[if gte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../css/ie9.css" />
+	<![endif]-->
 		
 </head>
 

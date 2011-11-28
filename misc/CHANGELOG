@@ -12,7 +12,7 @@
 	Bugfixes / enhancements:
 	------------------------
 	+ Added DNS resolving when editing/adding IP address;
-	+ Added IE compatibility meta tag;
+	+ Added IE compatibility meta tag and some IE UI improvements for IE >= 8;
 	+ Search returns also subnets and MAC searches;
 	+ jQuery update from 1.6.2 to 1.7;	
 	+ Highcharts update from 2.1.2 to 2.1.8;

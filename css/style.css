@@ -576,7 +576,6 @@ table.newSections td#Administration {
 	background: -o-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
 	background: -ms-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
 	background: linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 );
 }
 table.newSections td#Administration:hover {
 	background: rgb(109,0,25);
@@ -587,7 +586,6 @@ table.newSections td#Administration:hover {
 	background: -o-linear-gradient(top,  rgba(109,0,25,1) 0%,rgba(143,2,34,1) 56%,rgba(169,3,41,1) 100%);
 	background: -ms-linear-gradient(top,  rgba(109,0,25,1) 0%,rgba(143,2,34,1) 56%,rgba(169,3,41,1) 100%);
 	background: linear-gradient(top,  rgba(109,0,25,1) 0%,rgba(143,2,34,1) 56%,rgba(169,3,41,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d0019', endColorstr='#a90329',GradientType=0 );
 }
 table.newSections ul li:hover, 
 table.newSections ul li.active {
@@ -607,7 +605,6 @@ table.newSections ul li.active {
 	background: -o-linear-gradient(top,  rgba(41,51,57,1) 0%,rgba(29,36,41,1) 100%);
 	background: -ms-linear-gradient(top,  rgba(41,51,57,1) 0%,rgba(29,36,41,1) 100%);
 	background: linear-gradient(top,  rgba(41,51,57,1) 0%,rgba(29,36,41,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#293339', endColorstr='#1d2429',GradientType=0 );
 
 	border: 1px solid rgba(192,192,192,0.4);
 	color: white;
@@ -671,7 +668,6 @@ div.adminMenuDropdown {
 	background: -o-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
 	background: -ms-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
 	background: linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
 	
 	display: none;
 	overflow: hidden;

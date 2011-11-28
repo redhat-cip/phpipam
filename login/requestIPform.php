@@ -18,9 +18,19 @@
 		require_once('../functions/functions.php'); 
 		$subnets = fetchAllSubnets ();
 		
+		$m = 0;		//needed for first IP address definition
+		
 		foreach($subnets as $subnet) {
 			/* show only subnets that allow IP exporting */
+			
 			if($subnet['allowRequests'] == 1) {
+			
+				//first subnet definitions
+				if ($m == 0) {
+					$firstSubnet = $subnet['id'];
+					$m++;
+				}
+						
 				print '<option value="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>';
 			}
 		}
@@ -34,10 +44,21 @@
 
  
 <!-- IP address -->
+<script type="text/javascript">
+$(document).ready(function() {
+	//autofill first IP address
+	var subnetId = <?php print $firstSubnet; ?>;
+	//post it via json to requestIPfirstFree.php
+	$.post('requestIPfirstFree.php', { subnetId:subnetId}, function(data) {
+		$('input.ip_addr').val(data);
+	});
+});
+</script>
+
 <tr>
 	<td>* IP address</td>
 	<td>
-		<input type="text" name="ip_addr" class="ip_addr" size="30">
+		<input type="text" name="ip_addr" class="ip_addr" size="30" value="">
    	</td>
    	<td class="info">(required) Please enter IP address</td>
 </tr>

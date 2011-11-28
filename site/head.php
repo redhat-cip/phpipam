@@ -42,11 +42,7 @@
     <![endif]-->
     
     <!--[if gte IE 9]>
-	<style type="text/css">
-		.gradient {
-			filter: none;
-    	}
-	</style>
+    <link rel="stylesheet" type="text/css" href="css/ie9.css" />
 	<![endif]-->
  		
 </head>

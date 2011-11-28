@@ -7,7 +7,7 @@ $("body").live("mouseover",function () {
 	/* hide subnets */
 	$("th.hideSubnets").tooltip({ position: "center left", tipClass:'tooltipLeft' });
 	/* add new subnet */
-	$("table.subnets td.plusSubnet").tooltip({position: "center right"});	
+	$("table.subnets td.plusSubnet").tooltip({position: "center right", tipClass:'tooltipRightSubnetsSlave'});	
 	$('table.subnets img.structure').tooltip({position: "center right"});
 	$('table.subnets td[class=subnet]').tooltip({position: "center right", tipClass:'tooltipRightSubnets'});
 	$('table.subnets td.slave').tooltip({position: "center right", tipClass:'tooltipRightSubnetsSlave'});
