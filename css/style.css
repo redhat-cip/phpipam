@@ -2145,8 +2145,12 @@ div.loading {
     text-align: center;
     
     background: #494949;
-	background: -webkit-gradient(linear, 0% 100%, 0% 0%, from( rgba(0,0,0,0.3) ), to( rgba(0,0,0,0.5) )) no-repeat;
-	background: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.3) );
+	background: -moz-linear-gradient(top,  rgba(29,36,41,0.9) 0%, rgba(41,51,57,0.7) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(29,36,41,0.9)), color-stop(100%,rgba(41,51,57,0.7)));
+	background: -webkit-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
+	background: -o-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
+	background: -ms-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
+	background: linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
 	
     -webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
