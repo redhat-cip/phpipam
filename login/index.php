@@ -39,6 +39,12 @@ session_destroy();
 	
 	<meta name="robots" content="noindex, nofollow"> 
 	<meta name="Description" content="IPv4/v6 address management. Please login"> 
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=9" >
+	<meta name="viewport" content="width=1024, initial-scale=1, user-scalable=yes">
+	
+	<!-- chrome frame support -->
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
   
 	<!-- title -->
 	<title><?php print $settings['siteTitle']; ?> | login</title>

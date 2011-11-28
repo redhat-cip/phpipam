@@ -37,8 +37,16 @@
 	<!-- HighCharts script -->
 	<script type="text/javascript" src="js/Highcharts-2.1.8/highcharts.js"></script>
 
-	<!--[if gt IE 6]>
+	<!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="css/ie.css" />
     <![endif]-->
+    
+    <!--[if gte IE 9]>
+	<style type="text/css">
+		.gradient {
+			filter: none;
+    	}
+	</style>
+	<![endif]-->
  		
 </head>

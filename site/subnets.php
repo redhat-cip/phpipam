@@ -64,6 +64,7 @@ else {
         print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";
         
         /* subnet */
+        if($subnet['description'] == "") { $subnet['description'] = "No description"; }
         print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";
             
         // normal link or slaves?
@@ -80,9 +81,10 @@ else {
         	
         /* show tree image if it contains subnets */
         if($slaves) {
-        	print '<img class="structure" src="css/images/expand.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet"></td>' . "\n";
+        	print '<img class="structure" src="css/images/expand.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet">' . "\n";
         }
-    	print '</tr>' . "\n";;
+        print '</td>'. "\n";
+    	print '</tr>'. "\n";;
     	
     	/* print also slaves if they exist! */
     	if ($slaves) {
@@ -99,7 +101,7 @@ else {
 			if(strlen($slave['description']) == 0) $slave['description'] = "no description";
 				
 			print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";
-            print '	<td class="subnet" title="'. $slave['description'] .'">' . "\n";
+            print '	<td class="subnet slave" title="'. $slave['description'] .'">' . "\n";
             print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">&middot; ' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
             print '	</td>' . "\n";
         	print '</tr>';
@@ -109,7 +111,7 @@ else {
 				
 			print '</div></td>' . "\n";
 			print '</tr>' . "\n";  		
-    		}
+    	}
     	}	
     	
     }

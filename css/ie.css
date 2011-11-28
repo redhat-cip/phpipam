@@ -1,8 +1,12 @@
 /**
  *
- * IE special formatting
+ * IE <9 special formatting
  *
  */
+
+div.header {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#293339', endColorstr='#1d2429',GradientType=0 );
+}
  
 div.loading {
     border: 1px solid black;
@@ -15,4 +19,56 @@ table.ipaddresses td.ipaddress {
 
 table.ipaddresses td.hostname {
 	width: 80px;
+}
+
+table.newSections td.tools {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#293339', endColorstr='#1d2429',GradientType=0 );
+}
+table.newSections td.tools:hover {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d2429', endColorstr='#293339',GradientType=0 );
+}
+
+
+table.normalTable th {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e6ffffff',GradientType=0 ); /* IE6-9 */
+}
+table.normalTable tr.selected,
+table.normalTable tr.selected:hover { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5052', endColorstr='#4f5052',GradientType=0 );
+}
+
+
+input[type=submit], 
+input[type=button] { { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 );
+}
+input[type=button]:hover { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d0019', endColorstr='#a90329',GradientType=0 ); /* IE6-9 */
+}
+div.homeStats input[type=button] {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d3d3d3',GradientType=0 ); /* IE6-9 */
+}
+
+/* logs button */
+form#logs input[type=button] {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d3d3d3',GradientType=0 ); /* IE6-9 */
+}
+
+/* tooltips */
+.tooltipBottom,
+.tooltipLeft,
+.tooltipTop,
+.tooltipTopDonate,
+.tooltip,
+.tooltipRightSubnets { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
+}
+.tooltipBottom {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 ); 
+}
+
+
+/* footer */
+div.footer {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#293339', endColorstr='#1d2429',GradientType=0 );
 }

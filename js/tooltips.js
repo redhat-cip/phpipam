@@ -9,7 +9,8 @@ $("body").live("mouseover",function () {
 	/* add new subnet */
 	$("table.subnets td.plusSubnet").tooltip({position: "center right"});	
 	$('table.subnets img.structure').tooltip({position: "center right"});
-	$('table.subnets td.subnet').tooltip({position: "center right", tipClass:'tooltipRightSubnets'});
+	$('table.subnets td[class=subnet]').tooltip({position: "center right", tipClass:'tooltipRightSubnets'});
+	$('table.subnets td.slave').tooltip({position: "center right", tipClass:'tooltipRightSubnetsSlave'});
 	/* add new IP address */
 	$("table.ipaddress_subnet tr.info img").tooltip({position: "center left", tipClass:'tooltipLeft' });
 	$('table.ipaddresses img').tooltip({position: "top center", tipClass:'tooltipTop' });
