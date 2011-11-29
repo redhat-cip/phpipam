@@ -30,6 +30,11 @@ foreach ($subnets as $subnet)
 			$subnetHost[$i]['subnet']		= $subnet['subnet'];
 			$subnetHost[$i]['mask']			= $subnet['mask'];
 			$subnetHost[$i]['description']	= $subnet['description'];
+			
+			/* Fix empty description */
+			if(empty($subnet['description'])) {
+			$subnetHost[$i]['description']	= "no_description";
+			}
 		}
 	}
 	/* IPv6 number must be higher than 4294967295 */
@@ -40,6 +45,11 @@ foreach ($subnets as $subnet)
 			$subnetHost[$i]['subnet']		= $subnet['subnet'];
 			$subnetHost[$i]['mask']			= $subnet['mask'];
 			$subnetHost[$i]['description']	= $subnet['description'];
+
+			/* Fix empty description */
+			if(empty($subnet['description'])) {
+			$subnetHost[$i]['description']	= "no_description";
+			}
 		}
 	}
 }

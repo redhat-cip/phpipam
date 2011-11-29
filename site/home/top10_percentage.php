@@ -31,6 +31,11 @@ foreach ($subnets as $subnet)
 			$subnetHost[$i]['subnet']		= $subnet['subnet'];
 			$subnetHost[$i]['mask']			= $subnet['mask'];
 			$subnetHost[$i]['description']	= $subnet['description'];
+			
+			/* Fix empty description */
+			if(empty($subnet['description'])) {
+			$subnetHost[$i]['description']	= "no_description";
+			}
 		}
 	}
 	if ($type == "IPv6") {
@@ -39,7 +44,12 @@ foreach ($subnets as $subnet)
 			$subnetHost[$i]['id']			= $subnet['id'];
 			$subnetHost[$i]['subnet']		= $subnet['subnet'];
 			$subnetHost[$i]['mask']			= $subnet['mask'];
-			$subnetHost[$i]['description']	= $subnet['description'];		
+			$subnetHost[$i]['description']	= $subnet['description'];	
+			
+			/* Fix empty description */
+			if(empty($subnet['description'])) {
+			$subnetHost[$i]['description']	= "no_description";
+			}	
 		}
 	}
 }
