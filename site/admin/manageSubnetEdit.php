@@ -122,6 +122,9 @@ else {
         print '	<td>' . "\n";
         print '	<select name="vrfId">'. "\n";
         
+        //blank
+        print '<option value="0">None</option>';
+        
         foreach($VRFs as $vrf) {
         
         	if ($vrf['vrfId'] == $subnetDataOld['vrfId']) {
