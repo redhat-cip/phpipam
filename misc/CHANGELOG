@@ -14,6 +14,7 @@
 	+ Added DNS resolving when editing/adding IP address;
 	+ Added IE compatibility meta tag and IE UI improvements for IE >= 8;
 	+ Search returns also subnets and MAC searches;
+	+ Added mac address and IP status to XLS import/export scripts;
 	+ jQuery update from 1.6.2 to 1.7;	
 	+ Highcharts update from 2.1.2 to 2.1.8;
 	
