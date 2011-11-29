@@ -19,6 +19,18 @@ $switches = getAllUniqueSwitches();
 ?>
 
 
+<!-- slide to top -->
+<script type="text/javascript" src="js/jquery.slideto.v1.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('img.edit, img.delete').slideto({
+		target : '#add', 
+		speed  : 'fast'
+	});
+});
+</script>
+
+
 <div class="normalTable switchManagement">
 <table class="normalTable switchManagement">
 
@@ -67,7 +79,9 @@ else {
 		if( (sizeof($temp) > 0) && (!empty($temp[0])) ) {
 		foreach($temp as $line) {
 			$section = getSectionDetailsById($line);
+			if(!empty($section)) {
 			print '<div class="switchSections">'. $section['name'] .'</div>'. "\n";
+			}
 		}
 		}
 	
@@ -87,7 +101,7 @@ else {
 <!-- add new -->
 <tr class="add th">
 	<td colspan="8" class="info">
-	<img src="css/images/add.png" class="add" title="Add new switch">
+	<img src="css/images/add.png" class="add" id="add" title="Add new switch">
 	Add new switch
 	</td>
 </tr>
