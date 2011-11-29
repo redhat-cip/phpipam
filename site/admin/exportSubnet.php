@@ -60,7 +60,7 @@ $lineCount = 0;
 
 //Write title
 $worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
-$worksheet->mergeCells($lineCount, 0, $lineCount, 7);
+$worksheet->mergeCells($lineCount, 0, $lineCount, 8);
 		
 $lineCount++;
 		
@@ -69,10 +69,11 @@ $lineCount++;
 	$worksheet->write($lineCount, 1, 'ip state' ,$format_title);
 	$worksheet->write($lineCount, 2, 'description' ,$format_title);
 	$worksheet->write($lineCount, 3, 'hostname' ,$format_title);
-	$worksheet->write($lineCount, 4, 'owner' ,$format_title);
-	$worksheet->write($lineCount, 5, 'switch' ,$format_title);
-	$worksheet->write($lineCount, 6, 'port' ,$format_title);
-	$worksheet->write($lineCount, 7, 'note' ,$format_title);
+	$worksheet->write($lineCount, 4, 'mac' ,$format_title);
+	$worksheet->write($lineCount, 5, 'owner' ,$format_title);
+	$worksheet->write($lineCount, 6, 'switch' ,$format_title);
+	$worksheet->write($lineCount, 7, 'port' ,$format_title);
+	$worksheet->write($lineCount, 8, 'note' ,$format_title);
 			
 	$lineCount++;
 		
@@ -90,10 +91,11 @@ foreach ($ipaddresses as $ip) {
 	$worksheet->write($lineCount, 1, $ip['state']);
 	$worksheet->write($lineCount, 2, $ip['description']);
 	$worksheet->write($lineCount, 3, $ip['dns_name']);
-	$worksheet->write($lineCount, 4, $ip['owner']);
-	$worksheet->write($lineCount, 5, $ip['switch']);
-	$worksheet->write($lineCount, 6, $ip['port']);
-	$worksheet->write($lineCount, 7, $ip['note'], $format_right);
+	$worksheet->write($lineCount, 4, $ip['mac']);
+	$worksheet->write($lineCount, 5, $ip['owner']);
+	$worksheet->write($lineCount, 6, $ip['switch']);
+	$worksheet->write($lineCount, 7, $ip['port']);
+	$worksheet->write($lineCount, 8, $ip['note'], $format_right);
 			
 	$lineCount++;
 }
@@ -107,6 +109,7 @@ foreach ($ipaddresses as $ip) {
 	$worksheet->write($lineCount, 5, "", $format_top);
 	$worksheet->write($lineCount, 6, "", $format_top);
 	$worksheet->write($lineCount, 7, "", $format_top);
+	$worksheet->write($lineCount, 8, "", $format_top);
 
 //new line
 $lineCount++;
