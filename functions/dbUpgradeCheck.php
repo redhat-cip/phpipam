@@ -1,27 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function () {
-	$('div.loading').hide();
-	$('table.dbUpgrade a').click(function() {
-		var div = $(this).attr('id');
-		$('table.dbUpgrade div').not('table.dbUpgrade div.' + div).slideUp('fast');
-		$('table.dbUpgrade div.' + div).slideToggle('fast');
-		return false;
-	});
-	$('input.upgrade').live('click', function() {
-		$(this).removeClass('upgrade');
-		$('div.loading').fadeIn('fast');
-		var version = $(this).attr('version');
-		$.post('site/admin/databaseUpgrade.php', {version:version}, function(data) {
-			$('div.upgradeResult').html(data).slideDown('fast');
-			$('div.loading').fadeOut('fast');
-		});
-	});
-	$('div.error').live('click', function() {
-		$(this).stop(true,true).show();
-	});
-});
-</script>
-
 <?php
 
 /**
@@ -70,6 +46,31 @@ if($settings['version'] != $latest) {
 
 	/* if version is not the latest print warning that it will be upgraded! */
 	if($version != $latest) {
+	
+		//javascript
+		print '<script type="text/javascript"> '. "\n";
+		print '$(document).ready(function () { '. "\n";
+		print '	$("div.loading").hide(); '. "\n";
+		print '	$("table.dbUpgrade a").click(function() { '. "\n";
+		print '		var div = $(this).attr("id"); '. "\n";
+		print '		$("table.dbUpgrade div").not("table.dbUpgrade div." + div).slideUp("fast"); '. "\n";
+		print '		$("table.dbUpgrade div." + div).slideToggle("fast"); '. "\n";
+		print '		return false; '. "\n";
+		print '	}); '. "\n";
+		print '	$("input.upgrade").live("click", function() { '. "\n";
+		print '		$(this).removeClass("upgrade"); '. "\n";
+		print '		$("div.loading").fadeIn("fast"); '. "\n";
+		print '		var version = $(this).attr("version"); '. "\n";
+		print '		$.post("site/admin/databaseUpgrade.php", {version:version}, function(data) { '. "\n";
+		print '			$("div.upgradeResult").html(data).slideDown("fast"); '. "\n";
+		print '			$("div.loading").fadeOut("fast"); '. "\n";
+		print '		}); '. "\n";
+		print '	}); '. "\n";
+		print '	$("div.error").live("click", function() { '. "\n";
+		print '		$(this).stop(true,true).show(); '. "\n";
+		print '	}); '. "\n";
+		print '}); '. "\n";
+		print '</script> '. "\n";
 	
 		//spinner
 		print '<div class="loading">Loading...<br><img src="css/images/ajax-loader.gif"></div>'. "\n";

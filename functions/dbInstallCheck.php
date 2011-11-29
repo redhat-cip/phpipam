@@ -1,26 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function () {
-	$('div.loading').hide();
-	$('table.dbUpgrade a').click(function() {
-		var div = $(this).attr('id');
-		$('table.dbUpgrade div').not('table.dbUpgrade div.' + div).slideUp('fast');
-		$('table.dbUpgrade div.' + div).slideToggle('fast');
-		return false;
-	});
-	$('input.upgrade').live('click', function() {
-		$('div.loading').fadeIn('fast');
-		var postData = $('#install').serialize();
-		$.post('../site/admin/databaseInstall.php', postData, function(data) {
-			$('div.upgradeResult').html(data).slideDown('fast');
-			$('div.loading').fadeOut('fast');
-		});
-	});
-	$('div.error').live('click', function() {
-		$(this).stop(true,true).show();
-	});
-});
-</script>
-
 <?php
 
 /**
@@ -42,6 +19,30 @@ if($settings['version'] != $latest) {
 
 	/* new install check! */
 	if(!tableExists("ipaddresses")) {
+	
+		//javascript
+		print '<script type="text/javascript">'. "\n";
+		print '$(document).ready(function () {'. "\n";
+		print '	$("div.loading").hide(); '. "\n";
+		print '	$("table.dbUpgrade a").click(function() { '. "\n";
+		print '		var div = $(this).attr("id"); '. "\n";
+		print '		$("table.dbUpgrade div").not("table.dbUpgrade div." + div).slideUp("fast"); '. "\n";
+		print '		$("table.dbUpgrade div." + div).slideToggle("fast"); '. "\n";
+		print '	return false; '. "\n";
+		print '}); '. "\n";
+		print '$("input.upgrade").live("click", function() { '. "\n";
+		print '	$("div.loading").fadeIn("fast"); '. "\n";
+		print '	var postData = $("#install").serialize(); '. "\n";
+		print '	$.post("../site/admin/databaseInstall.php", postData, function(data) { '. "\n";
+		print '		$("div.upgradeResult").html(data).slideDown("fast"); '. "\n";
+		print '		$("div.loading").fadeOut("fast"); '. "\n";
+		print '	}); '. "\n";
+		print '}); '. "\n";
+		print '$("div.error").live("click", function() { '. "\n";
+		print '	$(this).stop(true,true).show(); '. "\n";
+		print '}); '. "\n";
+		print '}); '. "\n";
+		print '</script> '. "\n";
 	
 		//spinner
 		print '<div class="loading">Loading...<br><img src="../css/images/ajax-loader.gif"></div>'. "\n";
