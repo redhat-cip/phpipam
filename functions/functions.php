@@ -2359,10 +2359,17 @@ function updateSwitchFromOldVersions()
     /* get all existing switches */
     $query 	  = 'select distinct(`switch`) from `ipaddresses` where `switch` not like "";';
     $switches = $database->getArray($query); 
+    
+    /* get all sectionsIds */
+    $sections = fetchSections();
+    foreach($sections as $section) {
+    	$id[] = $section['id'];
+    }
+    $id = implode(";", $id);
         
     /* import each to database */
     foreach($switches as $switch) {
-    	$query 	  = 'insert into `switches` (`hostname`) values ("'. $switch['switch'] .'");';
+    	$query 	  = 'insert into `switches` (`hostname`,`sections`) values ("'. $switch['switch'] .'", "'. $id .'");';
     	$database->executeQuery($query);
     }
     

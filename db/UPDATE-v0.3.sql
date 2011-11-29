@@ -10,7 +10,6 @@ ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
 
 /* Add version field to settings */
 ALTER TABLE `settings` ADD `version` varchar(4) DEFAULT NULL;
-ALTER TABLE `settings` ADD `donate` tinyint(1) DEFAULT 0;
 ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
 
 /* add mac to address table */
@@ -19,12 +18,12 @@ ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
 /* Reset donations */
 UPDATE `settings` set `donate` = '0'; 
 
-/* Expand logs table */
-ALTER TABLE `logs` ADD `details` varchar(1024) DEFAULT '0';
-
 /* Add version */
 UPDATE `settings` set `version` = '0.5';
 UPDATE `settings` set `siteTitle` = 'phpIPAM IP address management';
+
+/* Expand logs table */
+ALTER TABLE `logs` ADD `details` varchar(1024) DEFAULT '0';
 
 
 # Dump of table requests
