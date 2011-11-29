@@ -1,3 +1,20 @@
+<!--[if lt IE 9]>
+<style type="text/css">
+.tooltipBottom,
+.tooltipLeft,
+.tooltipTop,
+.tooltipTopDonate,
+.tooltip,
+.tooltipRightSubnets { 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
+}
+.tooltipBottom {
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
+}
+</style>
+<![endif]-->
+
+
 <?php
 
 /**

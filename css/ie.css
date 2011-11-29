@@ -104,6 +104,7 @@ form#logs input[type=button] {
 }
 .tooltipBottom {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e61d2429', endColorstr='#b3293339',GradientType=0 );
+	background: red;
 }
 
 

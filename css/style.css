@@ -634,17 +634,15 @@ div.adminMenuDropdown {
 	-moz-border-radius: 	4px;
 	border-radius: 			4px;
 	
-	background: black;
-
-	background: rgba(0,0,0,0.5);
-	
+		
 	-webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 	-moz-box-shadow: 	0 1px 10px rgba(0, 0, 0, 0.4);
 	box-shadow: 		0 1px 10px rgba(0, 0, 0, 0.4);
 
 	min-width: 150px;
 	z-index: 99999;
-	
+
+	background: rgb(41,51,57);	
 	background: -moz-linear-gradient(top,  rgba(29,36,41,0.9) 0%, rgba(41,51,57,0.7) 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(29,36,41,0.9)), color-stop(100%,rgba(41,51,57,0.7)));
 	background: -webkit-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);

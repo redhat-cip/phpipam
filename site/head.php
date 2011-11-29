@@ -43,5 +43,12 @@
     <!--[if gte IE 9]>
     <link rel="stylesheet" type="text/css" href="css/ie9.css" />
 	<![endif]-->
+
+	<!--[if IE 6]>
+	<script type="text/javascript" src="js/dieIE.js"></script>
+	<![endif]-->
+	<!--[if IE 7]>
+	<script type="text/javascript" src="js/dieIE.js"></script>
+	<![endif]-->
  		
 </head>
