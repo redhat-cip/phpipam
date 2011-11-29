@@ -2777,13 +2777,19 @@ function importCSVline ($line, $subnetId)
     	return false;
     }
     
+    /* reformat state */
+    switch($line[5]) {
+    	case "Active": 		$line[5] = "1";	break;
+    	case "Reserved": 	$line[5] = "2";	break;
+    	case "Offline": 	$line[5] = "0";	break;
+    }
     
 	
 	/* all ok, set query */
 	$query  = "insert into ipaddresses ";
-	$query .= "(`subnetId`, `ip_addr`, `description`, `dns_name`, `switch`, `port`, `owner`, `note` ) ";
+	$query .= "(`subnetId`, `ip_addr`, `state`, `description`, `dns_name`, `mac`, `owner`, `switch`, `port`, `note` ) ";
 	$query .= "values ";
-	$query .= "('". $subnetId ."', '". Transform2decimal( $line[0] ) ."', '". $line[1] ."', '". $line[2] ."', '". $line[3] ."', '". $line[4] ."', '". $line[5] ."', '". $line[6] ."');";
+	$query .= "('". $subnetId ."', '". Transform2decimal( $line[0] ) ."', '". $line[1] ."', '". $line[2] ."', '". $line[3] ."', '". $line[4] ."', '". $line[5] ."', '". $line[6] ."', '". $line[7] ."', '". $line[8] ."');";
 	
 	/* set log details */
 	$log = prepareLogFromArray ($line);

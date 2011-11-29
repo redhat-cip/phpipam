@@ -24,7 +24,7 @@ CheckReferrer();
 <h3>XLS / CSV subnet import</h3>
 
 <!-- notes -->
-To successfully import data please use the following XLS/CSV structure:<br>( ip | Desc | hostname | Switch | Port | Owner | Note )
+To successfully import data please use the following XLS/CSV structure:<br>( ip | State | Description | hostname | MAC | Owner | Switch | Port | Note )
 <br>
 <img src="css/images/csvuploadexample.jpg" style="border:1px solid #999999">
 <br>

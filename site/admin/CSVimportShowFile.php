@@ -31,7 +31,7 @@ else {
 	
 	//get all to array!
 	for($m=0; $m < $numRows; $m++) {
-		$outFile[] = $data->val($m,'A') . ',' . $data->val($m,'B'). ',' . $data->val($m,'C'). ',' . $data->val($m,'D'). ',' . $data->val($m,'E'). ',' . $data->val($m,'F'). ',' . $data->val($m,'G');
+		$outFile[] = $data->val($m,'A') . ',' . $data->val($m,'B'). ',' . $data->val($m,'C'). ',' . $data->val($m,'D'). ',' . $data->val($m,'E'). ',' . $data->val($m,'F'). ',' . $data->val($m,'G') . ',' . $data->val($m,'H') . ',' . $data->val($m,'I');
 	}
 	/* 	echo $data->dump(false,false); */
 }
@@ -44,13 +44,15 @@ print '<div class="normalTable">';
 print '<table class="normalTable">';
 
 /* headers */
-print '<tr>';
+print '<tr class="th">';
 print '	<th>IP</th>';
+print '	<th>Status</th>';
 print '	<th>Description</th>';
 print '	<th>Hostname</th>';
+print '	<th>MAC</th>';
+print '	<th>Owner</th>';
 print '	<th>Switch</th>';
 print '	<th>Port</th>';
-print '	<th>Owner</th>';
 print '	<th>Note</th>';
 print '</tr>';
 

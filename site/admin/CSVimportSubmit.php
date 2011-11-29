@@ -37,7 +37,7 @@ else {
 	
 		//IP must be present!
 		if($data->val($m,'A') > 4 ) {
-			$outFile[] = $data->val($m,'A') . ',' . $data->val($m,'B'). ',' . $data->val($m,'C'). ',' . $data->val($m,'D'). ',' . $data->val($m,'E'). ',' . $data->val($m,'F'). ',' . $data->val($m,'G');
+			$outFile[] = $data->val($m,'A') . ',' . $data->val($m,'B'). ',' . $data->val($m,'C'). ',' . $data->val($m,'D'). ',' . $data->val($m,'E'). ',' . $data->val($m,'F'). ',' . $data->val($m,'G'). ',' . $data->val($m,'H'). ',' . $data->val($m,'I');
 		}
 	}
 }
