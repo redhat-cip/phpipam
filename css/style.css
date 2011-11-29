@@ -1002,9 +1002,8 @@ div.addnew_check {
 table#mailNotify th {
 	text-align: left;
 }
-table#mailNotify tr.hover,
-table#mailNotify th {
-	background: none;
+table#mailNotify tr:hover {
+	background: transparent !important;
 }
 table#mailNotify td.info {
 	color: gray;
