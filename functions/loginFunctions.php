@@ -221,7 +221,7 @@ function checkLogin ($username, $md5password, $rawpassword)
     
     	if($adLogin) {
     		$result  = "AD login OK!";
-    		updateLogTable ('User '. $username .' logged in via AD.', "", 1);
+    		updateLogTable ('User '. $username .' logged in via AD.', "", 0);
     	}
     	else {
     		$result  = "AD login failed!";
