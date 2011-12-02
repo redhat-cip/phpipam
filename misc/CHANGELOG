@@ -1,3 +1,13 @@
+== 0.6
+
+	New features:
+	-------------
+
+	Bugfixes / enhancements:
+	------------------------
+	+ Fixed wrong logging when authentcating via AD;
+	
+
 == 0.5
 
 	New features:

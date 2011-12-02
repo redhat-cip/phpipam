@@ -281,12 +281,12 @@ function checkADLogin ($username, $password)
 		$authUser = $adldap->authenticate($username, $password);
 		
 		if($authUser == true) { 
-			return 'ok'; 
 			updateLogTable ('User '. $username .' authenticated via AD.', "", 2);
+			return 'ok'; 
 		}
 		else { 
-			return 'Failed to authenticate user via AD!'; 
 			updateLogTable ('User '. $username .' failed to authenticate via AD.', "", 2);
+			return 'Failed to authenticate user via AD!'; 
 		}
     }
     //user not defined as AD user or user not existing
