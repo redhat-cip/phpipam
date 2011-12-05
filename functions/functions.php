@@ -1076,7 +1076,7 @@ function fetchSections ()
     global $db;
 
     /* set query */
-    $query 	  = 'select * from sections;';
+    $query 	  = 'select * from `sections` order by `id` asc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
 
     /* fetch results */
