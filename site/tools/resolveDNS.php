@@ -1,5 +1,8 @@
 <?php
 
+/* verify that user is authenticated! */
+isUserAuthenticated ();
+
 /**
  * 	Resolve DNS name from ip address
  */

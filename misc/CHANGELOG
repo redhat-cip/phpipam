@@ -5,7 +5,8 @@
 
 	Bugfixes / enhancements:
 	------------------------
-	+ Fixed wrong logging when authentcating via AD;
+	+ Fixed wrong logging when authenticating via AD;
+	+ Fixed issues where external attacker might get information about internal hosts through resolvedns script;
 	
 
 == 0.5
