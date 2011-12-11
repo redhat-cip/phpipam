@@ -76,10 +76,19 @@ $query .= 'order by `ip_addr` asc;';
 
 /* get result */
 $result = searchAddresses ($query);
-
 ?>
 
-<h3>Search results (IP address list):</h3>
+<h3>
+	Search results (IP address list): 
+	<?php
+	if(sizeof($result) != 0) {
+		print('<a href="" id="exportSearch" title="Export All results to XLS"><img src="css/images/download.png"></a>');
+	}	
+	?>
+</h3>
+
+<!-- export holder -->
+<div class="exportDIVSearch"></div>
 
 <!-- search result table -->
 <div class="searchTable normalTable">
@@ -87,10 +96,6 @@ $result = searchAddresses ($query);
 
 <!-- headers -->
 <tr class="th" id="searchHeader">
-<!--
-	<th>Section</th>
-	<th>Subnet</th>
--->
 	<th>IP address</th>
 	<th>VLAN</th>
 	<th>Description</th>

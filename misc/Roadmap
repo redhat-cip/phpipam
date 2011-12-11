@@ -10,6 +10,7 @@ features for next releases
 		- Sorting of IP addresses;
 		- Sorting of subnets;
 		- custom CSS;
+		- Overlapping subnets if VRF is enabled;
 	
 	Optional
 		- better exception handling (functions);

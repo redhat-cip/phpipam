@@ -43,6 +43,7 @@ $("body").live("mouseover",function () {
 	
 	/* search, switches and devices info */
 	$('table.searchTable img.info,table.hosts img.info,table.switches img.info').tooltip({position: "top center", tipClass:'tooltipTop' });
+	$('h3 a#exportSearch').tooltip({position: "top center", tipClass:'tooltipTop' });
 	
 	/* donate */
 	$('td#donate').tooltip({position: "top center", tipClass:'tooltipTopDonate' });

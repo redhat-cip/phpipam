@@ -318,7 +318,6 @@ function loadSearchPage(searchTerm) {
         hideSpinner();
     });
 }
-
 /*	update search Page
 ************************/
 function updateSearchPage(searchTerm) {
@@ -1221,6 +1220,17 @@ $('table.menu a').live('click', function () {
     loadToolsSubpage (subPage);  
 });
 
+/*	search export
+************************/
+$('a#exportSearch').live('click', function() {
+
+	var searchTerm = $('form#search input.search').val();
+	
+	$("div.dl").remove();	//remove old innerDiv
+	$('div.exportDIVSearch').append("<div style='display:none' class='dl'><iframe src='site/tools/searchResultsExport.php?searchTerm=" + searchTerm + "'></iframe></div>");
+
+	return false;
+});
 
 /*	ipCalc form submit 
 ************************/
