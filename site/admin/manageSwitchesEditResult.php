@@ -13,6 +13,14 @@ if (!checkAdmin()) die('');
 /* get modified details */
 $switch = $_POST;
 
+/* sanitize post! */
+$switch['hostname'] 	= htmlentities($subnetDetails['hostname'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
+$switch['ip_addr'] 		= htmlentities($subnetDetails['ip_addr'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
+$switch['vendor'] 		= htmlentities($subnetDetails['vendor'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
+$switch['model'] 		= htmlentities($subnetDetails['model'], ENT_COMPAT | ENT_HTML401, "UTF-8");			# prevent XSS
+$switch['version'] 		= htmlentities($subnetDetails['version'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
+$switch['description'] 	= htmlentities($subnetDetails['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	# prevent XSS
+
 
 /* available switches */
 foreach($switch as $key=>$line) {

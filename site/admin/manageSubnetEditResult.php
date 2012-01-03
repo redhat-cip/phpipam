@@ -58,6 +58,10 @@ if($vlancheck != 'ok') {
 }
 
 
+/* sanitize description */
+$subnetDetails['description'] = htmlentities($subnetDetails['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
+
+
 /**
  * If no errors are present execute request
  */

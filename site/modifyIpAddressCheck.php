@@ -30,14 +30,14 @@ else {
 }
 
 if ( !empty($_REQUEST['description']) ) {
-    $ip['description'] = htmlentities($_REQUEST['description']);	//prevent XSS
+    $ip['description'] = htmlentities($_REQUEST['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['description'] = "";
 }
 
 if ( !empty($_REQUEST['dns_name']) ) {
-	$ip['dns_name'] = htmlentities($_REQUEST['dns_name']);
+	$ip['dns_name'] = htmlentities($_REQUEST['dns_name'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['dns_name'] = "";
@@ -45,7 +45,7 @@ else {
 
 //mac
 if ( !empty($_REQUEST['mac']) ) {
-	$ip['mac'] = htmlentities($_REQUEST['mac']);
+	$ip['mac'] = htmlentities($_REQUEST['mac'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['mac'] = "";
@@ -53,7 +53,7 @@ else {
 
 //owner
 if ( !empty($_REQUEST['owner']) ) {
-	$ip['owner'] = htmlentities($_REQUEST['owner']);
+	$ip['owner'] = htmlentities($_REQUEST['owner'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['owner'] = "";
@@ -61,7 +61,7 @@ else {
 
 //switch
 if ( !empty($_REQUEST['switch']) ) {
-	$ip['switch'] = htmlentities($_REQUEST['switch']);
+	$ip['switch'] = htmlentities($_REQUEST['switch'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['switch'] = "";
@@ -69,7 +69,7 @@ else {
 
 //port
 if ( !empty($_REQUEST['port']) ) {
-	$ip['port'] = htmlentities($_REQUEST['port']);
+	$ip['port'] = htmlentities($_REQUEST['port'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['port'] = "";
@@ -77,7 +77,7 @@ else {
 
 //note
 if ( !empty($_REQUEST['note']) ) {
-	$ip['note'] = htmlentities($_REQUEST['note']);
+	$ip['note'] = htmlentities($_REQUEST['note'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 }
 else {
 	$ip['note'] = "";

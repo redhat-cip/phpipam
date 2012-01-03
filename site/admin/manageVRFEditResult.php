@@ -13,6 +13,12 @@ if (!checkAdmin()) die('');
 /* get modified details */
 $vrf = $_POST;
 
+/* sanitize post! */
+$vrf['name'] 		= htmlentities($vrf['name'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
+$vrf['rd'] 			= htmlentities($vrf['rd'], ENT_COMPAT | ENT_HTML401, "UTF-8");			# prevent XSS
+$vrf['description'] = htmlentities($vrf['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	# prevent XSS
+
+
 /* Hostname must be present! */
 if($vrf['name'] == "") {
 	die('<div class="error">Name is mandatory!</div>');

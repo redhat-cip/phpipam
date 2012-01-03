@@ -1273,6 +1273,7 @@ function getIpAddressesBySubnetId ($subnetId)
     /* set query, open db connection and fetch results */
     $query       = 'select * from ipaddresses where subnetId = "'. $subnetId .'" order by ip_addr ASC;';
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+    
     $ipaddresses = $database->getArray($query);
     $database->close();
 
@@ -1379,7 +1380,7 @@ function modifyIpAddress ($ip)
     global $db;
     /* set query, open db connection and fetch results */
     $query    = SetInsertQuery($ip);
-    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
 
     if ( !$database->executeQuery($query) ) {
         return false;

@@ -11,6 +11,11 @@
  
 class database extends mysqli 
 {
+
+  public function __construct($host = NULL, $username = NULL, $dbname = NULL, $port = NULL, $socket = NULL) {
+    parent::__construct($host, $username, $dbname, $port, $socket);
+    $this->set_charset("utf8");
+  } 
 	
 	/**
 	 * execute given query 

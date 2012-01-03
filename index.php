@@ -2,7 +2,6 @@
 session_start();
 ob_start();
 
-
 /* site config */
 require('config.php');
 
