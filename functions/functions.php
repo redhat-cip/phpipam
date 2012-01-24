@@ -1175,7 +1175,7 @@ function fetchSubnets ($sectionId)
     global $db;
 
     /* set query, open db connection and fetch results */
-    $query 	  = 'select * from subnets where sectionId = "'. $sectionId .'" ORDER BY subnet ASC;';
+    $query 	  = 'select * from subnets where sectionId = "'. $sectionId .'" ORDER BY masterSubnetId,subnet ASC;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $subnets  = $database->getArray($query);
     $database->close();

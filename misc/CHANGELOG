@@ -6,8 +6,10 @@
 
 	Bugfixes / enhancements:
 	------------------------
+	+ Fixed broken UTF-8 support;
 	+ Fixed wrong logging when authenticating via AD;
 	+ Fixed issues where external attacker might get information about internal hosts through resolvedns script;
+	+ Fixed wrong subnet nesting under administration/manage subnets;
 	
 
 == 0.5

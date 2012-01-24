@@ -43,62 +43,70 @@ print '		<th colspan=2></th>' . "\n";
 print '	</tr>' . "\n";
 
 /* print all subnets in section if they exist */
-$subnets = fetchSubnets ( $section['id'] );
+$subnets = fetchMasterSubnets ( $section['id'] );
     
 if (!empty($subnets)) {
 
+	# master subnets
 	foreach ($subnets as $subnet) {
-	
-		/* check if it is master */
-		if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) {
-			$masterSubnet = true;
-			$class = "masterSubnet";
-		}
-		else {
-			$masterSubnet = false;
-			$class = "slaveSubnet";
-		}
 
-		print '	<tr class="'. $class .'">' . "\n";
+		print '	<tr class="masterSubnet">' . "\n";
         print '		<td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
        	print '		<td>'. $subnet['description'] .'</td>' . "\n";
-
-		if($masterSubnet) {
-			print '		<td>/</td>' . "\n";
-		}
-		else {
-			$master = getSubnetDetailsById ($subnet['masterSubnetId']);
-       		print '		<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
-		}
-
-		//VLAN
-		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) {
-			$subnet['VLAN'] = "";
-		}
+		print '		<td>/</td>' . "\n";
+		
+		# VLAN
+		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
 		print '		<td>'. $subnet['VLAN']        .'</td>' . "\n";
 		
-		//requests
-		if($subnet['allowRequests'] == 1) {
-			print '<td class="allowRequests">enabled</td>';
-		}
-		else {
-			print '<td class="allowRequests"></td>';
-		}
+		# requests
+		if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests">enabled</td>'; }
+		else 								{ print '<td class="allowRequests"></td>'; }
 		
-		//check if it is locked for writing
-		if(isSubnetWriteProtected($subnet['id'])) {
-			print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	
-		} 
-		else {
-			print '<td class="edit nolock"></td>';
-		}
+		# check if it is locked for writing
+		if(isSubnetWriteProtected($subnet['id'])) 	{ print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	} 
+		else 										{ print '<td class="edit nolock"></td>';}
 		
 
         print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $subnet['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
         print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $subnet['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
         print '	</tr>' . "\n";
-        }
-    }
+		
+		
+		# slaves
+		$slaves = getAllSlaveSubnetsBySubnetId ($subnet['id']);
+		
+		if(sizeof($slaves) != 0) {
+		
+			foreach($slaves as $slave) {
+		
+				$master = getSubnetDetailsById ($slave['masterSubnetId']);
+			
+				print '	<tr class="slaveSubnet">' . "\n";
+		        print '		<td>'. transform2long($slave['subnet']) .'/'. $slave['mask'] .'</td>' . "\n";
+		       	print '		<td>'. $slave['description'] .'</td>' . "\n";
+				print '		<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
+		
+				# VLAN
+				if(empty($slave['VLAN']) || $slave['VLAN'] == 0) { $slave['VLAN'] = ""; }
+				print '		<td>'. $slave['VLAN']        .'</td>' . "\n";
+		
+				# requests
+				if($slave['allowRequests'] == 1) 	{ print '<td class="allowRequests">enabled</td>'; }
+				else 								{ print '<td class="allowRequests"></td>'; }
+		
+				# check if it is locked for writing
+				if(isSubnetWriteProtected($slave['id'])) 	{ print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	} 
+				else 										{ print '<td class="edit nolock"></td>';}
+
+    		    print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $slave['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
+    		    print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $slave['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
+        		print '	</tr>' . "\n";
+        	}
+			
+		}
+	}
+}
 
     /* add new link */
     print '	<tr class="addNew info add">' . "\n";
