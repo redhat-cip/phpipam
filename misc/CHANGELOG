@@ -10,6 +10,7 @@
 	+ Fixed wrong logging when authenticating via AD;
 	+ Fixed issues where external attacker might get information about internal hosts through resolvedns script;
 	+ Fixed wrong subnet nesting under administration/manage subnets;
+	+ Fixed editing subnet can be outside of its own root subnet:
 	
 
 == 0.5

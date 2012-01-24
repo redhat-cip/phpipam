@@ -47,6 +47,15 @@ else if ($subnetDetails['subnetAction'] == "Add") {
     	$errors[] = $overlap;
     }    
 } 
+/**
+ * Check if slave is under master
+ */
+else if ($subnetDetails['subnetAction'] == "Edit") {
+    /* verify that nested subnet is inside root subnet */
+    if ( !$overlap = verifySubnetNesting ($subnetDetails['masterSubnetId'], $subnetDetails['subnet']) ) {
+    	$errors[] = 'Nested subnet not in root subnet!';
+    }
+}
 else {
 }
 
