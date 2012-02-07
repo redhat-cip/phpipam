@@ -52,7 +52,7 @@ else if ($subnetDetails['subnetAction'] == "Add") {
  */
 else if ($subnetDetails['subnetAction'] == "Edit") {
     /* verify that nested subnet is inside root subnet */
-    if ( !$overlap = verifySubnetNesting ($subnetDetails['masterSubnetId'], $subnetDetails['subnet']) ) {
+    if ( (!$overlap = verifySubnetNesting($subnetDetails['masterSubnetId'], $subnetDetails['subnet'])) && $subnetDetails['masterSubnetId']!=0) {
     	$errors[] = 'Nested subnet not in root subnet!';
     }
 }

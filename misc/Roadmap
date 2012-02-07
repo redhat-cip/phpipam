@@ -11,6 +11,14 @@ features for next releases
 		- Sorting of subnets;
 		- custom CSS;
 		- Overlapping subnets if VRF is enabled;
+		- download and clear log files;
+		
+	bugs
+		- better email handling
+		- multiple subnet nesting levels
+		- API
+		- custom groups
+		- per-section permissions 
 	
 	Optional
 		- better exception handling (functions);
