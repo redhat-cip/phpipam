@@ -969,7 +969,7 @@ function checkAdmin ($die = true, $startSession = true)
     global $db;
     
     /* first get active username */
-    if($startSession == true) {
+    if(!isset($_SESSION)) {
     	session_start();
     }
     $ipamusername = $_SESSION['ipamusername'];
