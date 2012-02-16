@@ -197,9 +197,6 @@ function validateVlan ($vlan)
 	else if(!is_numeric($vlan)) {
 		return 'VLAN must be numeric value!';
 	}
-	else if ($vlan == 1) {
-		return 'Cannot use VLAN number 1';
-	}
 	else if ( ($vlan > 1001 ) && ($vlan < 1006) ) {
 		return 'Reserved VLAN number (1002 - 1005)';
 	}

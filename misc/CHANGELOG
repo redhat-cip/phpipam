@@ -10,7 +10,10 @@
 	+ Fixed wrong logging when authenticating via AD;
 	+ Fixed issues where external attacker might get information about internal hosts through resolvedns script;
 	+ Fixed wrong subnet nesting under administration/manage subnets;
-	+ Fixed editing subnet can be outside of its own root subnet:
+	+ Fixed editing subnet can be outside of its own root subnet;
+	+ Fixed errors when adding new switch auto-adds itselt to all hosts without no switch defined;
+	+ Fixed removing switch not removed in ip address list;
+	+ Vlan1 can now be used;
 	
 
 == 0.5
