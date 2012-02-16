@@ -32,7 +32,9 @@ foreach($switch as $key=>$line) {
 	}
 }
 /* glue sections together */
-$switch['sections'] = implode(";", $temp);
+if(sizeof($temp) > 0) {
+	$switch['sections'] = implode(";", $temp);
+}
 
 /* Hostname must be present! */
 if($switch['hostname'] == "") {
