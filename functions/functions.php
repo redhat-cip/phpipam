@@ -2460,6 +2460,62 @@ function getAllLogs($logCount, $direction = NULL, $lastId = NULL, $highestId = N
 
 
 /**
+ * Get all logs for export
+ */
+function getAllLogsForExport()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* increase memory size */
+	ini_set('memory_limit', '512M');
+	
+	/* query start */
+	$query = 'select * from `logs` order by `id` desc;'. "\n";
+
+    /* execute */
+    try {
+    	$logs = $database->getArray($query);
+    }
+    catch (Exception $e) {
+    	$error =  $e->getMessage();
+    	die('<div class="error">'. $error .'</div>');
+	}
+    /* return vlans */
+    return $logs;
+}
+
+
+/**
+ * Clear all logs
+ */
+function clearLogs()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+	
+	/* query start */
+	$query  = 'truncate table logs;'. "\n";
+
+    /* execute */
+    try {
+    	$logs = $database->executeQuery($query);
+    }
+    catch (Exception $e) {
+    	$error =  $e->getMessage();
+    	die('<div class="error">'. $error .'</div>');
+	}
+
+    /* return result */
+    return true;
+}
+
+
+
+
+/**
  * Count all logs
  */
 function countAllLogs ()

@@ -970,6 +970,22 @@ $('form#logs input').live('click', function() {
         hideSpinner();
     });    
 });
+/*	logs export 
+***************************/
+$('#downloadLogs').live('click', function() {
+    showSpinner();
+	$("div.dl").remove();	//remove old innerDiv
+	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/logsExport.php'></iframe></div>");
+	hideSpinner();
+});
+/*	logs clear
+***************************/
+$('#clearLogs').live('click', function() {
+    showSpinner();
+    $('div.logs').load('site/admin/logClear.php', function() {
+   		hideSpinner();
+    });
+});
 
 
 /*	XLS export

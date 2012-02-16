@@ -116,6 +116,7 @@ input[type=button] {
 	background: -o-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
 	background: -ms-linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
 	background: linear-gradient(top,  rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
+
 }
 input[type=submit]:hover, 
 input[type=button]:hover {
@@ -1747,6 +1748,12 @@ table.asImport td.img {
 div.logs {
 	margin-top: 8px;
 }
+#downloadLogs,
+#clearLogs {
+	cursor: pointer;
+}
+
+
 form#logs input[type=button] {
 
 	background: #f6f8f9; /* Old browsers */
