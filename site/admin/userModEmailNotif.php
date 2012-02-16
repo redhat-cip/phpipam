@@ -12,7 +12,7 @@ isUserAuthenticated ();
 
 /* set mail values */
 $mail['recipients'] = $userModDetails['email'];
-$mail['from']		= 'IPAM@' . $site['domain'];
+$mail['from']		= 'IPAM@' . $settings['siteDomain'];
 
 /* set subject */
 if ($action == "Add") {
@@ -42,8 +42,8 @@ $mail['content'] .= '<tr><td>Email</td>		<td>'. $userModDetails['email'] 	.'</td
 
 $mail['content'] .= '</table>' . "\n";
 
-$mail['content'] .= '<br>You can login to IPAM with your username and password here: '. $site['public_url'] . '<br>' . "\n";
-$mail['content'] .= 'If you have any issues please contact <a href="'. $site['admin_mail'] .'">'. $site['admin_name'] .'</a>';
+$mail['content'] .= '<br>You can login to IPAM with your username and password here: '. $settings['siteURL'] . '<br>' . "\n";
+$mail['content'] .= 'If you have any issues please contact <a href="'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>';
 
 /* send mail */
 if (!mail($mail['recipients'], $mail['subject'], $mail['content'], $mail['headers'] )) {

@@ -15,6 +15,7 @@
 	+ Fixed errors when adding new switch auto-adds itselt to all hosts without no switch defined;
 	+ Fixed removing switch not removed in ip address list;
 	+ Vlan1 can now be used;
+	+ Fixed mail sending settings with missing information;
 	
 
 == 0.5

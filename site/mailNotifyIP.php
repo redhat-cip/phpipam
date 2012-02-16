@@ -17,6 +17,10 @@ isUserAuthenticated ();
 /* get all site settings */
 $settings = getAllSettings();
 
+/* user details */
+$userDetails = getActiveUserDetails();
+
+
 /* get IP address id */
 $id = $_REQUEST['id'];
 
@@ -38,8 +42,8 @@ $content .= '- IP address: ' . "\t" . $ip['ip_addr'] . '/' . $subnet['mask']. "\
 $content .= '- Subnet desc: ' . "\t" . $subnet['description']. "\n";
 $content .= '- VLAN: ' . "\t\t" . $subnet['VLAN'] . "\n";
 $content .= "- Switch/port:\t". $ip['switch'] ." / ". $ip['port'] . "\n";
-$content .= "\n" . 'Contact: '. $settings['siteAdminMail'] . "\n";
-$content .= $site['public_url'];
+$content .= "\n" . 'Contact: '. $userDetails['email'] . "\n";
+$content .= '<a href="http://'. $settings['siteURL'] .'">http://'. $settings['siteURL'] ."</a>";
 
 ?>
 

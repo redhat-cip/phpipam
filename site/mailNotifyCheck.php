@@ -13,9 +13,12 @@ CheckReferrer();
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
+/* get all site settings */
+$settings = getAllSettings();
+
 /* get posted values */
 $mail['recipients'] = $_REQUEST['recipients'];
-$mail['from']		= 'IPAM@' . $site['domain'];
+$mail['from']		= 'IPAM@' . $settings['siteDomain'];
 $mail['subject']	= $_REQUEST['subject'];
 
 /* wrap content in <pre> to preserver tabbing */
@@ -49,7 +52,7 @@ $mail['content'] .= '</table>';
 
 /* set additional headers */
 $mail['headers']	= 'From: ' . $mail['from'] . "\r\n";
-$mail['headers']   .= 'Reply-To: '. $site['admin_mail'] . "\r\n";
+$mail['headers']   .= 'Reply-To: '. $settings['siteAdminMail'] . "\r\n";
 $mail['headers']   .= "Content-type: text/html; charset=utf8" . "\r\n";
 $mail['headers']   .= 'X-Mailer: PHP/' . phpversion();
 

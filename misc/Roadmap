@@ -11,9 +11,10 @@ features for next releases
 		- Sorting of subnets;
 		- custom CSS;
 		- Overlapping subnets if VRF is enabled;
+		- SMTP auth;
+		- Prettier emails;
 		
 	bugs
-		- better email handling
 		- multiple subnet nesting levels
 		- API
 		- custom groups
