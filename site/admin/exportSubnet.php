@@ -53,32 +53,71 @@ $format_top =& $workbook->addFormat();
 $format_top->setTop(1);
 
 
+//set column size
+$colSize = sizeof($_GET);
+$colSize = $colSize-2;
+
+
 // Create a worksheet
 $worksheet =& $workbook->addWorksheet($subnet['description']);
 
 $lineCount = 0;
 
 //Write title
-$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
-$worksheet->mergeCells($lineCount, 0, $lineCount, 8);
+$worksheet->write($lineCount, $rowCount, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
+$worksheet->mergeCells($lineCount, $rowCount, $lineCount, $colSize);
 		
 $lineCount++;
 		
+//set row count
+$rowCount = 0;
+
 //write headers
-	$worksheet->write($lineCount, 0, 'ip address' ,$format_title);
-	$worksheet->write($lineCount, 1, 'ip state' ,$format_title);
-	$worksheet->write($lineCount, 2, 'description' ,$format_title);
-	$worksheet->write($lineCount, 3, 'hostname' ,$format_title);
-	$worksheet->write($lineCount, 4, 'mac' ,$format_title);
-	$worksheet->write($lineCount, 5, 'owner' ,$format_title);
-	$worksheet->write($lineCount, 6, 'switch' ,$format_title);
-	$worksheet->write($lineCount, 7, 'port' ,$format_title);
-	$worksheet->write($lineCount, 8, 'note' ,$format_title);
+	if( (isset($_GET['ip_addr'])) && ($_GET['ip_addr'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'ip address' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['state'])) && ($_GET['state'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'ip state' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['description'])) && ($_GET['description'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'description' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['dns_name'])) && ($_GET['dns_name'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'hostname' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['mac'])) && ($_GET['mac'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'mac' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['owner'])) && ($_GET['owner'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'owner' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['switch'])) && ($_GET['switch'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'switch' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['port'])) && ($_GET['port'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'port' ,$format_title);
+		$rowCount++;
+	}
+	if( (isset($_GET['note'])) && ($_GET['note'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, 'note' ,$format_title);
+		$rowCount++;
+	}
+		
 			
 	$lineCount++;
 		
 //write all IP addresses
 foreach ($ipaddresses as $ip) {
+
+	//reset row count
+	$rowCount = 0;
 		
 	//we need to reformat state!
 	switch($ip['state']) {
@@ -86,30 +125,91 @@ foreach ($ipaddresses as $ip) {
 		case 1: $ip['state'] = "Active";	break;
 		case 2: $ip['state'] = "Reserved";	break;
 	}
-		
-	$worksheet->write($lineCount, 0, transform2long($ip['ip_addr']), $format_left);
-	$worksheet->write($lineCount, 1, $ip['state']);
-	$worksheet->write($lineCount, 2, $ip['description']);
-	$worksheet->write($lineCount, 3, $ip['dns_name']);
-	$worksheet->write($lineCount, 4, $ip['mac']);
-	$worksheet->write($lineCount, 5, $ip['owner']);
-	$worksheet->write($lineCount, 6, $ip['switch']);
-	$worksheet->write($lineCount, 7, $ip['port']);
-	$worksheet->write($lineCount, 8, $ip['note'], $format_right);
-			
+	
+	if( (isset($_GET['ip_addr'])) && ($_GET['ip_addr'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, transform2long($ip['ip_addr']), $format_left);
+		$rowCount++;
+	}
+	if( (isset($_GET['state'])) && ($_GET['state'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['state']);
+		$rowCount++;
+	}
+	if( (isset($_GET['description'])) && ($_GET['description'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['description']);
+		$rowCount++;
+	}
+	if( (isset($_GET['dns_name'])) && ($_GET['dns_name'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['dns_name']);
+		$rowCount++;
+	}
+	if( (isset($_GET['mac'])) && ($_GET['mac'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['mac']);
+		$rowCount++;
+	}
+	if( (isset($_GET['owner'])) && ($_GET['owner'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['owner']);
+		$rowCount++;
+	}
+	if( (isset($_GET['switch'])) && ($_GET['switch'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['switch']);
+		$rowCount++;
+	}
+	if( (isset($_GET['port'])) && ($_GET['port'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['port']);
+		$rowCount++;
+	}
+	if( (isset($_GET['note'])) && ($_GET['note'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, $ip['note']);
+		$rowCount++;
+	}
+
+	//right line
+	$worksheet->write($lineCount, $rowCount, "", $format_left);
+	$rowCount++;
+				
 	$lineCount++;
 }
 		
 	//top border line at bottom of IP addresses
-	$worksheet->write($lineCount, 0, "", $format_top);
-	$worksheet->write($lineCount, 1, "", $format_top);
-	$worksheet->write($lineCount, 2, "", $format_top);
-	$worksheet->write($lineCount, 3, "", $format_top);
-	$worksheet->write($lineCount, 4, "", $format_top);
-	$worksheet->write($lineCount, 5, "", $format_top);
-	$worksheet->write($lineCount, 6, "", $format_top);
-	$worksheet->write($lineCount, 7, "", $format_top);
-	$worksheet->write($lineCount, 8, "", $format_top);
+	$rowCount = 0;
+
+
+	if( (isset($_GET['ip_addr'])) && ($_GET['ip_addr'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['state'])) && ($_GET['state'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['description'])) && ($_GET['description'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['dns_name'])) && ($_GET['dns_name'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['mac'])) && ($_GET['mac'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['owner'])) && ($_GET['owner'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['switch'])) && ($_GET['switch'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['port'])) && ($_GET['port'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
+	if( (isset($_GET['note'])) && ($_GET['note'] == "on") ) {
+		$worksheet->write($lineCount, $rowCount, "", $format_top);
+		$rowCount++;
+	}
 
 //new line
 $lineCount++;

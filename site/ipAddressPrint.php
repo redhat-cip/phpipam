@@ -134,6 +134,34 @@ subnet details upper table
 		print '	<td>Export IP addresses in this subnet to XLS</td>' . "\n";
 		print '</tr>' . "\n";
 	
+	
+
+		//selected fields
+		print '<tr class="" style="display:none" id="selectFields">'. "\n";
+		print '	<td></td>'. "\n";
+		print '	<td style="padding:10px 10px;">Select fields to export:'. "\n";
+		
+		print '<form id="selectExportFields">';
+		
+		print '<input type="checkbox" name="ip_addr" 	checked> IP address<br>';
+		print '<input type="checkbox" name="state" 		checked> IP state<br>';
+		print '<input type="checkbox" name="description"checked> Description<br>';
+		print '<input type="checkbox" name="dns_name" 	checked> Hostname<br>';
+		print '<input type="checkbox" name="mac" 		checked> MAC address<br>';
+		print '<input type="checkbox" name="owner" 		checked> Owner<br>';
+		print '<input type="checkbox" name="switch" 	checked> Switch<br>';
+		print '<input type="checkbox" name="port" 		checked> Port<br>';
+		print '<input type="checkbox" name="note" 		checked> Note<br>';
+		print '<input type="checkbox" name="location" 	checked> Location<br>';
+
+		print '<input type="submit" value="Export">';
+		
+		print '</form>';
+		
+		print '</td>'. "\n";
+		print '</tr>'. "\n";	
+	
+	
 	}
 	
 	/* Edit subnet for admins */

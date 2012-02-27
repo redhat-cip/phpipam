@@ -3,9 +3,10 @@
 
 	New features:
 	-------------
-	+ Export of search results to XLS;
 	+ Added option to clear and export log files;
 	+ Added search and replace function;
+	+ Export of search results to XLS;
+	+ Selectable export fields when exportin subnet;
 
 	Bugfixes / enhancements:
 	------------------------

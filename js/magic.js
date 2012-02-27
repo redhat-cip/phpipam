@@ -556,9 +556,20 @@ $('table.subnets td.plusSubnet').live("click", function () {
 $('img.csvExport').live("click", function () {
 	var subnetId = $(this).attr('subnetId');
 
-	$("div.dl").remove();	//remove old innerDiv
-	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportSubnet.php?subnetId=" + subnetId + "'></iframe></div>");
+	$('tr#selectFields').show();
 });
+$('form#selectExportFields').live("submit", function () {
+	var subnetId = $('img.csvExport').attr('subnetId');
+	//get selected fields
+	var exportFields = $(this).serialize();
+
+	$("div.dl").remove();	//remove old innerDiv
+	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportSubnet.php?subnetId=" + subnetId + "&" + exportFields + "'></iframe></div>");
+
+	return false;
+});
+
+
 
 /*	load CSV import form
 ****************************************/
