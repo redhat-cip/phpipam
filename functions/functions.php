@@ -3043,6 +3043,37 @@ function acceptIPrequest($request)
 }
 
 
+
+/**
+ * Search and replace fields
+ */
+function searchAndReplace($query, $post)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* check how many records are in database */
+    $query2 = 'select count(*) as count from `ipaddresses` where '. $post['field'] .' like "%'. $post['search'] .'%";';
+    $count 	  = $database->getArray($query2); 
+    $count 	  = $count[0]['count'];
+  
+	/* execute */
+    try {
+    	$database->executeQuery( $query );
+    }
+    catch (Exception $e) {
+    	$error =  $e->getMessage();
+    	die('<div class="error">Replace error: '. $error .'</div>');
+	}
+	
+	if(!isset($e)) {
+		print '<div class="success">Replaced '. $count .' items successfully!</div>';
+	}
+}
+
+
+
 /**
  * Get all site settings
  */

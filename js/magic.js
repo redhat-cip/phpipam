@@ -1004,6 +1004,19 @@ $('input#MySQLdump').live('click', function () {
 	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateMySQL.php' ></iframe></div>");
 });
 
+/*	Search and replace
+************************/
+$('form#searchReplace').live('submit', function() {
+	var searchData = $(this).serialize();
+	
+    $.post('site/admin/searchReplaceResult.php', searchData, function(data) {
+        $('div.searchReplaceResult').html(data);
+        hideSpinner();
+    });  
+	
+	return false;
+});
+
 
 /*	instructions
 ***********************/

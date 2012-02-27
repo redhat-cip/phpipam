@@ -145,6 +145,11 @@ $settings = getAllSettings();
         <td link="Administration|verifyDatabase">Verify database</td>
     </tr>
 
+   <!-- replace fields-->
+    <tr id="replaceFields" class="replaceFields">
+        <td link="Administration|replaceFields">Replace fields</td>
+    </tr>
+
     <!-- export database -->
     <tr id="export" class="export">
         <td link="Administration|export">Export database</td>
