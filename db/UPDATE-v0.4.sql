@@ -1,21 +1,32 @@
 /************************
-Update from v 0.4 to 0.5 
+Update from v 0.4 to 0.6
 ************************/
 
 
-/* Add vrf to subnets */
-ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;
-
-/* Add enableVRF to settings */
-ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';
-
-/* add mac to ipaddresses */
-ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;
-
-/* UPDATE version */
-UPDATE `settings` set `version` = '0.5';
+/* UPDATE setings */
+UPDATE `settings` set `version` = '0.6';
 UPDATE `settings` set `siteTitle` = 'phpIPAM IP address management';
 UPDATE `settings` set `donate` = '0';
+ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';			/* Add enableVRF to settings */
+
+/* ALTER subnets */
+ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;		/* Add vrf to subnets */
+ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;		/* UPDATE subnets add VLAN support */
+
+/* ALTER ipaddresses */
+ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;	/* add mac to ipaddresses */
+
+
+
+# Dump of table VLANS
+# ------------------------------------------------------------
+CREATE TABLE `vlans` (
+    `vlanId` INTEGER(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `number` INTEGER(3),
+    `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+    PRIMARY KEY (`vlanId`)
+) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
 
 # Dump of table switches

@@ -109,6 +109,7 @@ CREATE TABLE `subnets` (
   `masterSubnetId` varchar(32) DEFAULT NULL,
   `allowRequests` tinyint(1) DEFAULT '0',
   `adminLock` binary(1) DEFAULT '0',
+  `vlanId` INTEGER(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
@@ -117,15 +118,26 @@ LOCK TABLES `subnets` WRITE;
 
 INSERT INTO `subnets` (`id`, `subnet`, `mask`, `sectionId`, `description`, `VLAN`, `masterSubnetId`)
 VALUES
-	(4,'168427520','16','1','Master subnet 1',1000,'0'),
-	(2,'1507077376','24','2','Public server section',1200,NULL),
-	(3,'42540579432819059193067264187931033600','32','3','IPv6 subnet 1',1300,NULL),
-	(5,'168427776','24','1','Subnet 1',1010,'4'),
-	(6,'168428032','24','1','Subnet 2',1020,'4'),
-	(7,'184483840','24','1','Subnet 255',1500,'0');
+	(4,'168427520','16','1','Master subnet 1',NULL,'0'),
+	(2,'1507077376','24','2','Public server section',NULL,NULL),
+	(3,'42540579432819059193067264187931033600','32','3','IPv6 subnet 1',NULL,NULL),
+	(5,'168427776','24','1','Subnet 1',NULL,'4'),
+	(6,'168428032','24','1','Subnet 2',NULL,'4'),
+	(7,'184483840','24','1','Subnet 255',NULL,'0');
 
 /*!40000 ALTER TABLE `subnets` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table VLANS
+# ------------------------------------------------------------
+CREATE TABLE `vlans` (
+    `vlanId` INTEGER(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `number` INTEGER(3),
+    `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
+    PRIMARY KEY (`vlanId`)
+) ENGINE=MYISAM DEFAULT CHARSET=utf8;
 
 
 # Dump of table ipaddresses

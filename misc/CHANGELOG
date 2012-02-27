@@ -10,6 +10,7 @@
 
 	Bugfixes / enhancements:
 	------------------------
+	+ Upgrade is supported only for versions 0.4 and higher;
 	+ Fixed broken UTF-8 support;
 	+ Fixed wrong logging when authenticating via AD;
 	+ Fixed issues where external attacker might get information about internal hosts through resolvedns script;
