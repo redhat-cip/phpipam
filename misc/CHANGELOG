@@ -20,6 +20,7 @@
 	+ Vlan1 can now be used;
 	+ Fixed mail sending settings with missing information;
 	+ Fixed errors on adding switch with no sections;
+	+ Fixed version check;
 	
 
 == 0.5

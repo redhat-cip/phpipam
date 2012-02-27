@@ -3337,19 +3337,9 @@ function upgradeDatabase($version)
 function getLatestPHPIPAMversion() 
 {
 	/* fetch page */
-	$handle = fopen("http://sourceforge.net/projects/phpipam/", "r");
+	$handle = fopen("http://mihap.si/phpipamversion.php", "r");
 	while (!feof($handle)) {
-	
-		$temp = fgets($handle);
-	
-		if(strpos($temp, 'small title="/current/phpipam')) {
-			$temp = explode('"', $temp);
-			
-			$version = explode("/",$temp[1]);
-		
-			$version = $version[2];				//phpipam-0.3.tar
-			$version = str_replace(array("phpipam-", ".tar"), "", $version);
-		}		
+		$version = fgets($handle);		
 	}
 	fclose($handle);
 	
