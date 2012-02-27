@@ -68,6 +68,12 @@ $settings = getAllSettings();
         <td link="Administration|manageSwitches">Switch management</td>
     </tr>
 
+    <!-- VLAN management -->
+    <tr id="manageVLANs" class="manageVLANs">
+        <td link="Administration|manageVLANs">VLAN management</td>
+    </tr>
+
+
    <!-- VRF management -->
     <?php
     /* show IP request link if enabled in config file!  */

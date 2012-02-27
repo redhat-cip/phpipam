@@ -965,11 +965,12 @@ $('form#logs input').live('click', function() {
     /* get first or last id based on direction */
     var direction = $(this).attr('class');
     /* get Id */
+    var lastId;
     if (direction == "next") {
-        var lastId = $('table.logs tr:last').attr('id');
+        lastId = $('table.logs tr:last').attr('id');
     }
     else {
-		var lastId = $('table.logs tr:nth-child(2)').attr('id');
+		lastId = $('table.logs tr:nth-child(2)').attr('id');
     }
     
     /* set complete post */
@@ -994,7 +995,7 @@ $('#downloadLogs').live('click', function() {
 $('#clearLogs').live('click', function() {
     showSpinner();
     $('div.logs').load('site/admin/logClear.php', function() {
-   		hideSpinner();
+		hideSpinner();
     });
 });
 
