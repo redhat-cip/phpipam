@@ -16,6 +16,13 @@ CheckReferrer();
 /* set post data */
 $subnetDetails = $_POST;
 
+
+/*
+print '<pre>';
+print_r($subnetDetails);
+die('error');
+*/
+
 /**
  * Execute checks on add only and when root subnet is being added
  */
@@ -43,9 +50,11 @@ else if ($subnetDetails['subnetAction'] == "Add") {
     }
     
     /* verify that no overlapping occurs if we are adding nested subnet */
+/*
     if ( $overlap = verifyNestedSubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet']) ) {
     	$errors[] = $overlap;
     }    
+*/
 } 
 /**
  * Check if slave is under master
@@ -55,6 +64,10 @@ else if ($subnetDetails['subnetAction'] == "Edit") {
     if ( (!$overlap = verifySubnetNesting($subnetDetails['masterSubnetId'], $subnetDetails['subnet'])) && $subnetDetails['masterSubnetId']!=0) {
     	$errors[] = 'Nested subnet not in root subnet!';
     }
+    /* for nesting - MasterId cannot be the same as subnetId! */
+    if ( $subnetDetails['masterSubnetId'] == $subnetDetails['subnetId'] ) {
+    	$errors[] = 'Subnet cannot nest behind itself!';
+    }    
 }
 else {
 }

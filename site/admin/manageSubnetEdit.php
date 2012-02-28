@@ -77,11 +77,13 @@ else {
         <td>Master Subnet</td>
         <td>
             <select name="masterSubnetId">
-            	<option value="0">root</option>
+            	<option value="" disabled="disabled">Root subnets:</option>
+            	<option value="0" selected="selected">root</option>
             	<?php
-            	/* print all master subnets */
-/*             	$subnets = fetchAllSubnets(); */
+            	/* fetch all subnets in section */
             	$subnets = fetchSubnets($subnetData['sectionId']);
+
+            	/* print all master subnets */
             	foreach($subnets as $subnet) {
             		//only root subnets
             		if(empty($subnet['masterSubnetId']) || $subnet['masterSubnetId'] == 0) {
@@ -91,6 +93,27 @@ else {
             			}
             			else {
             				print '<option value="'. $subnet['id'] .'">'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
+            			}
+            			//store Id of L1 for non-root subnets below
+            			$nonRoot[] = $subnet['id'];
+            		}
+            	}
+
+            	/* print all non-root subnets nested under L1 (under root) */
+            	print '<option value="" disabled="disabled">Non-root subnets:</option>'. "\n";
+            	foreach($subnets as $subnet) {
+            		//only non-root L1 subnets
+            		if((!empty($subnet['masterSubnetId'])) || ($subnet['masterSubnetId'] != 0)) {
+            			//must be under L1!
+            			if(in_array($subnet['masterSubnetId'], $nonRoot))
+            			{
+            				//for edit - if selected
+            				if (($subnet['id'] == $subnetDataOld['masterSubnetId']) && ($subnetDataOld['masterSubnetId'] != 0 )) {
+            					print '<option value="'. $subnet['id'] .'" selected>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
+            				}
+            				else {
+            					print '<option value="'. $subnet['id'] .'">'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
+            				}
             			}
             		}
             	}

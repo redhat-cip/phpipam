@@ -194,7 +194,8 @@ table.normalTable tr td {
     padding: 3px 5px;
 }
 table.normalTable tr.selected,
-table.normalTable tr.selected:hover {
+table.normalTable tr.selected:hover,
+table.subSlaves tr.selected:nth-child(1) {
 
 	background: #40464A;
 	background: rgb(79,80,82);
@@ -743,7 +744,10 @@ table.admin tr.selected td dd {
 	color: white;
 }
 table.admin tr.selected,
-table.admin tr.selected:hover {
+table.admin tr.selected:hover,
+table.subSlaves tr.selected:nth-child(1) {
+/*
+
 	background: #40464A;
 	
 	border-bottom: 1px solid white;
@@ -755,6 +759,7 @@ table.admin tr.selected:hover {
 	background: -o-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
 	background: -ms-linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
 	background: linear-gradient(top,  rgba(29,36,41,0.9) 0%,rgba(41,51,57,0.7) 100%);
+*/
 }
 table.subnets tr.info {
     border-top: 1px solid rgba(64, 64, 64, 0.05);
@@ -787,6 +792,30 @@ table.subnets td.slaveSubnets {
 }
 table.subnets td.slaveSubnets tr.selected td dd {
 	font-weight: normal;
+}
+table.subSlaves td {
+	padding-left: 50px !important;
+}
+table.slaves {
+	background: url(images/slaveBG.png) repeat-y;
+}
+table.slaves td {
+	background: url(images/slaveTdBG.png) no-repeat;
+}
+table.subSlaves {
+	background: url(images/subSlaveBG.png) repeat-y;
+}
+/*
+table.slaves.subSlaves td {
+	background: none;
+}
+*/
+
+table.subSlaves td {
+	background: url(images/subSlaveTdBG.png) no-repeat;
+}
+table.subSlaves tr:nth-child(1) {
+	background: url(images/subSlaveTdBGFirst.png) no-repeat;
 }
 table.subnets tr.info td {
 	text-align: right;

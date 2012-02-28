@@ -85,16 +85,62 @@ else
 					
 				print '<table class="normalTable slaves">' . "\n";
 				
-				foreach ($slaveSubnets as $slave) {
+				foreach ($slaveSubnets as $slave) 
+				{
+					//check if it contains subSlaves
+	        		$subSlaves = subnetContainsSlaves($slave['id']);
+	        		
+	        		if($subSlaves)
+	        		{
+	        			/* @L2 slaves ---------- */
+					    print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";        
+			        	/* subnet */
+			        	print '	<td class="subnet" colspan="2" title="'. $slave['description'] .'">' . "\n";
+						print '	<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";  
+						print '	</td>' . "\n";
+			
+						/* structure image for drilldown */
+						print '	<td class="structure"><img class="structure" src="css/images/expand.png" subnetId="'. $slave['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
+		    			print '</tr>'. "\n";
+
+		    			/* @L3 slaves ------------- */
+		    			print '<tr class="th">' . "\n";
+						print '<td colspan="3" class="slaveSubnets"><div class="slaveSubnets slaveSubnets-'. $slave['id'] .'">'. "\n";
 				
-					//fix no description title
-					if(strlen($slave['description']) == 0) $slave['description'] = "no description";
+						$subSlaveSubnets = getAllSlaveSubnetsBySubnetId($slave['id']);
+
+						print '<table class="normalTable slaves subSlaves">' . "\n";
 				
-					print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";
-	            	print '	<td class="subnet slave" title="'. $slave['description'] .'">' . "\n";
-	            	print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">&middot; ' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
-	            	print '	</td>' . "\n";
-	        		print '</tr>';
+						foreach ($subSlaveSubnets as $subSlaveSubnet) 
+						{
+	        				//fix no description title
+							if(strlen($subSlaveSubnet['description']) == 0) $subSlaveSubnet['description'] = "no description";
+				
+							print '<tr id="'. $subSlaveSubnet['id'] .'" class="'. $subSlaveSubnet['id'] .'">' . "\n";
+	            			print '	<td class="subnet slave" title="'. $subSlaveSubnet['description'] .'">' . "\n";
+	            			print '		<dd section="'. $sectionName['name'] .'|'. $subSlaveSubnet['id'] .'" id="'. $subSlaveSubnet['id'] .'">' . Transform2long($subSlaveSubnet['subnet']) .'/'. $subSlaveSubnet['mask'] .'</dd>' . "\n";
+	            			print '	</td>' . "\n";
+	        				print '</tr>';
+						}
+						
+						print '</table>';
+				
+						print '</div></td>' . "\n";
+						print '</tr>' . "\n"; 	        		
+	        		}
+	        		else 
+	        		{
+	        			//fix no description title
+						if(strlen($slave['description']) == 0) $slave['description'] = "no description";
+				
+						print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";
+	            		print '	<td colspan="2" class="subnet slave" title="'. $slave['description'] .'">' . "\n";
+	            		print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
+	            		print '	</td>' . "\n";
+	            		/* we dont need any structure image */
+						print '	<td class="structure"></td>'. "\n";	
+	        			print '</tr>';
+	        		}
 	        	}
 
 				print '</table>';
@@ -109,7 +155,7 @@ else
 			    print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";        
         
         		/* subnet */
-        		print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";    
+        		print '	<td colspan="2" class="subnet" title="'. $subnet['description'] .'">' . "\n";    
 				print '	<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'</dd>' . "\n";    				
 				print '	</td>' . "\n"; 
 			
