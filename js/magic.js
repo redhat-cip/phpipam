@@ -1478,11 +1478,6 @@ $("ul.topNav li#userMenu").hover(function () {
 	});
 });
 
-/*	search - empty on click
-***********************************/
-$('form#userMenuSearch input[type=text]').live('click', function () {
-	$(this).val('');
-});
 
 /*	search - submit userMenu form (top right)
 **********************************************/
@@ -1517,6 +1512,41 @@ $('form#homeIPSearch').live('submit', function () {
 	loadSearchPage(searchTerm);
 	return false;
 });
+/*	search result link to ipaddresses
+*************************************/
+$('table.searchTable tr.ipSearch').live('click', function () {
+	var sectionId = $(this).attr('sectionId'); 
+	var subnetId  = $(this).attr('subnetId');
+	var link      = $(this).attr('link');
+	var id	      = $(this).attr('id');			//ip address id
+	
+	//set href
+	document.location.href = "#" + link;
+	
+	//set active section
+	$('table.newSections li').removeClass('active');
+	$('table.newSections li#' + sectionId ).addClass('active');
+	
+	hashLoadSubnets (sectionId, subnetId);
+	//load modify ip field after 1 sec when subnets should be loaded!
+	setTimeout(function (){modifyipaddress("edit",id,subnetId); parameter = null;}, 1000);
+});
+$('table.searchTable tr.subnetSearch').live('click', function () {
+	var sectionId 	= $(this).attr('sectionId'); 
+	var sectionName = $(this).attr('sectionName'); 
+	var subnetId  	= $(this).attr('subnetId');
+	var link      	= $(this).attr('link');
+	
+	//set href
+	document.location.href = "#" + link;
+	
+	//set active section
+	$('table.newSections li').removeClass('active');
+	$('table.newSections li#' + sectionId ).addClass('active');
+	
+	hashLoadSubnets (sectionId, subnetId);
+});
+
 
 /*	search form from search page
 *********************************************/

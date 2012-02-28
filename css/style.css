@@ -2005,6 +2005,12 @@ table.searchTable th {
 	font-weight: bold;
 	border-top: 1px solid white;
 }
+table.searchTable tr {
+	cursor: pointer;
+}
+table.searchTable tr.th {
+	cursor: default;
+}
 table.searchTable tr#searchHeader th {
 	border-top: none;
 }

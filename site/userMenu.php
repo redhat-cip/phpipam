@@ -28,7 +28,7 @@ session_write_close();
     <!-- search link -->
     <li id="search">
     	<form id="userMenuSearch" name="userMenuSearch">
-        	<input type="text" value="search" class="search" size="12" name="ip">
+        	<input type="text" class="search" size="12" name="ip" placeholder="Search">
         	<input type="submit" value="Search">
         </form>
     </li>

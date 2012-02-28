@@ -132,7 +132,7 @@ else {
 		$m++;
 	
 		//print table
-		print '<tr id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
+		print '<tr class="ipSearch" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
 		/*
 		print ' <td>'. $section['name']  .'</td>' . "\n";
 		print '	<td>'. transform2long($subnet['subnet']) . ' (' . $subnet['description'] .')</td>' . "\n";
@@ -173,8 +173,8 @@ else {
 <!-- search result table -->
 <h3>Search results (Subnet list):</h3>
 
-<div class="searchTable normalTable">
-<table class="searchTable normalTable">
+<div class="searchTable normalTable subnetSearch">
+<table class="searchTable normalTable subnetSearch">
 
 <!-- headers -->
 <tr class="th" id="searchHeader">
@@ -215,7 +215,8 @@ else {
 			$line['masterSubnetId'] = transform2long($line['masterSubnetId']['subnet']) .'/'. $line['masterSubnetId']['mask'];
 		}
 		
-		print '<tr>'. "\n";
+/* 		print '<tr class="subnetSearch" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n"; */
+		print '<tr class="subnetSearch" subnetId="'. $line['id'] .'" sectionName="'. $section['name'] .'" sectionId="'. $section['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
 
 		print '	<td>'. $section['name'] . '</td>'. "\n"; 
 		print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 

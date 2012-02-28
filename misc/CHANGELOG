@@ -1,14 +1,16 @@
 
 == 0.6
 
-	New features:
-	-------------
+	New features / enhancements:
+	----------------------------
 	+ Added option to clear and export log files;
 	+ Added search and replace function;
 	+ Export of search results to XLS;
+	+ Clickable search results;
 	+ Selectable export fields when exportin subnet;
+	+ Added additional level of subnet nesting;
 
-	Bugfixes / enhancements:
+	Bugfixes:
 	------------------------
 	+ Upgrade is supported only for versions 0.4 and higher;
 	+ Fixed broken UTF-8 support;

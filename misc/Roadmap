@@ -12,10 +12,9 @@ features for next releases
 		- SMTP auth;
 		- Prettier emails;
 		- request form subnets for non-privileged accounts;
-		- clickable search results;
-		
+				
 	bugs
-		- multiple subnet nesting levels
+		- delete subnet from edit
 		- API
 		- custom groups
 		- per-section permissions 
