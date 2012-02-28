@@ -1283,6 +1283,9 @@ table.manageSubnets td.lock {
 	background-image: url(images/lock.png);
 	background-repeat: no-repeat;
 }
+table.manageSubnets tr.subSlaveSubnet td {
+	padding-left: 40px;
+}
 
 /* instructions */
 textarea#instructions {

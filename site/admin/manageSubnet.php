@@ -76,9 +76,10 @@ if (!empty($subnets)) {
 		# slaves
 		$slaves = getAllSlaveSubnetsBySubnetId ($subnet['id']);
 		
-		if(sizeof($slaves) != 0) {
-		
-			foreach($slaves as $slave) {
+		if(sizeof($slaves) != 0) 
+		{
+			foreach($slaves as $slave) 
+			{
 		
 				$master = getSubnetDetailsById ($slave['masterSubnetId']);
 			
@@ -102,6 +103,41 @@ if (!empty($subnets)) {
     		    print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $slave['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
     		    print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $slave['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
         		print '	</tr>' . "\n";
+        	
+        	
+        		/* Check for L2 Slaves! */
+        		$subSlaves = getAllSlaveSubnetsBySubnetId ($slave['id']);
+        		
+        		if(sizeof($subSlaves) != 0) 
+        		{
+        			foreach($subSlaves as $subSlave) 
+        			{
+ 
+						$master = getSubnetDetailsById ($subSlave['masterSubnetId']);
+			
+						print '	<tr class="slaveSubnet subSlaveSubnet">' . "\n";
+		        		print '		<td>'. transform2long($subSlave['subnet']) .'/'. $subSlave['mask'] .'</td>' . "\n";
+		       			print '		<td>'. $slave['description'] .'</td>' . "\n";
+						print '		<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
+		
+						# VLAN
+						if(empty($subSlave['VLAN']) || $subSlave['VLAN'] == 0) { $subSlave['VLAN'] = ""; }
+						print '		<td>'. $subSlave['VLAN']        .'</td>' . "\n";
+		
+						# requests
+						if($subSlave['allowRequests'] == 1) 	{ print '<td class="allowRequests">enabled</td>'; }
+						else 									{ print '<td class="allowRequests"></td>'; }
+		
+						# check if it is locked for writing
+						if(isSubnetWriteProtected($subSlave['id'])) { print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	} 
+						else 										{ print '<td class="edit nolock"></td>';}
+
+    		    		print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $subSlave['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
+    		    		print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $subSlave['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
+        				print '	</tr>' . "\n";
+        			
+        			}
+        		}
         	}
 			
 		}
