@@ -9,10 +9,10 @@ features for next releases
 		- translations (XML);
 		- Sorting of IP addresses;
 		- Sorting of subnets;
-		- custom CSS;
-		- Overlapping subnets if VRF is enabled;
 		- SMTP auth;
 		- Prettier emails;
+		- request form subnets for non-privileged accounts;
+		- clickable search results;
 		
 	bugs
 		- multiple subnet nesting levels
@@ -26,6 +26,7 @@ features for next releases
 		- RDNS zone file export (in admin!);
 		- IPv6 migration guide document;
 		- show request IP address history;
+		- Overlapping subnets if VRF is enabled;
 	
 	Problematic
 		- Subnet scan for alive IP addresses (ICMP);

@@ -152,7 +152,6 @@ subnet details upper table
 		print '<input type="checkbox" name="switch" 	checked> Switch<br>';
 		print '<input type="checkbox" name="port" 		checked> Port<br>';
 		print '<input type="checkbox" name="note" 		checked> Note<br>';
-		print '<input type="checkbox" name="location" 	checked> Location<br>';
 
 		print '<input type="submit" value="Export">';
 		

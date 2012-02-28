@@ -107,6 +107,7 @@ print '<dd section="Administration" id="settings">Server management</dd>';
 print '<dd section="Administration" id="manageSection">Sections</dd>';
 print '<dd section="Administration" id="manageSubnet">Subnets</dd>';
 print '<dd section="Administration" id="manageSwitches">Switches</dd>';
+print '<dd section="Administration" id="manageVLANs">VLANs</dd>';
 if($settings['enableVRF'] == 1) { 
 print '<dd section="Administration" id="manageVRF">VRF</dd>';
 }

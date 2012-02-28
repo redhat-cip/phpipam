@@ -13,6 +13,16 @@ $(document).ready(function () {
 $('div.jqueryError').hide();
 $('div.loading').hide();
 
+
+/*	loading spinner functions
+*******************************/
+function showSpinner() {
+    $('div.loading').show();
+}
+function hideSpinner() {
+    $('div.loading').fadeOut('fast');
+}
+
 /*	close error div
 *******************************/
 $('div.error').live('click', function() {
@@ -331,16 +341,6 @@ function updateSearchPage(searchTerm) {
 }
 
 
-/*	loading spinner functions
-*******************************/
-function showSpinner() {
-    $('div.loading').show();
-}
-function hideSpinner() {
-    $('div.loading').fadeOut('fast');
-}
-
-
 
 /***************************************************************
 		load hash-requested site
@@ -556,7 +556,7 @@ $('table.subnets td.plusSubnet').live("click", function () {
 $('img.csvExport').live("click", function () {
 	var subnetId = $(this).attr('subnetId');
 
-	$('tr#selectFields').show();
+	$('tr#selectFields').toggle();
 });
 $('form#selectExportFields').live("submit", function () {
 	var subnetId = $('img.csvExport').attr('subnetId');

@@ -1,5 +1,3 @@
-
-
 <?php
 
 /**
@@ -36,7 +34,8 @@ if ($sectionId == 'Administration')
         include('admin/adminMenu.php');
     }
 }
-else {
+else 
+{
     /* get all subnets in section */
     $subnets = fetchMasterSubnets ($sectionId);
     
@@ -52,71 +51,74 @@ else {
     print '<th colspan=2>Subnets in "'. $sectionName['name'] .'"</th>'. "\n";
     print '</tr>' . "\n";
 
-    /* subnets - if not empty */
+    /* @subnets - if not empty ---------- */
     if (sizeof($subnets) != 0) 
     {
         foreach ( $subnets as $subnet ) 
         {
-        //check if it contains slaves
-        $slaves = subnetContainsSlaves($subnet['id']);
-        	
-        //fix no description title
-		if(strlen($subnet['description']) == 0) $slave['description'] = "no description";
-        
-        print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";
-        
-        /* subnet */
-        if($subnet['description'] == "") { $subnet['description'] = "No description"; }
-        print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";
-            
-        // normal link or slaves?
-        if(!$slaves) {
-        	print '<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'</dd>' . "\n";            
-        }
-        else {
-         	print '<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</dd>' . "\n";           
-        }    
-        print '	</td>' . "\n";
-        
-        /* structure image */
-        print '<td class="structure">'. "\n";
-        	
-        /* show tree image if it contains subnets */
-        if($slaves) {
-        	print '<img class="structure" src="css/images/expand.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet">' . "\n";
-        }
-        print '</td>'. "\n";
-    	print '</tr>'. "\n";;
-    	
-    	/* print also slaves if they exist! */
-    	if ($slaves) {
-			print '<tr class="th">' . "\n";
-			print '<td colspan="3" class="slaveSubnets"><div class="slaveSubnets slaveSubnets-'. $subnet['id'] .'">'. "\n";
-				
-			$slaveSubnets = getAllSlaveSubnetsBySubnetId($subnet['id']);
-				
-			print '<table class="normalTable slaves">' . "\n";
-			
-			foreach ($slaveSubnets as $slave) {
-				
-			//fix no description title
-			if(strlen($slave['description']) == 0) $slave['description'] = "no description";
-				
-			print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";
-            print '	<td class="subnet slave" title="'. $slave['description'] .'">' . "\n";
-            print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">&middot; ' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
-            print '	</td>' . "\n";
-        	print '</tr>';
-        	}
+	        //check if it contains slaves
+	        $slaves = subnetContainsSlaves($subnet['id']);
 
-			print '</table>';
+			if(strlen($subnet['description']) == 0) { $slave['description'] = "no description";}	#fix for no description title
+			if($subnet['description'] == "") { $subnet['description'] = "No description"; }			#fix for no description title       
+        
+	        //If slaves print link and expand, otherwise subnet
+	        if($slaves)
+	        {		
+	        	/* @L1 ------------- */    
+			    print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";        
+	        	/* subnet */
+	        	print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";
+				print '	<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</dd>' . "\n";  
+				print '	</td>' . "\n";
+			
+				/* structure image for drilldown */
+				print '	<td class="structure"><img class="structure" src="css/images/expand.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
+		    	print '</tr>'. "\n";
+	    	
+	    	
+		    	/* @L2 slaves ------------- */
+		    	print '<tr class="th">' . "\n";
+				print '<td colspan="3" class="slaveSubnets"><div class="slaveSubnets slaveSubnets-'. $subnet['id'] .'">'. "\n";
 				
-			print '</div></td>' . "\n";
-			print '</tr>' . "\n";  		
-    	}
-    	}	
-    	
-    }
+				$slaveSubnets = getAllSlaveSubnetsBySubnetId($subnet['id']);
+					
+				print '<table class="normalTable slaves">' . "\n";
+				
+				foreach ($slaveSubnets as $slave) {
+				
+					//fix no description title
+					if(strlen($slave['description']) == 0) $slave['description'] = "no description";
+				
+					print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";
+	            	print '	<td class="subnet slave" title="'. $slave['description'] .'">' . "\n";
+	            	print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">&middot; ' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
+	            	print '	</td>' . "\n";
+	        		print '</tr>';
+	        	}
+
+				print '</table>';
+				
+				print '</div></td>' . "\n";
+				print '</tr>' . "\n"; 			
+       		}
+       	
+       		/* No slaves - L1 print */
+        	else 
+        	{   
+			    print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";        
+        
+        		/* subnet */
+        		print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";    
+				print '	<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'</dd>' . "\n";    				
+				print '	</td>' . "\n"; 
+			
+				/* we dont need any structure image */
+				print '	<td class="structure"></td>'. "\n";	
+				print '</tr>'. "\n";		
+        	}
+    	}	# end foreach subnet		
+    }	# end if subnets
     else {
         print '<tr class="th info"><td colspan="3">No subnets available!</td></tr>';
     }
