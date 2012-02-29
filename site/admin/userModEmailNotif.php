@@ -10,6 +10,9 @@ require_once('../../config.php');
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
+/* get settings */
+$settings = getAllSettings();
+
 /* set mail values */
 $mail['recipients'] = $userModDetails['email'];
 $mail['from']		= 'IPAM@' . $settings['siteDomain'];
@@ -31,19 +34,42 @@ $mail['headers']   .= "Content-type: text/html; charset=utf8" . "\r\n";
 $mail['headers']   .= 'X-Mailer: PHP/' . phpversion();
 
 
-/* set content */
-$mail['content']  = '<h3>' . $mail['subject'] . '</h3><br>' . "\n";
-$mail['content'] .= '<table border="0">' . "\n";
+/* set html headers */
+$mail['content']  = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'. "\n";
+$mail['content'] .= '<html>'. "\n";
 
-$mail['content'] .= '<tr><td>Name</td>	  	<td>'. $userModDetails['real_name'] .'</td></tr>' . "\n";
-$mail['content'] .= '<tr><td>Username</td>	<td>'. $userModDetails['username'] 	.'</td></tr>' . "\n";
-$mail['content'] .= '<tr><td>Password</td>	<td>'. $userModDetails['plainpass'] 	.'</td></tr>' . "\n";
-$mail['content'] .= '<tr><td>Email</td>		<td>'. $userModDetails['email'] 	.'</td></tr>' . "\n";
+/* body */
+$mail['content'] .= '<body style="margin:0px;padding:0px;background:#e6eaef;color:#2E2E2E;">'. "\n";
+$mail['content'] .= '<div style="background:#1d2429;color:white;padding:10px;text-align:left;font: 18px Arial;border-bottom:2px solid #c0c0c0;">' . $mail['subject'] . '</div><br>' . "\n";
 
+/* table with details */
+$mail['content'] .= '<table border="0" style="padding: 10px; padding-top: 0px;">' . "\n";
+$mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0">Name</th>	  	<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['real_name'] .'</td></tr>' . "\n";
+$mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0"">Username</th>	<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['username'] 	.'</td></tr>' . "\n";
+# we dont need pass for domain account
+if($userModDetails['domainUser'] == 0) {
+$mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0"">Password</th>	<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['plainpass'] .'</td></tr>' . "\n";
+}
+$mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0"">Email</th>		<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['email'] 	.'</td></tr>' . "\n";
+$mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0"">Role</th>		<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['role'] 	.'</td></tr>' . "\n";
 $mail['content'] .= '</table>' . "\n";
 
-$mail['content'] .= '<br>You can login to IPAM with your username and password here: '. $settings['siteURL'] . '<br>' . "\n";
-$mail['content'] .= 'If you have any issues please contact <a href="'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>';
+$mail['content'] .= '<div style="padding-left:10px;">'. "\n";
+
+if($userModDetails['domainUser'] == 0) {
+$mail['content'] .= '<br>You can login to IPAM with your username and password here: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
+}
+else {
+$mail['content'] .= '<br>You can login to IPAM with your <b>DOMAIN</b> username and password here: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
+}
+$mail['content'] .= '<hr style="height:1px;border:none;background:#c0c0c0;">If you have any issues please contact <a href="mailto:'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>';
+
+$mail['content'] .= '</div>'. "\n";
+
+/* end html */
+$mail['content'] .= '</body>'. "\n";
+$mail['content'] .= '</html>'. "\n";
+
 
 /* send mail */
 if (!mail($mail['recipients'], $mail['subject'], $mail['content'], $mail['headers'] )) {

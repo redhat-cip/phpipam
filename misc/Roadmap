@@ -14,7 +14,6 @@ features for next releases
 		- request form subnets for non-privileged accounts;
 				
 	bugs
-		- delete subnet from edit
 		- API
 		- custom groups
 		- per-section permissions 

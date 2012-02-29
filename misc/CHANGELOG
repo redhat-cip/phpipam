@@ -9,6 +9,7 @@
 	+ Clickable search results;
 	+ Selectable export fields when exportin subnet;
 	+ Added additional level of subnet nesting;
+	+ Subnet can be deleted from ip address edit subnet;
 
 	Bugfixes:
 	------------------------

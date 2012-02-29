@@ -548,6 +548,8 @@ $('table.subnets td.plusSubnet').live("click", function () {
     //set variables
     var sectionId = $("table.newSections li.active").attr('id');
     var postdata  = "sectionId=" + sectionId + "&subnetAction=Add&location=subnets";
+    //remove active class in subnets
+    $('table.subnets tr').removeClass('selected');
     loadAddSectionFromSubnets(postdata);
 });
 
