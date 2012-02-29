@@ -31,19 +31,37 @@ $subnet = getSubnetDetailsById ($ip['subnetId']);
 /* set title */
 $title = 'IP address details :: ' . $ip['ip_addr'];
 
-/* dns if empty */
-if (empty($ip['dns_name'])) {
-	$ip['dns_name'] = gethostbyaddr( $ip['ip_addr'] );
-}
 
-/* set content */
-$content  = $ip['description'] . ' [' . $ip['dns_name'] . ']' . "\n";
-$content .= '- IP address: ' . "\t" . $ip['ip_addr'] . '/' . $subnet['mask']. "\n";
-$content .= '- Subnet desc: ' . "\t" . $subnet['description']. "\n";
-$content .= '- VLAN: ' . "\t\t" . $subnet['VLAN'] . "\n";
-$content .= "- Switch/port:\t". $ip['switch'] ." / ". $ip['port'] . "\n";
+
+/* Preset content */
+$content  = '<b><u>IP address details - '	 . $ip['ip_addr'] .'</b></u>' . "\n\n";
+$content .= '&bull; IP address: ' . "\t" . $ip['ip_addr'] . '/' . $subnet['mask']. "\n";
+# desc
+if(!empty($ip['description'])) {
+$content .= '&bull; Description:' . "\t" . $ip['description'] . "\n";
+}
+# hostname
+if(!empty($ip['dns_name'])) {
+$content .= '&bull; Hostname:' . "\t" 	 . $ip['dns_name'] . "\n";
+}
+# subnet desc
+if(!empty($subnet['description'])) {
+$content .= '&bull; Subnet desc: ' . "\t" . $subnet['description']. "\n";
+}
+# VLAN
+if(!empty($subnet['VLAN'])) {
+$content .= '&bull; VLAN: ' . "\t\t" 	 . $subnet['VLAN'] . "\n";
+}
+# Switch
+if(!empty($ip['switch'])) {
+$content .= "&bull; Switch:\t\t"		 . $ip['switch'] . "\n";
+}
+# port
+if(!empty($ip['port'])) {
+$content .= "&bull; Port:\t"			 . $ip['port'] . "\n";
+}
 $content .= "\n" . 'Contact: '. $userDetails['email'] . "\n";
-$content .= '<a href="http://'. $settings['siteURL'] .'">http://'. $settings['siteURL'] ."</a>";
+$content .= 'www: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] ."</a>";
 
 ?>
 
