@@ -23,6 +23,16 @@ print_r($subnetDetails);
 die('error');
 */
 
+
+/**
+ * If request came from IP address subnet edit and
+ * subnetAction2 is Delete then change subnetAction
+ */
+if(	(isset($subnetDetails['subnetAction2'])) && ($subnetDetails['subnetAction2'] == "Delete") ) {
+	$subnetDetails['subnetAction'] = $subnetDetails['subnetAction2'];
+}
+
+
 /**
  * Execute checks on add only and when root subnet is being added
  */

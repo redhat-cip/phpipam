@@ -651,8 +651,8 @@ $('input#csvImportYes').live('click',function () {
 });
 
 
-/*	check result
-********************/
+/*	check edit subnet result
+****************************/
 $('form#manageSubnetEditFromSubnets').live('submit', function () {
 
     var subnetData = $(this).serialize();
@@ -669,7 +669,6 @@ $('form#manageSubnetEditFromSubnets').live('submit', function () {
     });
     return false;
 });
-
 /*	cancel button
 ********************/
 $('form#manageSubnetEditFromSubnets input.cancel').live('click', function () {
@@ -906,6 +905,27 @@ $('form#manageSubnetEdit').live('submit', function () {
                 //reload Admin Subpage and subnets body
 				setTimeout(function (){showManageSubnetsPageAndBody("manageSubnet", sectionId); parameter = null;}, reloadTimeout);
 			}
+		}
+    });
+    return false;
+});
+/*	check delete subnet result
+*******************************/
+$('.subnetDeleteFromIP').live('click', function () {
+
+    var subnetData = $('form#manageSubnetEdit').serialize();
+    //add delete
+    subnetData = subnetData + "&subnetAction2=Delete";
+    
+    //load results
+    $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
+        $('div.manageSubnetEditResult').html(data).slideDown('fast');
+
+		//reload subnets after 2 seconds if all is ok!
+		if(data.search("error") == -1) {
+            showSpinner();
+            sectionId = $("table.newSections li.active").attr('id');
+            setTimeout(function (){loadSubnets(sectionId); parameter = null;}, reloadTimeout);
 		}
     });
     return false;

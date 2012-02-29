@@ -21,8 +21,11 @@ $subnetData = $_POST;
 if ($subnetData['subnetAction'] != "Add") {
     $subnetDataOld = getSubnetDetailsById ($subnetData['subnetId']);
 }
-
-/* if request came from subnets table se different name and ID! (Or ipcalc) */
+/* from IPaddresses - cen de also deleted */
+if ($subnetData['location'] == "IPaddresses") {
+	$delete = true;
+}
+/* if request came from subnets table set different name and ID! (Or ipcalc) */
 if (($subnetData['location'] == "subnets") || ($subnetData['location'] == "ipcalc") ) {
     $className = "manageSubnetEditFromSubnets";
     $sectionName = getSectionDetailsById ($subnetData['sectionId']);
@@ -30,6 +33,7 @@ if (($subnetData['location'] == "subnets") || ($subnetData['location'] == "ipcal
 }
 else {
     $className = "manageSubnetEdit";
+    Print '<h3>'. $subnetData['subnetAction'] .' subnet</h3>';
 }
 ?>
 
@@ -218,10 +222,15 @@ else {
             <input type="hidden" name="subnetId"        value="<?php print $subnetData['subnetId'];     ?>">       
             <input type="hidden" name="subnetAction"    value="<?php print $subnetData['subnetAction']; ?>">
             <!-- if edited form ipaddresses -->
-            <input type="hidden" name="location"    	value="<?php print $subnetData['location']; ?>">           
+            <input type="hidden" name="location"    	value="<?php print $subnetData['location']; ?>">    
+            <!-- submit, cancel, delete -->       
             <input type="submit"                        value="<?php print $subnetData['subnetAction']; ?>">
-
             <input type="button"                        value="Cancel" class="cancel">
+            <?php
+            if( ($delete) && ($subnetData['subnetAction'] == "Edit") ) {
+            	print '<br><input type="button" value="Delete subnet" class="subnetDeleteFromIP">';
+            }
+            ?>
         </td>
         <td></td>
     </tr>
