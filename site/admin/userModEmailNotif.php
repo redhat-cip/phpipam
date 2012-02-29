@@ -39,11 +39,12 @@ $mail['content']  = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//
 $mail['content'] .= '<html>'. "\n";
 
 /* body */
-$mail['content'] .= '<body style="margin:0px;padding:0px;background:#e6eaef;color:#2E2E2E;">'. "\n";
-$mail['content'] .= '<div style="background:#1d2429;color:white;padding:10px;text-align:left;font: 18px Arial;border-bottom:2px solid #c0c0c0;">' . $mail['subject'] . '</div><br>' . "\n";
+$mail['content'] .= '<body style="margin:0px;padding:0px;color:#2E2E2E;">'. "\n";
+$mail['content'] .= '<div style="background:#1d2429;color:white;padding:10px;text-align:left;font:18px Arial;border-bottom:2px solid #c0c0c0;margin-bottom:1px;">' . $mail['subject'] . '</div>' . "\n";
 
 /* table with details */
-$mail['content'] .= '<table border="0" style="padding: 10px; padding-top: 0px;">' . "\n";
+$mail['content'] .= '<div style="background:#e6eaef;padding:10px">'. "\n";
+$mail['content'] .= '<table border="0"">' . "\n";
 $mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0">Name</th>	  	<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['real_name'] .'</td></tr>' . "\n";
 $mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0"">Username</th>	<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['username'] 	.'</td></tr>' . "\n";
 # we dont need pass for domain account
@@ -54,16 +55,19 @@ $mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-ri
 $mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-right: 1px solid #c0c0c0"">Role</th>		<td style="padding-top:3px;padding-bottom:3px;padding-left: 10px;padding-right: 10px;">'. $userModDetails['role'] 	.'</td></tr>' . "\n";
 $mail['content'] .= '</table>' . "\n";
 
-$mail['content'] .= '<div style="padding-left:10px;">'. "\n";
-
 if($userModDetails['domainUser'] == 0) {
 $mail['content'] .= '<br>You can login to IPAM with your username and password here: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
 }
 else {
 $mail['content'] .= '<br>You can login to IPAM with your <b>DOMAIN</b> username and password here: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
 }
-$mail['content'] .= '<hr style="height:1px;border:none;background:#c0c0c0;">If you have any issues please contact <a href="mailto:'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>';
 
+$mail['content'] .= '</div>'. "\n";
+
+
+/* footer */
+$mail['content'] .= '<div style="padding:8px;text-align:center;background:#1d2429;color:#D5D5D5;border-top:1px solid white;border-bottom:1px solid #c0c0c0;">'.  "\n";
+$mail['content'] .= '<a href="https://sourceforge.net/projects/phpipam/" style="color:#D5D5D5;">phpIPAM</a> IP address management [v'. $settings['version']. '] &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Site admin: <a href="mailto:'. $settings['siteAdminMail'] .'" style="color:#D5D5D5;">'. $settings['siteAdminName'] .'</a>' . "\n";
 $mail['content'] .= '</div>'. "\n";
 
 /* end html */
