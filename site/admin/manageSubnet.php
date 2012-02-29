@@ -152,7 +152,7 @@ if (!empty($subnets)) {
     print '	</tr>' . "\n";
 
     /* add / edit / delete holder */
-    print '	<tr class="th">' . "\n";
+    print '	<tr class="th manageSubnetEdit">' . "\n";
     print '		<td colspan="5">' . "\n";
     print '			<div class="manageSubnetEdit">a</div>' . "\n";
     print '		</td>' . "\n";
@@ -165,3 +165,15 @@ print '</table>' . "\n";
 print '</div>' . "\n";
 }
 ?>
+
+
+<!-- slide to edit -->
+<script type="text/javascript" src="js/jquery.slideto.v1.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('img.Edit,img.Delete,img.Add').slideto({
+		target : '.manageSubnetEdit', 
+		speed  : 'fast'
+	});
+});
+</script>

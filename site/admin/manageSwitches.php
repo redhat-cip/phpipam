@@ -112,3 +112,16 @@ else {
 
 <!-- edit result holder -->
 <div class="switchManagementEdit"></div>
+
+
+
+<!-- slide to top -->
+<script type="text/javascript" src="js/jquery.slideto.v1.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('img.edit,img.delete,img.add').slideto({
+		target : '.switchManagementEdit', 
+		speed  : 'fast'
+	});
+});
+</script>
