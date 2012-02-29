@@ -100,12 +100,12 @@ else
 						print '	</td>' . "\n";
 			
 						/* structure image for drilldown */
-						print '	<td class="structure"><img class="structure" src="css/images/expand.png" subnetId="'. $slave['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
+						print '	<td class="structure"><img class="subStructure" src="css/images/expand.png" subnetId="'. $slave['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
 		    			print '</tr>'. "\n";
 
 		    			/* @L3 slaves ------------- */
 		    			print '<tr class="th">' . "\n";
-						print '<td colspan="3" class="slaveSubnets"><div class="slaveSubnets slaveSubnets-'. $slave['id'] .'">'. "\n";
+						print '<td colspan="3" class="slaveSubnets"><div class="subSlaveSubnets subSlaveSubnets-'. $slave['id'] .'">'. "\n";
 				
 						$subSlaveSubnets = getAllSlaveSubnetsBySubnetId($slave['id']);
 

@@ -841,6 +841,9 @@ div.slaveSubnets {
 	display: none;
 	padding-bottom: 5px;
 }
+div.subSlaveSubnets {
+	display: none;
+}
 table.slaves td {
 	color: #666;
 /* 	text-shadow: 1px 1px 2px white; */
@@ -1271,11 +1274,17 @@ table.manageSubnets tr.addNew td.info {
 table.manageSubnets tr.masterSubnet {
 	border-top: 1px dotted white;
 }
-table.manageSubnets tr.slaveSubnet td {
-	padding-left: 20px;
+table.manageSubnets tr.slaveSubnet td.subnet,
+table.manageSubnets tr.slaveSubnet td.masterSubnet {
+	padding-left: 30px;
 }
 table.manageSubnets tr.slaveSubnet td.edit {
 	padding: 3px 5px;
+}
+table.manageSubnets tr.masterSubnet td.allowRequests,
+table.manageSubnets tr.slaveSubnet td.allowRequests {
+	text-align: center;
+	padding: 0px;
 }
 table.manageSubnets td.lock {
 	width: 16px;
@@ -1283,9 +1292,19 @@ table.manageSubnets td.lock {
 	background-image: url(images/lock.png);
 	background-repeat: no-repeat;
 }
-table.manageSubnets tr.subSlaveSubnet td {
-	padding-left: 40px;
+table.manageSubnets tr.subSlaveSubnet td.subnet,
+table.manageSubnets tr.subSlaveSubnet td.masterSubnet {
+	padding-left: 50px;
 }
+table.manageSubnets tr.slaveSubnet td:nth-child(1),
+table.manageSubnets tr.slaveSubnet td:nth-child(3) {
+	background: url(images/subnetSlaveTdBG.png) repeat-y;
+}
+table.manageSubnets tr.subSlaveSubnet td:nth-child(1),
+table.manageSubnets tr.subSlaveSubnet td:nth-child(3) {
+	background: url(images/subnetSubSlaveTdBG.png) repeat-y;
+}
+
 
 /* instructions */
 textarea#instructions {

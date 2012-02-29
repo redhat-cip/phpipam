@@ -610,6 +610,16 @@ $('img.structure').live('click', function () {
 	//show Requested
 	$('div.slaveSubnets-' + Id).slideToggle('fast');
 });
+/*	show / hide subSlave Subnets
+****************************************/
+$('img.subStructure').live('click', function () {
+	var Id = $(this).attr('subnetId');
+	
+	//slideUp all
+	$('div.subSlaveSubnets').not('div.subSlaveSubnets-' + Id).slideUp('fast');
+	//show Requested
+	$('div.subSlaveSubnets-' + Id).slideToggle('fast');
+});
 
 
 /*	import file script

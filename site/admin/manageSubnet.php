@@ -84,9 +84,9 @@ if (!empty($subnets)) {
 				$master = getSubnetDetailsById ($slave['masterSubnetId']);
 			
 				print '	<tr class="slaveSubnet">' . "\n";
-		        print '		<td>'. transform2long($slave['subnet']) .'/'. $slave['mask'] .'</td>' . "\n";
+		        print '		<td class="subnet">'. transform2long($slave['subnet']) .'/'. $slave['mask'] .'</td>' . "\n";
 		       	print '		<td>'. $slave['description'] .'</td>' . "\n";
-				print '		<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
+				print '		<td class="masterSubnet">'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
 		
 				# VLAN
 				if(empty($slave['VLAN']) || $slave['VLAN'] == 0) { $slave['VLAN'] = ""; }
@@ -116,9 +116,9 @@ if (!empty($subnets)) {
 						$master = getSubnetDetailsById ($subSlave['masterSubnetId']);
 			
 						print '	<tr class="slaveSubnet subSlaveSubnet">' . "\n";
-		        		print '		<td>'. transform2long($subSlave['subnet']) .'/'. $subSlave['mask'] .'</td>' . "\n";
+		        		print '		<td class="subnet">'. transform2long($subSlave['subnet']) .'/'. $subSlave['mask'] .'</td>' . "\n";
 		       			print '		<td>'. $slave['description'] .'</td>' . "\n";
-						print '		<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
+						print '		<td class="masterSubnet">'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
 		
 						# VLAN
 						if(empty($subSlave['VLAN']) || $subSlave['VLAN'] == 0) { $subSlave['VLAN'] = ""; }
