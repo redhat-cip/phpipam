@@ -207,7 +207,13 @@ subnet details upper table
 		print '<tr class="info request_ipaddress">' . "\n";
 		print ' <td><img class="request_ipaddress" src="css/images/add.png" title="Request new IP address"></td>'. "\n";
 		print '	<td> Request new IP address </td>'. "\n";
-		print '</tr>'. "\n";			
+		print '</tr>'. "\n";	
+		
+		print '<!-- addnew holder -->' . "\n";
+		print '<tr class="addnew">' . "\n";
+		print '	<td></td>' . "\n";
+		print '	<td><div class="addnew normalTable"></div></td>' . "\n";
+		print '</tr>' . "\n";			
 	}
 	
 	/* Edit subnet holder */
