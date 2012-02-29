@@ -33,49 +33,41 @@ $mail['headers']   .= 'X-Mailer: PHP/' . phpversion();
 
 
 /* content */
-$mail['content']    = '<h2>IP address request - '. $request['ip_addr'] .' '. $request['action'] .'</h2>' . "\n";
+$mail['content']  = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'. "\n";
+$mail['content'] .= '<html>'. "\n";
 
+/* body */
+$mail['content'] .= '<body style="margin:0px;padding:0px;color:#2E2E2E;">'. "\n";
+$mail['content'] .= '<div style="background:#1d2429;color:white;padding:10px;margin-bottom:1px;text-align:left;font: 18px Arial;border-bottom:2px solid #c0c0c0;">IP address request - '. $request['ip_addr'] .' '. $request['action'] .'</div>' . "\n";
+
+$mail['content'] .= '<div style="padding:20px;font:13px Arial;color:#2E2E2E;border-bottom: 1px solid #c0c0c0;background:#e6eaef;">'. "\n";
 
 //accept / reject reason
 $mail['content']   .= 'Comment: '. $request['adminComment'] . '<br><br>' . "\n";
 
-$mail['content']   .= '<table border=1 style="border-collapse:collapse">' . "\n"; 
-//section
-$mail['content']   .= '<tr>' . "\n";
-$mail['content']   .= '<td>Requested section</td>' . "\n";
-$mail['content']   .= '<td>'. $subnet .'</td>' . "\n";
-$mail['content']   .= '</tr>' . "\n";
-//ip address
-$mail['content']   .= '<tr>' . "\n";
-$mail['content']   .= '<td>Requested IP address</td>' . "\n";
-$mail['content']   .= '<td>'. $request['ip_addr'] .'</td>' . "\n";
-$mail['content']   .= '</tr>' . "\n";
-//Description
-$mail['content']   .= '<tr>' . "\n";
-$mail['content']   .= '<td>Description</td>' . "\n";
-$mail['content']   .= '<td>'. $request['description'] .'</td>' . "\n";
-$mail['content']   .= '</tr>' . "\n";
-//DNS name
-$mail['content']   .= '<tr>' . "\n";
-$mail['content']   .= '<td>Hostname</td>' . "\n";
-$mail['content']   .= '<td>'. $request['dns_name'] .'</td>' . "\n";
-$mail['content']   .= '</tr>' . "\n";
-//owner
-$mail['content']   .= '<tr>' . "\n";
-$mail['content']   .= '<td>Owner</td>' . "\n";
-$mail['content']   .= '<td>'. $request['owner'] .'</td>' . "\n";
-$mail['content']   .= '</tr>' . "\n";
-//requester
-$mail['content']   .= '<tr>' . "\n";
-$mail['content']   .= '<td>Requested from</td>' . "\n";
-$mail['content']   .= '<td>'. $request['requester'] .'</td>' . "\n";
-$mail['content']   .= '</tr>' . "\n";
+$mail['content']   .= '<table style="border-collapse:collapse">' . "\n"; 
 
+$mail['content']   .= '<tr><th style="padding:3px 10px;text-align:left;border-right: 1px solid #c0c0c0;">Requested section	</th><td style="padding: 3px 10px;">'. $subnet .'</td></tr>' . "\n";
+$mail['content']   .= '<tr><th style="padding:3px 10px;text-align:left;border-right: 1px solid #c0c0c0;">Requested IP address</th><td style="padding: 3px 10px;">'. $request['ip_addr'] .'</td></tr>' . "\n";
+$mail['content']   .= '<tr><th style="padding:3px 10px;text-align:left;border-right: 1px solid #c0c0c0;">Description		</th><td style="padding: 3px 10px;">'. $request['description'] .'</td></tr>' . "\n";
+$mail['content']   .= '<tr><th style="padding:3px 10px;text-align:left;border-right: 1px solid #c0c0c0;">Hostname			</th><td style="padding: 3px 10px;">'. $request['dns_name'] .'</td></tr>' . "\n";
+$mail['content']   .= '<tr><th style="padding:3px 10px;text-align:left;border-right: 1px solid #c0c0c0;">Owner				</th><td style="padding: 3px 10px;">'. $request['owner'] .'</td></tr>' . "\n";
+$mail['content']   .= '<tr><th style="padding:3px 10px;text-align:left;border-right: 1px solid #c0c0c0;">Requested from		</th><td style="padding: 3px 10px;">'. $request['requester'] .'</td></tr>' . "\n";
 
 $mail['content']   .= '</table>' . "\n"; 
 
 //date, IP
-$mail['content']   .= '<br><i>*Reply was sent on ' . date("Y-m-d H:m:s") .'.</i>' . "\n";
+$mail['content'] .= '<div style="color:#c0c0c0;text-style:italic;font:11px Arial;padding-top:10px;">* Request reply was sent on ' . date("Y/m/d H:i:s") . ' from IP address '.  $_SERVER['REMOTE_ADDR'] .'.</div>' . "\n";
+$mail['content'] .= '</div>'. "\n";
+
+/* footer */
+$mail['content'] .= '<div style="padding:8px;text-align:center;background:#1d2429;color:#D5D5D5;border-top:1px solid white;border-bottom:1px solid #c0c0c0;">'.  "\n";
+$mail['content'] .= '<a href="https://sourceforge.net/projects/phpipam/" style="color:#D5D5D5;">phpIPAM</a> IP address management [v'. $settings['version']. '] &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Site admin: <a href="mailto:'. $settings['siteAdminMail'] .'" style="color:#D5D5D5;">'. $settings['siteAdminName'] .'</a>' . "\n";
+$mail['content'] .= '</div>'. "\n";
+
+/* end html */
+$mail['content'] .= '</body>'. "\n";
+$mail['content'] .= '</html>'. "\n";
 
 
 if (!mail($mail['recipients'], $mail['subject'], $mail['content'], $mail['headers'] )) {

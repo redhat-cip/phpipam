@@ -35,8 +35,8 @@ $mail['headers'] .= 'X-Mailer: PHP/' . phpversion();
 
 
 /* content */
-$mail['content']  	= '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'. "\n";
-$mail['content'] 	.= '<html>'. "\n";
+$mail['content']  = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'. "\n";
+$mail['content'] .= '<html>'. "\n";
 
 /* body */
 $mail['content'] .= '<body style="margin:0px;padding:0px;color:#2E2E2E;">'. "\n";
