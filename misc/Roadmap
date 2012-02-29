@@ -1,29 +1,29 @@
-features for next releases
-
+features for next releases:
+---------------------------
 	
-	Planned
-		- Character support; (http://stackoverflow.com/questions/405684/php-mysql-with-encoding-problems)
+	- Planned
 		- selectable fields (mac, switch, port, ...)
-		- subnet splitting;
-		- search for available subnets;
 		- translations (XML);
+		- Independant VLAN management;
+	
+	- Requests
+		- Character support; (http://stackoverflow.com/questions/405684/php-mysql-with-encoding-problems)
 		- Sorting of IP addresses;
 		- Sorting of subnets;
 		- SMTP auth;
-				
-	bugs
+		- subnet splitting;
 		- API
 		- custom groups
 		- per-section permissions 
+		- search for available subnets;
 	
-	Optional
+	- Optional
 		- better exception handling (functions);
 		- Overlapping subnets option in config files;
 		- RDNS zone file export (in admin!);
 		- IPv6 migration guide document;
-		- show request IP address history;
 		- Overlapping subnets if VRF is enabled;
 	
-	Problematic
+	- Problematic
 		- Subnet scan for alive IP addresses (ICMP);
 		- ICMP check if IP is alive;
