@@ -15,7 +15,7 @@ $latest = "0.5";
 $settings = getAllSettings();
 
 /* display only to admin users */
-if( (!checkAdmin(false)) && ($settings['version'] != $latest) ) {
+if( (!checkAdmin(false)) && ($settings['version'] < $latest) ) {
 	die('<div class="error">Database needs upgrade. Please contact site administrator (<a href="mailto:'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>)!</div>');
 }
 
