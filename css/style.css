@@ -1493,10 +1493,8 @@ div#login {
     overflow: hidden;
 }
 div.requestIP {
-	min-width: 320px;
 	width: auto !important;
-	max-width: 800px;
-	overflow: hidden;
+	max-width: 450px;
 }
 div#contact {
     text-align: right;

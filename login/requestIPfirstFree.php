@@ -2,7 +2,8 @@
 
 /*	return first free IP address in provided subnet
 ***************************************************/
-require_once('../functions/functions.php');
+/* require_once('../functions/functions.php'); */
+require( dirname(__FILE__) . '/../functions/functions.php' );
 
 //get requested subnetId
 $subnetId = $_POST['subnetId'];

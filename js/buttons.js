@@ -28,6 +28,14 @@ $('table.ipaddress_subnet tr.add_ipaddress').live("mouseover mouseout", function
 		$('img.add_ipaddress_lock').attr("src","css/images/lock.png");
 	}
 });
+$('table.ipaddress_subnet tr.request_ipaddress').live("mouseover mouseout", function(event) {
+	if (event.type == 'mouseover') {
+		$('img.request_ipaddress').attr("src","css/images/addHover.png");
+	}
+	else {
+		$('img.request_ipaddress').attr("src","css/images/add.png");
+	}
+});
 $('table.ipaddress_subnet tr.edit_subnet').live("mouseover mouseout", function(event) {
 	if (event.type == 'mouseover') {
 		$('img.edit_subnet').attr("src","css/images/editHover.png");

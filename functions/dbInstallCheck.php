@@ -9,7 +9,7 @@ require_once('../config.php');
 require_once('loginFunctions.php');
 
 /* set latest version */
-$latest = "0.5";
+$latest = "0.6";
 
 /* get all site settings */
 $settings = getAllSettings();

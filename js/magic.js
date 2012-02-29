@@ -708,6 +708,34 @@ $('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddres
 });
 
 
+/*	request IP address for non-admins if locked or viewer
+*********************************************************/
+$('img.request_ipaddress').live("click", function () {
+	var subnetId  = $("div#subnetId").html();
+    
+	showSpinner();
+	
+	$.post('site/tools/requestIPform.php', {subnetId:subnetId}, function(data) {
+		$('div.addnew').html(data).slideDown('fast');
+		hideSpinner();
+	});
+});
+/*	submit request IP address 
+*********************************************************/
+$('form#requestIP').live('submit', function() {
+	var request = $(this).serialize();
+	
+	showSpinner();
+	
+	$.post('../login/requestIPresult.php', request, function(data) {
+		$('div#requestIPresult').html(data).slideDown('fast');
+		hideSpinner();
+	});
+
+	return false;
+});
+
+
 /*	edit subnet
 ****************************************/
 $('img.edit_subnet').live("click", function () {
