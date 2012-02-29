@@ -55,7 +55,7 @@ session_destroy();
 	<link rel="shortcut icon" href="../css/images/favicon.ico">
 	
 	<!-- js -->
-	<script type="text/javascript" src="../js/jquery-1.7.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="../js/login.js"></script>
 	<script type="text/javascript" src="../js/jquery.tools.tooltip.min.js"></script>
 	<script type="text/javascript" src="../js/tooltips.js"></script>
