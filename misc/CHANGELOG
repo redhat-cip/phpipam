@@ -10,6 +10,8 @@
 	+ Selectable export fields when exportin subnet;
 	+ Added additional level of subnet nesting;
 	+ Subnet can be deleted from ip address edit subnet;
+	+ jQuery updated to v 1.7.1;
+	+ HighCharts updated to v 2.2.0;
 
 	Bugfixes:
 	------------------------
@@ -25,6 +27,7 @@
 	+ Fixed mail sending settings with missing information;
 	+ Fixed errors on adding switch with no sections;
 	+ Fixed version check;
+	+ Removed masterSubnets from subnets available for IP requests;
 	
 
 == 0.5

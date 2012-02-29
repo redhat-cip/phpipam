@@ -10,8 +10,7 @@ features for next releases
 		- Sorting of IP addresses;
 		- Sorting of subnets;
 		- SMTP auth;
-		- Prettier emails;
-		- request form subnets for non-privileged accounts;
+		- request from subnets for non-privileged accounts;
 				
 	bugs
 		- API
