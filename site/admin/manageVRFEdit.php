@@ -37,7 +37,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>Name</td>
 	<td>
-		<input type="text" class="name" name="name" value="<?php if(isset($vrf['name'])) print $vrf['name']; ?>" <?php print $readonly; ?>>
+		<input type="text" class="name" name="name" placeholder="VRF name" value="<?php if(isset($vrf['name'])) print $vrf['name']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -45,7 +45,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>RD</td>
 	<td>
-		<input type="text" class="rd" name="rd" value="<?php if(isset($vrf['rd'])) print $vrf['rd']; ?>" <?php print $readonly; ?>>
+		<input type="text" class="rd" name="rd" placeholder="Route distinguisher" value="<?php if(isset($vrf['rd'])) print $vrf['rd']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -53,7 +53,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>Description</td>
 	<td>
-		<input type="text" class="description" name="description" value="<?php if(isset($vrf['description'])) print $vrf['description']; ?>" <?php print $readonly; ?>>
+		<input type="text" class="description" name="description" placeholder="Description" value="<?php if(isset($vrf['description'])) print $vrf['description']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 

@@ -57,14 +57,14 @@ $section = getSectionDetailsById ($id);
 	<tr>
 		<td>Name</td>
 		<td>
-			<input type="text" name="name" value="<?php print $section['name']; ?>" size="30" <?php if ($action == "Delete" ) { print ' readonly '; } ?>>
+			<input type="text" name="name" value="<?php print $section['name']; ?>" size="30" <?php if ($action == "Delete" ) { print ' readonly '; } ?> placeholder="Section name">
 		</td>
 	</tr>
 
 	<!-- description -->
 	<tr>
 		<td>Description</td>
-		<td><input type="text" name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($action == "Delete") {print " readonly ";}?>></td>
+		<td><input type="text" name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($action == "Delete") {print " readonly ";}?> placeholder="Section description"></td>
 	</tr>
 
 	<!-- submit -->

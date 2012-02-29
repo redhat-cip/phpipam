@@ -33,7 +33,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>Hostname</td>
 	<td>
-		<input type="text" name="hostname" value="<?php if(isset($switch['hostname'])) print $switch['hostname']; ?>" <?php print $readonly; ?>>
+		<input type="text" name="hostname" placeholder="hostname" value="<?php if(isset($switch['hostname'])) print $switch['hostname']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -41,7 +41,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>IP address</td>
 	<td>
-		<input type="text" name="ip_addr" value="<?php if(isset($switch['ip_addr'])) print $switch['ip_addr']; ?>" <?php print $readonly; ?>>
+		<input type="text" name="ip_addr" placeholder="IP address" value="<?php if(isset($switch['ip_addr'])) print $switch['ip_addr']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -49,7 +49,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>Vendor</td>
 	<td>
-		<input type="text" name="vendor" value="<?php if(isset($switch['vendor'])) print $switch['vendor']; ?>" <?php print $readonly; ?>>
+		<input type="text" name="vendor" placeholder="Switch vendor" value="<?php if(isset($switch['vendor'])) print $switch['vendor']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -57,7 +57,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>Model</td>
 	<td>
-		<input type="text" name="model" value="<?php if(isset($switch['model'])) print $switch['model']; ?>" <?php print $readonly; ?>>
+		<input type="text" name="model" placeholder="Switch model" value="<?php if(isset($switch['model'])) print $switch['model']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -65,7 +65,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>SW version</td>
 	<td>
-		<input type="text" name="version" value="<?php if(isset($switch['version'])) print $switch['version']; ?>" <?php print $readonly; ?>>
+		<input type="text" name="version" placeholder="Software version" value="<?php if(isset($switch['version'])) print $switch['version']; ?>" <?php print $readonly; ?>>
 	</td>
 </tr>
 
@@ -73,7 +73,7 @@ else 								{ $readonly = ""; }
 <tr>
 	<td>Description</td>
 	<td>
-		<textarea name="description" <?php print $readonly; ?>><?php if(isset($switch['description'])) print $switch['description']; ?></textarea>
+		<textarea name="description" placeholder="Description" <?php print $readonly; ?>><?php if(isset($switch['description'])) print $switch['description']; ?></textarea>
 
 	</td>
 </tr>

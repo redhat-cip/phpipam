@@ -45,7 +45,7 @@ else {
     <tr>
         <td>Subnet</td>
         <td>
-            <input type="text" name="subnet"      value="<?php 
+            <input type="text" name="subnet"   placeholder="subnet in CIDR"   value="<?php 
             	if ($subnetData['subnetAction'] != "Add") {
             		print transform2long($subnetDataOld['subnet']) .'/'. $subnetDataOld['mask'];
             	} 
@@ -62,7 +62,7 @@ else {
     <tr>
         <td>Description</td>
         <td>
-            <input type="text" name="description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
+            <input type="text" name="description"  placeholder="subnet description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
         </td>
         <td class="info">Enter subnet description</td>
     </tr>  
@@ -71,7 +71,7 @@ else {
     <tr>
         <td>VLAN</td>
         <td>
-            <input type="text" name="VLAN"        value="<?php if(isset($subnetDataOld['VLAN'])) {print $subnetDataOld['VLAN'];} ?>">
+            <input type="text" name="VLAN"   placeholder="VLAN number"     value="<?php if(isset($subnetDataOld['VLAN'])) {print $subnetDataOld['VLAN'];} ?>">
         </td>
         <td class="info">Enter subnet VLAN number</td>
     </tr>

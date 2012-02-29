@@ -82,7 +82,7 @@ $userCount = sizeof(getAllUsers());
 	<tr>
 		<td>
 			<form name="homeIPSearch" id="homeIPSearch">
-				<input type="text" name="ip" id="ipCalc" class="search" style="width:130px">
+				<input type="text" name="ip" id="ipCalc" class="search" style="width:130px" placeholder="search expression">
 				<input type="submit" value="Search">
 			</form>
 		</td>

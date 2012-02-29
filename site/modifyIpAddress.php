@@ -128,7 +128,7 @@ $(function() {
 
 	<!-- title -->
 	<tr>
-		<th colspan="3"><h4><?php print $btnName; ?> IP address</h4></th>
+		<th colspan="2"><h4><?php print $btnName; ?> IP address</h4></th>
 	</tr>
 
 	<!-- IP address -->
@@ -136,8 +136,8 @@ $(function() {
 		<td>IP address 
 		</td>
 		<td>
-			<input type="text" name="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30">
-    	<img class="addIpAddress" src="css/images/infoAdd.png" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)">
+			<input type="text" name="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="IP address">
+    		<img class="addIpAddress" src="css/images/infoAdd.png" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)">
     	</td>
 	</tr>
 
@@ -147,7 +147,7 @@ $(function() {
 		<td>
 			<input type="text" name="description" value="<?php if(isset($details['description'])) {print $details['description'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly";} ?> 
-			>
+			placeholder="Description">
 		</td>
 	</tr>
 
@@ -159,7 +159,7 @@ $(function() {
 		<td>
 			<input type="text" name="dns_name" value="<?php if(isset($details['dns_name'])) { print $details['dns_name'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			>
+			 placeholder="hostname">
 			<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
 		</td>
 	</tr>
@@ -172,7 +172,7 @@ $(function() {
 		<td>
 			<input type="text" name="mac" value="<?php if(isset($details['mac'])) { print $details['mac'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			>
+			placeholder="MAC address">
 		</td>
 	</tr>
 
@@ -182,7 +182,7 @@ $(function() {
 		<td>
 			<input type="text" name="owner" id="owner" value="<?php if(isset($details['owner'])) {print $details['owner'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			>
+			placeholder="IP address owner">
 		</td>
 	</tr>
 
@@ -192,10 +192,10 @@ $(function() {
 		<td>
 			<input type="text" name="switch" id="switch" value="<?php if(isset($details['switch'])) { print $details['switch'];} ?>" size="13" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			>/
+			placeholder="Switch">/
 			<input type="text" name="port" value="<?php if(isset($details['port'])) { print $details['port'];} ?>" size="9" 
 			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			>
+			placeholder="Port">
 		</td>
 	</tr>
 
@@ -203,7 +203,7 @@ $(function() {
 	<tr class="note">
 		<td>Note</td>
 		<td class="note">
-			<textarea name="note" cols="23" rows="2"><?php if(isset($details['note'])) { print $details['note']; } ?></textarea>
+			<textarea name="note" cols="23" rows="2" placeholder="Additional notes about IP address"><?php if(isset($details['note'])) { print $details['note']; } ?></textarea>
 		</td>
 	</tr>
 
