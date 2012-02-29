@@ -29,6 +29,7 @@
 	+ Fixed errors on adding switch with no sections;
 	+ Fixed version check;
 	+ Removed masterSubnets from subnets available for IP requests;
+	+ Fixed error when non-admin user could not open dashboard;
 	
 
 == 0.5
