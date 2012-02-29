@@ -3,19 +3,21 @@ features for next releases:
 	
 	- Planned
 		- selectable fields (mac, switch, port, ...)
+		- custom fields;
 		- translations (XML);
 		- Independant VLAN management;
 	
 	- Requests
+		- custom groups
+		- per-section permissions
 		- Character support; (http://stackoverflow.com/questions/405684/php-mysql-with-encoding-problems)
 		- Sorting of IP addresses;
 		- Sorting of subnets;
 		- SMTP auth;
 		- subnet splitting;
-		- API
-		- custom groups
-		- per-section permissions 
+		- API 
 		- search for available subnets;
+		- Show Subnet name instead of subnet IP address;
 	
 	- Optional
 		- better exception handling (functions);

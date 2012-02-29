@@ -54,6 +54,7 @@ include('functions/checkPhpBuild.php');
 
 <!-- content table -->
 <div class="content_overlay">
+<div id="showHiddenSubnets" title="Show subnet list"></div>
 <table class="content">
 	<tr>
 		<td id="subnets"><div class="subnets normalTable"></div></td>

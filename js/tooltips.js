@@ -6,6 +6,7 @@ $("body").live("mouseover",function () {
 	$('table.newSections li,table.newSections td#instructions').tooltip({ position: "bottom center", tipClass:'tooltipBottom'});
 	/* hide subnets */
 	$("th.hideSubnets").tooltip({ position: "center left", tipClass:'tooltipLeft' });
+	$("#showHiddenSubnets").tooltip({ position: "center left", tipClass:'tooltipLeft' });
 	/* add new subnet */
 	$("table.subnets td.plusSubnet").tooltip({position: "center right", tipClass:'tooltipRightSubnetsSlave'});	
 	$('table.subnets img.structure').tooltip({position: "center right"});

@@ -599,6 +599,15 @@ $('input#csvimportcheck').live('click', function () {
 ****************************************/
 $('th.hideSubnets').live('click', function () {
 	$('table.content td#subnets, .tooltipLeft').fadeOut('fast');
+	
+	/* show shitcher for subnets */
+	$('#showHiddenSubnets').fadeIn('fast');
+});
+$('#showHiddenSubnets').live('click', function () {
+	$('table.content td#subnets').fadeIn('fast');
+	
+	/* show shitcher for subnets */
+	$('#showHiddenSubnets').fadeOut('fast');
 });
 
 

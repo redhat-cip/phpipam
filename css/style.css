@@ -689,7 +689,8 @@ div.content {
 }
 div.content_overlay {
 	margin: auto;
-	max-width: 1024px;
+	width: 1024px;
+	position: relative;
 }
 table.content {
 	width: 100%;
@@ -711,6 +712,19 @@ table.content td#subnets {
 ********************/
 div.subnets {
     display: none;
+}
+div#showHiddenSubnets {
+	height: 15px;
+	width: 15px;
+	position: absolute;
+	background: url(images/forward.png) center no-repeat;
+	top: 23px;
+	left: 3px;
+	
+	display: none;
+}
+div#showHiddenSubnets:hover {
+	background: url(images/forwardHover.png) center no-repeat;
 }
 table.subnets {
     width: 100%;
