@@ -21,17 +21,20 @@
 		$m = 0;		//needed for first IP address definition
 		
 		foreach($subnets as $subnet) {
-			/* show only subnets that allow IP exporting */
-			
+		
+			/* show only subnets that allow IP exporting */	
 			if($subnet['allowRequests'] == 1) {
 			
-				//first subnet definitions
-				if ($m == 0) {
-					$firstSubnet = $subnet['id'];
-					$m++;
+				/* must not have any nested subnets! */
+				if(!subnetContainsSlaves($subnet['id']))
+				{
+					//first subnet definitions
+					if ($m == 0) {
+						$firstSubnet = $subnet['id'];
+						$m++;
+					}	
+					print '<option value="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>';
 				}
-						
-				print '<option value="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>';
 			}
 		}
 		?>
