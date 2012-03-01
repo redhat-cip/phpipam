@@ -6,8 +6,12 @@ Update from v 0.5 to 0.6
 UPDATE `settings` set `version` = '0.6';
 UPDATE `settings` set `donate` = '0';
 
-/* ALTER subnets */
-ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;	/* add VLAN support  */
+/* Add IPfilter to settings */
+ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
+UPDATE `settings` set `IPfilter` = 'description;dns_name;mac;owner;state;switch;port;note';
+
+/* ALTER subnets - add VLAN support */
+ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;
 
 
 # Dump of table VLANS
