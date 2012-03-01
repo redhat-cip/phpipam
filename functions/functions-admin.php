@@ -740,4 +740,76 @@ function importCSVline ($line, $subnetId)
 }
 
 
+
+
+
+
+
+
+
+/* @filter functions ---------------- */
+
+
+/**
+ * Get all fields in IP addresses
+ */
+function getIPaddrFields()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'describe `ipaddresses`;';
+    $fields	  = $database->getArray($query); 
+  
+	/* return Field values only */
+	foreach($fields as $field) {
+		$res[$field['Field']] = $field['Field'];
+	}
+	
+	return $res;
+}
+
+
+/**
+ * Get selected IP fields
+ */
+function getSelectedIPaddrFields()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'select IPfilter from `settings`;';
+    $fields	  = $database->getArray($query); 
+	
+	return $fields[0]['IPfilter'];
+}
+
+
+/**
+ * Set selected IP fields
+ */
+function updateSelectedIPaddrFields($fields)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'update `settings` set `IPfilter` = "'. $fields .'";';
+	
+    /* execute query */
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('Failed to change IP field filter', $fields,  2);
+        return false;
+    }
+    else {
+        updateLogTable ('IP field filter change success', $fields, 1);
+        return true;
+    }
+}
+
 ?>

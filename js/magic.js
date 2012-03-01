@@ -1300,6 +1300,29 @@ $('#checkAD').live('click', function() {
 });
 
 
+/*	set selected IP fields
+********************************/
+$('form#filterIP').live('submit', function() {
+	showSpinner();
+
+	var addata = $(this).serialize();
+
+	$.post('site/admin/filterIPFieldsResult.php', addata, function(data) {
+		$('div.filterIPResult').html(data).slideDown('fast');
+		
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("filterIPFields"); parameter = null;}, reloadTimeout);
+        }
+        else {
+			hideSpinner();
+        }
+	});
+
+	return false;
+});
+
+
 
 
 
