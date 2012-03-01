@@ -19,7 +19,7 @@ ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;
 CREATE TABLE `vlans` (
     `vlanId` INTEGER(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    `number` INTEGER(3),
+    `number` INTEGER(4),
     `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
     PRIMARY KEY (`vlanId`)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;

@@ -29,4 +29,9 @@ if($version < "0.5") {
 	 updateSwitchFromOldVersions();
 }
 
+/* update VLANS from old versions if needed */
+if($version < "0.6") {
+	 updateVLANsFromOldVersions();
+}
+
 ?>

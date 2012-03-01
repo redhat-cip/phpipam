@@ -38,6 +38,44 @@ function updateSwitchFromOldVersions()
 
 
 /**
+ * Since 0.6 the VLAN management changed, so if upgrading from old version
+ * we must get all existing VLAN numbers and insert it to VLAN table!
+ */
+function updateVLANsFromOldVersions()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all existing switches */
+    $query 	 = 'select distinct(`VLAN`) from `subnets` where `VLAN` not like "0";';
+    $vlans   = $database->getArray($query); 
+        
+    /* import each to database */
+    foreach($vlans as $vlan) {
+    	$query 	  = 'insert into `vlans` (`number`,`description`) values ("'. $vlan['VLAN'] .'", "Imported VLAN from upgrade to 0.6");';
+    	$database->executeQuery($query);
+    }
+    
+    /* link back from subnets to vlanid */
+    $query = "select * from `vlans`;";
+    $vlans   = $database->getArray($query);
+    
+    foreach($vlans as $vlan) {
+    	# update subnet vlanId
+    	$query = 'update `subnets` set `vlanId` = "'. $vlan['vlanId'] .'" where `VLAN` = "'. $vlan['number'] .'" ;';
+    	$database->executeQuery($query);
+    }    
+    
+    /* remove VLAN field */
+    $query = "Alter table `subnets` drop column `VLAN`;";
+    $database->executeQuery($query);
+    
+    return true;
+}
+
+
+/**
  * Get all tables
  */
 function getAllTables()
