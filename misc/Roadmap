@@ -2,11 +2,9 @@ features for next releases:
 ---------------------------
 	
 	- Planned
-		- selectable fields (mac, switch, port, ...)
 		- custom fields;
 		- translations (XML);
 		- Independant VLAN management;
-		- Create upgrade script for allowed groups and permissions;
 	
 	- Requests
 		- custom groups

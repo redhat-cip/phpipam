@@ -39,9 +39,13 @@ if($settings['version'] != $latest) {
 	else if (!tableExists("switches")) {
 		$version = "0.4";	
 	}
+	/* v0.4 check -> table vlans does not exist yet */
+	else if (!tableExists("vlans")) {
+		$version = "0.5";
+	}
 	/* ok, latest version */
 	else {
-		$version = "0.5";
+		$version = "0.6";
 	}
 
 	/* if version is not the latest print warning that it will be upgraded! */
@@ -155,7 +159,7 @@ if($settings['version'] != $latest) {
 		$tables 	= getAllTables();
 
 		/* required tables */
-		$requiredTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "subnets", "users", "switches");
+		$requiredTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "subnets", "users", "switches", "vlans");
 
 		/* reformat available tables */
 		foreach ($tables as $table) {

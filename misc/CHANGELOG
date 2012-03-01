@@ -8,6 +8,7 @@
 	+ Clickable search results;
 	+ Selectable export fields when exportin subnet;
 	+ Added additional level of subnet nesting;
+	+ Selectable IP address list display fields;
 	+ Subnet can be deleted from ip address edit subnet;
 	+ IP Requests for locked subnets and viewer users can be placed from ip address list;
 	+ jQuery updated to v 1.7.1;
