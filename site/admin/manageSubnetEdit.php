@@ -71,7 +71,7 @@ else {
     <tr>
         <td>VLAN</td>
         <td> 
-            <select name="VLAN">
+            <select name="vlanId">
             	<option disabled="disabled">Select VLAN:</option>
             <?php
            		$vlans = getAllVLANs();
