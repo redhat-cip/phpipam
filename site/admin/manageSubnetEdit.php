@@ -70,10 +70,41 @@ else {
     <!-- vlan -->
     <tr>
         <td>VLAN</td>
-        <td>
-            <input type="text" name="VLAN"   placeholder="VLAN number"     value="<?php if(isset($subnetDataOld['VLAN'])) {print $subnetDataOld['VLAN'];} ?>">
+        <td> 
+            <select name="VLAN">
+            	<option disabled="disabled">Select VLAN:</option>
+            <?php
+           		$vlans = getAllVLANs();
+           		
+           		if($subnetData['subnetAction'] == "Add") {
+           			
+           			$vlan['vlanId'] = 0;
+           		}
+
+           		$tmp[0]['vlanId'] = 0;
+           		$tmp[0]['number'] = 'No VLAN';
+           		
+           		array_unshift($vlans, $tmp[0]);
+            
+            	foreach($vlans as $vlan) {
+            		/* set structure */
+            		$printVLAN = $vlan['number'];
+            		if(!empty($vlan['name'])) {
+            		$printVLAN .= ' - '. $vlan['name'];
+            		}
+            		
+            		/* selected? */
+            		if($subnetDataOld['vlanId'] == $vlan['vlanId']) {
+            			print '<option value="'. $vlan['vlanId'] .'" selected>'. $printVLAN .'</option>'. "\n";
+            		}
+            		else {
+	            		print '<option value="'. $vlan['vlanId'] .'">'. $printVLAN .'</option>'. "\n";
+            		}
+            	}
+            ?>
+            </select>
         </td>
-        <td class="info">Enter subnet VLAN number</td>
+        <td class="info">Select VLAN</td>
     </tr>
 
     <!-- Master subnet -->
