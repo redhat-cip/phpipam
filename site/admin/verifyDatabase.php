@@ -26,11 +26,11 @@ $fields['requests']		  = array("subnetId", "ip_addr", "description", "dns_name",
 $fields['sections']		  = array("name", "description");
 $fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "siteDomain", "siteURL", "domainAuth", "showTooltips", "enableIPrequests", "enableVRF", "enableDNSresolving", "version", "donate");
 $fields['settingsDomain'] = array("account_suffix", "base_dn", "domain_controllers", "use_ssl", "use_tls", "ad_port");
-$fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "VLAN", "vrfId", "allowRequests", "adminLock");
+$fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "adminLock", "vlanId");
 $fields['switches'] 	  = array("hostname", "ip_addr", "vendor", "model", "version", "description", "sections");
 $fields['users'] 	  	  = array("username", "password", "role", "real_name", "email", "domainUser");
 $fields['vrf'] 	  	  	  = array("name", "rd", "description");
-
+$fields['vlans']   	  	  = array("vlanId", "name", "number", "description");
 
 /**
  * check that each database exist - if it does check also fields
