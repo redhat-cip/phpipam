@@ -28,6 +28,9 @@ usleep(200000);
 $ipaddresses   = getIpAddressesBySubnetId ($subnetId); 
 $SubnetDetails = getSubnetDetailsById     ($subnetId);
 
+/* reset VLAN number! */
+$SubnetDetails['VLAN'] = subnetGetVLANdetailsById($SubnetDetails['vlanId']);
+
 /** 
  * Parse IP addresses
  *
@@ -88,10 +91,17 @@ subnet details upper table
 		<th>VLAN</th>
 		<td>
 		<?php 
-		if(empty($SubnetDetails['VLAN']) || $SubnetDetails['VLAN'] == 0) {
-			$SubnetDetails['VLAN'] = "/"; 
+		if(empty($SubnetDetails['VLAN']['number']) || $SubnetDetails['VLAN']['number'] == 0) {
+			$SubnetDetails['VLAN']['number'] = "/"; 
 		}
-		print $SubnetDetails['VLAN']; 
+		print $SubnetDetails['VLAN']['number'];
+		
+		if(!empty($SubnetDetails['VLAN']['name'])) {
+			print ' - '.$SubnetDetails['VLAN']['name'];
+		}
+		if(!empty($SubnetDetails['VLAN']['description'])) {
+			print ' ['. $SubnetDetails['VLAN']['description'] .']'; 
+		}
 		?>
 		</td>
 	</tr>

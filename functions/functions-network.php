@@ -772,6 +772,24 @@ function isSubnetWriteProtected($subnetId)
 
 
 /**
+ * Get VLAN number form Id
+ */
+function subnetGetVLANdetailsById($vlanId)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'select * from `vlans` where `vlanId` = "'. $vlanId .'";';
+    $vlan 	  = $database->getArray($query); 
+  
+	/* return vlan details */
+	return $vlan[0];
+}
+
+
+/**
  * Calculate maximum number of IPv4 / IPv6 hosts per subnet
  */
 function MaxHosts( $mask, $type = 0 ) 

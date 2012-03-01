@@ -49,6 +49,10 @@ foreach ($slaves as $slave) {
 		$slave['VLAN'] = "";
 	}
 	
+	//get VLAN details
+	$slave['VLAN'] = subnetGetVLANdetailsById($slave['vlanId']);
+	$slave['VLAN'] = $slave['VLAN']['number'];
+	
 	print '<tr class="tt" sectionId="'. $section['id'] .'" subnetId="'. $slave['id'] .'" link="'. $section['name'] .'|'. $slave['id'] .'">' . "\n";
     print '	<td><dd>'. $slave['VLAN'] 	   .'</dd></td>' . "\n";
     print '	<td><dd>'. $slave['description'] .'</dd></td>' . "\n";

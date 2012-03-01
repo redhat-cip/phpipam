@@ -28,6 +28,13 @@ $id = $_REQUEST['id'];
 $ip 	= getIpAddrDetailsById ($id);
 $subnet = getSubnetDetailsById ($ip['subnetId']);
 
+/* get VLAN details */
+$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
+$subnet['vlan'] = $subnet['VLAN']['number'];
+if(!empty($subnet['VLAN']['name'])) {
+	$subnet['vlan'] .= ' ('. $subnet['VLAN']['name'] .')';
+}
+
 /* set title */
 $title = 'IP address details :: ' . $ip['ip_addr'];
 
@@ -49,8 +56,8 @@ if(!empty($subnet['description'])) {
 $content .= '&bull; Subnet desc: ' . "\t" . $subnet['description']. "\n";
 }
 # VLAN
-if(!empty($subnet['VLAN'])) {
-$content .= '&bull; VLAN: ' . "\t\t" 	 . $subnet['VLAN'] . "\n";
+if(!empty($subnet['vlan'])) {
+$content .= '&bull; VLAN: ' . "\t\t" 	 . $subnet['vlan'] . "\n";
 }
 # Switch
 if(!empty($ip['switch'])) {
