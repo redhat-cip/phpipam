@@ -71,6 +71,10 @@ else {
 			print '<tr class="vlanLink masterSubnet"';
 		}
 	
+		//get VLAN details
+		$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
+		$subnet['VLAN'] = $subnet['VLAN']['number'];
+	
 		//reformat empty VLAN
 		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) {
 			$subnet['VLAN'] = "";
