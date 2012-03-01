@@ -56,6 +56,9 @@ if (!empty($subnets)) {
 		print '		<td>/</td>' . "\n";
 		
 		# VLAN
+		$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
+		$subnet['VLAN'] = $subnet['VLAN']['number'];
+		
 		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
 		print '		<td>'. $subnet['VLAN']        .'</td>' . "\n";
 		
@@ -89,6 +92,9 @@ if (!empty($subnets)) {
 				print '		<td class="masterSubnet">'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
 		
 				# VLAN
+				$slave['VLAN'] = subnetGetVLANdetailsById($slave['vlanId']);
+				$slave['VLAN'] = $slave['VLAN']['number'];
+				
 				if(empty($slave['VLAN']) || $slave['VLAN'] == 0) { $slave['VLAN'] = ""; }
 				print '		<td>'. $slave['VLAN']        .'</td>' . "\n";
 		

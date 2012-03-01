@@ -713,24 +713,6 @@ function acceptIPrequest($request)
 /* @switch functions ------------------- */
 
 
-/**
- * Get all avaialble VLANS
- */
-function getAllVlans () 
-{
-    /* get variables from config file */
-    global $db;
-    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
-    
-    /* get all vlans, descriptions and subnets */
-    $query = 'SELECT vlan,description,subnet,mask FROM subnets WHERE VLAN > 0 ORDER BY vlan ASC;';
-    
-    $vlans       = $database->getArray($query);  
-    
-    /* return vlans */
-    return $vlans;
-}
-
 
 /**
  * Get all unique devices

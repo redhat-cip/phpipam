@@ -790,6 +790,24 @@ function subnetGetVLANdetailsById($vlanId)
 
 
 /**
+ * Get all VLANS
+ */
+function getAllVLANs()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'select * from `vlans`;';
+    $vlan 	  = $database->getArray($query); 
+  
+	/* return vlan details */
+	return $vlan;
+}
+
+
+/**
  * Calculate maximum number of IPv4 / IPv6 hosts per subnet
  */
 function MaxHosts( $mask, $type = 0 ) 
