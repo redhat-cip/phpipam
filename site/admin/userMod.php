@@ -17,7 +17,7 @@ $users = getAllUsers();
 ?>
 
 <!-- display existing users -->
-<h3>Edit / Delete existing users</h3>
+<h3>User management</h3>
 <div class="userPrint normalTable">
 <table class="userPrint normalTable">
 
@@ -64,7 +64,16 @@ foreach ($users as $user)
 	print '	<td class="edit"><img src="css/images/deleteIP.png" class="Delete" id="' . $user['id'] . '" title="Delete user '. $user['username'] .'"></td>'. "\n";
 	print '</tr>' . "\n";
 }
+
 ?>
+
+<!-- add new -->
+<tr class="add th">
+	<td colspan="8" class="info edit">
+	<img src="css/images/add.png" class="Add" title="Add new User">
+	Add new user
+	</td>
+</tr>
 
 </table>
 </div>

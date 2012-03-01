@@ -975,8 +975,8 @@ $('.subnetDeleteFromIP').live('click', function () {
 add, edit, delete users
 ************************/
 
-/*	Add new user form
-**********************/
+/*	Add/edit/delete user form
+*****************************/
 $('form#userMod').live('submit', function () {
     var loginData = $(this).serialize();
     
@@ -1000,7 +1000,7 @@ $('a#randomPass').live('click', function () {
     $(this).html( password );
 });
 
-/*	Edit existing user
+/*	Edit users
 ***************************/
 $('table.userPrint td.edit img').live('click', function () {
     var id     = $(this).attr('id');

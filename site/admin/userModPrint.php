@@ -23,6 +23,13 @@ if (!$action) {
     
     //fetch all requested userdetails
     $user = getUserDetailsById($id);
+    
+    if(!empty($user['real_name'])) {
+    	print '<h3>'. $action .'  user "'. $user['real_name'] .'"</h3>';
+    }
+    else {
+		print '<h3>Add new user</h3>';    
+    }
 }
 else {
 	/**
@@ -32,9 +39,10 @@ else {
 	$user['username']  = '';
 	$user['email']     = '';
 	$user['password']  = '';
+	
+	print '<h3>Add new user</h3>';
 }
 ?>
-
 
 <div class="normalTable userMod">
 

@@ -121,14 +121,9 @@ $settings = getAllSettings();
         <th>User management</th>
     </tr>
     
-    <!-- add new user -->
-    <tr id="userAdd" class="userAdd">
-        <td link="Administration|userAdd">Add new user</td>
-    </tr>
-    
     <!-- modify / delete user -->
     <tr id="userMod" class="userMod">
-        <td link="Administration|userMod">Delete / modify user</td>
+        <td link="Administration|userMod">User management</td>
     </tr>
 
     <!-- space holder -->    

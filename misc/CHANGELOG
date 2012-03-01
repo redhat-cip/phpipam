@@ -29,7 +29,7 @@
 	+ Fixed version check;
 	+ Removed masterSubnets from subnets available for IP requests;
 	+ Fixed error when non-admin user could not open dashboard;
-	
+	+ Added how subnet list switch when list hidden;
 
 == 0.5
 
@@ -88,7 +88,6 @@
 	+ Redesigned log table;
 	+ Fixed search;
 	
-
 == 0.3
 
 	New features:

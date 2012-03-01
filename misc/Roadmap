@@ -6,6 +6,7 @@ features for next releases:
 		- custom fields;
 		- translations (XML);
 		- Independant VLAN management;
+		- Create upgrade script for allowed groups and permissions;
 	
 	- Requests
 		- custom groups
