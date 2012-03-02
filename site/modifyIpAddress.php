@@ -79,27 +79,6 @@ $setFields = explode(";", $setFieldsTemp);
 <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
 <script>
 $(function() {
-	//get all swiches
-	var switches = [
-		<?php 
-		$allSwitches = getAllUniqueSwitches ();
-		
-		foreach ($allSwitches as $switch) {
-			//get switch details
-			$switchTemp = getSwitchDetailsByHostname($switch['hostname']); 
-			//only show ones in this section!
-			$temp = explode(";", $switchTemp['sections']);
-			
-			foreach($temp as $line) {
-			
-				if($line == $subnet2['sectionId']) {
-					print '"'. $switch['hostname'] .'", ';	
-				}
-			
-			}
-		}
-		?>
-	];
 
 	//get all unique users
 	var users = [
@@ -110,12 +89,7 @@ $(function() {
 		}
 		?>
 	];
-	
-	//autocomplete switches
-	$( "#switch" ).autocomplete({ source: switches, minLength: 0 }).focus(function(){
-	if (this.value == "")
-		$(this).trigger('keydown.autocomplete');
-	});
+
 	//autocomplete users
 	$( "#owner" ).autocomplete({ source: users, minLength: 0 }).focus(function(){
 	if (this.value == "")
@@ -198,7 +172,7 @@ $(function() {
 		print '<tr>'. "\n";
 		print '	<td>Owner</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="owner" placeholder="IP address owner" value="'. $details['owner']. '" size="30">'. "\n";
+		print ' <input type="text" name="owner" id="owner" placeholder="IP address owner" value="'. $details['owner']. '" size="30">'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	}
@@ -212,36 +186,38 @@ $(function() {
 	if(!isset($details['port'])) 	{$details['port'] = "";}	
 	
 	# both are active
-	if( (in_array('switch', $setFields)) && (in_array('port', $setFields)) ) {
-		print '<tr>'. "\n";
-		print '	<td>Switch / Port</td>'. "\n";
-		print '	<td>'. "\n";
-		print ' <input type="text" name="switch" id="switch" placeholder="Switch" value="'. $details['switch']. '" size="13"> / '. "\n";
-		print ' <input type="text" name="port"   id="port"   placeholder="Port"   value="'. $details['port']. '" size="9">'. "\n";
-		print '	</td>'. "\n";
-		print '</tr>'. "\n";	
-	}
-	# Switch only
-	else if(in_array('switch', $setFields)) {
-
-		if(!isset($details['switch'])) {$details['switch'] = "";}	
-
+	if(in_array('switch', $setFields)) {
 		print '<tr>'. "\n";
 		print '	<td>Switch</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="switch" id="switch" placeholder="Switch" value="'. $details['switch']. '" size="30">'. "\n";
+
+		print '<select name="switch">'. "\n";
+		print '<option disabled>Select Switch:</option>'. "\n";
+		print '<option value="" selected>None</option>'. "\n";
+		$switches = getAllUniqueSwitches();
+		
+		foreach($switches as $switch) {
+			//if same
+			if($switch['hostname'] == $details['switch']) {
+				print '<option value="'. $switch['hostname'] .'" selected>'. $switch['hostname'] .'</option>'. "\n";
+			}
+			else {
+				print '<option value="'. $switch['hostname'] .'">'. $switch['hostname'] .'</option>'. "\n";			
+			}
+		}
+		print '</select>'. "\n";
 		print '	</td>'. "\n";
-		print '</tr>'. "\n";
+		print '</tr>'. "\n";	
 	}
-	# Port only
-	else if(in_array('port', $setFields)) {
+	# Port
+	if(in_array('port', $setFields)) {
 
 		if(!isset($details['port'])) {$details['port'] = "";}	
 
 		print '<tr>'. "\n";
-		print '	<td>Switch</td>'. "\n";
+		print '	<td>Port</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="port"   id="port"   placeholder="Port"   value="'. $details['port']. '" size="9">'. "\n";
+		print ' <input type="text" name="port"   id="port"   placeholder="Port"   value="'. $details['port']. '" size="30">'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	}

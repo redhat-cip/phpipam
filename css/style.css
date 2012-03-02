@@ -1101,6 +1101,8 @@ table.editipaddress textarea {
 	-webkit-border-radius: 	4px;
 	-moz-border-radius: 	4px;
 	border-radius: 			4px;
+	
+	margin: 0px;
 }
 table.editipaddress th:nth-child(1) {
 	text-align: left;
