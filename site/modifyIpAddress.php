@@ -66,6 +66,12 @@ else if ($action == "edit_ipaddress") {
 else {
 	$btnName = "Delete";
 }
+
+
+/* get all selected fields for filtering */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
 ?>
 
 <!-- autocomplete -->
@@ -153,71 +159,134 @@ $(function() {
 
 
 	<!-- DNS name -->
-	<tr>
-		<td>DNS name
-		</td>
-		<td>
-			<input type="text" name="dns_name" value="<?php if(isset($details['dns_name'])) { print $details['dns_name'];} ?>" size="30" 
-			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			 placeholder="hostname">
-			<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">
-		</td>
-	</tr>
+	<?php
+	if(in_array('dns_name', $setFields)) {
+
+		if(!isset($details['dns_name'])) {$details['dns_name'] = "";}	
+
+		print '<tr>'. "\n";
+		print '	<td>DNS name</td>'. "\n";
+		print '	<td>'. "\n";
+		print ' <input type="text" name="dns_name" placeholder="hostname" value="'. $details['dns_name']. '" size="30">'. "\n";
+		print '	<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	?>
 
 
 	<!-- MAC address -->
-	<tr>
-		<td>MAC address
-		</td>
-		<td>
-			<input type="text" name="mac" value="<?php if(isset($details['mac'])) { print $details['mac'];} ?>" size="30" 
-			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			placeholder="MAC address">
-		</td>
-	</tr>
+	<?php
+	if(in_array('mac', $setFields)) {
 
-	<!-- owner -->
-	<tr>
-		<td>Owner</td>
-		<td>
-			<input type="text" name="owner" id="owner" value="<?php if(isset($details['owner'])) {print $details['owner'];} ?>" size="30" 
-			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			placeholder="IP address owner">
-		</td>
-	</tr>
+		if(!isset($details['mac'])) {$details['mac'] = "";}	
+
+		print '<tr>'. "\n";
+		print '	<td>MAC address</td>'. "\n";
+		print '	<td>'. "\n";
+		print ' <input type="text" name="mac" placeholder="MAC address" value="'. $details['mac']. '" size="30">'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	?>
+
+
+	<!-- Owner -->
+	<?php
+	if(in_array('owner', $setFields)) {
+
+		if(!isset($details['owner'])) {$details['owner'] = "";}	
+
+		print '<tr>'. "\n";
+		print '	<td>Owner</td>'. "\n";
+		print '	<td>'. "\n";
+		print ' <input type="text" name="owner" placeholder="IP address owner" value="'. $details['owner']. '" size="30">'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	?>
+
 
 	<!-- switch / port -->
-	<tr>
-		<td>Switch / port</td>
-		<td>
-			<input type="text" name="switch" id="switch" value="<?php if(isset($details['switch'])) { print $details['switch'];} ?>" size="13" 
-			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			placeholder="Switch">/
-			<input type="text" name="port" value="<?php if(isset($details['port'])) { print $details['port'];} ?>" size="9" 
-			<?php if ( $btnName == "Delete" ) { print " readonly "; } ?> 
-			placeholder="Port">
-		</td>
-	</tr>
+	<?php
+	
+	if(!isset($details['switch']))  {$details['switch'] = "";}	
+	if(!isset($details['port'])) 	{$details['port'] = "";}	
+	
+	# both are active
+	if( (in_array('switch', $setFields)) && (in_array('port', $setFields)) ) {
+		print '<tr>'. "\n";
+		print '	<td>Switch / Port</td>'. "\n";
+		print '	<td>'. "\n";
+		print ' <input type="text" name="switch" id="switch" placeholder="Switch" value="'. $details['switch']. '" size="13"> / '. "\n";
+		print ' <input type="text" name="port"   id="port"   placeholder="Port"   value="'. $details['port']. '" size="9">'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";	
+	}
+	# Switch only
+	else if(in_array('switch', $setFields)) {
+
+		if(!isset($details['switch'])) {$details['switch'] = "";}	
+
+		print '<tr>'. "\n";
+		print '	<td>Switch</td>'. "\n";
+		print '	<td>'. "\n";
+		print ' <input type="text" name="switch" id="switch" placeholder="Switch" value="'. $details['switch']. '" size="30">'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	# Port only
+	else if(in_array('port', $setFields)) {
+
+		if(!isset($details['port'])) {$details['port'] = "";}	
+
+		print '<tr>'. "\n";
+		print '	<td>Switch</td>'. "\n";
+		print '	<td>'. "\n";
+		print ' <input type="text" name="port"   id="port"   placeholder="Port"   value="'. $details['port']. '" size="9">'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	?>
+
 
 	<!-- note -->
-	<tr class="note">
-		<td>Note</td>
-		<td class="note">
-			<textarea name="note" cols="23" rows="2" placeholder="Additional notes about IP address"><?php if(isset($details['note'])) { print $details['note']; } ?></textarea>
-		</td>
-	</tr>
+	<?php
+	if(in_array('note', $setFields)) {
+
+		if(!isset($details['note'])) {$details['note'] = "";}	
+
+		print '<tr>'. "\n";
+		print '	<td>Note</td>'. "\n";
+		print '	<td class="note">'. "\n";
+		print ' <textarea name="note" cols="23" rows="2" placeholder="Additional notes about IP address">'. $details['note'] . '</textarea>'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	?>
+
 
 	<!-- state -->
-	<tr>
-		<td>State</td>
-		<td>
-			<select name="state">
-				<option value="1" <?php if(isset($details['state'])) { if ($details['state'] == "1") print 'selected'; } ?>>Active</option>
-				<option value="2" <?php if(isset($details['state'])) { if ($details['state'] == "2") print 'selected'; }?>>Reserved</option>
-				<option value="0" <?php if(isset($details['state'])) { if ($details['state'] == "0") print 'selected'; }?>>Offline</option>
-			</select>
-		</td>
-	</tr>
+	<?php
+	if(in_array('state', $setFields)) {
+	
+
+		print '<tr>'. "\n";
+		print '	<td>State</td>'. "\n";
+		print '	<td>'. "\n";
+		print '		<select name="state">'. "\n";
+		
+		#active, reserved, offline
+		print '		<option value="1" '; if(isset($details['state'])) { if ($details['state'] == "1") print 'selected'; } print '>Active</option>'. "\n";
+		print '		<option value="2" '; if(isset($details['state'])) { if ($details['state'] == "2") print 'selected'; } print '>Reserved</option>'. "\n";
+		print '		<option value="0" '; if(isset($details['state'])) { if ($details['state'] == "0") print 'selected'; } print '>Offline</option>'. "\n";
+
+		print '		</select>'. "\n";
+		print '	</td>'. "\n";
+		print '</tr>'. "\n";
+	}
+	?>
+	
 
 	<!-- submit -->
 	<tr>
