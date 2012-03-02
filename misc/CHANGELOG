@@ -11,6 +11,7 @@
 	+ Selectable IP address list display fields;
 	+ Subnet can be deleted from ip address edit subnet;
 	+ IP Requests for locked subnets and viewer users can be placed from ip address list;
+	+ Independant VLAN management;
 	+ jQuery updated to v 1.7.1;
 	+ HighCharts updated to v 2.2.0;
 

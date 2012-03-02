@@ -920,6 +920,9 @@ table.ipaddresses tr td.ipaddress {
 table.ipaddresses td.hostname {
 	width: 80px;
 }
+able.ipaddresses td.description {
+	width: auto;
+}
 table.ipaddresses td.mac {
 	padding: 0px;
 	width: 1px;

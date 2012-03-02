@@ -250,15 +250,51 @@ print IP address table
 
 <!-- headers -->
 <tr class="th">
-	<th>IP address</th>
-	<th>Hostname</th>
-	<th></th>						<!-- MAC address -->
-	<th>Description</th>
-	<th class="vlan"></th>
-	<th class="vlan">Switch</th>
-	<th class="vlan">Port</th>
-	<th class="vlan">Owner</th>	
+
+<?php
+	/* get all selected fields */
+	$setFieldsTemp = getSelectedIPaddrFields();
+	/* format them to array! */
+	$setFields = explode(";", $setFieldsTemp);
+	
+	/* set colspan */
+	$colspan['unused'] = sizeof($setFields) + 1;
+	$colspan['ipaddr'] = sizeof($setFields) + 4;
+
+	# IP address - mandatory
+		print '<th>IP address</th>'. "\n";
+	
+	# hostname	
+	if(in_array('dns_name', $setFields)) {
+		print '<th>Hostname</th>'. "\n";
+	}
+	# MAC address	
+	if(in_array('mac', $setFields)) {
+		print '<th></th>'. "\n";
+	}
+	# Description- mandatory
+		print '<th>Description</th>'. "\n";
+	# note
+	if(in_array('note', $setFields)) {
+		print '<th></th>'. "\n";
+	}	
+	# switch
+	if(in_array('switch', $setFields)) {
+		print '<th>Switch</th>'. "\n";
+	}	
+	# port
+	if(in_array('port', $setFields)) {
+		print '<th>Port</th>'. "\n";
+	}
+	# owner
+	if(in_array('owner', $setFields)) {
+		print '<th>Owner</th>'. "\n";
+	}
+?>
+
+	<!-- actions -->
 	<th colspan="3" class="actions" width="10px"></th>
+
 </tr>
 
 
@@ -279,7 +315,7 @@ $type = IdentifyAddress( $SubnetDetails['subnet'] );
 if (!$ipaddresses) 
 {
     $unused = FindUnusedIpAddresses ( Transform2decimal($SubnetParsed['network']), Transform2decimal($SubnetParsed['broadcast']), $type, 1 );
-    print '<tr class="th"><td></td><td colspan="9" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
+    print '<tr class="th"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
 }
 else
 {
@@ -297,7 +333,7 @@ else
         /*	if there is some result for unused print it 
         ****************************************************/
         if ( $unused  ) {
-            print '<tr class="th"><td></td><td colspan="10" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td></tr>'. "\n";
+            print '<tr class="th"><td></td><td colspan="'. $colspan['ipaddr'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td></tr>'. "\n";
         }
         
         /*	set class for reserved and offline
@@ -318,52 +354,69 @@ else
 
 		/*	resolve dns name if not provided, else print it - IPv4 only!
 		*****************************************************************/
-		if ( (empty($ipaddress['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress['ip_addr']) == "IPv4") ) {
-			$dnsResolved = ResolveDnsName ( $ipaddress['ip_addr'] );
-		}
-		else {
-			$dnsResolved['class'] = "";
-		  	$dnsResolved['name']  = $ipaddress['dns_name'];
-		}
-		print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";  		
+		if(in_array('dns_name', $setFields)) {
+			if ( (empty($ipaddress['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress['ip_addr']) == "IPv4") ) {
+				$dnsResolved = ResolveDnsName ( $ipaddress['ip_addr'] );
+			}
+			else {
+				$dnsResolved['class'] = "";
+			  	$dnsResolved['name']  = $ipaddress['dns_name'];
+			}
+			print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";  
+		}		
 
 
 		/*	Print mac address icon!
 		*****************************************************************/
-		print '<td class="mac">' . "\n";
-		if(!empty($ipaddress['mac'])) {
-			print '	<img class="info mac" src="css/images/lan.png" title="MAC: '. $ipaddress['mac']. '">' . "\n";
+		if(in_array('mac', $setFields)) {
+			print '<td class="mac">' . "\n";
+			if(!empty($ipaddress['mac'])) {
+				print '	<img class="info mac" src="css/images/lan.png" title="MAC: '. $ipaddress['mac']. '">' . "\n";
+			}
+			print '</td>'. "\n";
 		}
-		print '</td>'. "\n";
 		
-        /*	print description
+        /*	print description - mandatory
         ***********************************/
-    	if ( ($ipaddress['state'] == "0") || ($ipaddress['state'] == "2") ) {
-			print '<td class="description">'. $ipaddress['description'] .' ('. reformatIPState($ipaddress['state']) .')</td>'. "\n";
+	    if ( ($ipaddress['state'] == "0") || ($ipaddress['state'] == "2") ) {
+			print '<td class="description">'. $ipaddress['description']. "\n"; 
+			# state
+			if(in_array('state', $setFields)) {
+				print '('. reformatIPState($ipaddress['state']) .')'. "\n";
+			}
+			print '</td>';
 		}
 		else {
 			print '<td class="description">'. $ipaddress['description'] .'</td>'. "\n";
 		}	
+
 		
 		/*	print info button for hover
 		**********************************/
-		print '<td>' . "\n";
-		if(!empty($ipaddress['note'])) {
-			$ipaddress['note'] = str_replace("\n", "<br>",$ipaddress['note']);
-/* 			print '	<img class="info" src="css/images/infoIP.png" title="'. $ipaddress['note']. '">' . "\n"; */
-			print '	<img class="info" src="css/images/note.png" title="'. $ipaddress['note']. '">' . "\n";
+		if(in_array('note', $setFields)) {
+			print '<td>' . "\n";
+			if(!empty($ipaddress['note'])) {
+				$ipaddress['note'] = str_replace("\n", "<br>",$ipaddress['note']);
+				print '	<img class="info" src="css/images/note.png" title="'. $ipaddress['note']. '">' . "\n";
+			}
+			print '</td>'. "\n";
 		}
-		print '</td>'. "\n";
 		  
 	
 		/*	print switch / port
 		***********************/
-		print '<td>'. $ipaddress['switch'] 	.'</td>' . "\n";
-		print '<td>'. $ipaddress['port'] 	.'</td>' . "\n";
+		if(in_array('switch', $setFields)) {
+			print '<td>'. $ipaddress['switch'] 	.'</td>' . "\n";		
+		}
+		if(in_array('port', $setFields)) {
+			print '<td>'. $ipaddress['port'] 	.'</td>' . "\n";
+		}
 
 		/*	print owner
 		*****************/
-		print '<td>'. $ipaddress['owner'] .'</td>' . "\n";
+		if(in_array('owner', $setFields)) {
+			print '<td>'. $ipaddress['owner'] .'</td>' . "\n";
+		}
 		
 		/*	print action links if user can edit 
 		***************************************/
@@ -394,7 +447,7 @@ else
         {   
             $unused = FindUnusedIpAddresses ( $ipaddresses[$n]['ip_addr'], Transform2decimal($SubnetParsed['broadcast']), $type, 1 );
             if ( $unused  ) {
-                print '<tr class="th"><td></td><td colspan="9" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
+                print '<tr class="th"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
             }    
         }
 
