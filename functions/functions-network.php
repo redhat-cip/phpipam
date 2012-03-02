@@ -874,7 +874,6 @@ function fetchAllIPAddresses ($hostnameSort = false)
     	$query 	  = 'select * from ipaddresses;'; 
     }
     else {
-/*     	$query 	   = 'select * from ipaddresses where `dns_name` != "" order by dns_name asc;';  */
     	$query 	   = 'select * from ipaddresses order by dns_name desc;'; 
     }
 
@@ -944,7 +943,7 @@ function checkDuplicate ($ip, $subnetId)
     $ip = Transform2decimal ($ip);
     
     /* set query, open db connection and fetch results */
-    $query         = 'select * from ipaddresses where ip_addr = "'. $ip .'" and subnetId = "'. $subnetId .'" ;';
+    $query         = 'select * from `ipaddresses` where `ip_addr` = "'. $ip .'" and subnetId = "'. $subnetId .'" ;';
     $database      = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $unique        = $database->getArray($query);
     $database->close();
@@ -1040,7 +1039,7 @@ function getIpAddrDetailsById ($id)
     /* get variables from config file */
     global $db;
     /* set query, open db connection and fetch results */
-    $query    = 'select * from ipaddresses where id = "'. $id .'";';
+    $query    = 'select * from `ipaddresses` where `id` = "'. $id .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
     $details  = $database->getArray($query); 
     
@@ -1411,7 +1410,7 @@ function getIPaddressesBySwitchName ( $name )
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all vlans, descriptions and subnets */
-    $query = 'SELECT * FROM ipaddresses where `switch` = "'. $name .'" order by port ASC;';
+    $query = 'SELECT * FROM `ipaddresses` where `switch` = "'. $name .'" order by port ASC;';
     $ip    = $database->getArray($query);  
     
     /* return vlans */

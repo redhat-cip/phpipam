@@ -876,4 +876,77 @@ function updateSelectedIPaddrFields($fields)
     }
 }
 
+
+
+
+
+
+
+
+
+/* @custom IP address fields */
+
+
+/**
+ * Get all fields in IP addresses
+ */
+function getCustomIPaddrFields()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'describe `ipaddresses`;';
+    $fields	  = $database->getArray($query); 
+  
+	/* return Field values only */
+	foreach($fields as $field) {
+		$res[$field['Field']]['name'] = $field['Field'];
+		$res[$field['Field']]['type'] = $field['Type'];
+	}
+	
+	/* unset standard fields */
+	unset($res['id'], $res['subnetId'], $res['ip_addr'], $res['description'], $res['dns_name'], $res['switch']);
+	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note']);
+	
+	return $res;
+}
+
+
+/**
+ *Update custom field
+ */
+function updateCustomIPField($field)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* update request */
+    if($field['action'] == "delete") {
+    	$query  = 'ALTER TABLE `ipaddresses` DROP `'. $field['name'] .'`;';
+    }
+    else if ($field['action'] == "edit") {
+    	$query  = 'ALTER TABLE `ipaddresses` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) DEFAULT NULL;';
+    }
+    else {
+    	$query  = 'ALTER TABLE `ipaddresses` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) DEFAULT NULL;';
+    }
+    
+    /* prepare log */ 
+    $log = prepareLogFromArray ($field);
+    
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('CustomIPField ' . $field['action'] .' success ('. $field['name'] . ')', $log, 0);
+        return false;
+    }
+    else {
+        updateLogTable ('CustomIPField ' . $field['action'] .' failed ('. $field['name'] . ')', $log, 2);
+        return true;
+    }
+}
+
+
+
 ?>

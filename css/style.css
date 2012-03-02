@@ -212,7 +212,8 @@ table.normalTable tr.selected td a {
 	color: white;
 }
 table.normalTable td.info, 
-table.normalTable td.info a {
+table.normalTable td.info a,
+table.normalTable td.info ul li {
     color: #999;
     text-shadow: 1px 1px 2px white;
     font-size: 11px;
@@ -244,7 +245,8 @@ table.normalTable tr.th:hover {
 	background: transparent;
 }
 table.normalTable tr:hover td.info, 
-table.normalTable tr:hover td.info a {
+table.normalTable tr:hover td.info a,
+table.normalTable tr:hover td.info ul li {
     color: #2E2E2E;
     text-shadow: none;
     font-style: normal;
@@ -1743,6 +1745,19 @@ div.vrfManagementEdit2 {
 	width: 300px;
 }
 
+/* customIP */
+table.customIP td {
+	width: auto;
+}
+table.customIP td.img {
+	width: 10px;
+	cursor: pointer;
+}
+table.customIP td.name {
+	width: 10px;
+	white-space: nowrap;
+	padding-right: 30px;
+}
 
 /*******************
 	site footer

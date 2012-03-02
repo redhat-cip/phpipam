@@ -73,7 +73,7 @@ foreach($fields as $field)
 <tr class="th">
 	<td></td>
 	<td>
-		<div class="filterIPResult" style="displa:none"></div>
+		<div class="filterIPResult" style="display:none"></div>
 	</td>
 </tr>
 

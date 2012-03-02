@@ -114,6 +114,13 @@ $settings = getAllSettings();
         <td link="Administration|filterIPFields">Filter IP fields</td>
     </tr>
 
+    <!-- Custom IP fields -->
+    <tr id="customIPFields" class="customIPFields">
+        <td link="Administration|customIPFields">Custom IP fields</td>
+    </tr>
+    
+    
+
     <!-- space holder -->    
     <tr class="th">
         <td>&nbsp;</td>

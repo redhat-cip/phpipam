@@ -22,6 +22,8 @@ $("body").live("mouseover",function () {
 	$('table.switchManagement img').tooltip({position: "top center", tipClass:'tooltipTop' });
 	/* vlan management */
 	$('table.vlanManagement img').tooltip({position: "top center", tipClass:'tooltipTop' });
+	/* custom IP */
+	$('table.customIP img').tooltip({position: "top center", tipClass:'tooltipTop' });
 	
 	/* hide all on hover */
 	$('.tooltipTop, .tooltip, .tooltipBottom, tooltipLeft').mouseenter(function () { $(this).hide();});

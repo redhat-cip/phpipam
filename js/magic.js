@@ -1362,6 +1362,43 @@ $('form#filterIP').live('submit', function() {
 });
 
 
+/*	custom IP field load edit form
+************************************/
+$('table.customIP img').live('click', function() {
+	showSpinner();
+
+	var action 	  = $(this).attr('class');
+	var fieldName = $(this).attr('fieldName');
+
+	$.post('site/admin/customIPFieldsEdit.php', {action:action, fieldName: fieldName}, function(data) {
+		$('div.customIPResult').html(data).slideDown('fast');
+			hideSpinner();
+	});
+
+	return false;
+});
+/*	custom IP field edit
+************************************/
+$('form#editCustomIPFields').live('submit', function() {
+	showSpinner();
+
+	var field = $(this).serialize();
+
+	$.post('site/admin/customIPFieldsEditResult.php', field, function(data) {
+		$('div.customIPEditResult').html(data).slideDown('fast');
+		
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("customIPFields"); parameter = null;}, reloadTimeout);
+        }
+        else {
+			hideSpinner();
+        }
+	});
+
+	return false;
+});
+
 
 
 
