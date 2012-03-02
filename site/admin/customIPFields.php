@@ -10,7 +10,7 @@ require_once('../../functions/functions.php');
 /* verify that user is admin */
 checkAdmin();
 
-/* get all selected fields */
+/* get all custom fields */
 $myFields = getCustomIPaddrFields();
 
 ?>

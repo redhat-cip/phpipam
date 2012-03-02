@@ -40,10 +40,10 @@ if(sizeof($errors) != 0) {
 }
 else {
 	if(!updateCustomIPField($_POST)) {
-		print '<div class="error">Failed to '. $_POST['action'] .' field!</div>';
+		print '<div class="error" style="width:290px;">Failed to '. $_POST['action'] .' field!</div>';
 	}
 	else {
-		print '<div class="success">Field '. $_POST['action'] .' success!</div>';
+		print '<div class="success" style="width:290px;">Field '. $_POST['action'] .' success!</div>';
 	}
 
 }

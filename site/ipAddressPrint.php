@@ -295,10 +295,13 @@ print IP address table
 <tr class="th">
 
 <?php
+	/* get all selected fields */
+	$myFields = getCustomIPaddrFields();
+	$myFieldsSize = sizeof($myFields);
 	
 	/* set colspan */
-	$colspan['unused'] = sizeof($setFields) + 1;
-	$colspan['ipaddr'] = sizeof($setFields) + 4;
+	$colspan['unused'] = sizeof($setFields) + $myFieldsSize + 1;
+	$colspan['ipaddr'] = sizeof($setFields) + $myFieldsSize + 4;
 
 	# IP address - mandatory
 	print '<th>IP address</th>'. "\n";
@@ -325,6 +328,13 @@ print IP address table
 	# owner
 	if(in_array('owner', $setFields)) {
 		print '<th>Owner</th>'. "\n";
+	}
+	
+	# custom fields
+	if(sizeof($myFields) > 0) {
+		foreach($myFields as $myField) {
+			print '<th>'. $myField['name'] .'</th>'. "\n";
+		}
 	}
 ?>
 
@@ -449,6 +459,16 @@ else
 		if(in_array('owner', $setFields)) {
 			print '<td>'. $ipaddress['owner'] .'</td>' . "\n";
 		}
+
+
+		/*	print custom fields 
+		***************************************/
+		if(sizeof($myFields) > 0) {
+			foreach($myFields as $myField) {
+				print '<td>'. $ipaddress[$myField['name']] .'</td>'. "\n";
+			}
+		}
+		
 		
 		/*	print action links if user can edit 
 		***************************************/

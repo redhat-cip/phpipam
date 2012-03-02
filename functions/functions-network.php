@@ -984,20 +984,33 @@ function modifyIpAddress ($ip)
  */
 function SetInsertQuery( $ip ) 
 {
+	/* First we need to get custom fields! */
+	$myFields = getCustomIPaddrFields();
+	$myFieldsInsert['query']  = '';
+	$myFieldsInsert['values'] = '';
+	
+	if(sizeof($myFields) > 0) {
+		/* set inserts for custom */
+		foreach($myFields as $myField) {
+			$myFieldsInsert['query']  = ', `'. $myField['name'] .'`';
+			$myFieldsInsert['values'] = ", '". $ip[$myField['name']] . "'";
+		}
+	}
+
 	/* insert */
 	if( $ip['action'] == "Add" ) 
 	{
-		$query  = "insert into ipaddresses ";
-		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note`) ";
+		$query  = "insert into `ipaddresses` ";
+		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note` ". $myFieldsInsert['query'] .") ";
 		$query .= "values ";
 		$query .= "('". $ip['subnetId'] ."', '". $ip['description'] ."', '". Transform2decimal( $ip['ip_addr'] ) ."', ". "\n"; 
 		$query .= " '". $ip['dns_name'] ."', '". $ip['mac'] ."', '". $ip['owner'] ."', '". $ip['state'] ."', ". "\n";
-		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."');";
+		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."' ". $myFieldsInsert['values'] .");";
 	}
 	/* edit multiple */
 	else if( ($ip['action'] == "Edit") && ($ip['type'] == "series") ) 
 	{
-		$query  = "update ipaddresses ";
+		$query  = "update `ipaddresses` ";
 		$query .= "set `description` = '". $ip['description'] ."', ";
 		$query .= "`dns_name` = '". $ip['dns_name'] ."' ,"; 
 		$query .= "`mac` = '". $ip['mac'] ."' ,"; 
@@ -1005,6 +1018,12 @@ function SetInsertQuery( $ip )
 		$query .= "`state` = '". $ip['state'] ."',";
 		$query .= "`switch` = '". $ip['switch'] ."',";
 		$query .= "`port` = '". $ip['port'] ."',";
+		
+		# custom!
+		foreach($myFields as $myField) {
+		$query .= "`". $myField['name'] ."` = '". $ip[$myField['name']] ."',";
+		}
+		
 		$query .= "`note` = '". $ip['note'] ."' ";
 		$query .= "where `subnetId` = '". $ip['subnetId'] ."' and `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."';";	
 	}
@@ -1013,6 +1032,12 @@ function SetInsertQuery( $ip )
 	{
 		$query  = "update ipaddresses ";
 		$query .= "set `description` = '". $ip['description'] ."', `dns_name` = '". $ip['dns_name'] ."' , `mac` = '". $ip['mac'] ."', ". "\n"; 
+		
+		#custom!
+		foreach($myFields as $myField) {
+		$query .= "`". $myField['name'] ."` = '". $ip[$myField['name']] ."',";
+		}
+		
 		$query .= "`owner` = '". $ip['owner'] ."' , `state` = '". $ip['state'] ."', `switch` = '". $ip['switch'] ."', ". "\n"; 
 		$query .= "`port` = '". $ip['port'] ."', `note` = '". $ip['note'] ."' ";
 		$query .= "where `id` = '". $ip['id'] ."';";	

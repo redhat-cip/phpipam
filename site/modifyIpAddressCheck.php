@@ -82,6 +82,17 @@ if ( !empty($_REQUEST['note']) ) {
 else {
 	$ip['note'] = "";
 }
+//custom
+$myFields = getCustomIPaddrFields();
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+	
+		if(isset($_POST[$myField['name']])) {
+			$ip[$myField['name']] = $_POST[$myField['name']];
+		}
+	}
+}
+
 
 // those values must be present	
 $ip['action']  = $_REQUEST['action'];

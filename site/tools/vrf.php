@@ -27,7 +27,6 @@ else {
 	foreach ($vrfs as $vrf) {
 
 	/*  print VLANs */
-	print '<br>'. "\n";
 	print '<div class="normalTable vlans">';
 	print '<table class="normalTable vlans">';
 

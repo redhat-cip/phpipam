@@ -72,6 +72,11 @@ else {
 $setFieldsTemp = getSelectedIPaddrFields();
 /* format them to array! */
 $setFields = explode(";", $setFieldsTemp);
+
+
+/* get all selected fields */
+$myFields = getCustomIPaddrFields();
+$myFieldsSize = sizeof($myFields);
 ?>
 
 <!-- autocomplete -->
@@ -261,6 +266,21 @@ $(function() {
 	}
 	?>
 	
+	<!-- Custom fields -->
+	<?php
+	if(sizeof($myFields) > 0) {
+		# all my fields
+		foreach($myFields as $myField) {
+			print '<tr>'. "\n";
+			print '	<td>'. $myField['name'] .'</td>'. "\n";
+			print '	<td>'. "\n";
+			print ' <input type="text" name="'. $myField['name'] .'" placeholder="'. $myField['name'] .'" value="'. $details[$myField['name']]. '" size="30">'. "\n";
+			print '	</td>'. "\n";
+			print '</tr>'. "\n";		
+		}
+	}
+	
+	?>
 
 	<!-- submit -->
 	<tr>
