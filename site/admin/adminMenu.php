@@ -22,6 +22,11 @@ $settings = getAllSettings();
         <td link="Administration|settings">Server management</td>
     </tr>
 
+    <!-- modify / delete user -->
+    <tr id="userMod" class="userMod">
+        <td link="Administration|userMod">User management</td>
+    </tr>
+
    <!-- Domain settings -->
     <?php
     /* show domain settings if enabled in config!  */
@@ -107,21 +112,6 @@ $settings = getAllSettings();
     <!-- Filter IP list -->
     <tr id="filterIPFields" class="filterIPFields">
         <td link="Administration|filterIPFields">Filter IP fields</td>
-    </tr>
-        
-    <!-- space holder -->    
-    <tr class="th">
-        <td>&nbsp;</td>
-    </tr>
-            
-    <!-- user management -->
-    <tr class="th">
-        <th>User management</th>
-    </tr>
-    
-    <!-- modify / delete user -->
-    <tr id="userMod" class="userMod">
-        <td link="Administration|userMod">User management</td>
     </tr>
 
     <!-- space holder -->    
