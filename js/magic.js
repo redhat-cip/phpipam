@@ -1263,6 +1263,45 @@ $('form#vrfManagementEdit').live('submit', function() {
 });
 
 
+/*	Edit VLAN
+********************************/
+$('table.vlanManagement img').live('click', function() {
+	showSpinner();
+
+	var vlanId   = $(this).attr('vlanId');
+	var action   = $(this).attr('class');
+	var switchpost = "vlanId=" + vlanId + "&action=" + action;
+	
+	$.post('site/admin/manageVLANEdit.php', switchpost, function(data) {
+		$('div.vlanManagementEdit').html(data).slideDown('fast');
+		hideSpinner();
+	});
+	return false;	
+});
+/*	Edit VLAN result
+********************************/
+$('form#vlanManagementEdit').live('submit', function() {
+	showSpinner();
+
+	var vlandata = $(this).serialize();
+
+	$.post('site/admin/manageVLANEditResult.php', vlandata, function(data) {
+		$('div.vlanManagementEditResult').html(data).slideDown('fast');
+
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("manageVLANs"); parameter = null;}, reloadTimeout);
+        }
+        else {
+			hideSpinner();
+        }
+	});
+
+	return false;
+});
+
+
+
 /*	Edit AD settings
 ********************************/
 $('form#ad').live('submit', function() {

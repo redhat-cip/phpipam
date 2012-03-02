@@ -24,9 +24,10 @@ if(upgradeDatabase($version)) {
 	print '<div class="success">Database upgraded successfully!</div>';
 }
 
-/* update switches from old versions if needed */
+/* update vlans and switches from old versions if needed */
 if($version < "0.5") {
 	 updateSwitchFromOldVersions();
+	 updateVLANsFromOldVersions();
 }
 
 /* update VLANS from old versions if needed */

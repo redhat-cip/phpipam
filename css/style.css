@@ -1707,24 +1707,30 @@ div.switchManagementEditResult {
 
 
 
-/* VRF management */
-table.vrfManagement td.actions {
+/* VRF and VLAN management */
+table.vrfManagement td.actions,
+table.vlanManagement td.actions {
 	width: 10px;
 }
 table.vrfManagement td.name,
-table.vrfManagement td.rd {
+table.vrfManagement td.rd,
+table.vlanManagement td.name {
 	width: 100px;
 }
-table.vrfManagement td img {
+table.vrfManagement td img,
+table.vlanManagement td img {
 	cursor: pointer;
 }
-table.vrfManagement td.description {
+table.vrfManagement td.description,
+table.vlanManagement td.description {
 	white-space: normal;
 }
-div.vrfManagementEdit {
+div.vrfManagementEdit,
+div.vlanManagementEdit {
 	display: none;
 }
-div.vrfManagementEditResult {
+div.vrfManagementEditResult,
+div.vlanManagementEditResult {
 	display: none;
 }
 div.vrfManagementEdit2 {

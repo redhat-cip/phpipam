@@ -287,8 +287,8 @@ function UpdateSection ($update)
     if ( ( $update['action'] == "Delete") || ( $update['action'] == "Edit") )
     {
         if (!$result  = $database->executeMultipleQuerries($query)) {
-            die('<div class="error">Cannot '. $update['action'] .' all entries!</div>');
             updateLogTable ('Section ' . $update['action'] .' failed ('. $update['name'] . ')', $log, 2);
+            die('<div class="error">Cannot '. $update['action'] .' all entries!</div>');
         }
         else {
             updateLogTable ('Section '. $update['name'] . ' ' . $update['action'] .' ok', $log, 1);
@@ -396,13 +396,18 @@ function updateSwitchDetails($switch)
     }
     
     /* execute query */
-    $switch    = $database->executeQuery($query);  
+    $res    = $database->executeQuery($query);  
+
+    /* prepare log */ 
+    $log = prepareLogFromArray ($switch);
     
     /* return details */
-    if($switch) {
+    if($res) {
+        updateLogTable ('Switch ' . $switch['action'] .' success ('. $switch['hostname'] . ')', $log, 0);
     	return true;
     }
     else {
+       	updateLogTable ('Switch ' . $switch['action'] .' failed ('. $switch['hostname'] . ')', $log, 2);
     	return false;
     }
 }
@@ -565,16 +570,75 @@ function updateVRFDetails($vrf)
     }
     
     /* execute query */
-    $vrf    = $database->executeQuery($query);  
-    
+    $res    = $database->executeQuery($query);  
+
+    /* prepare log */ 
+    $log = prepareLogFromArray ($vrf);
+        
     /* return details */
-    if($vrf) {
+    if($res) {
+    	updateLogTable ('VRF ' . $vrf['action'] .' success ('. $vrf['name'] . ')', $log, 0);
     	return true;
     }
     else {
+   		updateLogTable ('VRF ' . $vrf['action'] .' failed ('. $vrf['name'] . ')', $log, 2);
     	return false;
     }
 }
+
+
+
+
+
+
+
+
+
+
+/* @VLAN functions ---------------- */
+
+
+/**
+ * Update VLAN details
+ */
+function updateVLANDetails($vlan)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* set querry based on action */
+    if($vlan['action'] == "add") {
+    	$query  = 'insert into `vlans` '. "\n";
+    	$query .= '(`name`,`number`,`description`) values '. "\n";
+   		$query .= '("'. $vlan['name'] .'", "'. $vlan['number'] .'", "'. $vlan['description'] .'" ); '. "\n";
+    }
+    else if($vlan['action'] == "edit") {
+    	$query  = 'update `vlans` set '. "\n";    
+    	$query .= '`name` = "'. $vlan['name'] .'", `number` = "'. $vlan['number'] .'", `description` = "'. $vlan['description'] .'" '. "\n";     
+    	$query .= 'where `vlanId` = "'. $vlan['vlanId'] .'";'. "\n";    
+    }
+    else if($vlan['action'] == "delete") {
+    	$query  = 'delete from `vlans` where `vlanId` = "'. $vlan['vlanId'] .'";'. "\n";
+    }
+    
+    /* execute query */
+    $res    = $database->executeQuery($query); 
+    
+    /* prepare log */ 
+    $log = prepareLogFromArray ($vlan);
+    
+    /* return details */
+    if($res) {
+    	updateLogTable ('VLAN ' . $vlan['action'] .' success ('. $vlan['name'] . ')', $log, 0);
+    	return true;
+    }
+    else {
+   		updateLogTable ('VLAN ' . $vlan['action'] .' failed ('. $vlan['name'] . ')', $log, 2);
+    	return false;
+    }
+}
+
 
 
 
