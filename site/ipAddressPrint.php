@@ -336,14 +336,12 @@ else
             print '<tr class="th"><td></td><td colspan="'. $colspan['ipaddr'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td></tr>'. "\n";
         }
         
-        /*	set class for reserved and offline
-        **************************************/
+        /*	set class for reserved and offline - if set!
+        ***********************************************/
         $stateClass = "";
-        if ($ipaddress['state'] == "0") {
-        	$stateClass = "offline";
-        }
-        else if ($ipaddress['state'] == "2") {
-        	$stateClass = "reserved";
+        if(in_array('state', $setFields)) {
+	        if ($ipaddress['state'] == "0") 	 { $stateClass = "offline"; }
+	        else if ($ipaddress['state'] == "2") { $stateClass = "reserved"; }
         }
 
         /*	print IP address

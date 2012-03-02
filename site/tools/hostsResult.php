@@ -20,25 +20,63 @@ else {
 	$ipAddresses = fetchAllIPAddressesByName ($_POST['hostname']);
 }
 
+
+/* get all selected fields for filtering */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+# set size!
+$rowSize = sizeof($setFields) + 2;
+
+
 /* print */
 print '<div class="normalTable">'. "\n";
 print '<table class="normalTable hosts">'. "\n";
 	
 /* title */
 print '<tr class="th">'. "\n";
-print '	<th>Hostname</th>'. "\n";
-print '	<th>IP address</th>'. "\n";
-print '	<th></th>'. "\n";			//mac
-print '	<th>Switch</th>'. "\n";
-print '	<th>Port</th>'. "\n";
-print '	<th>Subnet</th>'. "\n";
-print '	<th colspan="2">Description</th>'. "\n";
-print '	<th>Owner</th>'. "\n";
+
+# hostname
+if(in_array('dns_name', $setFields)) {
+	print '	<th>Hostname</th>'. "\n";
+}
+# IP address - mandatory
+	print '	<th>IP address</th>'. "\n";
+# mac
+if(in_array('mac', $setFields)) {
+	print '	<th></th>'. "\n";
+}
+# switch 
+if(in_array('switch', $setFields)) {
+	print '	<th>Switch</th>'. "\n";
+}
+# port
+if(in_array('port', $setFields)) {
+	print '	<th>Port</th>'. "\n";
+}
+# subnet - mandatory
+	print '	<th>Subnet</th>'. "\n";
+# description and note
+if( (in_array('description', $setFields)) && (in_array('note', $setFields)) ) {
+	print '	<th colspan="2">Description</th>'. "\n";	
+}
+# description only
+else if (in_array('description', $setFields)) {
+	print '	<th>Description</th>'. "\n";	
+}
+# note only
+else if (in_array('note', $setFields)) {
+	print '	<th></th>'. "\n";	
+}
+# owner
+if(in_array('port', $setFields)) {
+	print '	<th>Owner</th>'. "\n";
+}
 print '</tr>'. "\n";
 
 /* if nothing is found print it */
 if(sizeof($ipAddresses) == 0) {
-	print '<tr class="th"><td colspan="8">No results found for string "'. $_POST['hostname'] .'"</td></tr>';
+	print '<tr class="th"><td colspan="'. $rowSize .'">No results found for string "'. $_POST['hostname'] .'"</td></tr>';
 }
 
 $m = 0;
@@ -62,35 +100,59 @@ foreach($ipAddresses as $ip) {
 	print '<tr class="'. $class .'" id="'. $ip['id'] .'" subnetId="'. $ip['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
 	
 	/* don't show hostname if it is the same as first */
-	if($ipAddresses[$m]['dns_name'] == $ipAddresses[$m-1]['dns_name']) {
-		print '	<td class="dns"></td>'. "\n";
-	}
-	else { 
-		print '	<td class="dns">'. $ip['dns_name'] .'</td>'. "\n";
+	if(in_array('dns_name', $setFields)) {
+		if($ipAddresses[$m]['dns_name'] == $ipAddresses[$m-1]['dns_name']) {
+			print '	<td class="dns"></td>'. "\n";
+		}
+		else { 
+			print '	<td class="dns">'. $ip['dns_name'] .'</td>'. "\n";
+		}
 	}
 	
+	# IP address
 	print '	<td class="ip">'. transform2long($ip['ip_addr']) .'/'. $subnet['mask'] .'</td>'. "\n";
 	
-	print '	<td class="mac">'. "\n";
-	if(isset($ip['mac'])) {
-	print '<img class="info" src="css/images/lan.png" title="MAC: '. $ip['mac'] .'">'. "\n";
+	if(in_array('mac', $setFields)) {
+		print '	<td class="mac">'. "\n";
+		if(isset($ip['mac'])) {
+			print '<img class="info" src="css/images/lan.png" title="MAC: '. $ip['mac'] .'">'. "\n";
+		}
+		print '</td>'. "\n";
 	}
-	print '</td>'. "\n";
 	
-	print '	<td class="switch">'. $ip['switch'] .'</td>'. "\n";
-	print '	<td class="port">'. $ip['port'] .'</td>'. "\n";
+	# switch
+	if(in_array('switch', $setFields)) {
+		print '	<td class="switch">'. $ip['switch'] .'</td>'. "\n";	
+	}
+	
+	# port
+	if(in_array('port', $setFields)) {
+		print '	<td class="port">'. $ip['port'] .'</td>'. "\n";
+	}
+	
+	# subnet
 	print '	<td class="subnet">'. $subnet['description'] .'</td>'. "\n";	
-	print '	<td class="description">'. $ip['description'] .'</td>'. "\n";
 	
-	// print info button for hover
-	print '<td class="note">' . "\n";
-	if(!empty($ip['note'])) {
-		$ip['note'] = str_replace("\n", "<br>",$ip['note']);
-		print '	<img class="info" src="css/images/note.png" title="'. $ip['note']. '">' . "\n";
+	# description
+	if(in_array('description', $setFields)) {
+		print '	<td class="description">'. $ip['description'] .'</td>'. "\n";
 	}
-	print '</td>'. "\n";
 	
-	print '	<td class="owner">'. $ip['owner'] .'</td>'. "\n";
+	# note
+	if(in_array('note', $setFields)) {
+		print '<td class="note">' . "\n";
+		if(!empty($ip['note'])) {
+			$ip['note'] = str_replace("\n", "<br>",$ip['note']);
+			print '	<img class="info" src="css/images/note.png" title="'. $ip['note']. '">' . "\n";
+		}
+		print '</td>'. "\n";
+	}
+	
+	# owner
+	if(in_array('owner', $setFields)) {
+		print '	<td class="owner">'. $ip['owner'] .'</td>'. "\n";
+	}
+	
 	print '</tr>'. "\n";
 
 	$m++;
