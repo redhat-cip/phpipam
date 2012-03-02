@@ -1,5 +1,11 @@
 <?php
 
+/* include required scripts */
+require_once('../../functions/functions.php');
+
+/* no errors */
+ini_set('display_errors', 0); 
+
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 

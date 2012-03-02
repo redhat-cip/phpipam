@@ -158,7 +158,7 @@ subnet details upper table
 		print '<form id="selectExportFields">';
 		
 		# IP addr - mandatory
-			print '<input type="checkbox" name="ip_addr" 	checked> IP address<br>';
+			print '<input type="checkbox" name="ip_addr"	checked> IP address<br>';
 		# state
 		if(in_array('state', $setFields)) {
 			print '<input type="checkbox" name="state" 		checked> IP state<br>';

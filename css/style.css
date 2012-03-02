@@ -2239,6 +2239,8 @@ div.loading {
 	border-radius: 6px;
 	
 	border: 1px solid rgba(0,0,0,0.6);
+	
+	z-index: 999;
 }
 
 div.jqueryError {

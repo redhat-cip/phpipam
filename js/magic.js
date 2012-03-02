@@ -129,7 +129,7 @@ function modifyipaddress(action,id,$subnetId) {
 ****************************/
 $('img.refreshHostname').live('click', function() {
 	showSpinner();
-	var ipaddress = $('input[name=ip_addr]').val();
+	var ipaddress = $('input.ip_addr').val();
 	$.post('site/tools/resolveDNS.php', {ipaddress:ipaddress}, function(data) {
 		if(data.length !== 0) {
 			$('input[name=dns_name]').val(data);

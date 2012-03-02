@@ -142,7 +142,7 @@ $(function() {
 		<td>IP address 
 		</td>
 		<td>
-			<input type="text" name="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="IP address">
+			<input type="text" name="ip_addr" class="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="IP address">
     		<img class="addIpAddress" src="css/images/infoAdd.png" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)">
     	</td>
 	</tr>
@@ -160,9 +160,8 @@ $(function() {
 
 	<!-- DNS name -->
 	<?php
-	if(in_array('dns_name', $setFields)) {
 
-		if(!isset($details['dns_name'])) {$details['dns_name'] = "";}	
+	if(!isset($details['dns_name'])) {$details['dns_name'] = "";}	
 
 		print '<tr>'. "\n";
 		print '	<td>DNS name</td>'. "\n";
@@ -171,7 +170,6 @@ $(function() {
 		print '	<img class="refreshHostname" src="css/images/refresh.png" title="Click to check for hostname">'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
-	}
 	?>
 
 
