@@ -109,6 +109,24 @@ subnet details upper table
 		?>
 		</td>
 	</tr>
+	
+	<?php
+	if(!empty($SubnetDetails['vrfId'])) {
+		//get vrf details
+		$vrf = getVRFdetailsById($SubnetDetails['vrfId']);
+		//set text
+		$vrfText = $vrf['name'];
+		if(!empty($vrf['description'])) {
+		$vrfText .= ' ['. $vrf['description'] .']';
+		}
+	
+		print '<tr>'. "\n";
+		print '	<th>VRF</th>'. "\n";
+		print '	<td>'. $vrfText .'</td>'. "\n";
+		print '</tr>'. "\n";	
+	}
+	
+	?>
 
 	<?php
 	/* Are IP requests allowed? */
