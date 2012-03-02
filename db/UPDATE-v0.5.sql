@@ -8,7 +8,7 @@ UPDATE `settings` set `donate` = '0';
 
 /* Add IPfilter to settings */
 ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
-UPDATE `settings` set `IPfilter` = 'dns_name;mac;owner;state;switch;port;note';
+UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
 
 /* ALTER subnets - add VLAN support */
 ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;

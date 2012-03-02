@@ -19,8 +19,12 @@ if($_REQUEST['subnetId']) {
 	$subnetId = $_REQUEST['subnetId'];
 }
 
-/* add some fake delay */
-usleep(200000);
+
+/* get all selected fields for IP print */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+
 
 /**
  * Get all ip addresses in subnet and subnet details!
@@ -153,15 +157,36 @@ subnet details upper table
 		
 		print '<form id="selectExportFields">';
 		
-		print '<input type="checkbox" name="ip_addr" 	checked> IP address<br>';
-		print '<input type="checkbox" name="state" 		checked> IP state<br>';
+		# IP addr - mandatory
+			print '<input type="checkbox" name="ip_addr" 	checked> IP address<br>';
+		# state
+		if(in_array('state', $setFields)) {
+			print '<input type="checkbox" name="state" 		checked> IP state<br>';
+		}
+		# description - mandatory
 		print '<input type="checkbox" name="description"checked> Description<br>';
+		# hostname - mandatory
 		print '<input type="checkbox" name="dns_name" 	checked> Hostname<br>';
+		# mac 
+		if(in_array('mac', $setFields)) {
 		print '<input type="checkbox" name="mac" 		checked> MAC address<br>';
+		}
+		# owner
+		if(in_array('owner', $setFields)) {
 		print '<input type="checkbox" name="owner" 		checked> Owner<br>';
+		}
+		# switch
+		if(in_array('switch', $setFields)) {
 		print '<input type="checkbox" name="switch" 	checked> Switch<br>';
+		}
+		# port
+		if(in_array('port', $setFields)) {
 		print '<input type="checkbox" name="port" 		checked> Port<br>';
+		}
+		# note
+		if(in_array('note', $setFields)) {
 		print '<input type="checkbox" name="note" 		checked> Note<br>';
+		}
 
 		print '<input type="submit" value="Export">';
 		
@@ -252,28 +277,21 @@ print IP address table
 <tr class="th">
 
 <?php
-	/* get all selected fields */
-	$setFieldsTemp = getSelectedIPaddrFields();
-	/* format them to array! */
-	$setFields = explode(";", $setFieldsTemp);
 	
 	/* set colspan */
 	$colspan['unused'] = sizeof($setFields) + 1;
 	$colspan['ipaddr'] = sizeof($setFields) + 4;
 
 	# IP address - mandatory
-		print '<th>IP address</th>'. "\n";
-	
-	# hostname	
-	if(in_array('dns_name', $setFields)) {
-		print '<th>Hostname</th>'. "\n";
-	}
+	print '<th>IP address</th>'. "\n";
+	# hostname - mandatory
+	print '<th>Hostname</th>'. "\n";
 	# MAC address	
 	if(in_array('mac', $setFields)) {
 		print '<th></th>'. "\n";
 	}
 	# Description- mandatory
-		print '<th>Description</th>'. "\n";
+	print '<th>Description</th>'. "\n";
 	# note
 	if(in_array('note', $setFields)) {
 		print '<th></th>'. "\n";
@@ -352,16 +370,14 @@ else
 
 		/*	resolve dns name if not provided, else print it - IPv4 only!
 		*****************************************************************/
-		if(in_array('dns_name', $setFields)) {
-			if ( (empty($ipaddress['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress['ip_addr']) == "IPv4") ) {
-				$dnsResolved = ResolveDnsName ( $ipaddress['ip_addr'] );
-			}
-			else {
-				$dnsResolved['class'] = "";
-			  	$dnsResolved['name']  = $ipaddress['dns_name'];
-			}
-			print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";  
-		}		
+		if ( (empty($ipaddress['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress['ip_addr']) == "IPv4") ) {
+			$dnsResolved = ResolveDnsName ( $ipaddress['ip_addr'] );
+		}
+		else {
+			$dnsResolved['class'] = "";
+		  	$dnsResolved['name']  = $ipaddress['dns_name'];
+		}
+		print '<td class="'. $dnsResolved['class'] .' hostname">'. $dnsResolved['name'] 	.'</td>'. "\n";  		
 
 
 		/*	Print mac address icon!

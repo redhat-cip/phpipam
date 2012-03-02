@@ -36,10 +36,8 @@ print '<table class="normalTable hosts">'. "\n";
 /* title */
 print '<tr class="th">'. "\n";
 
-# hostname
-if(in_array('dns_name', $setFields)) {
+# hostname - mandatory
 	print '	<th>Hostname</th>'. "\n";
-}
 # IP address - mandatory
 	print '	<th>IP address</th>'. "\n";
 # mac
@@ -57,16 +55,12 @@ if(in_array('port', $setFields)) {
 # subnet - mandatory
 	print '	<th>Subnet</th>'. "\n";
 # description and note
-if( (in_array('description', $setFields)) && (in_array('note', $setFields)) ) {
+if(in_array('note', $setFields)) {
 	print '	<th colspan="2">Description</th>'. "\n";	
 }
 # description only
-else if (in_array('description', $setFields)) {
+else {
 	print '	<th>Description</th>'. "\n";	
-}
-# note only
-else if (in_array('note', $setFields)) {
-	print '	<th></th>'. "\n";	
 }
 # owner
 if(in_array('port', $setFields)) {
@@ -100,13 +94,11 @@ foreach($ipAddresses as $ip) {
 	print '<tr class="'. $class .'" id="'. $ip['id'] .'" subnetId="'. $ip['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
 	
 	/* don't show hostname if it is the same as first */
-	if(in_array('dns_name', $setFields)) {
-		if($ipAddresses[$m]['dns_name'] == $ipAddresses[$m-1]['dns_name']) {
-			print '	<td class="dns"></td>'. "\n";
-		}
-		else { 
-			print '	<td class="dns">'. $ip['dns_name'] .'</td>'. "\n";
-		}
+	if($ipAddresses[$m]['dns_name'] == $ipAddresses[$m-1]['dns_name']) {
+		print '	<td class="dns"></td>'. "\n";
+	}
+	else { 
+		print '	<td class="dns">'. $ip['dns_name'] .'</td>'. "\n";
 	}
 	
 	# IP address
@@ -134,9 +126,7 @@ foreach($ipAddresses as $ip) {
 	print '	<td class="subnet">'. $subnet['description'] .'</td>'. "\n";	
 	
 	# description
-	if(in_array('description', $setFields)) {
-		print '	<td class="description">'. $ip['description'] .'</td>'. "\n";
-	}
+	print '	<td class="description">'. $ip['description'] .'</td>'. "\n";
 	
 	# note
 	if(in_array('note', $setFields)) {

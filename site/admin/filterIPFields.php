@@ -21,14 +21,14 @@ $setFields = explode(";", $setFieldsTemp);
 
 
 /* unset mandatory fields -> id,subnetid,ip_addr */
-unset($fields['id'], $fields['subnetId'], $fields['ip_addr']);
+unset($fields['id'], $fields['subnetId'], $fields['ip_addr'], $fields['description'], $fields['dns_name']);
 
 ?>
 
 
 <h3>Filter which fields to display in IP list</h3>
 
-You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP and hostname are mandatory.
+You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory.
 
 
 <div class="normalTable filterIP">
