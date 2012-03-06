@@ -79,30 +79,43 @@ $(document).ready(function() {
 </tr>
 
 <!-- owner -->
-<tr class="owner">
-	<td>Owner</td>
-	<td>	
-		<!-- autocomplete -->
-		<link type="text/css" href="../css/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	
-		<script type="text/javascript" src="../js/jquery-ui-1.8.14.custom.min.js"></script>
-		<script>
-		$(function() {
-			//get all unique users
-			var users = [
-				<?php 
+<?php 
+/* get all selected fields for IP print */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+
+
+# owner
+if(in_array('owner', $setFields)) {
+
+	print '<tr class="owner">'. "\n";
+	print '<td>Owner</td>'. "\n";
+	print '<td>	'. "\n";
+		# autocomplete
+	print '<link type="text/css" href="../css/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	'. "\n";
+	print '<script type="text/javascript" src="../js/jquery-ui-1.8.14.custom.min.js"></script>'. "\n";
+	print '<script>'. "\n";
+	print '$(function() {'. "\n";
+		# get all unique users
+	print 'var users = ['. "\n";
 				$allUsers = getUniqueUsers ();
 				foreach ($allUsers as $user) {
 					print '"'. $user['owner'] .'", ';
 				}
-				?>
-			];
-			//autocomplete users
-		$( "#owner" ).autocomplete({ source: users });
-		});
-		</script>
+	print '];'. "\n";
+		# autocomplete users
+	print '$( "#owner" ).autocomplete({ source: users }); '. "\n";
+	print '}); '. "\n";
+	print '</script> '. "\n";
 		
-		<input type="text" name="owner" id="owner" size="30" placeholder="Responsible person"></td>
-</tr>
+	print '<input type="text" name="owner" id="owner" size="30" placeholder="Responsible person"></td>'. "\n";
+	print '</tr>'. "\n";
+
+}
+
+?>
+
 
 <!-- requester -->
 <tr>

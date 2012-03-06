@@ -20,6 +20,7 @@ require_once('../../functions/functions.php');
 		<?php  
 		# get first IP address
 		$first = transform2long (getFirstAvailableIPAddress ($_POST['subnetId']));
+		
 		# get subnet details
 		$subnet = getSubnetDetailsById($_POST['subnetId']);
 		?>
