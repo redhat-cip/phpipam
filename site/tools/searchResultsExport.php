@@ -68,6 +68,13 @@ $query .= 'order by `ip_addr` asc;';
 $result = searchAddresses ($query);
 
 
+/* get all selected fields for IP print */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+
+//count fields!
+$fieldCount = sizeof($setFields) + 3;
 
 
 /*
@@ -111,18 +118,40 @@ $m = 0;				//for section change
 $worksheet =& $workbook->addWorksheet('IP Search results');
 
 //write headers
-$worksheet->write($lineCount, 0, 'ip address' ,$format_title);
-$worksheet->write($lineCount, 1, 'state' ,$format_title);
-$worksheet->write($lineCount, 2, 'description' ,$format_title);
-$worksheet->write($lineCount, 3, 'hostname' ,$format_title);
-$worksheet->write($lineCount, 4, 'switch' ,$format_title);
-$worksheet->write($lineCount, 5, 'port' ,$format_title);
-$worksheet->write($lineCount, 6, 'owner' ,$format_title);
-$worksheet->write($lineCount, 7, 'mac' ,$format_title);
-$worksheet->write($lineCount, 8, 'note' ,$format_title);
+$x = 0;
+	$worksheet->write($lineCount, $x, 'ip address' ,$format_title);		$x++;
+
+# state
+if(in_array('state', $setFields)) {
+	$worksheet->write($lineCount, $x, 'state' ,$format_title);			$x++;
+}
+# description, note
+	$worksheet->write($lineCount, $x, 'description' ,$format_title);	$x++;
+	$worksheet->write($lineCount, $x, 'hostname' ,$format_title);		$x++;
+# switch
+if(in_array('switch', $setFields)) {
+	$worksheet->write($lineCount, $x, 'switch' ,$format_title);			$x++;
+}
+# port
+if(in_array('port', $setFields)) {
+	$worksheet->write($lineCount, $x, 'port' ,$format_title);			$x++;
+}
+# owner
+if(in_array('owner', $setFields)) {
+	$worksheet->write($lineCount, $x, 'owner' ,$format_title);			$x++;
+}
+# mac
+if(in_array('mac', $setFields)) {
+	$worksheet->write($lineCount, $x, 'mac' ,$format_title);			$x++;
+}
+# note
+if(in_array('note', $setFields)) {
+	$worksheet->write($lineCount, $x, 'note' ,$format_title);
+}
 
 //new line
 $lineCount++;
+
 
 //Write IP addresses
 foreach ($result as $ip) {
@@ -135,22 +164,12 @@ foreach ($result as $ip) {
 	//section change
 	if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
 
-		//top border line at bottom of IP addresses
-		$worksheet->write($lineCount, 0, "", $format_top);
-		$worksheet->write($lineCount, 1, "", $format_top);
-		$worksheet->write($lineCount, 2, "", $format_top);
-		$worksheet->write($lineCount, 3, "", $format_top);
-		$worksheet->write($lineCount, 4, "", $format_top);
-		$worksheet->write($lineCount, 5, "", $format_top);
-		$worksheet->write($lineCount, 6, "", $format_top);
-		$worksheet->write($lineCount, 7, "", $format_top);
-		$worksheet->write($lineCount, 8, "", $format_top);
 		//new line
 		$lineCount++;
 
 		//subnet details
 		$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
-		$worksheet->mergeCells($lineCount, 0, $lineCount, 8);
+		$worksheet->mergeCells($lineCount, 0, $lineCount, $fieldCount-1);
 	
 		//new line
 		$lineCount++;
@@ -165,31 +184,38 @@ foreach ($result as $ip) {
 		case 2: $ip['state'] = "Reserved";	break;
 	}
 	
-		
-	$worksheet->write($lineCount, 0, transform2long($ip['ip_addr']), $format_left);
-	$worksheet->write($lineCount, 1, $ip['state']);
-	$worksheet->write($lineCount, 2, $ip['description']);
-	$worksheet->write($lineCount, 3, $ip['dns_name']);
-	$worksheet->write($lineCount, 4, $ip['switch']);
-	$worksheet->write($lineCount, 5, $ip['port']);
-	$worksheet->write($lineCount, 6, $ip['owner']);
-	$worksheet->write($lineCount, 7, $ip['mac']);
-	$worksheet->write($lineCount, 8, $ip['note'], $format_right);
+	$x = 0;
+	$worksheet->write($lineCount, $x, transform2long($ip['ip_addr']), $format_left);	$x++;
+	# state
+	if(in_array('state', $setFields)) {
+	$worksheet->write($lineCount, $x, $ip['state']);						$x++;
+	}
+	$worksheet->write($lineCount, $x, $ip['description']);					$x++;
+	$worksheet->write($lineCount, $x, $ip['dns_name']);						$x++;
+	# switch
+	if(in_array('switch', $setFields)) {
+	$worksheet->write($lineCount, $x, $ip['switch']);						$x++;
+	}
+	# port
+	if(in_array('port', $setFields)) {
+	$worksheet->write($lineCount, $x, $ip['port']);							$x++;
+	}
+	# owner
+	if(in_array('owner', $setFields)) {
+	$worksheet->write($lineCount, $x, $ip['owner']);						$x++;
+	}
+	# mac
+	if(in_array('mac', $setFields)) {
+	$worksheet->write($lineCount, $x, $ip['mac']);							$x++;
+	}
+	# note
+	if(in_array('note', $setFields)) {
+	$worksheet->write($lineCount, $x, $ip['note']);							$x++;
+	}
 	
 	//new line
 	$lineCount++;
 }
-
-//top border line at bottom of IP addresses
-$worksheet->write($lineCount, 0, "", $format_top);
-$worksheet->write($lineCount, 1, "", $format_top);
-$worksheet->write($lineCount, 2, "", $format_top);
-$worksheet->write($lineCount, 3, "", $format_top);
-$worksheet->write($lineCount, 4, "", $format_top);
-$worksheet->write($lineCount, 5, "", $format_top);
-$worksheet->write($lineCount, 6, "", $format_top);
-$worksheet->write($lineCount, 7, "", $format_top);
-$worksheet->write($lineCount, 8, "", $format_top);
 
 
 
