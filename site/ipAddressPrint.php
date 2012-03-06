@@ -274,7 +274,7 @@ subnet details upper table
 		print '<!-- addnew holder -->' . "\n";
 		print '<tr class="edit_subnet">' . "\n";
 		print '	<td></td>' . "\n";
-		print '	<td><div class="edit_subnet"></div></td>' . "\n";
+		print '	<td colspan="2"><div class="edit_subnet"></div></td>' . "\n";
 		print '</tr>' . "\n";		
 	}
 	

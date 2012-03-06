@@ -955,6 +955,7 @@ table.ipaddress_subnet div.mail {
 }
 table.ipaddress_subnet div.edit_subnet {
 	display: none;
+	width: 600px;
 }
 table.ipaddress_subnet div.edit_subnet table td {
 	white-space: normal;
@@ -1022,7 +1023,7 @@ table.ipaddresses img {
 div.addnew {
 	color: #3F3F3F;
 	
-	min-width: 300px;
+	width: 400px;
 	
 	padding: 3px;
 	margin-top: 5px;

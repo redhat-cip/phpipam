@@ -33,13 +33,19 @@ if (($subnetData['location'] == "subnets") || ($subnetData['location'] == "ipcal
 }
 else {
     $className = "manageSubnetEdit";
-    Print '<h3>'. $subnetData['subnetAction'] .' subnet</h3>';
 }
 ?>
 
 <div class="<?php print $className; ?> normalTable">
 <form name="<?php print $className; ?>" id="<?php print $className; ?>">
 <table class="normalTable <?php print $className; ?>">
+
+	<!-- title -->
+	<?php
+	print '<tr class="th">'. "\n";
+	print '	<th colspan="3" style="text-align:left; padding:5px;">'. $subnetData['subnetAction'] .' subnet</th>'. "\n";
+	print '</tr>'. "\n";
+	?>
 
     <!-- name -->
     <tr>
