@@ -90,6 +90,13 @@ $settings = getAllSettings();
     </tr>
 
 
+    <!-- subnets -->
+    <tr id="subnets" class="subnets">
+        <td>
+            <a href="#tools|subnets" id="subnets">Subnets</a>
+        </td>
+    </tr>
+
     <!-- space holder -->    
     <tr class="th">
         <td>&nbsp;</td>

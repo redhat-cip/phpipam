@@ -792,14 +792,20 @@ function subnetGetVLANdetailsById($vlanId)
 /**
  * Get all VLANS
  */
-function getAllVLANs()
+function getAllVlans($tools = false)
 {
     /* get variables from config file */
     global $db;
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
-    /* first update request */
-    $query    = 'select * from `vlans`;';
+    /* check if it came from tools and use different query! */
+    if($tools) {
+ 		$query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;';
+    }
+    else {
+        $query = 'select * from `vlans`;';
+    }
+	
     $vlan 	  = $database->getArray($query); 
   
 	/* return vlan details */

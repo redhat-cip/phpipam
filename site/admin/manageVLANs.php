@@ -12,7 +12,7 @@ checkAdmin();
 
 
 /* get all available VLANSs */
-$vlans = getAllVLANs ();
+$vlans = getAllVlans ();
 ?>
 
 <h3>Manage VLANs</h3>

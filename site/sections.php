@@ -86,7 +86,8 @@ print '	<dd section="tools" id="switches">Switches</dd>';
 if($settings['enableVRF'] == 1) { 
 print '	<dd section="tools" id="vrf">VRF list</dd>';
 }
-print '	<dd section="tools" id="vlan">VLAN table</dd>';
+print '	<dd section="tools" id="vlan">VLANs</dd>';
+print '	<dd section="subnets" id="subnets">Subnets</dd>';
 print '	<dd section="tools" id="hosts">Host list</dd>';
 print '	<dd section="tools" id="search">Search</dd>';
 print '</div>'. "\n";
