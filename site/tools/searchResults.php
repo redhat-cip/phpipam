@@ -76,6 +76,13 @@ $query .= 'order by `ip_addr` asc;';
 
 /* get result */
 $result = searchAddresses ($query);
+
+
+/* get all selected fields for IP print */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+
 ?>
 
 <h3>
@@ -96,14 +103,37 @@ $result = searchAddresses ($query);
 
 <!-- headers -->
 <tr class="th" id="searchHeader">
-	<th>IP address</th>
-	<th>VLAN</th>
-	<th>Description</th>
-	<th>Hostname</th>
-	<th></th>
-	<th>Switch</th>
-	<th>Port</th>
-	<th colspan="2">Owner</th>
+<?php
+
+	print '<th>IP address</th>'. "\n";
+	print '<th>VLAN</th>'. "\n";
+	# description
+	print '<th>Description</th>'. "\n";
+	print '<th>Hostname</th>'. "\n";
+	# mac
+	if(in_array('mac', $setFields)) {
+	print '<th></th>'. "\n";
+	}
+	# switch
+	if(in_array('switch', $setFields)) {
+	print '<th>Switch</th>'. "\n";
+	}
+	# port
+	if(in_array('port', $setFields)) {
+	print '<th>Port</th>'. "\n";
+	}
+	
+	# owner and note
+	if( (in_array('owner', $setFields)) && (in_array('note', $setFields)) ) {
+	print '<th colspan="2">Owner</th>'. "\n";
+	}
+	else if (in_array('owner', $setFields)) {
+	print '<th>Owner</th>'. "\n";	
+	}
+	else if (in_array('note', $setFields)) {
+	print '<th></th>'. "\n";
+	}
+?>
 </tr>
 
 <!-- IP addresses -->
@@ -120,6 +150,8 @@ else {
 
 		//get the Subnet details
 		$subnet = getSubnetDetailsById ($line['subnetId']);
+		//get vlan number
+		$vlan   = subnetGetVLANDetailsById($subnet['vlanId']);
 		//get section
 		$section = getSectionDetailsById ($subnet['sectionId']);
 	
@@ -139,28 +171,55 @@ else {
 	*/
 	
 		print ' <td>'. transform2long($line['ip_addr'])  .'</td>' . "\n";
-		print ' <td>'. $subnet['VLAN']  .'</td>' . "\n";
+		print ' <td>'. $vlan['number']  .'</td>' . "\n";
 		print ' <td>'. ShortenText($line['description'], $chars = 50) .'</td>' . "\n";
 	
 		print ' <td>'. $line['dns_name']  .'</td>' . "\n";
 		
-		print '	<td>'. "\n";
-		if(isset($line['mac'])) {
-			print '<img class="info" src="css/images/lan.png" title="MAC: '. $line['mac'] .'">'. "\n";
-		}
+		# mac
+		if(in_array('mac', $setFields)) {
+			print '	<td>'. "\n";
+			if(isset($line['mac'])) {
+				print '<img class="info" src="css/images/lan.png" title="MAC: '. $line['mac'] .'">'. "\n";
+			}
 		print '	</td>'. "\n";
-		
-		print ' <td>'. $line['switch']  .'</td>' . "\n";
-		print ' <td>'. $line['port']  .'</td>' . "\n";
-		print ' <td>'. $line['owner']  .'</td>' . "\n";
-
-		// print info button for hover
-		print '<td class="note">' . "\n";
-		if(!empty($line['note'])) {
-			$line['note'] = str_replace("\n", "<br>",$line['note']);
-			print '	<img class="info" src="css/images/note.png" title="'. $line['note']. '">' . "\n";
 		}
-		print '</td>'. "\n";
+		
+		# switch
+		if(in_array('switch', $setFields)) {
+		print ' <td>'. $line['switch']  .'</td>' . "\n";
+		}
+		# port
+		if(in_array('port', $setFields)) {
+		print ' <td>'. $line['port']  .'</td>' . "\n";
+		}
+		
+		# owner and note
+		if((in_array('owner', $setFields)) && (in_array('note', $setFields)) ) {
+		
+			print ' <td>'. $line['owner']  .'</td>' . "\n";
+			print ' <td class="note">' . "\n";
+			if(!empty($line['note'])) {
+				$line['note'] = str_replace("\n", "<br>",$line['note']);
+				print '	<img class="info" src="css/images/note.png" title="'. $line['note']. '">' . "\n";
+			}
+			print '</td>'. "\n";
+		}
+		# owner only
+		else if (in_array('owner', $setFields)) {
+			print ' <td>'. $line['owner']  .'</td>' . "\n";		
+		}
+		# note only
+		else if (in_array('note', $setFields)) {
+			print '<td class="note">' . "\n";
+			if(!empty($line['note'])) {
+				$line['note'] = str_replace("\n", "<br>",$line['note']);
+				print '	<img class="info" src="css/images/note.png" title="'. $line['note']. '">' . "\n";
+			}
+			print '</td>'. "\n";
+		}
+
+
 		print '</tr>' . "\n";
 	}
 }
@@ -199,6 +258,8 @@ else {
 
 		//get section details 
 		$section = getSectionDetailsById ($line['sectionId']);
+		//get vlan number
+		$vlan   = subnetGetVLANDetailsById($line['vlanId']);
 	
 		//format requests
 		if($line['allowRequests'] == 1) { $line['allowRequests'] = "enabled"; }
@@ -223,7 +284,7 @@ else {
 		print ' <td>'. $line['mask'] .'</td>' . "\n";
 		print ' <td>'. $line['description'] .'</td>' . "\n";
 		print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
-		print ' <td>'. $line['VLAN'] .'</td>' . "\n";
+		print ' <td>'. $vlan['number'] .'</td>' . "\n";
 		print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
 		print ' <td>'. $img .'</td>' . "\n";
 	
