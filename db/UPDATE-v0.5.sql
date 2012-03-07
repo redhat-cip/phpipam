@@ -10,6 +10,9 @@ UPDATE `settings` set `donate` = '0';
 ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
 UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
 
+/* Add FullWidth theme option to users! */
+ALTER TABLE `users` ADD `useFullPageWidth` tinyint(1) DEFAULT '0';
+
 /* ALTER subnets - add VLAN support */
 ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;
 

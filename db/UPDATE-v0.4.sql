@@ -5,11 +5,13 @@ Update from v 0.4 to 0.6
 
 /* UPDATE setings */
 UPDATE `settings` set `version` = '0.6';
-UPDATE `settings` set `siteTitle` = 'phpIPAM IP address management';
 UPDATE `settings` set `donate` = '0';
 ALTER TABLE `settings` ADD `enableVRF` tinyint(1) DEFAULT '1';			/* Add enableVRF to settings */
 ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;		/* Add IPfilter to settings */
 UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
+
+/* UPDATE users */
+ALTER TABLE `users` ADD `useFullPageWidth` tinyint(1) DEFAULT '0';		/* Add FullWidth theme option */
 
 /* ALTER subnets */
 ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;		/* Add vrf to subnets */

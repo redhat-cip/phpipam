@@ -53,6 +53,7 @@ CREATE TABLE `users` (
   `real_name` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `domainUser` binary(1) DEFAULT '0',
+  `useFullPageWidth` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`username`),
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`)

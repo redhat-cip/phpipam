@@ -45,6 +45,15 @@ print '<h3>'. $ipamusername['real_name'] .', here you can change your account de
     <td class="info">Enter your email address (mail with details will be sent after creation!)</td>
 </tr>
 
+<!-- theme -->
+<tr>
+    <td>Full width theme</td> 
+    <td>
+        <input type="checkbox" name="useFullPageWidth" value="1" <?php if($ipamusername['useFullPageWidth'] == 1) { print 'checked'; } ?>>
+    </td>
+    <td class="info">Check to use full-page width theme</td>
+</tr>
+
 <!-- password -->
 <tr>
     <td>Password</td> 

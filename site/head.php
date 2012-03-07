@@ -53,9 +53,8 @@
 	
 	<!-- full page width theme -->
 	<?php
-	$settings['useFullPageWidth'] = 1;
-	
-	if($settings['useFullPageWidth'] == 1) {
+	$user = getActiveUserDetails ();
+	if($user['useFullPageWidth'] == 1) {
 		print '<link rel="stylesheet" type="text/css" href="css/styleFullWidth.css">'. "\n";
 	}
 	?>

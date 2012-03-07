@@ -94,10 +94,10 @@ function updateUserById ($userModDetails) {
     /* set query */
     if (empty($userModDetails['userId'])) {
         $query  = 'insert into users ' . "\n";
-        $query .= '(`username`, `password`, `role`, `real_name`, `email`, `domainUser`) '. "\n"; 
+        $query .= '(`username`, `password`, `role`, `real_name`, `email`, `domainUser`, `useFullPageWidth`) '. "\n"; 
         $query .= 'values '. "\n"; 
         $query .= '("'. $userModDetails['username'] .'", "'. $userModDetails['password1'] .'", "'. $userModDetails['role'] .'", '. "\n";
-        $query .= ' "'. $userModDetails['real_name'] .'", "'. $userModDetails['email'] .'", "'. $userModDetails['domainUser'] .'" );';
+        $query .= ' "'. $userModDetails['real_name'] .'", "'. $userModDetails['email'] .'", "'. $userModDetails['domainUser'] .'", "'. $userModDetails['useFullPageWidth'] .'" );';
     }
     else {
         $query  = 'update users set '. "\n"; 
@@ -108,7 +108,8 @@ function updateUserById ($userModDetails) {
         $query .= '`role`     = "'. $userModDetails['role'] .'", '. "\n"; 
         $query .= '`real_name`= "'. $userModDetails['real_name'] .'", '. "\n"; 
         $query .= '`email`    = "'. $userModDetails['email'] .'", '. "\n"; 
-        $query .= '`domainUser`= "'. $userModDetails['domainUser'] .'" '. "\n"; 
+        $query .= '`domainUser`= "'. $userModDetails['domainUser'] .'", '. "\n"; 
+        $query .= '`useFullPageWidth`= "'. $userModDetails['useFullPageWidth'] .'" '. "\n"; 
         $query .= 'where id   = "'. $userModDetails['userId'] .'";';
     }
     
@@ -143,6 +144,7 @@ function selfUpdateUser ($userModDetails)
     $query .= '`password` = "'. $userModDetails['password1'] .'",' . "\n";
     }
     $query .= '`real_name`= "'. $userModDetails['real_name'] .'", ' . "\n";
+    $query .= '`useFullPageWidth`= "'. $userModDetails['useFullPageWidth'] .'", ' . "\n";
     $query .= '`email`    = "'. $userModDetails['email'] .'"' . "\n";
     $query .= 'where id   = "'. $userModDetails['userId'] .'";';
     

@@ -104,6 +104,15 @@ else {
     <td class="info">Send notification email to user with account details</td>
 </tr>
 
+<!-- theme -->
+<tr>
+    <td>Full-width theme</td> 
+    <td>
+        <input type="checkbox" name="useFullPageWidth" value="1" <?php if($user['useFullPageWidth'] == 1) { print 'checked'; }  ?>>
+    </td>   
+    <td class="info">Check to use full-width theme</td>
+</tr>
+
 <!-- role -->
 <tr>
     <td>User role</td> 
