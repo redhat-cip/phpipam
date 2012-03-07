@@ -1,0 +1,64 @@
+/* @ full page width CSS, selectable under admin -> select theme -------------------- */
+
+
+
+/* header fix */
+.header {
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	
+	height: 40px;
+	
+	z-index: 99;
+}
+
+
+/* usermenu fix */
+.user_menu {
+	position: fixed !important;
+	top: 0px;
+	right: 0px;
+	
+	z-index: 100;
+}
+
+
+/* content fix */
+.content_overlay {
+	width: auto !important;
+	padding: 10px;
+	padding-top: 100px;
+}
+
+/* sections fix */
+.sections_overlay {
+	position: fixed;
+	width: 100%;
+	margin-top: 76px;
+	width: 100%;
+	
+	z-index: 98;
+
+	box-shadow: 		0px 4px 6px silver !important;
+	-webkit-box-shadow: 0px 4px 6px silver !important;
+	-moz-box-shadow: 	0px 4px 6px silver !important;
+}
+div.sections  {
+	max-width: 100%;
+}
+
+
+
+/* footer */
+div.wrapper {
+	margin: 0px;
+}
+div.footer {
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	left: 0px;
+	z-index: 97;
+}

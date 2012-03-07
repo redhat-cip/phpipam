@@ -98,6 +98,12 @@ $setFields = explode(";", $setFieldsTemp);
 /* get all selected fields */
 $myFields = getCustomIPaddrFields();
 
+
+# set col size
+$fieldSize 	= sizeof($setFields);
+$mySize 	= sizeof($myFields);
+$colSpan 	= $fieldSize + $mySize + 3;
+
 ?>
 
 <h3>
@@ -180,7 +186,7 @@ else {
 		//detect section change and print headers
 		if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
 			print '<tr class="th">' . "\n";
-			print '	<th colspan="9">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
+			print '	<th colspan="'. $colSpan .'">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
 			print '</tr>';
 		}
 		$m++;

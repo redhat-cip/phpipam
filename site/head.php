@@ -50,5 +50,13 @@
 	<!--[if IE 7]>
 	<script type="text/javascript" src="js/dieIE.js"></script>
 	<![endif]-->
- 		
+	
+	<!-- full page width theme -->
+	<?php
+	$settings['useFullPageWidth'] = 1;
+	
+	if($settings['useFullPageWidth'] == 1) {
+		print '<link rel="stylesheet" type="text/css" href="css/styleFullWidth.css">'. "\n";
+	}
+	?>
 </head>

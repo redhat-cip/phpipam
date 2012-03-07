@@ -2232,7 +2232,7 @@ div.large {
 	loading div
 *******************/
 div.loading {
-    position: absolute;
+    position: fixed;
     color: white;
     text-shadow: 1px 1px 1px black;
     
