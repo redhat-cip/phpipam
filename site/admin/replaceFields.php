@@ -31,6 +31,17 @@ checkAdmin();
 		<option value="mac">MAC address</option>
 		<option value="switch">Switch</option>
 		<option value="port">Port</option>
+		
+		<?php
+		#get all custom fields!
+		$myFields = getCustomIPaddrFields();
+		if(sizeof($myFields) > 0) {
+			foreach($myFields as $myField) {
+				print '<option value="'. $myField['name'] .'"> '. $myField['name'] .'</option>';
+			}
+		}
+		?>
+		
 	</select>
 	</td>
 </tr>
