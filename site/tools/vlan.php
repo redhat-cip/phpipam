@@ -20,7 +20,7 @@ if(isUserViewer()) {
 $vlans = getAllVlans (true);
 
 # title
-print '<h3>Available VLANs</h3>'. "\n";
+print '<h3>Available VLANs:</h3>'. "\n";
 
 /*  print VLANs */
 print '<div class="normalTable vlans">';
@@ -29,91 +29,72 @@ print '<table class="normalTable vlans">';
 /* headers */
 print '<tr class="th">' . "\n";
 print ' <th>Number</th>' . "\n";
-print ' <th>Name</th>' . "\n";
-print ' <th>Description</th>' . "\n";
-print ' <th>Subnet</th>' . "\n";
-print ' <th>Master Subnet</th>' . "\n";
+print ' <th>VLAN Name</th>' . "\n";
+print ' <th>VLAN Description</th>' . "\n";
+print ' <th>Belonging subnets</th>' . "\n";
+print ' <th>Section</th>' . "\n";
 print ' <th>Used</th>' . "\n";
 print ' <th>free [%]</th>' . "\n";
-print ' <th>Requests</th>' . "\n";
-print ' <th class="lock" title="Admin lock"></th>' . "\n";
 print '</tr>' . "\n";
 
+# change detection
+$vlanOld = 0;
 
 foreach ($vlans as $vlan) {
 
-/*
-echo "VLAN: " . $vlan['VLAN'] . "<br/>";
-echo "subnetId: " . $vlan['subnetId'] . "<br/>";
-echo "number: " . $vlan['number'] . "<br/>";
-echo "<hr>";
-*/
+# detect change
+$vlanNew = $vlan['number'];
+
+if($vlanNew == $vlanOld) { $change = ''; }
+else 					 { $change = 'style="border-top:1px dashed white"'; $vlanOld = $vlanNew; }
+
+/* get section details */
 $section = getSectionDetailsById($vlan['sectionId']);
 
 /* check if it is master */
-if( ($vlan['masterSubnetId'] == 0) || (empty($vlan['masterSubnetId'])) ) {
-        $masterSubnet = true;
+if( ($vlan['masterSubnetId'] == 0) || (empty($vlan['masterSubnetId'])) ) { $masterSubnet = true;}
+else 																	 { $masterSubnet = false;}
+
+
+print '<tr class="vlanLink" '. $change .' sectionId="'. $section['id'] .'" subnetId="'. $vlan['subnetId'] .'" link="'. $section['name'] .'|'. $vlan['subnetId'] .'">' . "\n";
+
+/* print first 3 only if change happened! */
+if(strlen($change) > 0) {
+	print ' <td><dd>'. $vlan['number']         .'</dd></td>' . "\n";
+	print ' <td><dd>'. $vlan['name']           .'</dd></td>' . "\n";
+	print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";			
 }
 else {
-        $masterSubnet = false;
-}
+	print '<td></td>';
+	print '<td></td>';
+	print '<td></td>';	
+} 
 
-//identify slaves for CSS
-if(!$masterSubnet) {
-        print '<tr class="vlanLink slaveSubnet"';
-}
-else {
-        print '<tr class="vlanLink masterSubnet"';
-}
-
-
-print ' sectionId="'. $section['id'] .'" subnetId="'. $vlan['subnetId'] .'" link="'. $section['name'] .'|'. $vlan['subnetId'] .'">' . "\n";
-print ' <td><dd>'. $vlan['number']         .'</dd></td>' . "\n";
-print ' <td><dd>'. $vlan['name']           .'</dd></td>' . "\n";
-print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";
 if ($vlan['subnetId'] != null) {
+		# subnet
         print ' <td>'. transform2long($vlan['subnet']) .'/'. $vlan['mask'] .'</td>' . "\n";
 
-        if($masterSubnet) {
-                print ' <td>/</td>' . "\n";
-
-        }
-        else {
-                $master = getSubnetDetailsById ($vlan['masterSubnetId']);
-        print ' <td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
-        }
+		# section
+		print ' <td>'. $section['name'] .'</td>'. "\n";
 
         //details
         if( (!$masterSubnet) || (!subnetContainsSlaves($vlan['subnetId']))) {
-                $ipCount = countIpAddressesBySubnetId ($vlan['subnetId']);
-                $calculate = calculateSubnetDetails ( gmp_strval($ipCount), $vlan['mask'], $vlan['subnet'] );
+        	$ipCount = countIpAddressesBySubnetId ($vlan['subnetId']);
+            $calculate = calculateSubnetDetails ( gmp_strval($ipCount), $vlan['mask'], $vlan['subnet'] );
 
-                print ' <td class="used">'. reformatNumber($calculate['used']) .'/'. reformatNumber($calculate['maxhosts']) .'</td>'. "\n";
-                print ' <td class="free">'. reformatNumber($calculate['freehosts_percent']) .' %</td>';
-        }
-
-        //allow requests
-        if($vlan['allowRequests'] == 1) {
-                print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>';
+            print ' <td class="used">'. reformatNumber($calculate['used']) .'/'. reformatNumber($calculate['maxhosts']) .'</td>'. "\n";
+            print ' <td class="free">'. reformatNumber($calculate['freehosts_percent']) .' %</td>';
         }
         else {
-                print '<td class="allowRequests"></td>';
-        }
-
-        //check if it is locked for writing
-        if(isSubnetWriteProtected($vlan['subnetId'])) {
-                print '<td class="lock" title="Subnet is locked for writing!"></td>';
-        } else {
-                print '<td class="nolock"></td>';
+        	print '	<td class="used">---</td>'. "\n";
+        	print '	<td class="free">---</td>'. "\n";
         }
 }
 else {
         print '<td>---</td>'. "\n";
-        print '<td>---</td>'. "\n";
-        print '<td>---</td>'. "\n";
-        print '<td>---</td>'. "\n";
-        print '<td>---</td>'. "\n";
-        print '<td></td>';
+        print '<td class="free">---</td>'. "\n";
+        print '<td class="used">---</td>'. "\n";
+        print '<td class="free">---</td>';
 }
 
 
