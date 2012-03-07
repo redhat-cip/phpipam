@@ -17,7 +17,7 @@ isUserAuthenticated ();
 <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
 <script>
 $(function() {
-	//get all swiches
+	//get all hostnames
 	var hostnames = [
 		<?php 
 		$allSwitches = getUniqueHosts ();

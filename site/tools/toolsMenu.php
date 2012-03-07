@@ -85,7 +85,7 @@ $settings = getAllSettings();
     <!-- VLAN data -->
     <tr id="vlan" class="vlan">
         <td>
-            <a href="#tools|vlan" id="vlan">VLAN data</a>
+            <a href="#tools|vlan" id="vlan">VLANs</a>
         </td>
     </tr>
 

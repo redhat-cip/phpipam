@@ -29,6 +29,12 @@ $setFields = explode(";", $setFieldsTemp);
 $rowSize = sizeof($setFields) + 2;
 
 
+/* get all selected fields */
+$myFields = getCustomIPaddrFields();
+$myFieldsSize = sizeof($myFields);
+$rowSize = $rowSize + $myFieldsSize;
+
+
 /* print */
 print '<div class="normalTable">'. "\n";
 print '<table class="normalTable hosts">'. "\n";
@@ -63,9 +69,18 @@ else {
 	print '	<th>Description</th>'. "\n";	
 }
 # owner
-if(in_array('port', $setFields)) {
+if(in_array('owner', $setFields)) {
 	print '	<th>Owner</th>'. "\n";
 }
+
+
+# custom fields
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		print '<th>'. $myField['name'] .'</th>'. "\n";
+	}
+}
+
 print '</tr>'. "\n";
 
 /* if nothing is found print it */
@@ -141,6 +156,13 @@ foreach($ipAddresses as $ip) {
 	# owner
 	if(in_array('owner', $setFields)) {
 		print '	<td class="owner">'. $ip['owner'] .'</td>'. "\n";
+	}
+	
+	# custom
+	if(sizeof($myFields) > 0) {
+		foreach($myFields as $myField) {
+			print '<td>'. $ip[$myField['name']] .'</td>'. "\n";
+		}
 	}
 	
 	print '</tr>'. "\n";
