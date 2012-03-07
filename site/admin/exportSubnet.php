@@ -28,6 +28,10 @@ $subnet = getSubnetDetailsById ($subnetId);
 //get all IP addresses in subnet
 $ipaddresses = getIpAddressesBySubnetId ($subnetId);
 
+//get all custom fields!
+$myFields = getCustomIPaddrFields();
+$myFieldsSize = sizeof($myFields);
+
 //formatting headers
 $format_header =& $workbook->addFormat();
 $format_header->setBold();
@@ -55,7 +59,7 @@ $format_top->setTop(1);
 
 //set column size
 $colSize = sizeof($_GET);
-$colSize = $colSize-2;
+$colSize = $colSize + $myFieldsSize -2;
 
 
 // Create a worksheet
@@ -108,6 +112,14 @@ $rowCount = 0;
 	if( (isset($_GET['note'])) && ($_GET['note'] == "on") ) {
 		$worksheet->write($lineCount, $rowCount, 'note' ,$format_title);
 		$rowCount++;
+	}
+	
+	//custom
+	if(sizeof($myFields) > 0) {
+		foreach($myFields as $myField) {
+			$worksheet->write($lineCount, $rowCount, $myField['name'] ,$format_title);
+			$rowCount++;
+		}
 	}
 		
 			
@@ -162,54 +174,18 @@ foreach ($ipaddresses as $ip) {
 		$worksheet->write($lineCount, $rowCount, $ip['note']);
 		$rowCount++;
 	}
-
-	//right line
-	$worksheet->write($lineCount, $rowCount, "", $format_left);
-	$rowCount++;
+	
+	//custom
+	if(sizeof($myFields) > 0) {
+		foreach($myFields as $myField) {
+			$worksheet->write($lineCount, $rowCount, $ip[$myField['name']]);
+			$rowCount++;
+		}
+	}
 				
 	$lineCount++;
 }
-		
-	//top border line at bottom of IP addresses
-	$rowCount = 0;
 
-
-	if( (isset($_GET['ip_addr'])) && ($_GET['ip_addr'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['state'])) && ($_GET['state'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['description'])) && ($_GET['description'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['dns_name'])) && ($_GET['dns_name'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['mac'])) && ($_GET['mac'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['owner'])) && ($_GET['owner'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['switch'])) && ($_GET['switch'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['port'])) && ($_GET['port'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
-	if( (isset($_GET['note'])) && ($_GET['note'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, "", $format_top);
-		$rowCount++;
-	}
 
 //new line
 $lineCount++;
