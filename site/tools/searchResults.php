@@ -83,6 +83,10 @@ $setFieldsTemp = getSelectedIPaddrFields();
 /* format them to array! */
 $setFields = explode(";", $setFieldsTemp);
 
+
+/* get all selected fields */
+$myFields = getCustomIPaddrFields();
+
 ?>
 
 <h3>
@@ -133,6 +137,13 @@ $setFields = explode(";", $setFieldsTemp);
 	else if (in_array('note', $setFields)) {
 	print '<th></th>'. "\n";
 	}
+	
+	# custom fields
+	if(sizeof($myFields) > 0) {
+		foreach($myFields as $myField) {
+			print '<th>'. $myField['name'] .'</th>'. "\n";
+		}
+	}
 ?>
 </tr>
 
@@ -165,10 +176,6 @@ else {
 	
 		//print table
 		print '<tr class="ipSearch" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
-		/*
-		print ' <td>'. $section['name']  .'</td>' . "\n";
-		print '	<td>'. transform2long($subnet['subnet']) . ' (' . $subnet['description'] .')</td>' . "\n";
-	*/
 	
 		print ' <td>'. transform2long($line['ip_addr'])  .'</td>' . "\n";
 		print ' <td>'. $vlan['number']  .'</td>' . "\n";
@@ -179,7 +186,7 @@ else {
 		# mac
 		if(in_array('mac', $setFields)) {
 			print '	<td>'. "\n";
-			if(isset($line['mac'])) {
+			if(strlen($line['mac']) > 0) {
 				print '<img class="info" src="css/images/lan.png" title="MAC: '. $line['mac'] .'">'. "\n";
 			}
 		print '	</td>'. "\n";
@@ -218,7 +225,13 @@ else {
 			}
 			print '</td>'. "\n";
 		}
-
+		
+		# custom
+		if(sizeof($myFields) > 0) {
+			foreach($myFields as $myField) {
+				print '<td>'. $line[$myField['name']] .'</td>'. "\n";
+			}
+		}
 
 		print '</tr>' . "\n";
 	}
