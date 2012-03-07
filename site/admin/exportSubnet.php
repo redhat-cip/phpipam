@@ -117,8 +117,10 @@ $rowCount = 0;
 	//custom
 	if(sizeof($myFields) > 0) {
 		foreach($myFields as $myField) {
-			$worksheet->write($lineCount, $rowCount, $myField['name'] ,$format_title);
-			$rowCount++;
+			if( (isset($_GET[$myField['name']])) && ($_GET[$myField['name']] == "on") ) {
+				$worksheet->write($lineCount, $rowCount, $myField['name'] ,$format_title);
+				$rowCount++;
+			}
 		}
 	}
 		
@@ -178,8 +180,10 @@ foreach ($ipaddresses as $ip) {
 	//custom
 	if(sizeof($myFields) > 0) {
 		foreach($myFields as $myField) {
-			$worksheet->write($lineCount, $rowCount, $ip[$myField['name']]);
-			$rowCount++;
+			if( (isset($_GET[$myField['name']])) && ($_GET[$myField['name']] == "on") ) {
+				$worksheet->write($lineCount, $rowCount, $ip[$myField['name']]);
+				$rowCount++;
+			}
 		}
 	}
 				

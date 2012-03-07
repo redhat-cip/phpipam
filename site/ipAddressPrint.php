@@ -205,6 +205,14 @@ subnet details upper table
 		if(in_array('note', $setFields)) {
 		print '<input type="checkbox" name="note" 		checked> Note<br>';
 		}
+		
+		#get all custom fields!
+		$myFields = getCustomIPaddrFields();
+		if(sizeof($myFields) > 0) {
+			foreach($myFields as $myField) {
+				print '<input type="checkbox" name="'. $myField['name'] .'" 		checked> '. $myField['name'] .'<br>';
+			}
+		}
 
 		print '<input type="submit" value="Export">';
 		

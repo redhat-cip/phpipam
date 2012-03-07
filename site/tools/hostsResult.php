@@ -29,7 +29,7 @@ $setFields = explode(";", $setFieldsTemp);
 $rowSize = sizeof($setFields) + 2;
 
 
-/* get all selected fields */
+/* get all custom fields */
 $myFields = getCustomIPaddrFields();
 $myFieldsSize = sizeof($myFields);
 $rowSize = $rowSize + $myFieldsSize;
