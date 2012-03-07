@@ -67,8 +67,22 @@ $worksheet =& $workbook->addWorksheet($subnet['description']);
 
 $lineCount = 0;
 
-//Write title
-$worksheet->write($lineCount, $rowCount, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
+//Write title - subnet details
+$vlan = subnetGetVLANdetailsById($subnet['vlanId']);
+//format vlan
+if(strlen($vlan['number']) > 0) {
+	$vlanText = " (vlan: " . $vlan['number'];
+
+	if(strlen($vlan['name']) > 0) {
+		$vlanText .= ' - '. $vlan['name'] . ')';
+	}
+	else {
+		$vlanText .= ")";
+	}
+}
+
+
+$worksheet->write($lineCount, $rowCount, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . $vlanText, $format_header );
 $worksheet->mergeCells($lineCount, $rowCount, $lineCount, $colSize);
 		
 $lineCount++;

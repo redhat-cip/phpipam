@@ -177,6 +177,19 @@ foreach ($result as $ip) {
 	$subnet = getSubnetDetailsById ($ip['subnetId']);
 	//get section
 	$section = getSectionDetailsById ($subnet['sectionId']);
+	
+	//Write title - subnet details
+	$vlan = subnetGetVLANdetailsById($subnet['vlanId']);
+	//format vlan
+	if(strlen($vlan['number']) > 0) {
+		$vlanText = " (vlan: " . $vlan['number'];	
+		if(strlen($vlan['name']) > 0) {
+			$vlanText .= ' - '. $vlan['name'] . ')';
+		}
+		else {
+				$vlanText .= ")";
+		}
+	}
 
 	//section change
 	if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
@@ -185,7 +198,7 @@ foreach ($result as $ip) {
 		$lineCount++;
 
 		//subnet details
-		$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
+		$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . $vlanText, $format_header );
 		$worksheet->mergeCells($lineCount, 0, $lineCount, $fieldCount-1);
 	
 		//new line

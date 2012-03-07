@@ -21,6 +21,13 @@ $workbook = new Spreadsheet_Excel_Writer();
 //fetch sections, and for each section write new tab, inside tab write all values!
 $sections = fetchSections();
 
+
+//get all custom fields!
+$myFields = getCustomIPaddrFields();
+$myFieldsSize = sizeof($myFields);
+
+$colSize = 8 + $myFieldsSize;
+
 //formatting headers
 $format_header =& $workbook->addFormat();
 $format_header->setBold();
@@ -58,8 +65,19 @@ foreach ($sections as $section)
 	//Write titles
 	foreach ($subnets as $subnet) {
 		//subnet details
-		$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . ' (vlan: '. $subnet['VLAN'] .')', $format_header );
-		$worksheet->mergeCells($lineCount, 0, $lineCount, 8);
+		$vlan = subnetGetVLANdetailsById($subnet['vlanId']);
+		if(strlen($vlan['number']) > 0) {
+			$vlanText = " (vlan: " . $vlan['number'];
+			if(strlen($vlan['name']) > 0) {
+				$vlanText .= ' - '. $vlan['name'] . ')';
+			}
+			else {
+				$vlanText .= ")";
+			}
+		}
+		
+		$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . $vlanText, $format_header );
+		$worksheet->mergeCells($lineCount, 0, $lineCount, $colSize);
 		
 		$lineCount++;
 		
@@ -76,42 +94,55 @@ foreach ($sections as $section)
 			$worksheet->write($lineCount, 6, 'switch' ,$format_title);
 			$worksheet->write($lineCount, 7, 'port' ,$format_title);
 			$worksheet->write($lineCount, 8, 'note' ,$format_title);
+			$m = 9;
+			//custom
+			if(sizeof($myFields) > 0) {
+				foreach($myFields as $myField) {
+					$worksheet->write($lineCount, $m, $myField['name'] ,$format_title);
+					$m++;
+				}
+			}
 			
 			$lineCount++;
 		
-		foreach ($ipaddresses as $ip) {
+		if(sizeof($ipaddresses) > 0) {
+
+			foreach ($ipaddresses as $ip) {
 		
-			//we need to reformat state!
-			switch($ip['state']) {
-				case 0: $ip['state'] = "Offline";	break;
-				case 1: $ip['state'] = "Active";	break;
-				case 2: $ip['state'] = "Reserved";	break;
+				//we need to reformat state!
+				switch($ip['state']) {
+					case 0: $ip['state'] = "Offline";	break;
+					case 1: $ip['state'] = "Active";	break;
+					case 2: $ip['state'] = "Reserved";	break;
+				}
+		
+				$worksheet->write($lineCount, 0, transform2long($ip['ip_addr']), $format_left);
+				$worksheet->write($lineCount, 1, $ip['state']);
+				$worksheet->write($lineCount, 2, $ip['description']);
+				$worksheet->write($lineCount, 3, $ip['dns_name']);
+				$worksheet->write($lineCount, 4, $ip['mac']);
+				$worksheet->write($lineCount, 5, $ip['owner']);
+				$worksheet->write($lineCount, 6, $ip['switch']);
+				$worksheet->write($lineCount, 7, $ip['port']);
+				$worksheet->write($lineCount, 8, $ip['note']);
+				//custom
+				$m = 9;
+				if(sizeof($myFields) > 0) {
+						foreach($myFields as $myField) {
+						$worksheet->write($lineCount, $m, $ip[$myField['name']]);
+						$m++;
+					}
+				}
+			
+				$lineCount++;
 			}
 		
-			$worksheet->write($lineCount, 0, transform2long($ip['ip_addr']), $format_left);
-			$worksheet->write($lineCount, 1, $ip['state']);
-			$worksheet->write($lineCount, 2, $ip['description']);
-			$worksheet->write($lineCount, 3, $ip['dns_name']);
-			$worksheet->write($lineCount, 4, $ip['mac']);
-			$worksheet->write($lineCount, 5, $ip['owner']);
-			$worksheet->write($lineCount, 6, $ip['switch']);
-			$worksheet->write($lineCount, 7, $ip['port']);
-			$worksheet->write($lineCount, 8, $ip['note'], $format_right);
-			
+		}
+		else {
+			$worksheet->write($lineCount, 0, 'No hosts');
 			$lineCount++;
 		}
 		
-		//top border line at bottom of IP addresses
-		$worksheet->write($lineCount, 0, "", $format_top);
-		$worksheet->write($lineCount, 1, "", $format_top);
-		$worksheet->write($lineCount, 2, "", $format_top);
-		$worksheet->write($lineCount, 3, "", $format_top);
-		$worksheet->write($lineCount, 4, "", $format_top);
-		$worksheet->write($lineCount, 5, "", $format_top);
-		$worksheet->write($lineCount, 6, "", $format_top);
-		$worksheet->write($lineCount, 7, "", $format_top);
-		$worksheet->write($lineCount, 8, "", $format_top);
-
 		//new line
 		$lineCount++;
 	}
