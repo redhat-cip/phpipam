@@ -928,10 +928,10 @@ function updateCustomIPField($field)
     	$query  = 'ALTER TABLE `ipaddresses` DROP `'. $field['name'] .'`;';
     }
     else if ($field['action'] == "edit") {
-    	$query  = 'ALTER TABLE `ipaddresses` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) DEFAULT NULL;';
+    	$query  = 'ALTER TABLE `ipaddresses` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
     }
     else {
-    	$query  = 'ALTER TABLE `ipaddresses` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) DEFAULT NULL;';
+    	$query  = 'ALTER TABLE `ipaddresses` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
     }
     
     /* prepare log */ 

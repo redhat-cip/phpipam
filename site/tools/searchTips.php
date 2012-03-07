@@ -64,4 +64,12 @@
 	
 	</li>
 
+	<!-- Custom fieldss-->
+	<li><b>Custom field search tips</b>
+		<ul>
+			<li>You can search custom fields</li>
+		</ul>
+	
+	</li>
+
 </ul>

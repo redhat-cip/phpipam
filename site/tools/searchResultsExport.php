@@ -51,12 +51,23 @@ else {
 }
 
 
+/* get all custom fields */
+$myFields = getCustomIPaddrFields();
+$myFieldsSize = sizeof($myFields);
+
+
 /* set the query */
 $query  = 'select * from ipaddresses where ';
 /* $query .= 'ip_addr like "' . $searchTerm . '%" '; */					//ip address in decimal
 $query .= '`ip_addr` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" ';	//ip range
 $query .= 'or `dns_name` like "%' . $searchTerm . '%" ';					//hostname
 $query .= 'or `owner` like "%' . $searchTerm . '%" ';						//owner
+# custom fields
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		$query .= 'or `'. $myField['name'] .'` like "%' . $searchTerm . '%" ';
+	}
+}
 $query .= 'or `switch` like "%' . $searchTerm . '%" ';
 $query .= 'or `port` like "%' . $searchTerm . '%" ';						//port search
 $query .= 'or `description` like "%' . $searchTerm . '%" ';				//descriptions
@@ -74,7 +85,7 @@ $setFieldsTemp = getSelectedIPaddrFields();
 $setFields = explode(";", $setFieldsTemp);
 
 //count fields!
-$fieldCount = sizeof($setFields) + 3;
+$fieldCount = sizeof($setFields) + $myFieldsSize + 3;
 
 
 /*
@@ -146,7 +157,13 @@ if(in_array('mac', $setFields)) {
 }
 # note
 if(in_array('note', $setFields)) {
-	$worksheet->write($lineCount, $x, 'note' ,$format_title);
+	$worksheet->write($lineCount, $x, 'note' ,$format_title);			$x++;
+}
+//custom
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+	$worksheet->write($lineCount, $x, $myField['name'], $format_title);	$x++;
+	}
 }
 
 //new line
@@ -211,6 +228,13 @@ foreach ($result as $ip) {
 	# note
 	if(in_array('note', $setFields)) {
 	$worksheet->write($lineCount, $x, $ip['note']);							$x++;
+	}
+	
+	#custom
+	if(sizeof($myFields) > 0) {
+		foreach($myFields as $myField) {
+			$worksheet->write($lineCount, $x, $ip[$myField['name']]); $x++;
+		}
 	}
 	
 	//new line

@@ -60,6 +60,9 @@ else {
 /* check also subnets! */
 $subnets = searchSubnets ($searchTerm, $searchTermEdited);
 
+/* get all custom fields */
+$myFields = getCustomIPaddrFields();
+
 
 /* set the query */
 $query  = 'select * from ipaddresses where ';
@@ -67,12 +70,20 @@ $query  = 'select * from ipaddresses where ';
 $query .= '`ip_addr` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" ';	//ip range
 $query .= 'or `dns_name` like "%' . $searchTerm . '%" ';					//hostname
 $query .= 'or `owner` like "%' . $searchTerm . '%" ';						//owner
+# custom!
+# custom fields
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		$query .= 'or `'. $myField['name'] .'` like "%' . $searchTerm . '%" ';
+	}
+}
 $query .= 'or `switch` like "%' . $searchTerm . '%" ';
 $query .= 'or `port` like "%' . $searchTerm . '%" ';						//port search
-$query .= 'or `description` like "%' . $searchTerm . '%" ';				//descriptions
+$query .= 'or `description` like "%' . $searchTerm . '%" ';					//descriptions
 $query .= 'or `note` like "%' . $searchTerm . '%" ';						//note
-$query .= 'or `mac` like "%' . $searchTerm . '%" ';						//mac
+$query .= 'or `mac` like "%' . $searchTerm . '%" ';							//mac
 $query .= 'order by `ip_addr` asc;';
+
 
 /* get result */
 $result = searchAddresses ($query);
