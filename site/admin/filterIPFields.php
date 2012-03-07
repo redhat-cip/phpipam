@@ -22,6 +22,13 @@ $setFields = explode(";", $setFieldsTemp);
 
 /* unset mandatory fields -> id,subnetid,ip_addr */
 unset($fields['id'], $fields['subnetId'], $fields['ip_addr'], $fields['description'], $fields['dns_name']);
+/* unset custom! */
+$custom = getCustomIPaddrFields();
+if(sizeof($custom) > 0) {
+	foreach($custom as $key=>$cust) {
+		unset($fields[$key]);
+	}
+}
 
 ?>
 
