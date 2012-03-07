@@ -14,7 +14,10 @@ isUserAuthenticated ();
 /* get all unique switches */
 $settings = getAllSettings();
 
-
+/* get all selected fields for IP print */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
 ?>
 
 <table class="menu normalTable">
@@ -56,11 +59,16 @@ $settings = getAllSettings();
     </tr>
 
     <!-- switches -->
-    <tr id="switches" class="switches">
-        <td>
-            <a href="#tools|switches" id="switches">Switches</a>
-        </td>
-    </tr>
+    <?php
+    if(in_array("switch", $setFields)) {
+    	print '<tr id="switches" class="switches">'. "\n";
+    	print '	<td>'. "\n";
+    	print '		<a href="#tools|switches" id="switches">Switches</a>'. "\n";
+    	print '	</td>'. "\n";
+    	print '</tr>'. "\n";
+    }
+    
+    ?>
 
     <!-- VRF -->
     <?php 

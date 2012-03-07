@@ -33,6 +33,11 @@ isUserAuthenticated ();
 /* fetch result */
 $sections = fetchSections ();
 
+/* get all selected fields for IP print */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+
 
 /* print */
 print '<table class="newSections">'. "\n";
@@ -81,8 +86,10 @@ else {
 print '<div class="toolsMenuDropdown">'. "\n";
 }
 print '	<dd section="tools" id="ipCalc">IP calculator</dd>';
-print '	<dd section="tools" id="switches">Switches</dd>';
 
+if(in_array('switch', $setFields)) {
+print '	<dd section="tools" id="switches">Switches</dd>';
+}
 if($settings['enableVRF'] == 1) { 
 print '	<dd section="tools" id="vrf">VRF list</dd>';
 }
