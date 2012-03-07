@@ -19,6 +19,7 @@ ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;		/* UPDATE s
 
 /* ALTER ipaddresses */
 ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;	/* add mac to ipaddresses */
+ALTER TABLE `ipaddresses` CHANGE COLUMN `dns_name` `dns_name` VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL; /* ALTER ipaddresses - expand dns_name to 64 chars */
 
 
 
