@@ -14,6 +14,9 @@ isUserAuthenticated ();
 /* get all VLANs and subnet descriptions */
 $vlans = getAllVlans (true);
 
+# title
+print '<h3>Available VLANs</h3>'. "\n";
+
 /*  print VLANs */
 print '<div class="normalTable vlans">';
 print '<table class="normalTable vlans">';
@@ -58,10 +61,6 @@ else {
         print '<tr class="vlanLink masterSubnet"';
 }
 
-//reformat empty VLAN
-if(empty($vlan['VLAN']) || $vlan['VLAN'] == 0) {
-        $vlan['VLAN'] = "";
-}
 
 print ' sectionId="'. $section['id'] .'" subnetId="'. $vlan['subnetId'] .'" link="'. $section['name'] .'|'. $vlan['subnetId'] .'">' . "\n";
 print ' <td><dd>'. $vlan['number']         .'</dd></td>' . "\n";
@@ -109,6 +108,7 @@ else {
         print '<td>---</td>'. "\n";
         print '<td>---</td>'. "\n";
         print '<td>---</td>'. "\n";
+        print '<td></td>';
 }
 
 

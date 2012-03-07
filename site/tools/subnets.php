@@ -16,6 +16,10 @@ isUserAuthenticated ();
 /* get all sections */
 $sections = fetchSections ();
 
+
+# title
+print '<h3>Available subnets</h3>'. "\n";
+
 /* print vlans in each section */
 foreach ($sections as $section) {
 
@@ -31,9 +35,9 @@ foreach ($sections as $section) {
 
 	/* headers */
 	print '	<tr class="th dashed">' . "\n";
-	print '	<td>VLAN</td>' . "\n";	
-	print '	<td>Description</td>' . "\n";
 	print '	<td>Subnet</td>' . "\n";
+	print '	<td>Description</td>' . "\n";
+	print '	<td>VLAN</td>' . "\n";	
 	print '	<td>Master Subnet</td>' . "\n";
 	print '	<td>Used</td>' . "\n";
 	print '	<td>free [%]</td>' . "\n";
@@ -73,9 +77,10 @@ foreach ($sections as $section) {
 		}
 	
 		print ' sectionId="'. $section['id'] .'" subnetId="'. $subnet['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">' . "\n";
-	    print '	<td><dd>'. $subnet['VLAN'] 	   .'</dd></td>' . "\n";
-	    print '	<td><dd>'. $subnet['description'] .'</dd></td>' . "\n";
+
 	    print '	<td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
+	    print '	<td><dd>'. $subnet['description'] .'</dd></td>' . "\n";
+	    print '	<td><dd>'. $subnet['VLAN'] 	   .'</dd></td>' . "\n";
     
    		if($masterSubnet) {
 			print '	<td>/</td>' . "\n";
