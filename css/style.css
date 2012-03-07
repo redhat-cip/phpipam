@@ -1018,6 +1018,9 @@ table.ipaddress_subnet tr.info td img {
 table.ipaddresses img {
 	cursor: pointer;
 }
+table.ipaddresses td.customField {
+	white-space: normal;
+}
 
 
 div.addnew {
@@ -2057,6 +2060,9 @@ table.hosts tr.new {
 table.hosts td.note {
 	width: 10px;
 }
+table.hosts td.customField {
+	white-space: normal;
+}
 
 
 /*******************
@@ -2077,6 +2083,9 @@ table.searchTable tr#searchHeader th {
 }
 table.search td.note {
 	width: 1px;
+}
+table.searchTable td.customField {
+	white-space: normal;
 }
 input.search {
 	background: white url(images/search.png) no-repeat 2px 3px;

@@ -246,7 +246,7 @@ else {
 		# custom
 		if(sizeof($myFields) > 0) {
 			foreach($myFields as $myField) {
-				print '<td>'. $line[$myField['name']] .'</td>'. "\n";
+				print '<td class="customField">'. $line[$myField['name']] .'</td>'. "\n";
 			}
 		}
 

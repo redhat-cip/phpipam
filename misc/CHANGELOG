@@ -14,6 +14,7 @@
 	+ IP Requests for locked subnets and viewer users can be placed from ip address list;
 	+ jQuery updated to v 1.7.1;
 	+ HighCharts updated to v 2.2.0;
+	+ Full page width theme;
 
 	Bugfixes:
 	------------------------

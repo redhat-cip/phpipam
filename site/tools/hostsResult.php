@@ -161,7 +161,7 @@ foreach($ipAddresses as $ip) {
 	# custom
 	if(sizeof($myFields) > 0) {
 		foreach($myFields as $myField) {
-			print '<td>'. $ip[$myField['name']] .'</td>'. "\n";
+			print '<td class="customField">'. $ip[$myField['name']] .'</td>'. "\n";
 		}
 	}
 	
