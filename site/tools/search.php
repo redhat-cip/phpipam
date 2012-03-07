@@ -8,6 +8,12 @@ isUserAuthenticated ();
 if($_POST['ip']) {
 	$searchTerm = $_POST['ip'];
 }
+
+
+/* die if viewer */
+if(isUserViewer()) {
+	die('<div class="error">You do not have permissions to access this page!</div>');
+}
 ?>
 
 <!-- search form -->

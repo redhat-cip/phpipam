@@ -34,19 +34,28 @@ $setFields = explode(";", $setFieldsTemp);
         </td>
     </tr>
 
-    <!-- search -->
-    <tr id="search" class="search">
-        <td>
-            <a href="#tools|search" id="search">Search</a>
-        </td>
-    </tr>
-
     <!-- Informations -->
     <tr id="info" class="info">
         <td>
             <a href="#tools|instructions" id="instructions">Instructions</a>
         </td>
     </tr>
+
+    <!-- search -->
+    <?php
+    # for non-viewers only
+    if(!isUserViewer()) {
+		print '<tr id="search" class="search">'. "\n";
+		print '	<td>'. "\n";
+		print '		<a href="#tools|search" id="search">Search</a>'. "\n";
+		print ' </td>'. "\n";
+		print '</tr>'. "\n";
+    }
+    else {
+    	print '</table>'. "\n";
+    	die();
+    }
+    ?>
     
     <!-- space holder -->    
     <tr class="th">

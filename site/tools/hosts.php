@@ -10,6 +10,12 @@ require_once('../../functions/functions.php');
 
 /* verify that user is authenticated! */
 isUserAuthenticated ();
+
+
+/* die if viewer */
+if(isUserViewer()) {
+	die('<div class="error">You do not have permissions to access this page!</div>');
+}
 ?>
 
 <!-- autocomplete -->

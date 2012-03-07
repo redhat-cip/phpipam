@@ -87,16 +87,24 @@ print '<div class="toolsMenuDropdown">'. "\n";
 }
 print '	<dd section="tools" id="ipCalc">IP calculator</dd>';
 
-if(in_array('switch', $setFields)) {
-print '	<dd section="tools" id="switches">Switches</dd>';
+/* tools for admins and operators */
+if(!isUserViewer()) {
+	if(in_array('switch', $setFields)) {
+	print '	<dd section="tools" id="switches">Switches</dd>';
+	}
+	if($settings['enableVRF'] == 1) {
+	print '	<dd section="tools" id="vrf">VRF list</dd>';
+	}
+	print '	<dd section="tools" id="vlan">VLANs</dd>';
+	print '	<dd section="tools" id="subnets">Subnets</dd>';
+	print '	<dd section="tools" id="hosts">Host list</dd>';
+	print '	<dd section="tools" id="search">Search</dd>';
 }
-if($settings['enableVRF'] == 1) { 
-print '	<dd section="tools" id="vrf">VRF list</dd>';
+/* viewers can only see some tools */
+else {
+
 }
-print '	<dd section="tools" id="vlan">VLANs</dd>';
-print '	<dd section="subnets" id="subnets">Subnets</dd>';
-print '	<dd section="tools" id="hosts">Host list</dd>';
-print '	<dd section="tools" id="search">Search</dd>';
+
 print '</div>'. "\n";
 
 /* admin menu dropdown */

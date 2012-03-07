@@ -73,26 +73,31 @@ $userCount = sizeof(getAllUsers());
 
 
 <!-- search -->
-<div class="normalTable homeStats" style="float:right;width:48%">
-<table class="homeStats" style="width:100%;">
+<?php
+	if(!isUserViewer()) {
 
-	<tr class="th">
-		<td>Search for IP address: </td>
-	</tr>
-	<tr>
-		<td>
-			<form name="homeIPSearch" id="homeIPSearch">
-				<input type="text" name="ip" id="ipCalc" class="search" style="width:130px" placeholder="search expression">
-				<input type="submit" value="Search">
-			</form>
-		</td>
-	</tr>
-	
+		print '<div class="normalTable homeStats" style="float:right;width:48%">'. "\n";
+		print '<table class="homeStats" style="width:100%;">'. "\n";
+		
+		print '<tr class="th">'. "\n";
+		print '	<td>Search for IP address: </td>'. "\n";
+		print '</tr>'. "\n";
+		print '<tr>'. "\n";
+		print '	<td>'. "\n";
+		
+		print '<form name="homeIPSearch" id="homeIPSearch">'. "\n";
+		print '	<input type="text" name="ip" id="ipCalc" class="search" style="width:130px" placeholder="search expression">'. "\n";
+		print '	<input type="submit" value="Search">'. "\n";
+		print '</form>'. "\n";
 
-</table>
-</div>
+		print '</td>'. "\n";
+		print '</tr>'. "\n";
+		print '</table>'. "\n";
+		print '</div>'. "\n";
 
-<br>
+		print '<br>'. "\n";
+	}
+?>
 
 <!-- Instructions link -->
 <div class="normalTable homeStats" style="float:right;width:48%;margin-top:5px">
@@ -135,7 +140,11 @@ $userCount = sizeof(getAllUsers());
 		<td class="title">Tools</td>
 		<td class="HomeTools">
 			<a href="#tools|ipCalc">  <input type="button" name="ipCalc"  value="IPCalc">	 </a>
-			<a href="#tools|vlan">	  <input type="button" name="vlan" 	  value="VLAN table"></a>
+			<?php
+			if(!isUserViewer()) {
+				print '<a href="#tools|vlan">	  <input type="button" name="vlan" 	  value="VLAN table"></a>';
+			}
+			?>
 			<a href="#tools|userMenu"><input type="button" name="userMenu"value="My account"></a>
 		</td>
 	</tr>

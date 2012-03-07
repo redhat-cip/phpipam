@@ -12,6 +12,11 @@ require_once('../../functions/functions.php');
 isUserAuthenticated ();
 
 
+/* die if viewer */
+if(isUserViewer()) {
+	die('<div class="error">You do not have permissions to access this page!</div>');
+}
+
 
 /* get all sections */
 $sections = fetchSections ();

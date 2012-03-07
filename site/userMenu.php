@@ -25,12 +25,15 @@ session_write_close();
         </ul>
     </li>
     
-    <!-- search link -->
-    <li id="search">
-    	<form id="userMenuSearch" name="userMenuSearch">
-        	<input type="text" class="search" size="12" name="ip" placeholder="Search">
-        	<input type="submit" value="Search">
-        </form>
-    </li>
-
+    <?php
+    if(!isUserViewer()) {
+    	# search
+    	print '<li id="search">'. "\n";
+    	print '<form id="userMenuSearch" name="userMenuSearch">'. "\n";
+        print '	<input type="text" class="search" size="12" name="ip" placeholder="Search">'. "\n";
+        print '	<input type="submit" value="Search">'. "\n";
+        print '</form>'. "\n";
+    	print '</li>'. "\n";
+    }
+    ?>
 </ul>
