@@ -1,12 +1,17 @@
 == 0.6
 
-	New features / enhancements:
+	New features:
+	----------------------------
+	+ Selectable IP address list display fields;
+	+ Custom IP address fields;	
+	+ Search and replace IP fields function;
+	+ Full page width theme;	
+	
+	Enhancements:
 	----------------------------
 	+ Independant VLAN management;
 	+ Added additional level of subnet nesting;
-	+ Selectable IP address list display fields;
 	+ Added option to clear and export log files;
-	+ Added search and replace function;
 	+ Export of search results to XLS;
 	+ Clickable search results;
 	+ Selectable export fields when exporting subnet;
@@ -14,7 +19,6 @@
 	+ IP Requests for locked subnets and viewer users can be placed from ip address list;
 	+ jQuery updated to v 1.7.1;
 	+ HighCharts updated to v 2.2.0;
-	+ Full page width theme;
 
 	Bugfixes:
 	------------------------
