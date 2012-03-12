@@ -6,7 +6,8 @@
 
 /* required functions */
 require_once('../../functions/functions.php'); 
-
+# no errors!
+ini_set('display_errors', 0);
 
 /*
 	fetch uniques IPv4 subnets
@@ -55,30 +56,33 @@ foreach ($subnets as $subnet)
 }
 
 
-/* we have subnets now. Calculate usage for each */
-foreach ($subnetHost as $subnet)
-{
-	$i = $subnet['id'];
-	/* get count */
-	$count = countIpAddressesBySubnetId ($subnet['id']);
-	
-	/* add to existing array */
-	$subnetHost[$i]['usage'] = $count;
+if(sizeof($subnetHost) != 0) {
+	/* we have subnets now. Calculate usage for each */
+	foreach ($subnetHost as $subnet)
+	{
+		$i = $subnet['id'];
+		/* get count */
+		$count = countIpAddressesBySubnetId ($subnet['id']);
+			
+		/* add to existing array */
+		$subnetHost[$i]['usage'] = $count;
 	
 	/* calculate percentage */
-/* 	$subnetHost[$i]['percentage'] = round( $subnetHost[$i]['usage'] / pow(2, ( 32 - $subnetHost[$i]['mask']) ), 3) * 100; */
+	/* 	$subnetHost[$i]['percentage'] = round( $subnetHost[$i]['usage'] / pow(2, ( 32 - $subnetHost[$i]['mask']) ), 3) * 100; */
 	
-	$temp = calculateSubnetDetails ( $subnetHost[$i]['usage'], $subnetHost[$i]['mask'], $subnetHost[$i]['subnet'] );
-	$subnetHost[$i]['percentage'] = 100 - $temp['freehosts_percent'];
-}
+		$temp = calculateSubnetDetails ( $subnetHost[$i]['usage'], $subnetHost[$i]['mask'], $subnetHost[$i]['subnet'] );
+		$subnetHost[$i]['percentage'] = 100 - $temp['freehosts_percent'];
+	}
+	
 
-
-/* sort by usage - keys change! */
-unset($usageSort);
-foreach ($subnetHost as $key => $row) {
-    $usageSort[$key]  = $row['percentage']; 	
+	/* sort by usage - keys change! */
+	unset($usageSort);
+	foreach ($subnetHost as $key => $row) {
+	    $usageSort[$key]  = $row['percentage']; 	
+	}
+	
+	array_multisort($usageSort, SORT_DESC, $subnetHost);	
 }
-array_multisort($usageSort, SORT_DESC, $subnetHost);
 
 
 /* remove all but top 5 */
@@ -97,7 +101,7 @@ for ($m = 0; $m <= $max; $m++) {
 
 
 <!-- graph holder -->
-<div id="<?php print $type; ?>top10" style="height:200px"></div>
+<div id="<?php print $type; ?>top10" class="top10" style="height:200px;">No hosts configured!</div>
 
 
 <!-- create data! -->
@@ -132,11 +136,13 @@ $(document).ready(function() {
 	xAxis: {
 		categories: [
 			<?php
+			if(sizeof($subnetHost) > 0) {
 			foreach ($subnetHost as $subnet) {
 				$subnet['subnet'] = long2ip($subnet['subnet']);
 /* 				print "'" . $subnet['subnet'] . "',"; */
 				$subnet['description'] = ShortenText($subnet['description'], 8);
 				print "'" . $subnet['description'] . "',";
+			}
 			}
 			?>
 		],
@@ -155,9 +161,11 @@ $(document).ready(function() {
          name: 'Used %',
          data: [         	
          	<?php
+         		if(sizeof($subnetHost) > 0) {
 				foreach ($subnetHost as $subnet) {
 					print "{ name: '" . $subnet['description'] . "<br>" . transform2long($subnet['subnet']) . "/" . $subnet['mask'] . "', y:" . $subnet['percentage'] . "},";
-				}         	
+				}   
+				}      	
          	?>
          	]   
     }]  

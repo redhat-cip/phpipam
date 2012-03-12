@@ -101,7 +101,7 @@ for ($m = 0; $m <= $max; $m++) {
 
 
 <!-- graph holder -->
-<div id="<?php print $type; ?>top10Hosts" style="height:200px">No subnet configured!</div>
+<div id="<?php print $type; ?>top10Hosts" class="top10" style="height:200px">No hosts configured!</div>
 
 
 <!-- create data! -->
@@ -139,10 +139,12 @@ $(document).ready(function() {
 	xAxis: {
 		categories: [
 			<?php
+			if(sizeof($subnetHost) > 0) {
 			foreach ($subnetHost as $subnet) {
 				$subnet['subnet'] = long2ip($subnet['subnet']);
 				$subnet['description'] = ShortenText($subnet['description'], 8);
 				print "'" . $subnet['description'] . "',";
+			}
 			}
 			?>
 		],
@@ -160,9 +162,11 @@ $(document).ready(function() {
          name: 'Used %',
          data: [         	
          	<?php
+         		if(sizeof($subnetHost) > 0) {
 				foreach ($subnetHost as $subnet) {
 					print "{ name: '" . $subnet['description'] . "<br>" . transform2long($subnet['subnet']) . "/" . $subnet['mask'] . "', y:" . $subnet['usage'] . "},";
 				}         	
+				}
          	?>
          	]   
     }]  
