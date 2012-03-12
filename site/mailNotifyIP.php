@@ -67,8 +67,19 @@ $content .= "&bull; Switch:\t\t"		 . $ip['switch'] . "\n";
 if(!empty($ip['port'])) {
 $content .= "&bull; Port:\t"			 . $ip['port'] . "\n";
 }
+# custom
+$myFields = getCustomIPaddrFields();
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		if(!empty($ip[$myField['name']])) {
+			$content .=  '&bull; '. $myField['name'] .":\t". $ip[$myField['name']] ."\n";
+		}
+	}
+}
+
 $content .= "\n" . 'Contact: '. $userDetails['email'] . "\n";
 $content .= 'www: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] ."</a>";
+
 
 ?>
 
