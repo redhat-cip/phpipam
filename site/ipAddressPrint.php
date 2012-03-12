@@ -76,7 +76,7 @@ subnet details upper table
 	<tr>
 		<th>Subnet details</th>
 		<td><?php print '<b>'. transform2long($SubnetDetails['subnet']) .'/'. $SubnetDetails['mask'] .'</b> ('. $SubnetParsed['netmask'] .')'; ?></td>
-		<td rowspan="9" style="vertical-align:top;align:left"><?php include('subnetDetailsGraph.php'); ?></td>
+		<td rowspan="10" style="vertical-align:top;align:left"><?php include('subnetDetailsGraph.php'); ?></td>
 	</tr>
 	<tr>
 		<th>Subnet Usage</th>
