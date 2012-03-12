@@ -15,6 +15,7 @@ Features and tools:
 - IPv4/IPv6 calculator
 - Search IP database
 - IP request module
+- Custom IP address fields
 
 What it does not do:
 - Updates DNS server
