@@ -7,6 +7,8 @@
 
 /* required functions */
 require_once('../../functions/functions.php'); 
+# no errors!
+ini_set('display_errors', 0);
 
 /*
 	fetch uniques IPv4 subnets
@@ -71,19 +73,18 @@ if(sizeof($subnetHost) != 0) {
 			unset($subnetHost[$i]);
 		}
 	}
-}
+	
+	/* sort by usage - keys change! */
+	unset($usageSort);	
 
-
-/* sort by usage - keys change! */
-unset($usageSort);
-
-if(sizeof($subnetHost) != 0) {
 	foreach ($subnetHost as $key => $row) {
 	    $usageSort[$key]  = $row['usage']; 	
 	}
 
 	array_multisort($usageSort, SORT_DESC, $subnetHost);
 }
+
+
 
 /* remove all but top 10 */
 $max = sizeof($subnetHost);
