@@ -736,7 +736,7 @@ $('form#requestIP').live('submit', function() {
 	
 	showSpinner();
 	
-	$.post('../login/requestIPresult.php', request, function(data) {
+	$.post('login/requestIPresult.php', request, function(data) {
 		$('div#requestIPresult').html(data).slideDown('fast');
 		hideSpinner();
 	});
