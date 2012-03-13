@@ -297,7 +297,7 @@ table.customIP td{width:auto;}
 table.customIP td.img{width:10px;cursor:pointer;}
 table.customIP td.name{width:10px;white-space:nowrap;padding-right:30px;}
 body{height:100%;}
-div.wrapper{min-height:100%;height:auto!important;height:100%;margin:0 auto-30px;}
+div.wrapper{min-height:100%;height:auto!important;height:100%;margin:0 auto -30px;}
 div.pusher{height:30px;clear:both;}
 div.footer{text-align:center;vertical-align:text-top;color:#D5D5D5;height:20px;padding-top:5px;padding-bottom:5px;background:rgb(41,51,57);background:-moz-linear-gradient(top,rgba(41,51,57,1)0%,rgba(29,36,41,1)100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(41,51,57,1)),color-stop(100%,rgba(29,36,41,1)));background:-webkit-linear-gradient(top,rgba(41,51,57,1)0%,rgba(29,36,41,1)100%);background:-o-linear-gradient(top,rgba(41,51,57,1)0%,rgba(29,36,41,1)100%);background:-ms-linear-gradient(top,rgba(41,51,57,1)0%,rgba(29,36,41,1)100%);background:linear-gradient(top,rgba(41,51,57,1)0%,rgba(29,36,41,1)100%);}
 div.footer a{color:#D5D5D5;}
