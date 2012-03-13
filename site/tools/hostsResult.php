@@ -121,7 +121,7 @@ foreach($ipAddresses as $ip) {
 	
 	if(in_array('mac', $setFields)) {
 		print '	<td class="mac">'. "\n";
-		if(isset($ip['mac'])) {
+		if(strlen($ip['mac']) > 0) {
 			print '<img class="info" src="css/images/lan.png" title="MAC: '. $ip['mac'] .'">'. "\n";
 		}
 		print '</td>'. "\n";
