@@ -63,6 +63,7 @@
 		</ul>
 	
 	</li>
+	<br>
 
 	<!-- Custom fieldss-->
 	<li><b>Custom field search tips</b>
