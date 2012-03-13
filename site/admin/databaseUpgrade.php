@@ -22,17 +22,18 @@ $version = $_POST['version'];
 /* try to upgrade database */
 if(upgradeDatabase($version)) {
 	print '<div class="success">Database upgraded successfully!</div>';
-}
 
-/* update vlans and switches from old versions if needed */
-if($version < "0.5") {
-	 updateSwitchFromOldVersions();
-	 updateVLANsFromOldVersions();
-}
 
-/* update VLANS from old versions if needed */
-if($version < "0.6") {
-	 updateVLANsFromOldVersions();
+	/* update vlans and switches from v 0.4 */
+	if($version < "0.5") {
+		 updateVLANsFromOldVersions();
+		 updateSwitchFromOldVersions();
+	}
+	
+	/* update VLANS from version 0.5 */
+	if($version < "0.6") {
+		 updateVLANsFromOldVersions();
+	}
 }
 
 ?>
