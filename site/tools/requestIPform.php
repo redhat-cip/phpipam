@@ -45,8 +45,8 @@ require_once('../../functions/functions.php');
 	<td>Owner</td>
 	<td>	
 		<!-- autocomplete -->
-		<link type="text/css" href="../../css/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	
-		<script type="text/javascript" src="../../js/jquery-ui-1.8.14.custom.min.js"></script>
+		<link type="text/css" href="css/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	
+		<script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
 		<script>
 		$(function() {
 			//get all unique users
