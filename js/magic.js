@@ -1514,8 +1514,6 @@ $('table.switches tr[class!=th]').live('click', function () {
 	$('table.newSections li#' + sectionId ).addClass('active');
 	
 	hashLoadSubnets (sectionId, subnetId);
-	//load modify ip field after 1 sec when subnets should be loaded!
-	setTimeout(function (){modifyipaddress("edit",id,subnetId); parameter = null;}, 1000);
 });
 
 /*	Hosts list filter form
@@ -1548,7 +1546,7 @@ $('table.hosts tr[class!=th]').live('click', function () {
 	
 	hashLoadSubnets (sectionId, subnetId);
 	//load modify ip field after 1 sec when subnets should be loaded!
-	setTimeout(function (){modifyipaddress("edit",id,subnetId); parameter = null;}, 1000);
+	setTimeout(function (){modifyipaddress("edit_ipaddress",id,subnetId); parameter = null;}, 1000);
 });
 
 /*	user selfchange form submit
@@ -1697,7 +1695,7 @@ $('table.searchTable tr.ipSearch').live('click', function () {
 	
 	hashLoadSubnets (sectionId, subnetId);
 	//load modify ip field after 1 sec when subnets should be loaded!
-	setTimeout(function (){modifyipaddress("edit",id,subnetId); parameter = null;}, 1000);
+	setTimeout(function (){modifyipaddress("edit_ipaddress",id,subnetId); parameter = null;}, 1000);
 });
 $('table.searchTable tr.subnetSearch').live('click', function () {
 	var sectionId 	= $(this).attr('sectionId'); 
