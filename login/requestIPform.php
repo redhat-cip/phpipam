@@ -7,6 +7,39 @@
 	<th colspan="2" class="bottomBorder">IP request form</th>
 </tr>
 
+
+<!-- die if none available! -->
+<?php
+# scripts
+require_once('../functions/functions.php'); 
+$subnets = fetchAllSubnets ();
+
+# set first IP address
+$firstSubnet = $subnets[0]['id'];
+
+# if we have no available master subnets for IP requests die!
+$n = 0;
+foreach($subnets as $subnet) {
+	if($subnet['allowRequests'] == 1) {
+		if(!subnetContainsSlaves($subnet['id'])) {
+			$n++;
+		}
+	}
+}
+
+# die!
+if($n == 0) {
+	print '<tr>'. "\n";
+	print '<td colspan="2"><div class="error" style="white-space:nowrap;">No subnets available for requests</div></td>'. "\n";
+	print '</tr>'. "\n";
+	# back
+	print '<tr><td colspan="2"><a href="#login" class="backToLogin"><div class="backToLogin">Back to login</div></a></td></tr>';
+	print '</table>'. "\n";
+	print '</form>'. "\n";
+	die();
+}
+?>
+
 <!-- select section -->
 <tr>
 	<td>Select subnet *</td>
@@ -14,10 +47,7 @@
 	<td>
 		<select name="subnetId" id="subnetId">
 		
-		<?php
-		require_once('../functions/functions.php'); 
-		$subnets = fetchAllSubnets ();
-		
+		<?php		
 		$m = 0;		//needed for first IP address definition
 		
 		foreach($subnets as $subnet) {
@@ -27,12 +57,7 @@
 			
 				/* must not have any nested subnets! */
 				if(!subnetContainsSlaves($subnet['id']))
-				{
-					//first subnet definitions
-					if ($m == 0) {
-						$firstSubnet = $subnet['id'];
-						$m++;
-					}	
+				{	
 					print '<option value="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>';
 				}
 			}
