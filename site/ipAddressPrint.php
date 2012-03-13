@@ -265,6 +265,7 @@ subnet details upper table
 	}
 	/* viewer can request ip addresses! */
 	else {
+		if($SubnetDetails['allowRequests'] == 1) {
 		print '<tr class="info request_ipaddress">' . "\n";
 		print ' <td><img class="request_ipaddress" src="css/images/add.png" title="Request new IP address"></td>'. "\n";
 		print '	<td> Request new IP address </td>'. "\n";
@@ -275,6 +276,7 @@ subnet details upper table
 		print '	<td></td>' . "\n";
 		print '	<td><div class="addnew normalTable"></div></td>' . "\n";
 		print '</tr>' . "\n";			
+		}
 	}
 	
 	/* Edit subnet holder */
