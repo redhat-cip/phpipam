@@ -29,9 +29,8 @@ if(upgradeDatabase($version)) {
 		 updateVLANsFromOldVersions();
 		 updateSwitchFromOldVersions();
 	}
-	
 	/* update VLANS from version 0.5 */
-	if($version < "0.6") {
+	else if($version < "0.6") {
 		 updateVLANsFromOldVersions();
 	}
 }

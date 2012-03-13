@@ -15,7 +15,7 @@ ALTER TABLE `users` ADD `useFullPageWidth` tinyint(1) DEFAULT '0';		/* Add FullW
 
 /* ALTER subnets */
 ALTER TABLE `subnets` ADD `vrfId` int(3) DEFAULT NULL after `VLAN`;		/* Add vrf to subnets */
-ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;		/* UPDATE subnets add VLAN support */
+ALTER TABLE `subnets` ADD `vlanId` INTEGER(11) DEFAULT NULL;			/* UPDATE subnets add VLAN support */
 
 /* ALTER ipaddresses */
 ALTER TABLE `ipaddresses` ADD `mac` varchar(20) DEFAULT NULL after `dns_name`;	/* add mac to ipaddresses */
