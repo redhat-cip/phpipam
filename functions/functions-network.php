@@ -998,8 +998,8 @@ function SetInsertQuery( $ip )
 	if(sizeof($myFields) > 0) {
 		/* set inserts for custom */
 		foreach($myFields as $myField) {
-			$myFieldsInsert['query']  = ', `'. $myField['name'] .'`';
-			$myFieldsInsert['values'] = ", '". $ip[$myField['name']] . "'";
+			$myFieldsInsert['query']  .= ', `'. $myField['name'] .'`';
+			$myFieldsInsert['values'] .= ", '". $ip[$myField['name']] . "'";
 		}
 	}
 

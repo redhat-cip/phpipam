@@ -1,6 +1,19 @@
 == 0.6
 
 	New features:
+	----------------------------	
+	
+	Enhancements:
+	----------------------------
+
+	Bugfixes:
+	------------------------
+	+ Fixed error with missing custom IP fields when adding new IP address;
+
+
+== 0.6
+
+	New features:
 	----------------------------
 	+ Selectable IP address list display fields;
 	+ Custom IP address fields;	
