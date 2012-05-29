@@ -13,6 +13,9 @@ features for next releases:
 		- On-the-fly VLANs;
 		- Search results covering VLANs;
 		
+	- Bugfixes request
+		- phpipam version in DB file;
+		
 	
 	- Requests
 		- Sorting of IP addresses;

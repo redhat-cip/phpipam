@@ -669,12 +669,12 @@ function updateSettings($settings)
     $query   .= '`siteURL` 			  = "'. $settings['siteURL'] .'", ' . "\n";
     $query   .= '`siteAdminName` 	  = "'. $settings['siteAdminName'] .'", ' . "\n";
     $query   .= '`siteAdminMail` 	  = "'. $settings['siteAdminMail'] .'", ' . "\n";
-	$query   .= '`domainAuth` 		  = "'. $settings['domainAuth'] .'", ' . "\n";
-	$query   .= '`showTooltips`		  = "'. $settings['showTooltips'] .'", ' . "\n";
-	$query   .= '`enableIPrequests`   = "'. $settings['enableIPrequests'] .'", ' . "\n";
-	$query   .= '`enableVRF`   		  = "'. $settings['enableVRF'] .'", ' . "\n";
-	$query   .= '`donate`   		  = "'. $settings['donate'] .'", ' . "\n";
-	$query   .= '`enableDNSresolving` = "'. $settings['enableDNSresolving'] .'" ' . "\n";   
+	$query   .= '`domainAuth` 		  = "'. isCheckbox($settings['domainAuth']) .'", ' . "\n";
+	$query   .= '`showTooltips`		  = "'. isCheckbox($settings['showTooltips']) .'", ' . "\n";
+	$query   .= '`enableIPrequests`   = "'. isCheckbox($settings['enableIPrequests']) .'", ' . "\n";
+	$query   .= '`enableVRF`   		  = "'. isCheckbox($settings['enableVRF']) .'", ' . "\n";
+	$query   .= '`donate`   		  = "'. isCheckbox($settings['donate']) .'", ' . "\n";
+	$query   .= '`enableDNSresolving` = "'. isCheckbox($settings['enableDNSresolving']) .'" ' . "\n";   
 	$query   .= 'where id = 1;' . "\n";   
 
 	/* set log file */
@@ -691,6 +691,23 @@ function updateSettings($settings)
     	updateLogTable ('Settings updated', $log, 1);
         return true;  
     }
+}
+
+
+/**
+ *	Verify checkboxes for saving config
+ */
+function isCheckbox($checkbox)
+{
+	if($checkbox == "") {
+		$chkbox = "0";
+	}
+	else {
+		$chkbox = $checkbox;
+	}
+	
+	/* return 0 if not checkbos and same result if checkbox */
+	return $chkbox;
 }
 
 

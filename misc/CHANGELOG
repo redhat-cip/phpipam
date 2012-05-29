@@ -9,6 +9,7 @@
 	Bugfixes:
 	------------------------
 	+ Fixed error with missing custom IP fields when adding new IP address;
+	+ Fixed checkboxes not working in various browsers;
 
 
 == 0.6
