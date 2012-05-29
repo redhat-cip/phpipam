@@ -123,7 +123,7 @@ if (!empty($subnets)) {
 			
 						print '	<tr class="slaveSubnet subSlaveSubnet">' . "\n";
 		        		print '		<td class="subnet">'. transform2long($subSlave['subnet']) .'/'. $subSlave['mask'] .'</td>' . "\n";
-		       			print '		<td>'. $slave['description'] .'</td>' . "\n";
+		       			print '		<td>'. $subSlave['description'] .'</td>' . "\n";
 						print '		<td class="masterSubnet">'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
 		
 						# VLAN
