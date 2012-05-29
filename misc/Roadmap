@@ -5,6 +5,14 @@ features for next releases:
 		- translations (gettext);
 		- custom groups
 		- per-section permissions for groups;
+		- cron update DNS resolving;
+		
+		- Custom IP field ordering;
+		- Overlapping subnets option in config files;
+		- Show Subnet name instead of subnet IP address;
+		- On-the-fly VLANs;
+		- Search results covering VLANs;
+		
 	
 	- Requests
 		- Sorting of IP addresses;
@@ -13,11 +21,9 @@ features for next releases:
 		- subnet splitting;
 		- API 
 		- search for available subnets;
-		- Show Subnet name instead of subnet IP address;
 	
 	- Optional
 		- better exception handling (functions);
-		- Overlapping subnets option in config files;
 		- RDNS zone file export (in admin!);
 		- IPv6 migration guide document;
 		- Overlapping subnets if VRF is enabled;
