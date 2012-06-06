@@ -1364,7 +1364,7 @@ $('form#filterIP').live('submit', function() {
 
 /*	custom IP field load edit form
 ************************************/
-$('table.customIP img').live('click', function() {
+$('table.customIP img[class!=down]').live('click', function() {
 	showSpinner();
 
 	var action 	  = $(this).attr('class');
@@ -1387,6 +1387,28 @@ $('form#editCustomIPFields').live('submit', function() {
 	$.post('site/admin/customIPFieldsEditResult.php', field, function(data) {
 		$('div.customIPEditResult').html(data).slideDown('fast');
 		
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) {
+            setTimeout(function (){loadAdminSubpage ("customIPFields"); parameter = null;}, reloadTimeout);
+        }
+        else {
+			hideSpinner();
+        }
+	});
+
+	return false;
+});
+/*	custom IP field ordering
+************************************/
+$('table.customIP img.down').live('click', function() {
+	showSpinner();
+
+	var current  = $(this).attr('fieldName');
+	var next 	 = $(this).attr('nextFieldName');
+
+	$.post('site/admin/customIPFieldsOrder.php', {current:current, next: next}, function(data) {
+		$('div.customIPResult').html(data).slideDown('fast');
+
 		//reload after 2 seconds if succeeded!
         if(data.search("error") == -1) {
             setTimeout(function (){loadAdminSubpage ("customIPFields"); parameter = null;}, reloadTimeout);

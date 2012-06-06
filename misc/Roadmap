@@ -7,11 +7,9 @@ features for next releases:
 		- per-section permissions for groups;
 		- cron update DNS resolving;
 		
-		- Custom IP field ordering;
 		- Overlapping subnets option in config files;
 		- Show Subnet name instead of subnet IP address;
 		- On-the-fly VLANs;
-		- Search results covering VLANs;
 		
 	- Bugfixes request
 		- phpipam version in DB file;

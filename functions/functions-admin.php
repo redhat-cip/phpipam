@@ -934,6 +934,38 @@ function getCustomIPaddrFields()
 
 
 /**
+ * Get all fields in IP addresses in number array
+ */
+function getCustomIPaddrFieldsNumArr()
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'describe `ipaddresses`;';
+    $fields	  = $database->getArray($query); 
+  
+	/* return Field values only */
+	foreach($fields as $field) {
+		$res[$field['Field']]['name'] = $field['Field'];
+		$res[$field['Field']]['type'] = $field['Type'];
+	}
+	
+	/* unset standard fields */
+	unset($res['id'], $res['subnetId'], $res['ip_addr'], $res['description'], $res['dns_name'], $res['switch']);
+	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note']);
+	
+	/* reindex */
+	foreach($res as $line) {
+		$out[] = $line['name'];
+	}
+	
+	return $out;
+}
+
+
+/**
  *Update custom field
  */
 function updateCustomIPField($field)
@@ -957,14 +989,38 @@ function updateCustomIPField($field)
     $log = prepareLogFromArray ($field);
     
     if (!$database->executeQuery($query)) {
-        updateLogTable ('CustomIPField ' . $field['action'] .' success ('. $field['name'] . ')', $log, 0);
+        updateLogTable ('CustomIPField ' . $field['action'] .' failed ('. $field['name'] . ')', $log, 2);
         return false;
     }
     else {
-        updateLogTable ('CustomIPField ' . $field['action'] .' failed ('. $field['name'] . ')', $log, 2);
+        updateLogTable ('CustomIPField ' . $field['action'] .' success ('. $field['name'] . ')', $log, 0);
         return true;
     }
 }
+
+
+/**
+ * reorder custom field
+ */
+function reorderCustomIPField($next, $current)
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* update request */
+    $query  = 'ALTER TABLE `ipaddresses` MODIFY COLUMN `'. $current .'` VARCHAR(256) AFTER `'. $next .'`;';
+    
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('CustomIPField reordering failed ('. $next .' was not put before '. $current .')', $log, 2);
+        return false;
+    }
+    else {
+	    updateLogTable ('CustomIPField reordering success ('. $next .' put before '. $current .')', $log, 0);
+        return true;
+    }
+}
+
 
 
 
