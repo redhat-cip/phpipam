@@ -1,14 +1,18 @@
 /************************
-Update from v 0.5 to 0.6 
+Update from v 0.5 to 0.7 
 ************************/
 
 /* UPDATE version */
-UPDATE `settings` set `version` = '0.6';
+UPDATE `settings` set `version` = '0.7';
 UPDATE `settings` set `donate` = '0';
 
 /* Add IPfilter to settings */
 ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
 UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
+
+/* add show names */
+ALTER TABLE `settings` ADD `masterNames` tinyint(1) DEFAULT '0';
+ALTER TABLE `settings` ADD `slaveNames` tinyint(1) DEFAULT '0';
 
 /* Add FullWidth theme option to users! */
 ALTER TABLE `users` ADD `useFullPageWidth` tinyint(1) DEFAULT '0';
