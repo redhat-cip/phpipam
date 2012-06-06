@@ -408,6 +408,29 @@ function searchSubnets ($searchterm, $searchTermEdited = "")
 }
 
 
+
+/**
+ * Search VLANS
+ */
+function searchVLANs ($searchterm)
+{
+	
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* set query */    
+	$query = 'select * from `vlans` where `name` like "%'. $searchterm .'%" or `description` like "%'. $searchterm .'%" or `number` like "%'. $searchterm .'%";';
+
+	/* execute query */
+    $search = $database->getArray($query); 
+    
+    /* return result */
+    return $search;
+}
+
+
+
 /**	
  * Reformat incomplete IPv4 address to decimal for search!
  */

@@ -2075,6 +2075,9 @@ table.searchTable th {
 table.searchTable tr {
 	cursor: pointer;
 }
+table.searchTable tr.nolink {
+	cursor: default !important;
+}
 table.searchTable tr.th {
 	cursor: default;
 }

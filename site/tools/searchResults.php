@@ -60,6 +60,11 @@ else {
 /* check also subnets! */
 $subnets = searchSubnets ($searchTerm, $searchTermEdited);
 
+
+/* check also VLANS! */
+$vlans = searchVLANs ($searchTerm);
+
+
 /* get all custom fields */
 $myFields = getCustomIPaddrFields();
 
@@ -320,6 +325,94 @@ else {
 	
 		print '</tr>'. "\n";
 	}
+}
+?>
+
+</table>
+</div>
+
+
+
+
+<!-- search result table -->
+<h3>Search results (VLANs):</h3>
+
+<div class="searchTable normalTable vlanSearch">
+<table class="searchTable normalTable vlanSearch">
+
+<!-- headers -->
+<tr class="th" id="searchHeader">
+	<th>Name</th>
+	<th>Number</th>
+	<th>Description</th>
+	<th>Belonging subnets</th>
+	<th>Section</th>
+</tr>
+
+
+<?php
+if(sizeof($vlans) == 0) {
+	print '<tr class="th"><td colspan="4">Nothing found for search query "'. $_REQUEST['ip'] .'" in VLANs!</td><tr>'. "\n";
+}
+else {
+
+	foreach($vlans as $vlan) {
+
+		/* get all subnets in VLAN */
+		$subnets = getSubnetsByVLANid ($vlan['vlanId']);
+		
+		/* no belonging subnets! */
+		if(sizeof($subnets) == 0) {
+			print '<tr class="nolink">' . "\n";
+			print ' <td><dd>'. $vlan['number']      .'</dd></td>' . "\n";
+			print ' <td><dd>'. $vlan['name']        .'</dd></td>' . "\n";
+			print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";				
+			print ' <td>----</td>' . "\n";
+			print ' <td>----</td>' . "\n";
+			print '</tr>'. "\n";
+		}
+		
+		/* for each subnet print tr */
+		foreach($subnets as $subnet)
+		{
+			/* get section details */
+			$section = getSectionDetailsById ($subnet['sectionId']);	
+
+			# detect change
+			$vlanNew = $subnet['vlanId'];
+			if($vlanNew == $vlanOld) { $change = ''; }
+			else 					 { $change = 'style="border-top:1px dashed white"'; $vlanOld = $vlanNew; }
+
+			print '<tr class="link vlanSearch" '. $change .' sectionId="'. $section['id'] .'" subnetId="'. $subnet['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">' . "\n";
+
+			/* print first 3 only if change happened! */
+			if(strlen($change) > 0) {
+				print ' <td><dd>'. $vlan['number']         .'</dd></td>' . "\n";
+				print ' <td><dd>'. $vlan['name']           .'</dd></td>' . "\n";
+				print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";			
+			}
+			else {
+				print '<td></td>';
+				print '<td></td>';
+				print '<td></td>';	
+			} 
+
+			if ($subnet['id'] != null) {
+				# subnet
+				print ' <td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
+
+				# section
+				print ' <td>'. $section['name'] .'</td>'. "\n";
+			}
+			else {
+    		    print '<td>---</td>'. "\n";
+    		    print '<td>---</td>'. "\n";
+    		}
+    		
+    		print '</tr>' . "\n";
+    	}
+
+    }
 }
 ?>
 

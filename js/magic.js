@@ -1712,6 +1712,22 @@ $('table.searchTable tr.subnetSearch').live('click', function () {
 	
 	hashLoadSubnets (sectionId, subnetId);
 });
+$('table.searchTable tr.vlanSearch').live('click', function () {
+	var sectionId 	= $(this).attr('sectionId'); 
+	var sectionName = $(this).attr('sectionName'); 
+	var subnetId  	= $(this).attr('subnetId');
+	var link      	= $(this).attr('link');
+	
+	//set href
+	document.location.href = "#" + link;
+	
+	//set active section
+	$('table.newSections li').removeClass('active');
+	$('table.newSections li#' + sectionId ).addClass('active');
+	
+	hashLoadSubnets (sectionId, subnetId);
+});
+
 
 
 /*	search form from search page
