@@ -7,11 +7,7 @@ features for next releases:
 		- per-section permissions for groups;
 		- cron update DNS resolving;
 		
-		- Overlapping subnets option in config files;
 		- On-the-fly VLANs;
-		
-	- Bugfixes request
-		- phpipam version in DB file;
 		
 	
 	- Requests

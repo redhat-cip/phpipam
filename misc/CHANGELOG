@@ -8,6 +8,7 @@
 	+ Search results covering VLANs;
 	+ Custom IP fields ordering;
 	+ Show Subnet name instead of subnet IP address option;
+	+ Strict mode option in config files that controlls overlapping checks;
 
 	Bugfixes:
 	------------------------
