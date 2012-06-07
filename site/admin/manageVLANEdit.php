@@ -16,12 +16,21 @@ $vlanPost = $_POST;
 /* get all available VRFs */
 $vlan = subnetGetVLANdetailsById($_POST['vlanId']);
 
+
+/* set form name! */
+if(isset($_POST['fromSubnet'])) {
+	$formId = "vlanManagementEditFromSubnet";
+}
+else {
+	$formId = "vlanManagementEdit";
+}
+
 ?>
 
 
 
 <div class="normalTable vlanManagementEdit2">
-<form id="vlanManagementEdit">
+<form id="<?php print $formId; ?>">
 <table class="normalTable vlanManagementEdit2">
 
 <tr class="th">
@@ -74,7 +83,7 @@ else 								{ $readonly = ""; }
 <!-- result -->
 <tr>
 	<td colspan="2">
-		<div class="vlanManagementEditResult"></div>
+		<div class="<?php print $formId; ?>Result"></div>
 	</td>
 </tr>
 

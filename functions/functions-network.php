@@ -138,6 +138,31 @@ function validateVlan ($vlan)
 }
 
 
+/**
+ *	get VLAN details by ID
+ */
+function getVLANbyNumber ($number) 
+{
+    /* get variables from config file */
+    global $db;
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* execute query */
+	$query = 'select * from `vlans` where `number` = "'. $number .'";';
+    
+  	/* update database */
+   	$vlan = $database->getArray($query);
+   	
+   	/* return false if none, else list */
+	if(sizeof($vlan) == 0) {
+		return false;
+	}
+	else {
+		return $vlan;
+	}
+}
+
+
 
 
 

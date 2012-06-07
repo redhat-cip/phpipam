@@ -339,6 +339,11 @@ function updateSearchPage(searchTerm) {
         hideSpinner();
     });
 }
+/*	update VLAN dropdown
+************************/
+function reloadVLANSelection () {
+	$('td#vlanDropdown').load('site/admin/manageVLANdropdownReload.php');
+}
 
 
 
@@ -571,7 +576,7 @@ $('table.subnets tr[class!=th] dd.subSlavesToggle').live("click", function () {
 });
 
 
-/*	add new subnet form subnets table
+/*	add new subnet from subnets table
 ****************************************/
 $('table.subnets td.plusSubnet').live("click", function () {
     //set variables
@@ -581,6 +586,48 @@ $('table.subnets td.plusSubnet').live("click", function () {
     $('table.subnets tr').removeClass('selected');
     loadAddSectionFromSubnets(postdata);
 });
+/*	Show add new VLAN on subnet add/edit on-thy-fly
+***************************************************/
+$('form#manageSubnetEditFromSubnets select[name=vlanId]').live('change', function() {
+	var vlanId	= $(this).val();
+	
+	if(vlanId == 'Add') {
+		showSpinner();			
+		$.post('site/admin/manageVLANEdit.php', {action:"add", fromSubnet:"true"}, function(data) {
+			$('div#addNewVlanFromSubnetEdit').html(data).slideDown('fast');
+			hideSpinner();
+		});
+	}
+	else {
+		$('div#addNewVlanFromSubnetEdit').slideUp('fast');
+	}
+	return false;	
+});
+/*	Submit new VLAN on the fly
+***************************************************/
+$('form#vlanManagementEditFromSubnet').live('submit', function() {
+	showSpinner();
+
+	var postData = $(this).serialize();	
+	
+	$.post('site/admin/manageVLANEditResult.php', postData, function(data) {
+		$('div.vlanManagementEditFromSubnetResult').html(data).show();
+		hideSpinner();
+		
+		// ok
+	    if(data.search("error") == -1) {
+            $('div#addNewVlanFromSubnetEdit').delay(reloadTimeout).slideUp('fast');
+            //reload select
+            setTimeout(function (){reloadVLANSelection (); parameter = null;}, reloadTimeout);
+        }
+        else {
+			hideSpinner();
+        }
+	
+	});
+	return false;	
+});
+
 
 /*	export Subnet and IP addresses
 ****************************************/

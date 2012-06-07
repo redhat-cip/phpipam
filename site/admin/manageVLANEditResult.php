@@ -19,6 +19,16 @@ print_r($vlan);
 die('error');
 */
 
+
+/* if it already exist DIE! */
+if($vlan['action'] == "add") {
+	if(!getVLANbyNumber($vlan['number'])) {
+	}
+	else {
+		die('<div class="error">VLAN already exists!</div>');
+	}	
+}
+
 /* sanitize post! */
 $vlan['name'] 		 = htmlentities($vlan['name'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
 $vlan['number'] 	 = htmlentities($vlan['number'], ENT_COMPAT | ENT_HTML401, "UTF-8");			# prevent XSS

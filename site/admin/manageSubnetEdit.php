@@ -76,7 +76,7 @@ else {
     <!-- vlan -->
     <tr>
         <td>VLAN</td>
-        <td> 
+        <td id="vlanDropdown"> 
             <select name="vlanId">
             	<option disabled="disabled">Select VLAN:</option>
             <?php
@@ -90,7 +90,12 @@ else {
            		$tmp[0]['vlanId'] = 0;
            		$tmp[0]['number'] = 'No VLAN';
            		
+           		#on-the-fly
+	          	$tmp[1]['vlanId'] = 'Add';	
+	           	$tmp[1]['number'] = '+ Add new VLAN';	
+           		
            		array_unshift($vlans, $tmp[0]);
+           		array_unshift($vlans, $tmp[1]);
             
             	foreach($vlans as $vlan) {
             		/* set structure */
@@ -297,3 +302,9 @@ else {
 </table>
 </form> 
 </div>
+
+
+
+
+<!-- vlan add holder from subnets -->
+<div id="addNewVlanFromSubnetEdit" style="display:none"></div>

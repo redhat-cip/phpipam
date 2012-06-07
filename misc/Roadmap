@@ -8,6 +8,7 @@ features for next releases:
 		- cron update DNS resolving;
 		
 		- On-the-fly VLANs;
+		- All IP fields sorting;
 		
 	
 	- Requests

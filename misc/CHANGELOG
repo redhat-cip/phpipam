@@ -15,6 +15,7 @@
 	+ Fixed error with missing custom IP fields when adding new IP address;
 	+ Fixed checkboxes not working in various browsers;
 	+ Fixed subnet description display in under subnet administration;
+	+ Fixed depricated error when showing XLS files;
 
 
 == 0.6
