@@ -588,7 +588,7 @@ $('table.subnets td.plusSubnet').live("click", function () {
 });
 /*	Show add new VLAN on subnet add/edit on-thy-fly
 ***************************************************/
-$('form#manageSubnetEditFromSubnets select[name=vlanId]').live('change', function() {
+$('select[name=vlanId]').live('change', function() {
 	var vlanId	= $(this).val();
 	
 	if(vlanId == 'Add') {

@@ -9,6 +9,7 @@
 	+ Custom IP fields ordering;
 	+ Show Subnet name instead of subnet IP address option;
 	+ Strict mode option in config files that controlls overlapping checks;
+	+ VLAN creation from adding/editing subnets;
 
 	Bugfixes:
 	------------------------
