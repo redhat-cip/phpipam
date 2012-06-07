@@ -781,7 +781,7 @@ $('form#requestIP').live('submit', function() {
 /*	edit subnet
 ****************************************/
 $('img.edit_subnet').live("click", function () {
-	var subnetId  = $('table.subnets tr.selected').attr('id');
+	var subnetId  = $(this).attr('subnetId');
 	var sectionId = $('table.newSections li.active').attr('id');
     var subnetAction = "Edit";
     var locationAction = "IPaddresses";

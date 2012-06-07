@@ -676,6 +676,7 @@ function updateSettings($settings)
 	$query   .= '`enableIPrequests`   = "'. isCheckbox($settings['enableIPrequests']) .'", ' . "\n";
 	$query   .= '`enableVRF`   		  = "'. isCheckbox($settings['enableVRF']) .'", ' . "\n";
 	$query   .= '`donate`   		  = "'. isCheckbox($settings['donate']) .'", ' . "\n";
+	$query   .= '`strictMode`   	  = "'. isCheckbox($settings['strictMode']) .'", ' . "\n";
 	$query   .= '`enableDNSresolving` = "'. isCheckbox($settings['enableDNSresolving']) .'" ' . "\n";   
 	$query   .= 'where id = 1;' . "\n";   
 

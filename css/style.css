@@ -833,7 +833,7 @@ table.slaves td.structure {
 	background: url(images/slaveTdBGStr.png) no-repeat;
 }
 table.subSlaves dd {
-	padding-left: 10px;
+	padding-left: 20px;
 }
 table.subSlaves {
 	background: url(images/subSlaveBG.png) repeat-y;
@@ -892,6 +892,14 @@ table.slaves tr.selected td {
 }
 img.subStructure {
 	margin-left: 25px;
+}
+table.subnets th.hideSubnets dd.rewind {
+	background: url(images/rewind.png) no-repeat;
+	width: 12px;
+	height: 12px;
+}
+table.subnets th.hideSubnets dd.rewind:hover {
+	background: url(images/rewindHover.png) no-repeat;
 }
 
 
@@ -2352,10 +2360,10 @@ div.jqueryError {
 	margin-bottom: 2px;
 }
 .tooltipRightSubnets {
-	margin-left: 20px;
+	margin-left: 5px;
 }
 .tooltipRightSubnetsSlave {
-	margin-left: 0px;
+	margin-left: 5px;
 }
 .tooltip hr {
 	padding: 0px;

@@ -312,7 +312,7 @@ else {
 		}
 		
 /* 		print '<tr class="subnetSearch" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n"; */
-		print '<tr class="subnetSearch" subnetId="'. $line['id'] .'" sectionName="'. $section['name'] .'" sectionId="'. $section['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
+		print '<tr class="subnetSearch" subnetId="'. $line['id'] .'" sectionName="'. $section['name'] .'" sectionId="'. $section['id'] .'" link="'. $section['name'] .'|'. $line['id'] .'">'. "\n";
 
 		print '	<td>'. $section['name'] . '</td>'. "\n"; 
 		print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 

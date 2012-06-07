@@ -48,7 +48,7 @@ else
 
     /* IP / mask header */
     print '<tr class="th">' . "\n";
-    print '<th class="hideSubnets" title="Hide Subnet list"><img src="css/images/rewind.png" class="rewind" title="Hide subnets"></th>'. "\n";
+    print '<th class="hideSubnets" title="Hide Subnet list"><dd class="rewind"></dd>'. "\n";
     print '<th colspan=2>Subnets in "'. $sectionName['name'] .'"</th>'. "\n";
     print '</tr>' . "\n";
 
@@ -81,7 +81,7 @@ else
 	        	if($subnet['showName'] == 1) {
 	        		/* subnet */
 	        		print '	<td class="subnet" colspan="2" title="'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'">' . "\n";
-	    			print '		<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . $subnet['description'] .'</dd>' . "\n";  		        	
+	    			print '		<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . substr($subnet['description'],0,25) .'</dd>' . "\n";  		        	
 	    			print '	</td>' . "\n";
 	        	}
 	        	else {
@@ -119,7 +119,7 @@ else
 					    if($slave['showName'] == 1) {
 			        		/* subnet */
 			        		print '	<td class="subnet" colspan="2" title="'. Transform2long($slave['subnet']) .'/'. $slave['mask'] .'">' . "\n";
-			        		print '		<dd class="subSlavesToggle" section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . $slave['description'] .'</dd>' . "\n";  
+			        		print '		<dd class="subSlavesToggle" section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . substr($slave['description'],0,25) .'</dd>' . "\n";  
 			        		print '	</td>' . "\n";						    
 					    }
 					    else {
@@ -148,7 +148,7 @@ else
 							# print names
 							if($subSlaveSubnet['showName'] == 1) {
 	            				print '	<td class="subnet slave" title="'. Transform2long($subSlaveSubnet['subnet']) .'/'. $subSlaveSubnet['mask'] .'">' . "\n";
-	            				print '		<dd section="'. $sectionName['name'] .'|'. $subSlaveSubnet['id'] .'" id="'. $subSlaveSubnet['id'] .'">'. $subSlaveSubnet['description'] .'</dd>' . "\n";
+	            				print '		<dd section="'. $sectionName['name'] .'|'. $subSlaveSubnet['id'] .'" id="'. $subSlaveSubnet['id'] .'">'. substr($subSlaveSubnet['description'],0,25) .'</dd>' . "\n";
 	            				print '	</td>' . "\n";
 							}
 							else {
@@ -177,7 +177,7 @@ else
 						# print names
 						if($slave['showName'] == 1) {
 	            			print '	<td colspan="2" class="subnet slave" title="'. Transform2long($slave['subnet']) .'/'. $slave['mask'] .'">' . "\n";
-	            			print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . $slave['description'] .'</dd>' . "\n";
+	            			print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . substr($slave['description'],0,25) .'</dd>' . "\n";
 	            			print '	</td>' . "\n";		
 						}
 						else {
@@ -207,7 +207,7 @@ else
         		if($subnet['showName'] == 1) {
         			/* subnet */
         			print '	<td colspan="2" class="subnet" title="'. Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'">' . "\n";
-					print '		<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . $subnet['description'] .'</dd>' . "\n";	
+					print '		<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . substr($subnet['description'],0,25) .'</dd>' . "\n";	
 					print '	</td>' . "\n"; 
         		}
         		else {
@@ -240,6 +240,8 @@ else
 	print '<script type="text/javascript">'. "\n";
 	print '$(document).ready(function () {'. "\n";
 	print '$("table.slaves tr." + '. $_POST['slaveId'].').closest("table").parent().parent().children("div.slaveSubnets").delay(200).slideDown("fast");'. "\n";
+	print '$("table.slaves tr." + '. $_POST['slaveId'].').closest("table").parent().parent().parent().prev().addClass("selected");'. "\n";
+	print '$("table.subnets tr.selected td img.structure").attr("src", "css/images/folderOpened.png");'. "\n";
 	print '});'. "\n";
 	print '</script>'. "\n";
 }

@@ -152,6 +152,17 @@ $settings = getAllSettings();
 </tr>
 
 
+<!-- Strict mode -->
+<tr>
+	<td class="title">Strict mode</td>
+	<td>
+		<input type="checkbox" value="1" name="strictMode" <?php if($settings['strictMode'] == 0) print ''; else print 'checked'; ?>>
+	</td>
+	<td class="info">
+	If strict mode is disabled then no more overlapping subnet checks will be made.
+	</td>
+</tr>
+
 <!-- Disable donation field -->
 <tr>
 	<td class="title">Hide donation button</td>

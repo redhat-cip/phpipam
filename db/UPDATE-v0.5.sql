@@ -10,6 +10,9 @@ UPDATE `settings` set `donate` = '0';
 ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
 UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
 
+/* strict mode */
+ALTER TABLE `settings` ADD `strictMode` tinyint(1) DEFAULT '1';
+
 /* add show names */
 ALTER TABLE `subnets` ADD `showName` tinyint(1) DEFAULT '0';
 

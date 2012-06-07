@@ -227,7 +227,7 @@ subnet details upper table
 	/* Edit subnet for admins */
 	if(checkAdmin(false)) {
 		print '<tr class="info edit_subnet">'. "\n";
-		print '	<td><img src="css/images/edit.png" class="edit_subnet" title="Edit subnet properties"></td>'. "\n";
+		print '	<td><img src="css/images/edit.png" class="edit_subnet" subnetId="'. $SubnetDetails['id'] .'" title="Edit subnet properties"></td>'. "\n";
 		print '	<td>Edit properties for this subnet</td>'. "\n";
 		print '</tr>'. "\n";		
 	}
@@ -235,17 +235,18 @@ subnet details upper table
 	/* add IP address */
 	if(!$viewer) {
 		print '<tr class="info add_ipaddress">' . "\n";
-		print '	<td>'. "\n";
 		
 		if( (isSubnetWriteProtected($SubnetDetails['id'])) && !checkAdmin(false)) {
-		print ' <img class="add_ipaddress_lock" src="css/images/lock.png" title="Subnet is locked for writing"></td>'. "\n";
-		print '	<td> Subnet is locked for writing '. "\n";
+		print ' <td><img class="add_ipaddress_lock" src="css/images/lock.png" title="Subnet is locked for writing"></td>'. "\n";
+		print '	<td> Subnet is locked for writing </td>'. "\n";
 		}
 		else {
-		print ' <img class="add_ipaddress" src="css/images/add.png" id2="" title="Add new IP address"></td>' . "\n";
-		print '	<td> Add new IP address '. "\n";
+		print ' <td class="add_ipaddress" title="Add new IP address"><img class="add_ipaddress" src="css/images/add.png" id2="" title="Add new IP address"></td>' . "\n";
+		print '	<td> Add new IP address </td>'. "\n";
 		}
 		
+		print '</tr> ' . "\n";
+	
 		/* if locked subnet user is not admin or user is viewer they can request IP address!  */
 		if( (isSubnetWriteProtected($SubnetDetails['id'])) && !checkAdmin(false) ) {
 		print '<tr class="info request_ipaddress">' . "\n";
@@ -253,9 +254,6 @@ subnet details upper table
 		print '	<td> Request new IP address </td>'. "\n";
 		print '</tr>'. "\n";		
 		}
-		
-		print '</td>' . "\n";
-		print '</tr> ' . "\n";
 	
 		print '<!-- addnew holder -->' . "\n";
 		print '<tr class="addnew">' . "\n";
