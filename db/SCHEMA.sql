@@ -27,8 +27,6 @@ CREATE TABLE `settings` (
   `version` varchar(4) DEFAULT NULL,
   `donate` tinyint(1) DEFAULT 0,
   `IPfilter` varchar(128) DEFAULT NULL,
-  `masterNames` tinyint(1) DEFAULT '0',
-  `slaveNames` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -37,7 +35,7 @@ LOCK TABLES `settings` WRITE;
 
 INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableDNSresolving`, `version`, `IPfilter`)
 VALUES
-	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.7', 'mac;owner;state;switch;port;note', 0,0);
+	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.7', 'mac;owner;state;switch;port;note');
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -113,6 +111,7 @@ CREATE TABLE `subnets` (
   `allowRequests` tinyint(1) DEFAULT '0',
   `adminLock` binary(1) DEFAULT '0',
   `vlanId` INTEGER(11) DEFAULT NULL,
+  `showName` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 

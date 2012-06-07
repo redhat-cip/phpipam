@@ -215,7 +215,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $subnetDetails['mask']        = $subnetDetails['subnet_temp'][1];
         
         $query  = 'insert into subnets '. "\n";
-        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `adminLock`) ' . "\n";
+        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName`, `adminLock`) ' . "\n";
         $query .= 'values (' . "\n";
         $query .= ' "'. $subnetDetails['subnet'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['mask'] 			 .'", ' . "\n"; 
@@ -225,6 +225,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= ' "'. $subnetDetails['vrfId'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['masterSubnetId'] .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['allowRequests']  .'", ' . "\n";
+        $query .= ' "'. $subnetDetails['showName']  .'", ' . "\n";
         $query .= ' "'. $subnetDetails['adminLock']  	 .'" ' . "\n";
         $query .= ' );';
     }
@@ -244,6 +245,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= '`vrfId`        	= "'. $subnetDetails['vrfId'] 			.'", '. "\n";
         $query .= '`masterSubnetId` = "'. $subnetDetails['masterSubnetId'] 	.'", '. "\n";
         $query .= '`allowRequests`  = "'. $subnetDetails['allowRequests'] 	.'", '. "\n";
+        $query .= '`showName`   	= "'. $subnetDetails['showName'] 		.'", '. "\n";
         $query .= '`adminLock` 		= "'. $subnetDetails['adminLock'] 		.'"  '. "\n";
         $query .= 'where id      	= "'. $subnetDetails['subnetId'] .'";';
     }

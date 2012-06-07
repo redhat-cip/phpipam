@@ -511,8 +511,9 @@ $('div.toolsMenuDropdown').live("mouseleave", function() {
 ***************************************************************/
 
 /*	click on subnets to load it into content
-*********************************************/
-$('table.subnets tr[class!=th] dd[class!=slavesToggle]').live("click", function () {
+ *		ignore slave and subslave toggles!
+ ********************************************/
+$('table.subnets tr[class!=th] dd[class!=slavesToggle][class!=subSlavesToggle]').live("click", function () {
 	//get subnet and link
 	var subnet = $(this).attr('id');
 	var link   = $(this).attr('section');
@@ -531,12 +532,40 @@ $('table.subnets tr[class!=th] dd[class!=slavesToggle]').live("click", function 
 *********************************************/
 $('table.subnets tr[class!=th] dd.slavesToggle').live("click", function () {
 	var masterId = $(this).attr('id');
+
+	$('table.slaves tr').removeClass('selected');
+	$(this).closest('tr').addClass('selected');
 	
 	//show details in main page
 	loadSlaveIPAddresses (masterId);
+	
+	//change href for image
+	var imgSrc = $(this).parent('td').prev().children('img');
+	
+	if($(imgSrc).attr('src') === "css/images/folderOpened.png") { $(imgSrc).attr("src","css/images/folderClosed.png");}
+	else 											    		{ $(imgSrc).attr("src","css/images/folderOpened.png");}
 
 	//show Requested
-	$('div.slaveSubnets-' + masterId).slideDown('fast');
+	$('div.slaveSubnets-' + masterId).slideToggle('fast');
+	//hide all tooltips!
+	$('div.tooltip,div.tooltipLeft,div.tooltipTop').hide();
+});
+/*	Toggle subSlaves!
+*********************************************/
+$('table.subnets tr[class!=th] dd.subSlavesToggle').live("click", function () {
+	var masterId = $(this).attr('id');
+	
+	//show details in main page
+	loadSlaveIPAddresses (masterId);
+	
+	//change href for image
+	var imgSrc = $(this).parent('td').prev().children('img');
+	
+	if($(imgSrc).attr('src') === "css/images/folderOpened.png") { $(imgSrc).attr("src","css/images/folderClosed.png");}
+	else 											    		{ $(imgSrc).attr("src","css/images/folderOpened.png");}
+
+	//show Requested
+	$('div.subSlaveSubnets-' + masterId).slideToggle('fast');
 	//hide all tooltips!
 	$('div.tooltip,div.tooltipLeft,div.tooltipTop').hide();
 });
@@ -613,6 +642,7 @@ $('#showHiddenSubnets').live('click', function () {
 
 /*	show / hide slave Subnets
 ****************************************/
+/*
 $('img.structure').live('click', function () {
 	var Id = $(this).attr('subnetId');
 	
@@ -621,8 +651,10 @@ $('img.structure').live('click', function () {
 	//show Requested
 	$('div.slaveSubnets-' + Id).slideToggle('fast');
 });
+*/
 /*	show / hide subSlave Subnets
 ****************************************/
+/*
 $('img.subStructure').live('click', function () {
 	var Id = $(this).attr('subnetId');
 	
@@ -631,6 +663,7 @@ $('img.subStructure').live('click', function () {
 	//show Requested
 	$('div.subSlaveSubnets-' + Id).slideToggle('fast');
 });
+*/
 
 
 /*	import file script

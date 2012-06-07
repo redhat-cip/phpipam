@@ -247,7 +247,22 @@ else {
         print '	</td>' . "\n";
         print '	<td class="info">Limit IP editing only to admins!</td>' . "\n";
     	print '</tr>' . "\n";
-	    
+
+
+	/* show names instead of ip address! */
+		print '<tr>' . "\n";
+        print '	<td>Show as name</td>' . "\n";
+        print '	<td>' . "\n";
+        print '		<input type="checkbox" name="showName" value="1" ' . "\n";
+        
+        if( isset($subnetDataOld['showName']) && ($subnetDataOld['showName'] == 1)) {
+        	print 'checked';
+        }
+        
+        print ' >'. "\n";
+        print '	</td>' . "\n";
+        print '	<td class="info">Show Subnet name instead of subnet IP address;!</td>' . "\n";
+    	print '</tr>' . "\n";	    
     ?>
 
     <!-- submit -->

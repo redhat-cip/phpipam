@@ -8,7 +8,6 @@ features for next releases:
 		- cron update DNS resolving;
 		
 		- Overlapping subnets option in config files;
-		- Show Subnet name instead of subnet IP address;
 		- On-the-fly VLANs;
 		
 	- Bugfixes request

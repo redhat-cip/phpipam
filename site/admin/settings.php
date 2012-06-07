@@ -151,6 +151,7 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
+
 <!-- Disable donation field -->
 <tr>
 	<td class="title">Hide donation button</td>

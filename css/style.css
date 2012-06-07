@@ -205,7 +205,6 @@ table.subSlaves tr.selected:nth-child(1) {
 	background: -o-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
 	background: -ms-linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
 	background: linear-gradient(top,  rgba(79,80,82,1) 0%,rgba(17,17,17,1) 97%,rgba(79,80,82,1) 100%);
-
 }
 table.normalTable tr.selected td, 
 table.normalTable tr.selected td a {
@@ -255,6 +254,12 @@ table.normalTable td.edit,
 table.normalTable td.mail,
 table.normalTable td.delete {
     width: 10px;
+}
+/* tr.slaves are not selected! */
+table.normalTable tr.slaves:hover,
+table.normalTable tr.slaves {
+	background: transparent;
+	color: white;
 }
 
 
@@ -791,7 +796,7 @@ table.subnets tr.info td {
 }
 table.subnets tr:hover td.structure,
 table.subnets td.structure {
-	padding-left: 0px;
+	padding-left: 5px;
 	padding-right: 5px;
 	padding-bottom: 5px;
 	vertical-align: bottom;
@@ -815,29 +820,39 @@ table.subSlaves td {
 table.slaves {
 	background: url(images/slaveBG.png) repeat-y;
 }
-table.slaves td {
+table.slaves td:nth-child(1) {
 	background: url(images/slaveTdBG.png) no-repeat;
+}
+table.slaves td.slaveSubnets {
+	background: transparent;
+}
+table.slaves td.slave {
+	background: transparent;
+}
+table.slaves td.structure {
+	background: url(images/slaveTdBGStr.png) no-repeat;
+}
+table.subSlaves dd {
+	padding-left: 10px;
 }
 table.subSlaves {
 	background: url(images/subSlaveBG.png) repeat-y;
 }
+table.slaves table.subSlaves td {
+	background: url(images/subSlaveTdBG.png) 0px no-repeat;
+	padding-left: 30px;
+}
 /*
-table.slaves.subSlaves td {
-	background: none;
+table.subSlaves tr:nth-child(1) {
+	background: url(images/subSlaveTdBGFirst.png) 12px 0px no-repeat;
 }
 */
-
-table.subSlaves td {
-	background: url(images/subSlaveTdBG.png) no-repeat;
-}
-table.subSlaves tr:nth-child(1) {
-	background: url(images/subSlaveTdBGFirst.png) no-repeat;
-}
 table.subnets tr.info td {
 	text-align: right;
 }
+
 table.subnets td.subnet {
-	padding-left: 10px;
+/* 	padding-left: 10px; */
 }
 table.subnets td.plusSubnet,
 table.subnets td.plusSubnet:hover {
@@ -865,7 +880,7 @@ table.slaves td {
 /* 	text-shadow: 1px 1px 2px white; */
 }
 table.slaves td.subnet {
-	padding-left: 30px;
+/* 	padding-left: 30px; */
 }
 table.slaves td.dot {
 	padding: 3px;
@@ -874,6 +889,9 @@ table.slaves td.dot {
 }
 table.slaves tr.selected td {
 	font-weight: normal;
+}
+img.subStructure {
+	margin-left: 25px;
 }
 
 

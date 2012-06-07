@@ -11,8 +11,7 @@ ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
 UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
 
 /* add show names */
-ALTER TABLE `settings` ADD `masterNames` tinyint(1) DEFAULT '0';
-ALTER TABLE `settings` ADD `slaveNames` tinyint(1) DEFAULT '0';
+ALTER TABLE `subnets` ADD `showName` tinyint(1) DEFAULT '0';
 
 /* Add FullWidth theme option to users! */
 ALTER TABLE `users` ADD `useFullPageWidth` tinyint(1) DEFAULT '0';

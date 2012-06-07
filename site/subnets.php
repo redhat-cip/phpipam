@@ -13,6 +13,7 @@ CheckReferrer();
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
+
 /* get requested section and format it to nice output */
 $sectionId = $_REQUEST['section'];
 
@@ -66,14 +67,30 @@ else
 	        if($slaves)
 	        {		
 	        	/* @L1 ------------- */    
-			    print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";        
-	        	/* subnet */
-	        	print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";
-				print '	<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</dd>' . "\n";  
-				print '	</td>' . "\n";
+			    print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .' slaves">' . "\n";      
+			   	
+			   	/* structure image for drilldown */
+			   	if($_POST['slaveId'] == $subnet['id']) {
+					print '	<td class="structure"><img class="structure" src="css/images/folderOpened.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";			   	
+			   	}
+			   	else {
+					print '	<td class="structure"><img class="structure" src="css/images/folderClosed.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";  	
+			   	}
+					        	
+	        	# print names
+	        	if($subnet['showName'] == 1) {
+	        		/* subnet */
+	        		print '	<td class="subnet" colspan="2" title="'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'">' . "\n";
+	    			print '		<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . $subnet['description'] .'</dd>' . "\n";  		        	
+	    			print '	</td>' . "\n";
+	        	}
+	        	else {
+	        		/* subnet */
+	        		print '	<td class="subnet" colspan="2" title="'. $subnet['description'] .'">' . "\n";
+					print '		<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</dd>' . "\n";  		        	
+					print '	</td>' . "\n";
+	        	}
 			
-				/* structure image for drilldown */
-				print '	<td class="structure"><img class="structure" src="css/images/expand.png" subnetId="'. $subnet['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
 		    	print '</tr>'. "\n";
 	    	
 	    	
@@ -93,14 +110,24 @@ else
 	        		if($subSlaves)
 	        		{
 	        			/* @L2 slaves ---------- */
-					    print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";        
-			        	/* subnet */
-			        	print '	<td class="subnet" colspan="2" title="'. $slave['description'] .'">' . "\n";
-						print '	<dd class="slavesToggle" section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";  
-						print '	</td>' . "\n";
-			
+					    print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .' slaves">' . "\n";
+
 						/* structure image for drilldown */
-						print '	<td class="structure"><img class="subStructure" src="css/images/expand.png" subnetId="'. $slave['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
+						print '	<td class="structure"><img class="subStructure" src="css/images/folderClosed.png" subnetId="'. $slave['id'] .'" title="Expand/Collapse subnet"></td>'. "\n";
+											    
+					    # print names
+					    if($slave['showName'] == 1) {
+			        		/* subnet */
+			        		print '	<td class="subnet" colspan="2" title="'. Transform2long($slave['subnet']) .'/'. $slave['mask'] .'">' . "\n";
+			        		print '		<dd class="subSlavesToggle" section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . $slave['description'] .'</dd>' . "\n";  
+			        		print '	</td>' . "\n";						    
+					    }
+					    else {
+			        		/* subnet */
+			        		print '	<td class="subnet" colspan="2" title="'. $slave['description'] .'">' . "\n";
+			        		print '		<dd class="subSlavesToggle" section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";  
+			        		print '	</td>' . "\n";						    
+					    }
 		    			print '</tr>'. "\n";
 
 		    			/* @L3 slaves ------------- */
@@ -117,9 +144,18 @@ else
 							if(strlen($subSlaveSubnet['description']) == 0) $subSlaveSubnet['description'] = "no description";
 				
 							print '<tr id="'. $subSlaveSubnet['id'] .'" class="'. $subSlaveSubnet['id'] .'">' . "\n";
-	            			print '	<td class="subnet slave" title="'. $subSlaveSubnet['description'] .'">' . "\n";
-	            			print '		<dd section="'. $sectionName['name'] .'|'. $subSlaveSubnet['id'] .'" id="'. $subSlaveSubnet['id'] .'">' . Transform2long($subSlaveSubnet['subnet']) .'/'. $subSlaveSubnet['mask'] .'</dd>' . "\n";
-	            			print '	</td>' . "\n";
+							
+							# print names
+							if($subSlaveSubnet['showName'] == 1) {
+	            				print '	<td class="subnet slave" title="'. Transform2long($subSlaveSubnet['subnet']) .'/'. $subSlaveSubnet['mask'] .'">' . "\n";
+	            				print '		<dd section="'. $sectionName['name'] .'|'. $subSlaveSubnet['id'] .'" id="'. $subSlaveSubnet['id'] .'">'. $subSlaveSubnet['description'] .'</dd>' . "\n";
+	            				print '	</td>' . "\n";
+							}
+							else {
+	            				print '	<td class="subnet slave" title="'. $subSlaveSubnet['description'] .'">' . "\n";
+	            				print '		<dd section="'. $sectionName['name'] .'|'. $subSlaveSubnet['id'] .'" id="'. $subSlaveSubnet['id'] .'">' . Transform2long($subSlaveSubnet['subnet']) .'/'. $subSlaveSubnet['mask'] .'</dd>' . "\n";
+	            				print '	</td>' . "\n";								
+							}
 	        				print '</tr>';
 						}
 						
@@ -134,11 +170,21 @@ else
 						if(strlen($slave['description']) == 0) $slave['description'] = "no description";
 				
 						print '<tr id="'. $slave['id'] .'" class="'. $slave['id'] .'">' . "\n";
-	            		print '	<td colspan="2" class="subnet slave" title="'. $slave['description'] .'">' . "\n";
-	            		print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
-	            		print '	</td>' . "\n";
+
 	            		/* we dont need any structure image */
-						print '	<td class="structure"></td>'. "\n";	
+						print '	<td style="width:40px;"></td>'. "\n";	
+					
+						# print names
+						if($slave['showName'] == 1) {
+	            			print '	<td colspan="2" class="subnet slave" title="'. Transform2long($slave['subnet']) .'/'. $slave['mask'] .'">' . "\n";
+	            			print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . $slave['description'] .'</dd>' . "\n";
+	            			print '	</td>' . "\n";		
+						}
+						else {
+	            			print '	<td colspan="2" class="subnet slave" title="'. $slave['description'] .'">' . "\n";
+	            			print '		<dd section="'. $sectionName['name'] .'|'. $slave['id'] .'" id="'. $slave['id'] .'">' . Transform2long($slave['subnet']) .'/'. $slave['mask'] .'</dd>' . "\n";
+	            			print '	</td>' . "\n";							
+						}
 	        			print '</tr>';
 	        		}
 	        	}
@@ -153,14 +199,24 @@ else
         	else 
         	{   
 			    print '<tr id="'. $subnet['id'] .'" class="'. $subnet['id'] .'">' . "\n";        
-        
-        		/* subnet */
-        		print '	<td colspan="2" class="subnet" title="'. $subnet['description'] .'">' . "\n";    
-				print '	<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'</dd>' . "\n";    				
-				print '	</td>' . "\n"; 
-			
+
 				/* we dont need any structure image */
-				print '	<td class="structure"></td>'. "\n";	
+				print '	<td></td>'. "\n";	
+				        
+        		# name instead of IP address!
+        		if($subnet['showName'] == 1) {
+        			/* subnet */
+        			print '	<td colspan="2" class="subnet" title="'. Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'">' . "\n";
+					print '		<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . $subnet['description'] .'</dd>' . "\n";	
+					print '	</td>' . "\n"; 
+        		}
+        		else {
+	        		/* subnet */
+        	        print '	<td colspan="2" class="subnet" title="'. $subnet['description'] .'">' . "\n";
+					print '		<dd section="'. $sectionName['name'] .'|'. $subnet['id'] .'" id="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/' . $subnet['mask'] .'</dd>' . "\n";    					        		
+					print '	</td>' . "\n"; 
+        		}
+			
 				print '</tr>'. "\n";		
         	}
     	}	# end foreach subnet		
