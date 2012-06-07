@@ -34,7 +34,7 @@ else {
 <table class="normalTable vlanManagementEdit2">
 
 <tr class="th">
-	<th colspan="2"><?php print ucwords($_POST['action']); ?> VLAN</th>
+	<th colspan="2" style="text-align:left"><?php print ucwords($_POST['action']); ?> VLAN</th>
 </tr>
 
 <?php

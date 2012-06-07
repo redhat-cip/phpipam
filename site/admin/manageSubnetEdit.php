@@ -266,7 +266,7 @@ else {
         
         print ' >'. "\n";
         print '	</td>' . "\n";
-        print '	<td class="info">Show Subnet name instead of subnet IP address;!</td>' . "\n";
+        print '	<td class="info">Show Subnet name instead of subnet IP address</td>' . "\n";
     	print '</tr>' . "\n";	    
     ?>
 

@@ -43,6 +43,11 @@ else
     /* get section name */
     $sectionName = getSectionDetailsById ($sectionId);
     
+    /* die if empty! */
+    if(sizeof($sectionName) == 0) {
+		die('<div class="error">Section does not exist!</div>');
+	}
+    
     /* print subnets table */
     print '<table class="subnets normalTable">' . "\n";
 

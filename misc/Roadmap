@@ -6,8 +6,7 @@ features for next releases:
 		- custom groups
 		- per-section permissions for groups;
 		- cron update DNS resolving;
-		
-		- On-the-fly VLANs;
+
 		- All IP fields sorting;
 		
 	

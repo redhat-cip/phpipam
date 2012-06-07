@@ -34,7 +34,7 @@ print '</thead>' . "\n";
        
 print '<tbody class="'. $section['id'] .'">' . "\n";
 print '	<tr class="th">' . "\n";
-print '		<th>Name</th>' . "\n";
+print '		<th>Subnet</th>' . "\n";
 print '		<th>Description</th>' . "\n";
 print '		<th>Master Subnet</th>' . "\n";
 print '		<th>VLAN</th>' . "\n";
@@ -50,7 +50,12 @@ if (!empty($subnets)) {
 	# master subnets
 	foreach ($subnets as $subnet) {
 
-		print '	<tr class="masterSubnet">' . "\n";
+		# slaves
+		$slaves = getAllSlaveSubnetsBySubnetId ($subnet['id']);
+		if(sizeof($slaves) != 0) { $masterHasSbunetsClass = "hasSlaves"; }
+		else 					 { $masterHasSbunetsClass = "noSlaves"; }
+
+		print '	<tr class="masterSubnet '. $masterHasSbunetsClass .'">' . "\n";
         print '		<td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
        	print '		<td>'. $subnet['description'] .'</td>' . "\n";
 		print '		<td>/</td>' . "\n";
@@ -75,9 +80,6 @@ if (!empty($subnets)) {
         print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $subnet['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
         print '	</tr>' . "\n";
 		
-		
-		# slaves
-		$slaves = getAllSlaveSubnetsBySubnetId ($subnet['id']);
 		
 		if(sizeof($slaves) != 0) 
 		{

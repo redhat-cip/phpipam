@@ -32,6 +32,11 @@ $setFields = explode(";", $setFieldsTemp);
 $ipaddresses   = getIpAddressesBySubnetId ($subnetId); 
 $SubnetDetails = getSubnetDetailsById     ($subnetId);
 
+/* die if empty! */
+if(sizeof($SubnetDetails) == 0) {
+	die('<div class="error">Subnet does not exist!</div>');
+}
+
 /* reset VLAN number! */
 $SubnetDetails['VLAN'] = subnetGetVLANdetailsById($SubnetDetails['vlanId']);
 
