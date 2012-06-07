@@ -800,8 +800,11 @@ function importCSVline ($line, $subnetId)
     /* reformat state */
     switch($line[5]) {
     	case "Active": 		$line[5] = "1";	break;
+    	case "active": 		$line[5] = "1";	break;
     	case "Reserved": 	$line[5] = "2";	break;
+    	case "reserved": 	$line[5] = "2";	break;
     	case "Offline": 	$line[5] = "0";	break;
+    	case "offline": 	$line[5] = "0";	break;
     }
     
 	

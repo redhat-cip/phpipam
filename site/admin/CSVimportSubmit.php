@@ -68,7 +68,6 @@ else {
 }
 
 /* erase file! */
-unlink('csvupload/import.csv');
-unlink('csvupload/import.xls');
+unlink('csvupload/import.'.$filetype);
 
 ?>
