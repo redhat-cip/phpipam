@@ -789,12 +789,12 @@ function importCSVline ($line, $subnetId)
    
     /* verify! */
     if (VerifyIpAddress( $line[0] , $subnet )) {
-    	return false;
+    	return 'Wrong IP address - '. $line[0];
     } 
     
     /* check for duplicates */
     if (checkDuplicate ($line[0], $subnetId)) {
-    	return false;
+    	return 'IP address already exists - '. $line[0];
     }
     
     /* reformat state */
@@ -816,16 +816,23 @@ function importCSVline ($line, $subnetId)
 	
 	/* set log details */
 	$log = prepareLogFromArray ($line);
+
+	/* execute */
+    try {
+    	$database->executeQuery( $query );
+    }
+    catch (Exception $e) {
+    	$error = $e->getMessage();
+	}
 	
-	/* insert IP address */
-    if ( !$database->executeQuery($query) ) {
-        updateLogTable ('CSV import of IP address '. $line[1] .' failed', $log, 2);
-        return $query;
-    }
-    else {
+	if(!isset($e)) {
         updateLogTable ('CSV import of IP address '. $line[1] .' succeeded', $log, 1);
-        return true;
-    }
+		return true;
+	}
+	else {
+        updateLogTable ('CSV import of IP address '. $line[1] .' failed', $log, 2);
+        return $error;		
+	}
 }
 
 

@@ -22,6 +22,8 @@ $switches = getAllUniqueSwitches();
 /* add unspecified */
 $switches[] = $switch['hostname'];
 
+/* switch count for collapse / extend */
+$m = 0;
 
 /* print */
 foreach($switches as $switch) {
@@ -53,9 +55,17 @@ foreach($switches as $switch) {
 	
 	/* Switch name */
 	print '<tr class="th">'. "\n";
-	print '	<th colspan="8"><h3>'. $switchDetails['hostname'] .' '. $switchDetails['ip_addr'] .'</h3></th>'. "\n";
+	print '	<th colspan="8"><h3><a href="" id="switch-'. $m .'">'. $switchDetails['hostname'] .' '. $switchDetails['ip_addr'] .'</a> <img src="css/images/sort_right.png"></h3></th>'. "\n";
 	print '</tr>'. "\n";
 	
+	
+	print '</table>';
+	
+	/* collapse div */
+	print '<div id="switch-'. $m .'-expand" style="display:none;">'. "\n";
+
+	print '<table class="normalTable switches">'. "\n";
+		
 	/* title */
 	print '<tr class="th dashed">'. "\n";
 	print '	<td>Port</td>'. "\n";
@@ -93,7 +103,13 @@ foreach($switches as $switch) {
 	
 	}
 	
+	print '</tr>'. "\n";
+	
 	print '</table>'. "\n";
 	print '</div>'. "\n";
+	
+	print '</div>';	#major switch div
+	
+	$m++;
 }
 ?>

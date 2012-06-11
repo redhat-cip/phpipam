@@ -54,8 +54,9 @@ foreach($outFile as $line) {
 		$line = str_replace("Offline", "0", $line);
 		
 		//import
-		if (!importCSVline ($line, $subnetId)) {
-			$errors[] = $line;
+		$import = importCSVline ($line, $subnetId);
+		if (strlen($import) != 1) {
+			$errors[] = $import;
 		}
 	}
 }
@@ -63,7 +64,7 @@ foreach($outFile as $line) {
 
 /* print errors */
 if(isset($errors)) {
-	print '<div class="error">error importing to database!<br>';
+	print '<div class="error">Errors occured when importing to database!<br>';
 	foreach ($errors as $error) {
 		print $error . "<br>";
 	}

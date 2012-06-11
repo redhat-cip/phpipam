@@ -1635,6 +1635,22 @@ $('table.switches tr[class!=th]').live('click', function () {
 	
 	hashLoadSubnets (sectionId, subnetId);
 });
+$('table.switches h3 a[id^="switch-"]').live('click', function() {
+	var swId = $(this).attr('id');
+
+	//get OLD state for css
+	if( $('#' + swId + "-expand").is(':visible') ) {
+		$(this).next('img').attr('src', 'css/images/sort_right.png');
+    }
+    else {
+		$(this).next('img').attr('src', 'css/images/sort_asc.png');
+    }
+
+	//show
+	$('#' + swId + '-expand').slideToggle('fast');
+    
+    return false;
+});
 
 /*	Hosts list filter form
 ****************************/
