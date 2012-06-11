@@ -73,7 +73,6 @@ foreach($outFile as $line) {
 	}
 	
 	print '</tr>';
-
 }
 
 print '</table>';

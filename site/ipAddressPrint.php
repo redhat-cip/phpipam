@@ -317,36 +317,36 @@ print IP address table
 	$colspan['ipaddr'] = sizeof($setFields) + $myFieldsSize + 4;
 
 	# IP address - mandatory
-	print '<th>IP address</th>'. "\n";
+	print '<th class="s_ipaddr"><a href="" id="ip_addr|desc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by IP address">IP address <img src="css/images/sort_asc.png"></a></th>'. "\n";
 	# hostname - mandatory
-	print '<th>Hostname</th>'. "\n";
+	print '<th><a href="" id="dns_name|asc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by hostname">Hostname</a></th>'. "\n";
 	# MAC address	
 	if(in_array('mac', $setFields)) {
 		print '<th></th>'. "\n";
 	}
 	# Description- mandatory
-	print '<th>Description</th>'. "\n";
+	print '<th><a href="" id="description|asc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by description">Description</a></th>'. "\n";
 	# note
 	if(in_array('note', $setFields)) {
 		print '<th></th>'. "\n";
 	}	
 	# switch
 	if(in_array('switch', $setFields)) {
-		print '<th>Switch</th>'. "\n";
+		print '<th><a href="" id="switch|asc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by switch">Switch</a></th>'. "\n";
 	}	
 	# port
 	if(in_array('port', $setFields)) {
-		print '<th>Port</th>'. "\n";
+		print '<th><a href="" id="port|asc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by port">Port</a></th>'. "\n";
 	}
 	# owner
 	if(in_array('owner', $setFields)) {
-		print '<th>Owner</th>'. "\n";
+		print '<th><a href="" id="owner|asc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by owner">Owner</a></th>'. "\n";
 	}
 	
 	# custom fields
 	if(sizeof($myFields) > 0) {
 		foreach($myFields as $myField) {
-			print '<th>'. $myField['name'] .'</th>'. "\n";
+			print '<th><a href="" id="'. $myField['name'] .'|asc" class="sort" subnetId="'. $SubnetDetails['id'] .'" title="Sort by '. $myField['name'] .'">'. $myField['name'] .'</a></th>'. "\n";
 		}
 	}
 ?>

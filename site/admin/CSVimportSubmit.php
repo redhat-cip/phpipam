@@ -47,6 +47,12 @@ foreach($outFile as $line) {
 
 	//must be longer than 5
 	if(strlen($line) > 5) {
+	
+		//replace states!
+		$line = str_replace("Active", "1", $line);
+		$line = str_replace("Reserved", "2", $line);
+		$line = str_replace("Offline", "0", $line);
+		
 		//import
 		if (!importCSVline ($line, $subnetId)) {
 			$errors[] = $line;

@@ -823,6 +823,24 @@ $('form#requestIP').live('submit', function() {
 
 	return false;
 });
+/*	sort IP address list
+*********************************************************/
+$('table.ipaddresses th a.sort').live('click', function() {
+	showSpinner();
+	
+	var direction = $(this).attr('id');
+	var subnetId  = $(this).attr('subnetId');
+	
+	//hide tooltips
+	$('.tooltipTop').hide();
+	
+	$.post('site/ipAddressPrintTable.php', {direction:direction, subnetId:subnetId}, function(data) {
+		$('div.ipaddresses_overlay').html(data);
+		hideSpinner();
+	});
+	
+	return false;
+});
 
 
 /*	edit subnet

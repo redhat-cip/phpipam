@@ -16,6 +16,8 @@ $("body").live("mouseover",function () {
 	$("table.ipaddress_subnet tr.info img").tooltip({position: "center left", tipClass:'tooltipLeft' });
 	$('table.ipaddresses img').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('table.ipaddresses img.info').tooltip({position: "top center", tipClass:'tooltipTop' });
+	/* sort */
+	$('table.ipaddresses th a.sort').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('table.slaveSubnet td.lock,table.slaveSubnet td.requests').tooltip({position: "top center", tipClass:'tooltipTop' });
 	$('img.addIpAddress,img.refreshHostname').tooltip({position: "top center", tipClass:'tooltipTop' });
 	/* switch management */

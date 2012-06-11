@@ -375,7 +375,7 @@ function getIpAddressesBySubnetId ($subnetId)
     global $db;
     
     /* set query, open db connection and fetch results */
-    $query       = 'select * from ipaddresses where subnetId = "'. $subnetId .'" order by ip_addr ASC;';
+    $query       = 'select * from `ipaddresses` where subnetId = "'. $subnetId .'" order by `ip_addr` ASC;';
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     
     $ipaddresses = $database->getArray($query);
@@ -384,6 +384,27 @@ function getIpAddressesBySubnetId ($subnetId)
     /* return ip address array */
     return($ipaddresses);       
 }
+
+
+/**
+ * Get all ip addresses in requested subnet by provided Id, sort by fieldname and direction!
+ */
+function getIpAddressesBySubnetIdSort ($subnetId, $fieldName, $direction) 
+{
+    /* get variables from config file */
+    global $db;
+    
+    /* set query, open db connection and fetch results */
+    $query       = 'select * from `ipaddresses` where subnetId = "'. $subnetId .'" order by `'. $fieldName .'` '. $direction .';';
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+    
+    $ipaddresses = $database->getArray($query);
+    $database->close();
+
+    /* return ip address array */
+    return($ipaddresses);       
+}
+
 
 
 /**

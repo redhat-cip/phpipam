@@ -1059,6 +1059,19 @@ table.ipaddresses td.customField {
 	white-space: normal;
 }
 
+table.ipaddresses th.s_ipaddr {
+	-webkit-border-top-left-radius: 6px;
+	-moz-border-radius-topleft: 6px;
+	border-top-left-radius: 6px;
+}
+table.ipaddresses th.sorted {
+	background-color: #C8C8C8;
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#FAFAFA),to(#E6E6E6));
+	background-image: -moz-linear-gradient(top,#F6F6F6,#DEDEDE);
+	border-left: 1px solid #DDD;
+	border-right: 1px solid #DDD;
+}
+
 
 div.addnew {
 	color: #3F3F3F;
