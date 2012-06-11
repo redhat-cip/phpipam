@@ -204,7 +204,8 @@ class Net_IPv4
         if (strchr($address, "/")) {
             $parts = explode("/", $address);
             if (! $myself->validateIP($parts[0])) {
-                return PEAR::raiseError("invalid IP address");
+            	$pear = new PEAR();
+                return $pear->raiseError("invalid IP address");
             }
             $myself->ip = $parts[0];
 

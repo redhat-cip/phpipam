@@ -56,7 +56,7 @@ foreach($outFile as $line) {
 
 
 /* print errors */
-if($errors) {
+if(isset($errors)) {
 	print '<div class="error">error importing to database!<br>';
 	foreach ($errors as $error) {
 		print $error . "<br>";

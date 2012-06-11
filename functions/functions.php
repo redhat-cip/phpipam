@@ -12,8 +12,8 @@ if ($debugging == 0) {
 }
 else{
     ini_set('display_errors', 1); 
-/*     error_reporting( E_ALL & ~E_NOTICE | ~E_STRICT ); */
-    error_reporting(E_ERROR | E_WARNING | E_PARSE );
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+/*     error_reporting(E_ERROR | E_WARNING | E_PARSE ); */
 }
 
 

@@ -284,7 +284,7 @@ else {
             <input type="submit"                        value="<?php print $subnetData['subnetAction']; ?>">
             <input type="button"                        value="Cancel" class="cancel">
             <?php
-            if( ($delete) && ($subnetData['subnetAction'] == "Edit") ) {
+            if( (isset($delete)) && ($subnetData['subnetAction'] == "Edit") ) {
             	print '<br><input type="button" value="Delete subnet" class="subnetDeleteFromIP">';
             }
             ?>

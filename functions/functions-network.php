@@ -632,10 +632,11 @@ function verifyIPv4SubnetOverlapping ($subnet1, $subnet2)
 {
     /* IPv4 functions */
     require_once('PEAR/Net/IPv4.php'); 
+    $Net_IPv4 = new Net_IPv4();
        
     /* subnet 2 needs to be parsed to get subnet and broadcast */
-    $net1 = Net_IPv4::parseAddress( $subnet1 );
-    $net2 = Net_IPv4::parseAddress( $subnet2 );
+    $net1 = $Net_IPv4->parseAddress( $subnet1 );
+    $net2 = $Net_IPv4->parseAddress( $subnet2 );
 
     /* network and broadcast */
     $nw1  = $net1->network;
@@ -657,14 +658,14 @@ function verifyIPv4SubnetOverlapping ($subnet1, $subnet2)
     if ($delta1 < $delta2) 
     {
         /* check smaller nw and bc against bigger network */
-        if ( Net_IPv4::ipInNetwork($nw1, $subnet2) || Net_IPv4::ipInNetwork($bc1, $subnet2) ) {
+        if ( $Net_IPv4->ipInNetwork($nw1, $subnet2) || $Net_IPv4->ipInNetwork($bc1, $subnet2) ) {
             return true;
         }
     }
     else
     {
         /* check smaller nw and bc against bigger network */
-        if ( Net_IPv4::ipInNetwork($nw2, $subnet1) || Net_IPv4::ipInNetwork($bc2, $subnet1) ) {
+        if ( $Net_IPv4->ipInNetwork($nw2, $subnet1) || $Net_IPv4->ipInNetwork($bc2, $subnet1) ) {
             return true;
         }    
     }  
@@ -684,11 +685,13 @@ function verifyIPv6SubnetOverlapping ($subnet1, $subnet2)
     /* IPv6 functions */
     require_once('PEAR/Net/IPv6.php');
     
+    $Net_IPv6 = new Net_IPv6();
+    
     /* remove netmask from subnet1 */
-    $subnet1 = Net_IPv6::removeNetmaskSpec ($subnet1);
+    $subnet1 = $Net_IPv6->removeNetmaskSpec ($subnet1);
     
     /* verify */
-    if (Net_IPv6::isInNetmask ( $subnet1 , $subnet2 ) ) {
+    if ($Net_IPv6->isInNetmask ( $subnet1 , $subnet2 ) ) {
         return true;
     }
 
@@ -742,12 +745,13 @@ function isSubnetInsideSubnet ($subnetA, $subnetB)
 
     	/* IPv4 functions */
     	require_once('PEAR/Net/IPv4.php'); 
+    	$Net_IPv4 = new Net_IPv4();
        
     	/* subnet A needs to be parsed to get subnet and broadcast */
-    	$net = Net_IPv4::parseAddress( $subnetA );
+    	$net = $Net_IPv4->parseAddress( $subnetA );
 
 		//both network and broadcast must be inside root subnet!
-		if( (Net_IPv4::ipInNetwork($net->network, $subnetB)) && (Net_IPv4::ipInNetwork($net->broadcast, $subnetB)) ) {
+		if( ($Net_IPv4->ipInNetwork($net->network, $subnetB)) && ($Net_IPv4->ipInNetwork($net->broadcast, $subnetB)) ) {
 			return true;
 		}
 		else {
@@ -758,12 +762,13 @@ function isSubnetInsideSubnet ($subnetA, $subnetB)
 	else {
     	/* IPv6 functions */
     	require_once('PEAR/Net/IPv6.php');
+    	$Net_IPv6 = new Net_IPv6();
     	
     	/* remove netmask from subnet1 */
-    	$subnetA = Net_IPv6::removeNetmaskSpec ($subnetA);
+    	$subnetA = $Net_IPv6->removeNetmaskSpec ($subnetA);
     
 	    /* verify */
-    	if (Net_IPv6::isInNetmask ( $subnetA, $subnetB ) ) {
+    	if ($Net_IPv6->isInNetmask ( $subnetA, $subnetB ) ) {
         	return true;
     	}
     	else {
@@ -809,8 +814,13 @@ function subnetGetVLANdetailsById($vlanId)
     $query    = 'select * from `vlans` where `vlanId` = "'. $vlanId .'";';
     $vlan 	  = $database->getArray($query); 
   
-	/* return vlan details */
-	return $vlan[0];
+	/* return vlan details if exists */
+	if(sizeof($vlan) != 0) {
+		return $vlan[0];
+	}	
+	else {
+		return false;
+	}
 }
 
 
@@ -1142,18 +1152,19 @@ function VerifyIpAddress( $ip , $subnet )
 	if ( $type == 'IPv4' )
 	{
         require_once 'PEAR/Net/IPv4.php';
+        $Net_IPv4 = new Net_IPv4();
         
 		// is it valid?
-		if (!Net_IPv4::validateIP($ip)) {
+		if (!$Net_IPv4->validateIP($ip)) {
 			$error = "IP address not valid!";
 		}
 		// it must be in provided subnet
-		else if (!Net_IPv4::ipInNetwork($ip, $subnet)) {
+		else if (!$Net_IPv4->ipInNetwork($ip, $subnet)) {
 			$error = "IP address not in selected subnet!";
 		}
 		// It cannot be subnet or broadcast
 		else {
-            $net = Net_IPv4::parseAddress($subnet);
+            $net = $Net_IPv4->parseAddress($subnet);
             
             if ($net->network == $ip) {
                 $error = "Cannot add subnet as IP address!";   
@@ -1168,16 +1179,17 @@ function VerifyIpAddress( $ip , $subnet )
 	else 
 	{
         require_once 'PEAR/Net/IPv6.php';
+        $Net_IPv6 = new Net_IPv6();
         
         //remove /xx from subnet
-        $subnet_short = Net_IPv6::removeNetmaskSpec($subnet);
+        $subnet_short = $Net_IPv6->removeNetmaskSpec($subnet);
 		
 		// is it valid?
-		if (!Net_IPv6::checkIPv6($ip)) {
+		if (!$Net_IPv6->checkIPv6($ip)) {
 			$error = "IP address not valid!";
 		}
 		// it must be in provided subnet
-		else if (!Net_IPv6::isInNetmask($ip, $subnet)) {
+		else if (!$Net_IPv6->isInNetmask($ip, $subnet)) {
 			$error = "IP address not in selected subnet!";
 		}
 		//it cannot be subnet
@@ -1220,10 +1232,11 @@ function verifyCidr( $cidr , $subnet = 1 )
 	if ( $type == 'IPv4' )
 	{
         require_once 'PEAR/Net/IPv4.php';
+        $Net_IPv4 = new Net_IPv4();
 
-        if ($net = Net_IPv4::parseAddress ($cidr)) {
+        if ($net = $Net_IPv4->parseAddress ($cidr)) {
             //validate IP
-            if (!Net_IPv4::validateIP ($net->ip)) {
+            if (!$Net_IPv4->validateIP ($net->ip)) {
                 $errors[] = "Invalid IP address!";
             }
             //network must be same as provided IP address
@@ -1231,7 +1244,7 @@ function verifyCidr( $cidr , $subnet = 1 )
                 $errors[] = "IP address cannot be subnet! (Consider using ". $net->network .")";
             }
             //validate netmask
-            else if (!Net_IPv4::validateNetmask ($net->netmask)) {
+            else if (!$Net_IPv4->validateNetmask ($net->netmask)) {
                 $errors[] = 'Invalid netmask ' . $net->netmask;
             }            
         }
@@ -1243,16 +1256,17 @@ function verifyCidr( $cidr , $subnet = 1 )
 	else 
 	{
         require_once 'PEAR/Net/IPv6.php';
+        $Net_IPv6 = new Net_IPv6();
 
         //validate IPv6
-        if (!Net_IPv6::checkIPv6 ($cidr) ) {
+        if (!$Net_IPv6->checkIPv6 ($cidr) ) {
             $errors[] = "Invalid IPv6 address!";
         }
         else {
             
             //validate subnet
-            $subnet = Net_IPv6::getNetmask($cidr);
-            $subnet = Net_IPv6::compress($subnet);
+            $subnet = $Net_IPv6->getNetmask($cidr);
+            $subnet = $Net_IPv6->compress($subnet);
 
             $subnetParse = explode("/", $cidr);
             $subnetMask  = $subnetParse[1];
@@ -1281,7 +1295,9 @@ function parseIpAddress( $ip, $mask )
     {
         
         require('PEAR/Net/IPv4.php');
-        $net = Net_IPv4::parseAddress( $ip .'/'. $mask );
+        $Net_IPv4 = new Net_IPv4();
+        
+        $net = $Net_IPv4->parseAddress( $ip .'/'. $mask );
         
         $out['network']   = $net->network;   // 192.168.0.0
         $out['ip']        = $net->ip;        // 192.168.0.50
@@ -1293,14 +1309,15 @@ function parseIpAddress( $ip, $mask )
     /* IPv6 address */
     else
     {
-        require('PEAR/Net/IPv6.php');  
+        require('PEAR/Net/IPv6.php');
+        $Net_IPv6 = new Net_IPv6();  
 
         $out['network']   = $ip;         // 2a34:120:feel::
         $out['bitmask']   = $mask;         // 48
         $out['netmask']   = $mask;         // 48 - we just duplicate it
         
         //broadcast - we fake it with highest IP in subnet
-        $net = Net_IPv6::parseaddress( $ip .'/'. $mask );
+        $net = $Net_IPv6->parseaddress( $ip .'/'. $mask );
         
         $out['broadcast'] = $net['end'];    // 2a34:120:feel::ffff:ffff:ffff:ffff:ffff      
     }

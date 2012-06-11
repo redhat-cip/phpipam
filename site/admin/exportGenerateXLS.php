@@ -29,13 +29,13 @@ $myFieldsSize = sizeof($myFields);
 $colSize = 8 + $myFieldsSize;
 
 //formatting headers
-$format_header =& $workbook->addFormat();
+$format_header = $workbook->addFormat();
 $format_header->setBold();
 $format_header->setColor('white');
 $format_header->setFgColor('black');
 
 //formatting titles
-$format_title =& $workbook->addFormat();
+$format_title = $workbook->addFormat();
 $format_title->setColor('black');
 $format_title->setFgColor(22);			//light gray
 $format_title->setBottom(2);
@@ -45,18 +45,18 @@ $format_title->setTop(1);
 $format_title->setAlign('left');
 
 //formatting content - borders around IP addresses
-$format_right =& $workbook->addFormat();
+$format_right = $workbook->addFormat();
 $format_right->setRight(1);
-$format_left =& $workbook->addFormat();
+$format_left = $workbook->addFormat();
 $format_left->setLeft(1);
-$format_top =& $workbook->addFormat();
+$format_top = $workbook->addFormat();
 $format_top->setTop(1);
 
 
 foreach ($sections as $section)
 {
 	// Create a worksheet
-	$worksheet =& $workbook->addWorksheet($section['name']);
+	$worksheet = $workbook->addWorksheet($section['name']);
 	
 	//get all subnets in this section
 	$subnets = fetchSubnets ($section['id']);
@@ -74,6 +74,9 @@ foreach ($sections as $section)
 			else {
 				$vlanText .= ")";
 			}
+		}
+		else {
+			$vlanText = "";
 		}
 		
 		$worksheet->write($lineCount, 0, transform2long($subnet['subnet']) . "/" .$subnet['mask'] . " - " . $subnet['description'] . $vlanText, $format_header );
