@@ -1092,7 +1092,8 @@ function SetInsertQuery( $ip )
 	else if( ($ip['action'] == "Edit") && ($ip['type'] == "series") ) 
 	{
 		$query  = "update `ipaddresses` ";
-		$query .= "set `description` = '". $ip['description'] ."', ";
+		$query .= "set `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."', ";
+		$query .= "`description` = '". $ip['description'] ."', ";
 		$query .= "`dns_name` = '". $ip['dns_name'] ."' ,"; 
 		$query .= "`mac` = '". $ip['mac'] ."' ,"; 
 		$query .= "`owner` = '". $ip['owner'] ."' ,"; 
@@ -1112,7 +1113,7 @@ function SetInsertQuery( $ip )
 	else if( $ip['action'] == "Edit" ) 
 	{
 		$query  = "update ipaddresses ";
-		$query .= "set `description` = '". $ip['description'] ."', `dns_name` = '". $ip['dns_name'] ."' , `mac` = '". $ip['mac'] ."', ". "\n"; 
+		$query .= "set `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."', `description` = '". $ip['description'] ."', `dns_name` = '". $ip['dns_name'] ."' , `mac` = '". $ip['mac'] ."', ". "\n"; 
 		
 		#custom!
 		foreach($myFields as $myField) {

@@ -208,9 +208,9 @@ else {
 		$ip['type'] = "single";
 
 		/* check for duplicate entry! needed only in case new IP address is added, otherwise the code is locked! */
-	    if ( $ip['action'] == "Add" ) {  
+	    if ( ($ip['action'] == "Add") || ($ip['action'] == "Edit") ) {  
 	        if (checkDuplicate ($ip['ip_addr'], $ip['subnetId'])) {
-	            die ('<div class="error">IP address already existing in database!</div>');
+	            die ('<div class="error">IP address '. $ip['ip_addr'] .' already existing in database!</div>');
 	        }
 	    }  
 	    /* execute insert / update / delete query */    
