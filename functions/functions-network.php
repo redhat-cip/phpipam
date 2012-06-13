@@ -859,7 +859,7 @@ function getAllVlans($tools = false)
  		$query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;';
     }
     else {
-        $query = 'select * from `vlans`;';
+        $query = 'select * from `vlans` order by `number` asc;';
     }
 	
     $vlan 	  = $database->getArray($query); 
