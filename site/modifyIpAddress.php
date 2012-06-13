@@ -286,11 +286,12 @@ $(function() {
 	<tr>
 		<td></td>
 		<td>
-			<input type="hidden" name="action" 	 value="<?php print $btnName; 	?>">
-			<input type="hidden" name="id" 		 value="<?php print $id; 		?>">
-			<input type="hidden" name="subnet"   value="<?php print $subnet; 	?>">
-			<input type="hidden" name="subnetId" value="<?php print $subnetId; 	?>">		
-			<input type="submit" 				 value="<?php print $btnName; 	?>">
+			<input type="hidden" name="action" 	 	value="<?php print $btnName; 	?>">
+			<input type="hidden" name="id" 		 	value="<?php print $id; 		?>">
+			<input type="hidden" name="subnet"   	value="<?php print $subnet; 	?>">
+			<input type="hidden" name="subnetId" 	value="<?php print $subnetId; 	?>">		
+			<input type="hidden" name="ip_addr_old" value="<?php print $details['ip_addr']; ?>">
+			<input type="submit" 				 	value="<?php print $btnName; 	?>">
 			<input type="button" value="Cancel" class="cancel">
 		</td>
 	</tr>	

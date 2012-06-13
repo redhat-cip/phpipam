@@ -3,6 +3,7 @@
 	New features:
 	----------------------------	
 	+ Sorting of IP addresses;
+	+ Script to automatically update IP <-> hostname, run via cron;
 	
 	Enhancements:
 	----------------------------

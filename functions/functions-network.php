@@ -406,7 +406,6 @@ function getIpAddressesBySubnetIdSort ($subnetId, $fieldName, $direction)
 }
 
 
-
 /**
  * Count number of ip addresses in provided subnet
  */
