@@ -269,11 +269,11 @@ function checkLogin ($username, $md5password, $rawpassword)
 					# print error
 					if($settings['domainAuth'] == "1") {
 					    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Failed to authenticate user against AD!</div>');	
-					    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 1); 	
+					    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 	
 					}
 					else {
 				    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Failed to authenticate user against LDAP!</div>');	
-				    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 1); 					
+				    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
 				    }
 				}
 				# wrong user/pass
@@ -281,11 +281,11 @@ function checkLogin ($username, $md5password, $rawpassword)
 					# print error
 					if($settings['domainAuth'] == "1") {
 					    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Wrong username or password!</div>');
-					    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 1); 
+					    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 
 					}
 					else {
 				    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Wrong username or password!</div>');
-				    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 1); 					
+				    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
 				    }
 				}
 			}
@@ -294,11 +294,11 @@ function checkLogin ($username, $md5password, $rawpassword)
 				# print error
 				if($settings['domainAuth'] == "1") {
 				    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Wrong username or password!</div>');
-				    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 1); 
+				    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 
 				}
 				else {
 				    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Wrong username or password!</div>');
-				    updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 1); 					
+				    updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
 				}				
 			}
     	}

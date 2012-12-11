@@ -49,6 +49,7 @@
 	+ Search available also to viewer user types;
 	+ Fixed /127 and /128 IPv6 subnets;
 	+ Fixed /31 and /32 IPv4 subnets;
+	+ Significally reduced php processing for dashboard statistics; 
 
 == 0.6
 

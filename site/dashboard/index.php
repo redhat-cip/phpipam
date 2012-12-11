@@ -25,7 +25,7 @@ $(function($) {
 /* print number of requests if admin and if they exist */
 $requestNum = countRequestedIPaddresses();
 if( ($requestNum != 0) && (checkAdmin(false,false))) {
-	print '<div class="alert alert-info">There are <b><a href="#Administration|manageRequests" id="adminRequestNotif">'. $requestNum .' requests</a></b> for IP address waiting for your approval!</div>';
+	print '<div class="alert alert-info">There are <b><a href="/administration/manageRequests/" id="adminRequestNotif">'. $requestNum .' requests</a></b> for IP address waiting for your approval!</div>';
 }
 ?>
 

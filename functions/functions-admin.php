@@ -1033,7 +1033,7 @@ function importCSVline ($line, $subnetId)
 	}
 	
 	if(!isset($e)) {
-        updateLogTable ('CSV import of IP address '. $line[1] .' succeeded', $log, 1);
+        updateLogTable ('CSV import of IP address '. $line[1] .' succeeded', $log, 0);
 		return true;
 	}
 	else {

@@ -134,7 +134,7 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 	}
 	else {
 		print '<div class="alert alert-success">Range '. $ip['start'] .' - '. $ip['stop'] .' updated successfully!</div>';
-		updateLogTable ('Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 'Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 1);
+		updateLogTable ('Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 'Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 0);
 	}	
 }
 /* no range, single IP address */
@@ -189,7 +189,7 @@ else {
 	    }
 	    else {
 	        print '<div class="alert alert-success">'. ucwords($ip['action']) .' successful!</div>';
-	        updateLogTable ($ip['action'] .' of IP address '. $ip['ip_addr'] .' succesfull!', $ip['action'] .' of IP address '. $ip['ip_addr'] .' succesfull!<br>SubnetId: '. $ip['subnetId'], 1);
+	        updateLogTable ($ip['action'] .' of IP address '. $ip['ip_addr'] .' succesfull!', $ip['action'] .' of IP address '. $ip['ip_addr'] .' succesfull!<br>SubnetId: '. $ip['subnetId'], 0);
 	    }
 	}
 }
