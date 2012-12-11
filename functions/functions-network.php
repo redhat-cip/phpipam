@@ -305,6 +305,28 @@ function fetchSections ()
 
 
 /**
+ * Get number of sections
+ */
+function getNumberOfSections ()
+{
+    global $db;                                                                      # get variables from config file
+
+    /* set query */
+    $query 	  = 'select count(*) as count from `sections`;';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+
+    /* fetch results */
+    $sections  = $database->getArray($query); 
+
+    /* close database connection */
+    $database->close();
+
+    /* return subnets array */
+    return($sections[0]['count']);
+}
+
+
+/**
  * Get section details - provide section id
  */
 function getSectionDetailsById ($id)
@@ -371,6 +393,29 @@ function fetchAllSubnets ()
     /* return subnets array */
     return($sections);
 }
+
+
+/**
+ * Get number of subnets
+ */
+function getNumberOfSubnets ()
+{
+    global $db;                                                                      # get variables from config file
+
+    /* set query */
+    $query 	  = 'select count(*) as count from subnets;';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+
+    /* fetch results */
+    $subnets  = $database->getArray($query); 
+
+    /* close database connection */
+    $database->close();
+
+    /* return subnets array */
+    return($subnets[0]['count']);
+}
+
 
 
 /**
@@ -1102,6 +1147,53 @@ function getAllSubnetsInVRF($vrfId)
 }
 
 
+/**
+ *	Get top 10 subnets by usage
+ */
+function getSubnetStatsDashboard($type, $limit = "10")
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    # set limit
+    if($limit == "0")	{ $limit = ""; }
+    else				{ $limit = "limit $limit"; }
+    
+	# ipv4 stats
+	if($type == "IPv4") 
+	{
+		$query = "select * from (
+				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
+					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
+				) 
+				as `usage` from `subnets` as `s`
+				where cast(`subnet` as UNSIGNED) < '4294967295'
+				order by `usage` desc $limit
+				) as `d` where `d`.`usage` > 0;";	
+	}
+	# IPv6 stats
+	else 
+	{
+		$query = "select * from (
+				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`, IF(char_length(`description`)>0, `description`, 'No description') as description, (
+					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
+				) 
+				as `usage` from `subnets` as `s`
+				where cast(`subnet` as UNSIGNED) > '4294967295'
+				order by `usage` desc $limit
+				) as `d` where `d`.`usage` > 0;";		
+	}
+
+  	/* get result */
+   	$stats = $database->getArray($query);
+   	
+    /* close database connection */
+    $database->close();
+
+    /* return subnets array */
+    return($stats);   	
+}
+
 
 
 
@@ -1138,6 +1230,50 @@ function fetchAllIPAddresses ($hostnameSort = false)
 
     /* return subnets array */
     return($ipaddresses);
+}
+
+
+/**
+ * Get number of IPv4 addresses
+ */
+function getNuberOfIPv4Addresses ()
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+
+    /* set query */
+   	$query 	  = 'select count(cast(`ip_addr` as UNSIGNED)) as count from `ipaddresses` where cast(`ip_addr` as UNSIGNED) < "4294967295";'; 
+
+    /* fetch results */
+    $ipaddresses  = $database->getArray($query); 
+
+    /* close database connection */
+    $database->close();
+
+    /* return subnets array */
+    return($ipaddresses[0]['count']);
+}
+
+
+/**
+ * Get number of IPv6 addresses
+ */
+function getNuberOfIPv6Addresses ()
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+
+    /* set query */
+   	$query 	  = 'select count(cast(`ip_addr` as UNSIGNED)) as count from `ipaddresses` where cast(`ip_addr` as UNSIGNED) > "4294967295";'; 
+
+    /* fetch results */
+    $ipaddresses  = $database->getArray($query); 
+
+    /* close database connection */
+    $database->close();
+
+    /* return subnets array */
+    return($ipaddresses[0]['count']);
 }
 
 

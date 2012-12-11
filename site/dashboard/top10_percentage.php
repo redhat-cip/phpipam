@@ -9,83 +9,30 @@
 # no errors!
 ini_set('display_errors', 0);
 
-/*
-	fetch uniques IPv4 subnets
-	foreach fetch subnet and used hosts
-	calculate percentage
-	sort by percentage
-*/
-
-/* fetch all subnets */
-$subnets = fetchAllSubnets ();
-
-
-/* go through array and only use IPv4 + subnet mask for each subnet */
-unset($subnetHost);
-foreach ($subnets as $subnet) 
-{
-	/* IPv4 number cannot be higher than 4294967295 (255.255.255.255) */
-	if ($type == "IPv4") {
-		if ($subnet['subnet'] < 4294967295) {
-			$i								= $subnet['id'];
-			$subnetHost[$i]['id']			= $subnet['id'];
-			$subnetHost[$i]['subnet']		= $subnet['subnet'];
-			$subnetHost[$i]['mask']			= $subnet['mask'];
-			$subnetHost[$i]['description']	= $subnet['description'];
-			
-			/* Fix empty description */
-			if(empty($subnet['description'])) {
-			$subnetHost[$i]['description']	= "no_description";
-			}
-		}
-	}
-	if ($type == "IPv6") {
-		if ($subnet['subnet'] > 4294967295) {
-			$i								= $subnet['id'];
-			$subnetHost[$i]['id']			= $subnet['id'];
-			$subnetHost[$i]['subnet']		= $subnet['subnet'];
-			$subnetHost[$i]['mask']			= $subnet['mask'];
-			$subnetHost[$i]['description']	= $subnet['description'];	
-			
-			/* Fix empty description */
-			if(empty($subnet['description'])) {
-			$subnetHost[$i]['description']	= "no_description";
-			}	
-		}
-	}
-}
-
+# get subnets statistic
+$subnetHost = getSubnetStatsDashboard("IPv4", "0");
 
 if(sizeof($subnetHost) != 0) {
+	$i = 0;
 	/* we have subnets now. Calculate usage for each */
 	foreach ($subnetHost as $subnet)
 	{
-		$i = $subnet['id'];
-		/* get count */
-		$count = countIpAddressesBySubnetId ($subnet['id']);
-			
-		/* add to existing array */
-		$subnetHost[$i]['usage'] = $count;
-	
-	/* calculate percentage */
-	/* 	$subnetHost[$i]['percentage'] = round( $subnetHost[$i]['usage'] / pow(2, ( 32 - $subnetHost[$i]['mask']) ), 3) * 100; */
-	
 		$temp = calculateSubnetDetails ( $subnetHost[$i]['usage'], $subnetHost[$i]['mask'], $subnetHost[$i]['subnet'] );
 		$subnetHost[$i]['percentage'] = 100 - $temp['freehosts_percent'];
+		
+		$i++;
 	}
 	
-
-	/* sort by usage - keys change! */
+	/* sort by percentage - keys change! */
 	unset($usageSort);
 	foreach ($subnetHost as $key => $row) {
 	    $usageSort[$key]  = $row['percentage']; 	
 	}
-	
 	array_multisort($usageSort, SORT_DESC, $subnetHost);	
 }
 
 
-/* remove all but top 5 */
+/* remove all but top 10 */
 $max = sizeof($subnetHost);
 
 for ($m = 0; $m <= $max; $m++) {
@@ -95,8 +42,6 @@ for ($m = 0; $m <= $max; $m++) {
 }
 
 ?>
-
-
 
 
 

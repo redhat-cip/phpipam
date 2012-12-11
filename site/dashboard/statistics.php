@@ -5,25 +5,17 @@
  *********************************************/
 
 /* get number of sections */
-$sectionNum = sizeof(fetchSections ());
+$sectionNum = getNumberOfSections();
 
 /* get number of subnets */
-$subnetNum 	= sizeof(fetchAllSubnets ());
+$subnetNum 	= getNumberOfSubnets();
 
 /* get number of IP addresses, split IPv4 / IPv6 */
-$ipAddresses = fetchAllIPAddresses ();
-$ipCount = sizeof($ipAddresses);
-$IPv4Count = 0;
-$IPv6Count = 0;
-
-foreach ($ipAddresses as $ipAddress) {
-	if ($ipAddress['ip_addr'] < 4294967295 ) 	{ $IPv4Count++; }
-	else 										{ $IPv6Count++; }
-}
+$IPv4Count = getNuberOfIPv4Addresses();
+$IPv6Count = getNuberOfIPv6Addresses();
 
 /* get All users */
-$userCount = sizeof(getAllUsers());
-
+$userCount = getNumberOfUsers();
 ?>
 
 

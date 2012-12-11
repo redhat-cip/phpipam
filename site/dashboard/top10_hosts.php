@@ -10,92 +10,10 @@
 # no errors!
 ini_set('display_errors', 0);
 
-/*
-	fetch uniques IPv4 subnets
-	foreach fetch subnet and used hosts
-	sort by used hosts
-*/
+# get subnets statistic
+$subnetHost = getSubnetStatsDashboard($type);
 
-/* fetch all subnets */
-$subnets = fetchAllSubnets ();
-
-
-/* go through array and only use IPv4 + subnet mask for each subnet */
-unset($subnetHost);
-foreach ($subnets as $subnet) 
-{
-	/* IPv4 number cannot be higher than 4294967295 (255.255.255.255) */
-	if ( $type == "IPv4" ) {
-		if ( $subnet['subnet'] < 4294967295) {
-			$i								= $subnet['id'];
-			$subnetHost[$i]['id']			= $subnet['id'];
-			$subnetHost[$i]['subnet']		= $subnet['subnet'];
-			$subnetHost[$i]['mask']			= $subnet['mask'];
-			$subnetHost[$i]['description']	= $subnet['description'];
-			
-			/* Fix empty description */
-			if(empty($subnet['description'])) {
-			$subnetHost[$i]['description']	= "no_description";
-			}
-		}
-	}
-	/* IPv6 number must be higher than 4294967295 */
-	if ( $type == "IPv6" ) {
-		if ( $subnet['subnet'] > 4294967295) {
-			$i								= $subnet['id'];
-			$subnetHost[$i]['id']			= $subnet['id'];
-			$subnetHost[$i]['subnet']		= $subnet['subnet'];
-			$subnetHost[$i]['mask']			= $subnet['mask'];
-			$subnetHost[$i]['description']	= $subnet['description'];
-
-			/* Fix empty description */
-			if(empty($subnet['description'])) {
-			$subnetHost[$i]['description']	= "no_description";
-			}
-		}
-	}
-}
-
-
-if(sizeof($subnetHost) != 0) {
-	/* we have subnets now. Calculate usage for each */
-	foreach ($subnetHost as $subnet)
-	{
-		$i = $subnet['id'];
-		/* get count */
-		$count = countIpAddressesBySubnetId ($subnet['id']);
-	
-		/* add to existing array */
-		$subnetHost[$i]['usage'] = $count;
-		
-		/* unset empty subnets */
-		if($subnetHost[$i]['usage'] == 0) {
-			unset($subnetHost[$i]);
-		}
-	}
-	
-	/* sort by usage - keys change! */
-	unset($usageSort);	
-
-	foreach ($subnetHost as $key => $row) {
-	    $usageSort[$key]  = $row['usage']; 	
-	}
-
-	array_multisort($usageSort, SORT_DESC, $subnetHost);
-}
-
-
-
-/* remove all but top 10 */
-$max = sizeof($subnetHost);
-
-for ($m = 0; $m <= $max; $m++) {
-	if ($m > 10) {
-		unset($subnetHost[$m]);
-	}
-}
 ?>
-
 
 
 

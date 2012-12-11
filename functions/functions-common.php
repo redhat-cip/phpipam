@@ -186,6 +186,22 @@ function getAllUsers ()
 
 
 /**
+ * Get number of  users
+ */
+function getNumberOfUsers ()
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'select count(*) as count from users order by id desc;';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+    $details  = $database->getArray($query); 
+	   
+    /* return results */
+    return($details[0]['count']);
+}
+
+
+/**
  * Get all admin users
  */
 function getAllAdminUsers ()
