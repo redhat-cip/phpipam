@@ -11,10 +11,6 @@ require_once('../../functions/functions.php');
 $selected = implode(';', $_POST);
 
 /* write to database */
-if(!updateSelectedIPaddrFields($selected)) {
-	print '<div class="error">Update failed!</div>';
-}
-else {
-	print '<div class="success">Update successfull!</div>';
-}
+if(!updateSelectedIPaddrFields($selected)) 	{ print '<div class="alert alert-error alert-absolute">Update failed!</div>'; }
+else 										{ print '<div class="alert alert-success alert-absolute">Update successfull!</div>'; }
 ?>

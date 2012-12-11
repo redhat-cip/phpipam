@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Script to manage sections
+ * Search IRPE databse for AS imports
  *************************************************/
 
 /* required functions */
@@ -18,12 +18,9 @@ $povezava = fsockopen("whois.ripe.net", 43, $errno, $errstr, 5);
 if(!$povezava) 	{ echo "$errstr ($errno)";	}
 else { 
 	//fetch result
-	fputs ($povezava, '-GRK -i origin as'. $as ."\r\n"); 
-        
+	fputs ($povezava, '-i origin as'. $as ."\r\n"); 
 	//save result to var out
-    while (!feof($povezava)) {
-     	$out .= fgets($povezava);
-    }
+    while (!feof($povezava)) { $out .= fgets($povezava); }
      
     //parse it
     $out = explode("\n", $out);
@@ -31,50 +28,42 @@ else {
     //we only need route
     foreach($out as $line) {
 		if (strlen(strstr($line,"route"))>0) {
-		
 			//replace route6 with route
 			$line = str_replace("route6:", "route:", $line);
-		
 			//only take IP address
 			$line = explode("route:", $line);
 			$line = trim($line[1]);
-		
 			//set result
 			$subnet[] = $line;
 		}
     }
-
 }
-
 
 /* get all sections */
 $sections = fetchSections();
 
-/* Import */
-print '<form name="asImport" id="asImport">'. "\n";
 
-print '<div class="normalTable asImport">'. "\n";
-print '<table class="normalTable asImport">'. "\n";
-
-
-print '<tr class="th">'. "\n";
-print '<th colspan="5">I found the following routes belonging to AS '. $as .':</th>'. "\n";
-print '</tr>'. "\n";
 
 if(sizeof($subnet) == 0) {
-	print '<tr>'. "\n";
-	print '<td colspan="5"><div class="error">No subnets found!</div></td>'. "\n";
-	print '</tr>'. "\n";
+	print '<div class="alert alert-error alert-absolute">No subnets found!</div></td>'. "\n";
 }
 else {
+
+	print '<form name="asImport" id="asImport">';
+	print '<table class="asImport table table-striped table-condensed table-top table-auto">';
+
+	print '<tr>';
+	print '	<th colspan="5">I found the following routes belonging to AS <?php print $as; ?>:</th>';
+	print '</tr> ';
+
 	$m = 0;
 	foreach ($subnet as $route) {
 
 		print '<tr>'. "\n";
 
 		//delete
-		print '<td class="img">'. "\n";
-		print '<img class="info" src="css/images/deleteIP.png" title="Remove this subnet">'. "\n";
+		print '<td class="removeSubnet">'. "\n";
+		print '	<button class="btn btn-small btn-danger" rel="tooltip" title="Remove this subnet"><i class="icon-white icon-remove"></i></button>'. "\n";
 		print '</td>'. "\n";
 
 		//subnet
@@ -100,7 +89,7 @@ else {
 
 		//VLAN
 		print '<td>'. "\n";
-		print 'VLAN: <input type="text" name="vlan-'. $m .'">'. "\n";
+		print 'VLAN: <input type="text" class="vlan" name="vlan-'. $m .'">'. "\n";
 		print '</td>'. "\n";
 		
 		print '</tr>'. "\n";
@@ -111,21 +100,14 @@ else {
 	//submit
 	print '<tr style="border-top:1px solid white" class="th">'. "\n";
 	print '<td colspan="5" style="text-align:right">'. "\n";
-	print '	<input type="submit" value="Import to database">'. "\n";
+	print '	<input type="submit" class="btn btn-small" value="Import to database">'. "\n";
 	print '</td>'. "\n";
 	print '</tr>'. "\n";
 
+	print '</table>'. "\n";
+	print '</form>'. "\n";
 }
 
-//Result
-print '<tr class="th">'. "\n";
-print '<td colspan="5" style="text-align:right">'. "\n";
+
 print '	<div class="ripeImportResult"></div>'. "\n";
-print '</td>'. "\n";
-print '</tr>'. "\n";
-
-
-print '</table>'. "\n";
-print '</div>'. "\n";
-print '</form>'. "\n";
 ?>

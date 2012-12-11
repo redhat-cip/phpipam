@@ -14,83 +14,106 @@ if (!checkAdmin()) die('');
 CheckReferrer();
 
 
-/* postdata */
-$subnetData = $_POST;
+/*
+	This can be called from subnetManagement, subnet edit in IP details page and from IPCalc!
+	
+	From IP address list we must also provide delete button!
+	
+	From search we directly provide 
+		subnet / mask
+	
+*/
 
-/* if action != Add fetch existing data for subnet! */
-if ($subnetData['subnetAction'] != "Add") {
-    $subnetDataOld = getSubnetDetailsById ($subnetData['subnetId']);
+# we are editing or deleting existing subnet, get old details
+if ($_POST['action'] != "add") {
+    $subnetDataOld = getSubnetDetailsById ($_POST['subnetId']);
 }
-/* from IPaddresses - cen de also deleted */
-if ($subnetData['location'] == "IPaddresses") {
-	$delete = true;
-}
-/* if request came from subnets table set different name and ID! (Or ipcalc) */
-if (($subnetData['location'] == "subnets") || ($subnetData['location'] == "ipcalc") ) {
-    $className = "manageSubnetEditFromSubnets";
-    $sectionName = getSectionDetailsById ($subnetData['sectionId']);
-    Print '<h3>Add new subnet to '. $sectionName['name'] .'</h3>';
-}
+# we are adding new subnet - get section details
 else {
-    $className = "manageSubnetEdit";
+	$sectionName = getSectionDetailsById ($_POST['sectionId']);
 }
+
+
+/* get custom subnet fields */
+$customSubnetFields = getCustomSubnetFields();
+
+
+# set readonly flag
+if($_POST['action'] == "edit" || $_POST['action'] == "delete")	{ $readonly = true; }
+else															{ $readonly = false; }
 ?>
 
-<div class="<?php print $className; ?> normalTable">
-<form name="<?php print $className; ?>" id="<?php print $className; ?>">
-<table class="normalTable <?php print $className; ?>">
 
-	<!-- title -->
-	<?php
-	print '<tr class="th">'. "\n";
-	print '	<th colspan="3" style="text-align:left; padding:5px;">'. $subnetData['subnetAction'] .' subnet</th>'. "\n";
-	print '</tr>'. "\n";
-	?>
+
+<!-- header -->
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> subnet</div>
+
+
+<!-- content -->
+<div class="pContent">
+
+	<form id="editSubnetDetails">
+	<table class="editSubnetDetails table table-noborder table-condensed">
 
     <!-- name -->
     <tr>
-        <td>Subnet</td>
+        <td class="middle">Subnet</td>
         <td>
-            <input type="text" name="subnet"   placeholder="subnet in CIDR"   value="<?php 
-            	if ($subnetData['subnetAction'] != "Add") {
-            		print transform2long($subnetDataOld['subnet']) .'/'. $subnetDataOld['mask'];
-            	} 
-            	if ($subnetData['location'] == "ipcalc") {
-            		print $subnetData['subnet'] .'/'. $subnetData['bitmask'];
-            	} 
-            ?>" 
-            <?php if ($subnetData['subnetAction']=="Edit") print "readonly"; ?>>
+        	<?php
+        	# set CIDR
+        	if ($_POST['location'] == "ipcalc") { $cidr = $_POST['subnet'] .'/'. $_POST['bitmask']; }  
+            if ($_POST['action'] != "add") 		{ $cidr = transform2long($subnetDataOld['subnet']) .'/'. $subnetDataOld['mask']; }       	
+        	?>
+            <input type="text" name="subnet"   placeholder="subnet in CIDR"   value="<?php print $cidr; ?>" <?php if ($readonly) print "readonly"; ?>>
         </td>
         <td class="info">Enter subnet in CIDR format (e.g. 192.168.1.1/24)</td>
     </tr>
 
     <!-- description -->
     <tr>
-        <td>Description</td>
+        <td class="middle">Description</td>
         <td>
             <input type="text" name="description"  placeholder="subnet description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
         </td>
         <td class="info">Enter subnet description</td>
     </tr>  
+
+    <!-- section -->
+    <tr>
+        <td class="middle">Section</td>
+        <td>
+        	<select name="sectionIdNew">
+            	<?php
+           		$sections = fetchSections();
+            
+            	foreach($sections as $section) {
+            		/* selected? */
+            		if($_POST['sectionId'] == $section['id']) { print '<option value="'. $section['id'] .'" selected>'. $section['name'] .'</option>'. "\n"; }
+            		else 									  { print '<option value="'. $section['id'] .'">'. $section['name'] .'</option>'. "\n"; }
+            	}
+            ?>
+            </select>
+        	
+        	</select>
+        </td>
+        <td class="info">Move to different section</td>
+    </tr>  
     
     <!-- vlan -->
     <tr>
-        <td>VLAN</td>
+        <td class="middle">VLAN</td>
         <td id="vlanDropdown"> 
             <select name="vlanId">
             	<option disabled="disabled">Select VLAN:</option>
-            <?php
+            	<?php
            		$vlans = getAllVLANs();
            		
-           		if($subnetData['subnetAction'] == "Add") {
-           			
-           			$vlan['vlanId'] = 0;
-           		}
+           		if($_POST['action'] == "Add") { $vlan['vlanId'] = 0; }
 
            		$tmp[0]['vlanId'] = 0;
            		$tmp[0]['number'] = 'No VLAN';
            		
-           		#on-the-fly
+           		# on-the-fly
 	          	$tmp[1]['vlanId'] = 'Add';	
 	           	$tmp[1]['number'] = '+ Add new VLAN';	
            		
@@ -100,17 +123,12 @@ else {
             	foreach($vlans as $vlan) {
             		/* set structure */
             		$printVLAN = $vlan['number'];
-            		if(!empty($vlan['name'])) {
-            		$printVLAN .= ' - '. $vlan['name'];
-            		}
+            		
+            		if(!empty($vlan['name'])) { $printVLAN .= " ($vlan[name])"; }
             		
             		/* selected? */
-            		if($subnetDataOld['vlanId'] == $vlan['vlanId']) {
-            			print '<option value="'. $vlan['vlanId'] .'" selected>'. $printVLAN .'</option>'. "\n";
-            		}
-            		else {
-	            		print '<option value="'. $vlan['vlanId'] .'">'. $printVLAN .'</option>'. "\n";
-            		}
+            		if($subnetDataOld['vlanId'] == $vlan['vlanId']) { print '<option value="'. $vlan['vlanId'] .'" selected>'. $printVLAN .'</option>'. "\n"; }
+            		else 											{ print '<option value="'. $vlan['vlanId'] .'">'. $printVLAN .'</option>'. "\n"; }
             	}
             ?>
             </select>
@@ -122,51 +140,9 @@ else {
     <tr>
         <td>Master Subnet</td>
         <td>
-            <select name="masterSubnetId">
-            	<option value="" disabled="disabled">Root subnets:</option>
-            	<option value="0" selected="selected">root</option>
-            	<?php
-            	/* fetch all subnets in section */
-            	$subnets = fetchSubnets($subnetData['sectionId']);
-
-            	/* print all master subnets */
-            	foreach($subnets as $subnet) {
-            		//only root subnets
-            		if(empty($subnet['masterSubnetId']) || $subnet['masterSubnetId'] == 0) {
-            			//for edit - if selected
-            			if (($subnet['id'] == $subnetDataOld['masterSubnetId']) && ($subnetDataOld['masterSubnetId'] != 0 )) {
-            				print '<option value="'. $subnet['id'] .'" selected>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
-            			}
-            			else {
-            				print '<option value="'. $subnet['id'] .'">'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
-            			}
-            			//store Id of L1 for non-root subnets below
-            			$nonRoot[] = $subnet['id'];
-            		}
-            	}
-
-            	/* print all non-root subnets nested under L1 (under root) */
-            	print '<option value="" disabled="disabled">Non-root subnets:</option>'. "\n";
-            	foreach($subnets as $subnet) {
-            		//only non-root L1 subnets
-            		if((!empty($subnet['masterSubnetId'])) || ($subnet['masterSubnetId'] != 0)) {
-            			//must be under L1!
-            			if(in_array($subnet['masterSubnetId'], $nonRoot))
-            			{
-            				//for edit - if selected
-            				if (($subnet['id'] == $subnetDataOld['masterSubnetId']) && ($subnetDataOld['masterSubnetId'] != 0 )) {
-            					print '<option value="'. $subnet['id'] .'" selected>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
-            				}
-            				else {
-            					print '<option value="'. $subnet['id'] .'">'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</option>';
-            				}
-            			}
-            		}
-            	}
-            	?>
-            </select>
+        	<?php printDropdownMenuBySection($_POST['sectionId'], $subnetDataOld['masterSubnetId']); ?>
         </td>
-        <td class="info">Enter master subnet if you want to nest it under existing subnet,<br>or select root to create root subnet!</td>
+        <td class="info">Enter master subnet if you want to nest it under existing subnet, or select root to create root subnet!</td>
     </tr>
 
     <?php
@@ -175,33 +151,26 @@ else {
 	$VRFs 	  = getAllVRFs();
 	
 	/* set default value */
-	if(empty($subnetDataOld['vrfId'])) {
-		$subnetDataOld['vrfId'] = "0";
-	}
+	if(empty($subnetDataOld['vrfId'])) 			{ $subnetDataOld['vrfId'] = "0"; }
 	/* set default value */
-	if(empty($subnetDataOld['allowRequests'])) {
-		$subnetDataOld['allowRequests'] = "1";
-	}
+	if(empty($subnetDataOld['allowRequests'])) 	{ $subnetDataOld['allowRequests'] = "1"; }
 
 	/* if vlan support is enabled print available vlans */	
 	if($settings['enableVRF'] == 1) {
 	
 		print '<tr>' . "\n";
-        print '	<td>VRF</td>' . "\n";
+        print '	<td class="middle">VRF</td>' . "\n";
         print '	<td>' . "\n";
         print '	<select name="vrfId">'. "\n";
         
         //blank
+        print '<option disabled="disabled">Select VRF</option>';
         print '<option value="0">None</option>';
         
         foreach($VRFs as $vrf) {
         
-        	if ($vrf['vrfId'] == $subnetDataOld['vrfId']) {
-        		print '<option value="'. $vrf['vrfId'] .'" selected>'. $vrf['name'] .'</option>';
-        	}
-        	else {
-        	    print '<option value="'. $vrf['vrfId'] .'">'. $vrf['name'] .'</option>';
-        	}
+        	if ($vrf['vrfId'] == $subnetDataOld['vrfId']) 	{ print '<option value="'. $vrf['vrfId'] .'" selected>'. $vrf['name'] .'</option>'; }
+        	else 											{ print '<option value="'. $vrf['vrfId'] .'">'. $vrf['name'] .'</option>'; }
         }
         
         print ' </select>'. "\n";
@@ -219,16 +188,13 @@ else {
 	/* allow / deny IP requests if enabled in settings */	
 	if($settings['enableIPrequests'] == 1) {
 	
+		if( isset($subnetDataOld['allowRequests']) && ($subnetDataOld['allowRequests'] == 1) )	{ $checked = "checked"; }
+		else																					{ $checked = ""; }
+	
 		print '<tr>' . "\n";
         print '	<td>IP Requests</td>' . "\n";
         print '	<td>' . "\n";
-        print '		<input type="checkbox" name="allowRequests" value="1" ' . "\n";
-        
-        if( isset($subnetDataOld['allowRequests']) && ($subnetDataOld['allowRequests'] == 1) ) {
-        	print 'checked';
-        }
-        
-        print ' >'. "\n";
+        print '		<input type="checkbox" name="allowRequests" value="1" '.$checked.'>'. "\n";
         print '	</td>' . "\n";
         print '	<td class="info">Allow or deny IP requests for this subnet</td>' . "\n";
     	print '</tr>' . "\n";
@@ -238,7 +204,7 @@ else {
 		print '<tr style="display:none"><td colspan="8"><input type="hidden" name="allowRequests" value="'. $subnetDataOld['allowRequests'] .'"></td></tr>'. "\n";
 	}	
 	
-	/* option to loch subnet writing only for admins */
+	/* option to lock subnet writing only for admins */
 		print '<tr>' . "\n";
         print '	<td>Admin lock</td>' . "\n";
         print '	<td>' . "\n";
@@ -265,46 +231,71 @@ else {
         }
         
         print ' >'. "\n";
+        
+        # hidden ones
+        ?>
+            <!-- hidden values -->
+            <input type="hidden" name="sectionId"       value="<?php print $_POST['sectionId'];    ?>">
+            <input type="hidden" name="subnetId"        value="<?php print $_POST['subnetId'];     ?>">       
+            <input type="hidden" name="action"    		value="<?php print $_POST['action']; ?>">
+            <input type="hidden" name="location"    	value="<?php print $_POST['location']; ?>">        
+        <?php
         print '	</td>' . "\n";
         print '	<td class="info">Show Subnet name instead of subnet IP address</td>' . "\n";
     	print '</tr>' . "\n";	    
+
+
+    	# custom Subnet fields
+	    if(sizeof($customSubnetFields) > 0) {
+	    	print "<tr>";
+	    	print "	<td colspan='3' class='hr'><hr></td>";
+	    	print "</tr>";
+		    foreach($customSubnetFields as $field) {
+		    	# replace spaces
+		    	$field['nameNew'] = str_replace(" ", "___", $field['name']);
+		    	
+			    print "<tr>";
+			    print "	<td class='middle'>$field[name]</td>";
+			    print "	<td>";
+			    print "	<input type='text' name='$field[nameNew]' value='".$subnetDataOld[$field['name']]."' placeholder='".$subnetDataOld[$field['name']]."'>";
+			    print " </td>";
+			    print " <td></td>";
+			    print "</tr>";
+		    }
+	    }
+	    
+	    # divider
+	    print "<tr>";
+	    print "	<td colspan='3' class='hr'><hr></td>";
+	    print "</tr>";
+    ?>
+    
+    </table>
+    </form> 
+    
+    <?php
+    # warning if delete
+    if($_POST['action'] == "delete" || $_POST['location'] == "IPaddresses") {
+	    print "<div class='alert alert-warn' style='margin-top:0px;'><strong>Warning</strong><br>Removing subnets will delete ALL underlaying subnets and belonging IP addresses!</div>";
+    }
     ?>
 
-    <!-- submit -->
-    <tr class="th">
-        <td></td>
-        <td>
-            <!-- hidden values -->
-            <input type="hidden" name="sectionId"       value="<?php print $subnetData['sectionId'];    ?>">
-            <input type="hidden" name="subnetId"        value="<?php print $subnetData['subnetId'];     ?>">       
-            <input type="hidden" name="subnetAction"    value="<?php print $subnetData['subnetAction']; ?>">
-            <!-- if edited form ipaddresses -->
-            <input type="hidden" name="location"    	value="<?php print $subnetData['location']; ?>">    
-            <!-- submit, cancel, delete -->       
-            <input type="submit"                        value="<?php print $subnetData['subnetAction']; ?>">
-            <input type="button"                        value="Cancel" class="cancel">
-            <?php
-            if( (isset($delete)) && ($subnetData['subnetAction'] == "Edit") ) {
-            	print '<br><input type="button" value="Delete subnet" class="subnetDeleteFromIP">';
-            }
-            ?>
-        </td>
-        <td></td>
-    </tr>
-    
-    <!-- submit result -->
-    <tr class="th">
-        <td colspan="3">
-            <div class="manageSubnetEditResult"></div>
-        </td>
-    </tr>
- 
-</table>
-</form> 
+
 </div>
 
 
+<!-- footer -->
+<div class="pFooter">
+	<button class="btn btn-small hidePopups">Cancel</button>
+	<?php
+	//if action == edit and location = IPaddresses print also delete form
+	if(($_POST['action'] == "edit") && ($_POST['location'] == "IPaddresses") ) {
+		print "<button class='btn btn-small editSubnetSubmitDelete editSubnetSubmit'><i class='icon-gray icon-remove'></i> Delete subnet</button>";
+	}
+	?>
+	<button class="btn btn-small editSubnetSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> subnet</button>
 
-
-<!-- vlan add holder from subnets -->
-<div id="addNewVlanFromSubnetEdit" style="display:none"></div>
+	<div class="manageSubnetEditResult"></div>
+	<!-- vlan add holder from subnets -->
+	<div id="addNewVlanFromSubnetEdit" style="display:none"></div>
+</div>

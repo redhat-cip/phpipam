@@ -4,8 +4,6 @@
  *	Script to write instructions for users
  ******************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
 checkAdmin();
@@ -17,28 +15,26 @@ $instructions = fetchInstructions();
 $rowcount = substr_count($instructions[0]['instructions'], "\n");
 $rowcount++;
 
-if($rowcount < 22) {
-	$rowcount = 22;
-}
+if($rowcount < 18) { $rowcount = 18; }
 
 ?>
 
 <!-- title -->
-<h3>Edit user instructions</h3>
-<div class="hint">* You can use standard HTML formatting tags!</div>
+<h4>Edit user instructions</h4>
+<hr>
+
+<div class="alert alert-info"><strong>Note:</strong> You can use standard HTML formatting tags!</div>
 
 
 <!-- form -->
 <form name="instructions" id="instructions">
 
-	<!-- instructions -->
-	<textarea name="instructions" id="instructions" rows="<?php print $rowcount; ?>"><?php print stripslashes($instructions[0]['instructions']); ?></textarea>
-	
+	<textarea style="width:100%;" name="instructions" id="instructions" rows="<?php print $rowcount; ?>"><?php print stripslashes($instructions[0]['instructions']); ?></textarea>
 	<!-- preview, submit -->
 	<br>
 	<div style="text-align:right;">
-		<input type="button" id="preview" value="preview">
-		<input type="submit" class="submit" value="Save">
+		<input type="button" class="btn btn-small" id="preview" value="preview">
+		<input type="submit" class="btn btn-small" value="Save instructions">
 	</div>
 </form>
 

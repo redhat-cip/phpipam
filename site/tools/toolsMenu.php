@@ -5,9 +5,6 @@
  *
  */
 
-/* include required scripts */
-require_once('../../functions/functions.php');
-
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
@@ -18,117 +15,58 @@ $settings = getAllSettings();
 $setFieldsTemp = getSelectedIPaddrFields();
 /* format them to array! */
 $setFields = explode(";", $setFieldsTemp);
+/* viewer check */
+$viewer = isUserViewer();
 ?>
 
-<table class="menu normalTable">
-
-    <!-- title -->
-    <tr class="th">
-        <th>Tools</th>
-    </tr>
-    
-    <!-- IP calculator -->
-    <tr id="ipCalc" class="ipCalc">
-        <td>
-            <a href="#tools|ipCalc" id="ipCalc">IP calculator</a>
-        </td>
-    </tr>
-
-    <!-- Informations -->
-    <tr id="info" class="info">
-        <td>
-            <a href="#tools|instructions" id="instructions">Instructions</a>
-        </td>
-    </tr>
-
-    <!-- search -->
-    <?php
-    # for non-viewers only
-    if(!isUserViewer()) {
-		print '<tr id="search" class="search">'. "\n";
-		print '	<td>'. "\n";
-		print '		<a href="#tools|search" id="search">Search</a>'. "\n";
-		print ' </td>'. "\n";
-		print '</tr>'. "\n";
-    }
-    else {
-    	print '</table>'. "\n";
-    	die();
-    }
-    ?>
-    
-    <!-- space holder -->    
-    <tr class="th">
-        <td>&nbsp;</td>
-    </tr>
-    
-    <!-- space holder -->    
-    <tr class="th">
-        <th>Device list</th>
-    </tr>
-
-    <!-- switches -->
-    <?php
-    if(in_array("switch", $setFields)) {
-    	print '<tr id="switches" class="switches">'. "\n";
-    	print '	<td>'. "\n";
-    	print '		<a href="#tools|switches" id="switches">Switches</a>'. "\n";
-    	print '	</td>'. "\n";
-    	print '</tr>'. "\n";
-    }
-    
-    ?>
-
-    <!-- VRF -->
-    <?php 
-    if($settings['enableVRF'] == 1) {
-    	print '<tr id="vrf" class="vrf">'. "\n";
-        print '	<td>'. "\n";
-        print '		<a href="#tools|vrf" id="vrf">VRF</a>'. "\n";
-        print '	</td>'. "\n";
-    	print '</tr>'. "\n";
-    }
-    
-    ?>
-
-    <!-- hosts -->
-    <tr id="hosts" class="hosts">
-        <td>
-            <a href="#tools|hosts" id="hosts">Hosts</a>
-        </td>
-    </tr>
-
-    
-    <!-- VLAN data -->
-    <tr id="vlan" class="vlan">
-        <td>
-            <a href="#tools|vlan" id="vlan">VLANs</a>
-        </td>
-    </tr>
 
 
-    <!-- subnets -->
-    <tr id="subnets" class="subnets">
-        <td>
-            <a href="#tools|subnets" id="subnets">Subnets</a>
-        </td>
-    </tr>
+<h4>Tools</h4>
+<ul class="nav nav-tabs nav-stacked nav-tools">
+	<li <?php if($_REQUEST['toolsId'] == "ipCalc") print "class='active'"; ?>>
+		<a href="tools/ipCalc/"><i class="icon-chevron-right pull-right icon-gray"></i> IP calculator</a>
+	</li>
+	<li <?php if($_REQUEST['toolsId'] == "instructions") print "class='active'"; ?>>
+		<a href="tools/instructions/"><i class="icon-chevron-right pull-right icon-gray"></i> Instructions</a>
+	</li>    
+	<li <?php if($_REQUEST['toolsId'] == "search") print "class='active'"; ?>>
+		<a href="tools/search/"><i class="icon-chevron-right pull-right icon-gray"></i> Search</a>
+	</li>
+</ul>
 
-    <!-- space holder -->    
-    <tr class="th">
-        <td>&nbsp;</td>
-    </tr>
+<?php # for non-viewers only
+if(!$viewer)  {  ?>
+<h4>Devices</h4>
+<ul class="nav nav-tabs nav-stacked nav-tools">
+    <?php # if switch enabled
+    if(in_array("switch", $setFields)) {?>    
+	<li <?php if($_REQUEST['toolsId'] == "switches") print "class='active'"; ?>>
+		<a href="tools/switches/"><i class="icon-chevron-right pull-right icon-gray <?php if($_REQUEST['toolsId'] != "switches") print "icon-white"; ?>"></i> Switches</a>
+	</li>
+    <?php } ?>
+    <?php # if vrf enabled
+    if($settings['enableVRF'] == 1) { ?>
+	<li <?php if($_REQUEST['toolsId'] == "vrf") print "class='active'"; ?>>
+		<a href="tools/vrf/"><i class="icon-chevron-right pull-right icon-gray"></i> VRF</a>
+	</li>    
+    <?php } ?>
+	<li <?php if($_REQUEST['toolsId'] == "hosts") print "class='active'"; ?>>
+		<a href="tools/hosts/"><i class="icon-chevron-right pull-right icon-gray"></i> Hosts</a>
+	</li>   
+	<li <?php if($_REQUEST['toolsId'] == "vlan") print "class='active'"; ?>>
+		<a href="tools/vlan/"><i class="icon-chevron-right pull-right icon-gray"></i> VLANs</a>
+	</li>   
+	<li <?php if($_REQUEST['toolsId'] == "subnets") print "class='active'"; ?>>
+		<a href="tools/subnets/"><i class="icon-chevron-right pull-right icon-gray"></i> Subnets</a>
+	</li>  
+</ul>
+<?php } ?>
 
-    <!-- space holder -->    
-    <tr class="th">
-        <th>Edit my account</th>
-    </tr>
 
-    <!-- userMenu -->
-    <tr id="userMenu" class="userMenu">
-        <td>
-            <a href="#tools|userMenu" id="userMenu">User menu</a>
-        </td>
-    </tr>
-                    
-</table>
+
+<h4>User menu</h4>
+<ul class="nav nav-tabs nav-stacked nav-tools">
+	<li <?php if($_REQUEST['toolsId'] == "userMenu") print "class='active'"; ?>>
+		<a href="tools/userMenu/"><i class="icon-chevron-right pull-right icon-gray"></i> My account</a>
+	</li>  
+</ul>

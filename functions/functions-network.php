@@ -66,9 +66,15 @@ function reformatIPState ($state)
 	*/
 	switch ($state)
 	{
+/*
 		case "0": return "Offline"; break;
 		case "1": return " "; 		break;
 		case "2": return "Reserved";break;
+		default: return $state;
+*/
+		case "0": return "<i class='icon-warning-sign icon-gray state' rel='tooltip' title='Not in use (Offline)'></i>"; break;
+		case "1": return " "; 		break;
+		case "2": return "<i class='icon-gray icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
 		default: return $state;
 	}	
 }
@@ -79,8 +85,7 @@ function reformatIPState ($state)
  */
 function verifySwitchByName ($hostname)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set check query and get result */
     $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
@@ -101,6 +106,53 @@ function verifySwitchByName ($hostname)
     }
 
 }
+
+
+/**
+ * Verify that switch exists
+ */
+function verifySwitchById ($id)
+{
+    global $db;                                                                      # get variables from config file
+    
+    /* set check query and get result */
+    $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
+    $query = 'select * from `switches` where `id` = "'. $id .'";';
+    
+    /* fetch role */
+    $role = $database->getRow($query);
+
+    /* close database connection */
+    $database->close();
+    
+    /* return true if viewer, else false */
+    if (!$role) { return false; }
+    else 		{ return true; }
+}
+
+
+/**
+ * Get Switch details by ID
+ */
+function getSwitchById ($switchId)
+{
+    global $db;                                                                      # get variables from config file
+    
+    /* set check query and get result */
+    $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
+    $query = 'select * from `switches` where `id` = "'. $switchId .' limit 1";';
+    
+    /* fetch role */
+    $switch = $database->getArray($query);
+
+    /* close database connection */
+    $database->close();
+    
+    /* return true if viewer, else false */
+    if (!$switch) 	{ return false; }
+    else 			{ return $switch[0]; }
+}
+
 
 
 
@@ -143,8 +195,7 @@ function validateVlan ($vlan)
  */
 function getVLANbyNumber ($number) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -178,8 +229,7 @@ function getVLANbyNumber ($number)
  */
 function getAllVRFs () 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -203,8 +253,7 @@ function getAllVRFs ()
  */
 function getVRFDetailsById ($vrfId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -238,8 +287,7 @@ function getVRFDetailsById ($vrfId)
  */
 function fetchSections ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
     /* set query */
     $query 	  = 'select * from `sections` order by `id` asc;';
@@ -261,11 +309,28 @@ function fetchSections ()
  */
 function getSectionDetailsById ($id)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
     /* set query, open db connection and fetch results */
     $query 	  = 'select * from sections where id = "'. $id .'";';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+    $subnets  = $database->getArray($query);
+    $database->close();
+
+    /* return section */
+    if(sizeof($subnets) > 0)	{ return($subnets[0]); }
+}
+
+
+/**
+ * Get section details - provide section name
+ */
+function getSectionDetailsByName ($name)
+{
+    global $db;                                                                      # get variables from config file
+
+    /* set query, open db connection and fetch results */
+    $query 	  = 'select * from sections where `name` = "'. $name .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $subnets  = $database->getArray($query);
     $database->close();
@@ -291,8 +356,7 @@ function getSectionDetailsById ($id)
  */
 function fetchAllSubnets ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
     /* set query */
     $query 	  = 'select * from subnets;';
@@ -314,8 +378,7 @@ function fetchAllSubnets ()
  */
 function fetchSubnets ($sectionId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
     /* set query, open db connection and fetch results */
     $query 	  = 'select * from subnets where sectionId = "'. $sectionId .'" ORDER BY masterSubnetId,subnet ASC;';
@@ -333,16 +396,15 @@ function fetchSubnets ($sectionId)
  */
 function fetchMasterSubnets ($sectionId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
-    /* set query, open db connection and fetch results */
+    # set query, open db connection and fetch results 
     $query 	  = 'select * from subnets where sectionId = "'. $sectionId .'" and (`masterSubnetId` = "0" or `masterSubnetId` IS NULL) ORDER BY subnet ASC;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $subnets  = $database->getArray($query);
     $database->close();
 
-    /* return subnets array */
+    # return subnets array
     return($subnets);
 }
 
@@ -352,16 +414,15 @@ function fetchMasterSubnets ($sectionId)
  */
 function getAllSlaveSubnetsBySubnetId ($subnetId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
-    /* set query, open db connection and fetch results */
+    # set query, open db connection and fetch results
     $query 	  = 'select * from subnets where `masterSubnetId` = "'. $subnetId .'" ORDER BY subnet ASC;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $subnets  = $database->getArray($query);
     $database->close();
 
-    /* return subnets array */
+    # return subnets array
     return($subnets);
 }
 
@@ -371,8 +432,7 @@ function getAllSlaveSubnetsBySubnetId ($subnetId)
  */
 function getIpAddressesBySubnetId ($subnetId) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
     $query       = 'select * from `ipaddresses` where subnetId = "'. $subnetId .'" order by `ip_addr` ASC;';
@@ -391,8 +451,7 @@ function getIpAddressesBySubnetId ($subnetId)
  */
 function getIpAddressesBySubnetIdSort ($subnetId, $fieldName, $direction) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
     $query       = 'select * from `ipaddresses` where subnetId = "'. $subnetId .'" order by `'. $fieldName .'` '. $direction .';';
@@ -407,12 +466,43 @@ function getIpAddressesBySubnetIdSort ($subnetId, $fieldName, $direction)
 
 
 /**
+ * Get all ip addresses in requested subnet by provided Id, sort by fieldname and direction!
+ */
+function getIpAddressesBySubnetIdslavesSort ($subnetId, $fieldName, $direction) 
+{
+    global $db;                                                                      # get variables from config file
+    
+    /* get ALL slave subnets, then remove all subnets and IP addresses */
+    global $removeSlaves;
+    getAllSlaves ($subnetId);
+    $removeSlaves = array_unique($removeSlaves);
+    
+    /* set query, open db connection and fetch results */
+    $query       = 'select * from `ipaddresses` where subnetId = "" ';
+    foreach($removeSlaves as $subnetId2) {
+    	if($subnetId2 != $subnetId) {					# ignore orphaned
+	    $query  .= " or `subnetId` = '$subnetId2' ";
+	    }
+    }
+   
+    $query      .= 'order by `'. $fieldName .'` '. $direction .';';
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+    
+    $ipaddresses = $database->getArray($query);
+    $database->close();
+
+    /* return ip address array */
+    return($ipaddresses);       
+}
+
+
+
+/**
  * Count number of ip addresses in provided subnet
  */
 function countIpAddressesBySubnetId ($subnetId) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
     $query       = 'select count(*) from ipaddresses where subnetId = "'. $subnetId .'" order by subnetId ASC;';
@@ -435,8 +525,7 @@ function countIpAddressesBySubnetId ($subnetId)
  */
 function getSubnetDetails ($subnetId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
     $query         = 'select * from subnets where id = "'. $subnetId .'";';
@@ -445,7 +534,7 @@ function getSubnetDetails ($subnetId)
     $database->close();
 
     /* return subnet details - only 1st field! We cannot do getRow because we need associative array */
-    return($SubnetDetails[0]); 
+    if(sizeof($SubnetDetails) > 0)	{ return($SubnetDetails[0]); }
 }
 
 
@@ -454,17 +543,16 @@ function getSubnetDetails ($subnetId)
  */
 function getSubnetDetailsById ($id)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
-    $query         = 'select * from subnets where id = "'. $id .'";';
+    $query         = 'select * from `subnets` where `id` = "'. $id .'";';
     $database      = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $SubnetDetails = $database->getArray($query);
     $database->close();
 
     /* return subnet details - only 1st field! We cannot do getRow because we need associative array */
-    return($SubnetDetails[0]); 
+    if(sizeof($SubnetDetails) > 0) { return($SubnetDetails[0]); }
 }
 
 
@@ -477,17 +565,12 @@ function getSubnetDetailsById ($id)
  */
 function calculateSubnetDetails ( $usedhosts, $bitmask, $subnet )
 {
-
     // number of used hosts
     $SubnetCalculateDetails['used']              = $usedhosts;
     
     // calculate max hosts
-    if ( IdentifyAddress( $subnet ) == "IPv4") {
-        $type = 0;
-    }
-    else {
-        $type = 1;
-    }
+    if ( IdentifyAddress( $subnet ) == "IPv4") 	{ $type = 0; }
+    else 										{ $type = 1; }
     
     $SubnetCalculateDetails['maxhosts']          = MaxHosts( $bitmask, $type ); 
     
@@ -499,9 +582,17 @@ function calculateSubnetDetails ( $usedhosts, $bitmask, $subnet )
 		$SubnetCalculateDetails['maxhosts'] = "1";
 	}
 
+    //if more than 100% fix it! (for /31 and /32)
+/*
+    if($SubnetCalculateDetails['used'] > $SubnetCalculateDetails['maxhosts'] ) {
+	    $SubnetCalculateDetails['maxhosts']  = $SubnetCalculateDetails['used'];
+	    $SubnetCalculateDetails['freehosts'] = 0;
+    }
+*/
+
     // calculate use percentage
     $SubnetCalculateDetails['freehosts_percent'] = round( ( ($SubnetCalculateDetails['freehosts'] * 100) / $SubnetCalculateDetails['maxhosts']), 2 );
- 
+     
     return( $SubnetCalculateDetails );
 }
 
@@ -625,8 +716,7 @@ function verifyNestedSubnetOverlapping ($sectionId, $subnetNew)
  */
 function subnetContainsSlaves($subnetId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all ip addresses in subnet */
@@ -803,8 +893,7 @@ function isSubnetInsideSubnet ($subnetA, $subnetB)
  */
 function isSubnetWriteProtected($subnetId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* first update request */
@@ -822,12 +911,77 @@ function isSubnetWriteProtected($subnetId)
 
 
 /**
+ *	Print dropdown menu for subnets in section!
+ */
+function printDropdownMenuBySection($sectionId, $subnetMasterId = "0") 
+{
+		# get all subnets
+		$subnets = fetchSubnets ($sectionId);
+		
+		$html = array();
+		
+		$rootId = 0;									# root is 0
+		
+		foreach ( $subnets as $item )
+			$children[$item['masterSubnetId']][] = $item;
+		
+		# loop will be false if the root has no children (i.e., an empty menu!)
+		$loop = !empty( $children[$rootId] );
+		
+		# initializing $parent as the root
+		$parent = $rootId;
+		$parent_stack = array();
+		
+		# display selected subnet as opened
+		$allParents = getAllParents ($_REQUEST['subnetId']);
+		
+		# structure
+		$html[] = "<select name='masterSubnetId'>";
+		# root
+		$html[] = "<option disabled>Select Master subnet</option>";
+		$html[] = "<option value='0'>Root subnet</option>";
+		
+		# return table content (tr and td's)
+		while ( $loop && ( ( $option = each( $children[$parent] ) ) || ( $parent > $rootId ) ) )
+		{
+			# repeat 
+			$repeat  = str_repeat( " - ", ( count($parent_stack)) );
+			# dashes
+			if(count($parent_stack) == 0)	{ $dash = ""; }
+			else							{ $dash = $repeat; }
+							
+			# count levels
+			$count = count( $parent_stack ) + 1;
+			
+			
+			# print table line
+			if(strlen($option['value']['subnet']) > 0) { 
+				# selected
+				if($option['value']['id'] == $subnetMasterId) 	{ $html[] = "<option value='".$option['value']['id']."' selected='selected'>$repeat ".transform2long($option['value']['subnet'])."/".$option['value']['mask']." (".$option['value']['description'].")</option>"; }
+				else 											{ $html[] = "<option value='".$option['value']['id']."'>$repeat ".transform2long($option['value']['subnet'])."/".$option['value']['mask']." (".$option['value']['description'].")</option>"; }
+			}
+			
+			if ( $option === false ) { $parent = array_pop( $parent_stack ); }
+			# Has slave subnets
+			elseif ( !empty( $children[$option['value']['id']] ) ) {														
+				array_push( $parent_stack, $option['value']['masterSubnetId'] );
+				$parent = $option['value']['id'];
+			}
+			# Last items
+			else { }
+		}
+		$html[] = "</select>";
+		
+		print implode( "\n", $html );
+}
+
+
+/**
  * Get VLAN number form Id
  */
 function subnetGetVLANdetailsById($vlanId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* first update request */
@@ -849,13 +1003,23 @@ function subnetGetVLANdetailsById($vlanId)
  */
 function getAllVlans($tools = false)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
+    # custom fields
+    $myFields = getCustomVLANFields();     
+    $myFieldsInsert['id']  = '';
+	
+    if(sizeof($myFields) > 0) {
+		/* set inserts for custom */
+		foreach($myFields as $myField) {			
+			$myFieldsInsert['id']  .= ',`vlans`.`'. $myField['name'] .'`';
+		}
+	}
+		
     /* check if it came from tools and use different query! */
     if($tools) {
- 		$query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;';
+ 		$query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id'.$myFieldsInsert['id'].' AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;';
     }
     else {
         $query = 'select * from `vlans` order by `number` asc;';
@@ -873,8 +1037,7 @@ function getAllVlans($tools = false)
  */
 function getSubnetsByVLANid ($id)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
     $query         = 'select * from `subnets` where `vlanId` = "'. $id .'";';
@@ -893,12 +1056,24 @@ function getSubnetsByVLANid ($id)
 function MaxHosts( $mask, $type = 0 ) 
 {
     /* IPv4 address */
-    if($type == 0) {
-		return pow(2, (32 - $mask)) -2;
+    if($type == 0) { 
+    	//31 and 31 networks
+    	if($mask==31 || $mask == 32) {
+	    	return pow(2, (32 - $mask)); 
+    	}
+    	else {
+	    	return pow(2, (32 - $mask)) -2;	
+    	} 
     }
      /* IPv6 address */
 	else {
-	   return gmp_strval(gmp_sub(gmp_pow(2, 128 - $mask) ,1));
+    	//31 and 31 networks
+    	if($mask==127 || $mask == 128) {
+	    	return gmp_strval(gmp_pow(2, 128 - $mask));
+    	}
+    	else {
+	    	return gmp_strval(gmp_sub(gmp_pow(2, 128 - $mask) ,1));
+    	}   
     }
 }
 
@@ -908,8 +1083,7 @@ function MaxHosts( $mask, $type = 0 )
  */
 function getAllSubnetsInVRF($vrfId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -945,8 +1119,7 @@ function getAllSubnetsInVRF($vrfId)
  */
 function fetchAllIPAddresses ($hostnameSort = false)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
 
     /* set query */
@@ -973,8 +1146,7 @@ function fetchAllIPAddresses ($hostnameSort = false)
  */
 function fetchAllIPAddressesByName ($hostname)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
 
     /* set query */
     $query 	  = 'select * from ipaddresses where `dns_name` like "%'. $hostname .'%" order by `dns_name` desc;';
@@ -996,8 +1168,7 @@ function fetchAllIPAddressesByName ($hostname)
  */
 function getSectionIdFromSectionName ($sectionName) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* set query, open db connection and fetch results */
     $query         = 'select id from sections where name = "'. $sectionName .'";';
@@ -1016,8 +1187,7 @@ function getSectionIdFromSectionName ($sectionName)
  */
 function checkDuplicate ($ip, $subnetId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* we need to put IP in decimal format */
     $ip = Transform2decimal ($ip);
@@ -1043,8 +1213,7 @@ function checkDuplicate ($ip, $subnetId)
  */
 function modifyIpAddress ($ip) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = SetInsertQuery($ip);
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
@@ -1071,24 +1240,24 @@ function SetInsertQuery( $ip )
 	
 	if(sizeof($myFields) > 0) {
 		/* set inserts for custom */
-		foreach($myFields as $myField) {
+		foreach($myFields as $myField) {			
 			$myFieldsInsert['query']  .= ', `'. $myField['name'] .'`';
 			$myFieldsInsert['values'] .= ", '". $ip[$myField['name']] . "'";
 		}
 	}
 
 	/* insert */
-	if( $ip['action'] == "Add" ) 
+	if( $ip['action'] == "add" ) 
 	{
 		$query  = "insert into `ipaddresses` ";
 		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note` ". $myFieldsInsert['query'] .") ";
 		$query .= "values ";
 		$query .= "('". $ip['subnetId'] ."', '". $ip['description'] ."', '". Transform2decimal( $ip['ip_addr'] ) ."', ". "\n"; 
 		$query .= " '". $ip['dns_name'] ."', '". $ip['mac'] ."', '". $ip['owner'] ."', '". $ip['state'] ."', ". "\n";
-		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."' ". $myFieldsInsert['values'] .");";
+		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."'". $myFieldsInsert['values'] .");";
 	}
 	/* edit multiple */
-	else if( ($ip['action'] == "Edit") && ($ip['type'] == "series") ) 
+	else if( ($ip['action'] == "edit") && ($ip['type'] == "series") ) 
 	{
 		$query  = "update `ipaddresses` ";
 		$query .= "set `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."', ";
@@ -1109,7 +1278,7 @@ function SetInsertQuery( $ip )
 		$query .= "where `subnetId` = '". $ip['subnetId'] ."' and `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."';";	
 	}
 	/* edit */
-	else if( $ip['action'] == "Edit" ) 
+	else if( $ip['action'] == "edit" ) 
 	{
 		$query  = "update ipaddresses ";
 		$query .= "set `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."', `description` = '". $ip['description'] ."', `dns_name` = '". $ip['dns_name'] ."' , `mac` = '". $ip['mac'] ."', ". "\n"; 
@@ -1124,15 +1293,19 @@ function SetInsertQuery( $ip )
 		$query .= "where `id` = '". $ip['id'] ."';";	
 	}
 	/* delete multiple */
-	else if( ($ip['action'] == "Delete") && ($ip['type'] == "series") ) {
+	else if( ($ip['action'] == "delete") && ($ip['type'] == "series") ) {
 		$query = "delete from ipaddresses where `subnetId` = '". $ip['subnetId'] ."' and `ip_addr` = '". Transform2decimal( $ip['ip_addr'] ) ."';";	
 	}
 	/* delete */
-	else if( $ip['action'] == "Delete" ) {
+	else if( $ip['action'] == "delete" ) {
 		$query = "delete from ipaddresses where `id` = '". $ip['id'] ."';";	
 	}
+	/* move */
+	else if ($ip['action'] == "move") {
+		$query = "update `ipaddresses` set `subnetId` = '$ip[newSubnet]' where `id` = '$ip[id]';";
+	}
 	
-	/* return query */		
+	/* return query */	
 	return $query;
 }
 
@@ -1142,8 +1315,7 @@ function SetInsertQuery( $ip )
  */
 function getIpAddrDetailsById ($id) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from `ipaddresses` where `id` = "'. $id .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -1162,12 +1334,16 @@ function getIpAddrDetailsById ($id)
 
 /**
  * verify ip address from edit / add
+ * noStrict ignores NW and Broadcast checks
  */
-function VerifyIpAddress( $ip , $subnet ) 
+function VerifyIpAddress( $ip , $subnet , $noStrict = false ) 
 {
 	/* First identify it */
 	$type = IdentifyAddress( $ip );
 	$type = IdentifyAddress( $subnet );
+	
+	/* get mask */
+	$mask = explode("/", $subnet);
 	
 	/* IPv4 verification */
 	if ( $type == 'IPv4' )
@@ -1183,15 +1359,19 @@ function VerifyIpAddress( $ip , $subnet )
 		else if (!$Net_IPv4->ipInNetwork($ip, $subnet)) {
 			$error = "IP address not in selected subnet!";
 		}
+		//ignore  /31 and /32 subnet broadcast and subnet checks!
+		else if ($mask[1] == "31" || $mask[1] == "32" || $noStrict == true) {
+			# skip
+		}
 		// It cannot be subnet or broadcast
 		else {
             $net = $Net_IPv4->parseAddress($subnet);
             
             if ($net->network == $ip) {
-                $error = "Cannot add subnet as IP address!";   
+                $error = "Cannot add subnet as IP address!";
             }
             else if ($net->broadcast == $ip) {
-                $error = "Cannot add broadcast as IP address!"; 
+                $error = "Cannot add broadcast as IP address!";
             }
 		}
 	}
@@ -1212,6 +1392,10 @@ function VerifyIpAddress( $ip , $subnet )
 		// it must be in provided subnet
 		else if (!$Net_IPv6->isInNetmask($ip, $subnet)) {
 			$error = "IP address not in selected subnet!";
+		}
+		//ignore  /127 and /128 subnet broadcast and subnet checks!
+		else if ($mask[1] == "127" || $mask[1] == "128" || $noStrict == true) {
+			# skip
 		}
 		//it cannot be subnet
 		else if ($ip == $subnet_short) {
@@ -1350,15 +1534,71 @@ function parseIpAddress( $ip, $mask )
 /**
  * Find unused ip addresses between two provided
  *
- * subnet must be without subnet
+ * checkType = NW, bcast and none(normal)
  */
-function FindUnusedIpAddresses ($ip1, $ip2, $type, $broadcast = 0 ) 
-{              
+function FindUnusedIpAddresses ($ip1, $ip2, $type, $broadcast = 0, $checkType = "", $mask = false ) 
+{     
     /* calculate difference */
     $diff = gmp_strval(gmp_sub($ip2, $ip1));
     
+    /* /32 */
+    if($mask == "32" && $checkType=="networkempty" && $type=="IPv4") {
+	    $result['ip'] 	 = long2ip($ip1);
+		$result['hosts'] = "1";
+    }
+    /* /31 */
+    else if($mask == "31" && $type=="IPv4") {
+    	if($diff == 1 && $checkType == "networkempty" ) {
+    	    $result['ip'] 	 = long2ip($ip1);
+    	    $result['hosts'] = "2";		    	
+    	}
+    	if($diff == 1 && $checkType == "network" ) {
+    	    $result['ip'] 	 = long2ip($ip1);
+    	    $result['hosts'] = "1";		    	
+    	}
+    	else if($diff == 1 && $checkType == "" ) {
+/*
+	    	$result['ip'] 	 = long2ip($ip1);
+	    	$result['hosts'] = "";	
+*/    	
+    	}
+    	else if($diff == 1 && $checkType == "broadcast" ) {
+	    	$result['ip'] 	 = long2ip($ip2);
+	    	$result['hosts'] = "1";	    	
+    	}
+    	else if($diff == 2 ) {
+    	    $result['ip'] 	 = long2ip($ip1);
+    	    $result['hosts'] = "2";	
+    	}
+    }    
+    /* /128 */
+    else if($mask == "128" && $checkType=="networkempty" && $type=="IPv6") {
+	    $result['ip'] 	 = long2ip6($ip1);
+		$result['hosts'] = "1";
+    }
+    /* /127 */
+    else if($mask == "127" && $type=="IPv6") {
+    	if($diff == 1 && $checkType == "networkempty" ) {
+    	    $result['ip'] 	 = long2ip6($ip1);
+    	    $result['hosts'] = "2";		    	
+    	}
+    	if($diff == 1 && $checkType == "network" ) {
+    	    $result['ip'] 	 = long2ip6($ip1);
+    	    $result['hosts'] = "1";		    	
+    	}
+    	else if($diff == 1 && $checkType == "" ) {  	
+    	}
+    	else if($diff == 1 && $checkType == "broadcast" ) {
+	    	$result['ip'] 	 = long2ip6($ip2);
+	    	$result['hosts'] = "1";	    	
+    	}
+    	else if($diff == 2 ) {
+    	    $result['ip'] 	 = long2ip6($ip1);
+    	    $result['hosts'] = "2";	
+    	}
+    } 
     /* if diff is less than 2 return false */
-    if ( $diff < 2 ) {
+    else if ( $diff < 2 ) {
         return false;
     }
     /* if diff is 2 return 1 IP address in the middle */
@@ -1418,18 +1658,18 @@ function FindUnusedIpAddresses ($ip1, $ip2, $type, $broadcast = 0 )
  */
 function getFirstAvailableIPAddress ($subnetId)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all ip addresses in subnet */
-    $query 		 = 'SELECT ip_addr from ipaddresses where subnetId = "'. $subnetId .'" order by ip_addr ASC;';    
+    $query 		 = 'SELECT `ip_addr` from `ipaddresses` where `subnetId` = "'. $subnetId .'" order by `ip_addr` ASC;';    
     $ipAddresses = $database->getArray($query);  
 
     /* get subnet */
-    $query 	= 'SELECT subnet from subnets where id = "'. $subnetId .'";';    
-    $subnet = $database->getArray($query); 
-    $subnet = $subnet[0]['subnet'];
+    $query 	 = 'SELECT `subnet`,`mask` from `subnets` where `id` = "'. $subnetId .'";';    
+    $subnet2 = $database->getArray($query); 
+    $subnet  = $subnet2[0]['subnet'];
+    $mask    = $subnet2[0]['mask'];
     
     /* create array of IP addresses */
     $ipaddressArray[]	  = $subnet;
@@ -1439,31 +1679,80 @@ function getFirstAvailableIPAddress ($subnetId)
     //get array size
     $size = sizeof($ipaddressArray);
     $curr = 0;
-    
+    //get type
+    $type = IdentifyAddress($subnet);
+  
+    //if subnet is /32
+    if($mask == "32" && $type == "IPv4") {
+    	if($size == 1)  { $firstAvailable = $ipaddressArray[0]; }
+    	else 			{ $firstAvailable = false; }
+    }
+    //if subnet /31
+    else if($mask == "31" && $type == "IPv4") {
+    	if($size == 1)  	 { $firstAvailable = $ipaddressArray[0]; }
+    	else if($size == 2)  { 
+    		$delta = $ipaddressArray[1] - $ipaddressArray[0];
+    		if($delta == 1)  { $firstAvailable = $ipaddressArray[0]; }
+    		else			 { $firstAvailable = gmp_strval(gmp_add($ipaddressArray[0], 1)); }
+    	}
+    	else 				 { $firstAvailable = false; }
+    }
+    //if subnet is /128
+    else if($mask == "128" && $type == "IPv6") {
+    	if($size == 1)  { $firstAvailable = $ipaddressArray[0]; }
+    	else 			{ $firstAvailable = false; }
+    }
+    //if subnet /127
+    else if($mask == "127" && $type == "IPv6") {
+    	if($size == 1)  	 { $firstAvailable = $ipaddressArray[0]; }
+    	else if($size == 2)  { 
+    		$delta = $ipaddressArray[1] - $ipaddressArray[0];
+    		if($delta == 1)  { $firstAvailable = $ipaddressArray[0]; }
+    		else			 { $firstAvailable = gmp_strval(gmp_add($ipaddressArray[0], 1)); }
+    	}
+    	else 				 { $firstAvailable = false; }
+    }
     //if size = 0 return subnet +1
-    if($size == 1) {
-    	$firstAvailable[] = gmp_strval(gmp_add($ipaddressArray[0], 1));
+    else if($size == 1) {
+    	$firstAvailable = gmp_strval(gmp_add($ipaddressArray[0], 1));
     }
     else {
-   	 
+    	//get first change -> delta > 1
     	for($m=1; $m <= $size -1; $m++) {
-    	
     		$delta = gmp_strval(gmp_sub($ipaddressArray[$m],$ipaddressArray[$m-1]));
     
     		//compare with previous
     		if ($delta != 1 ) {
-    			$firstAvailable[] = gmp_strval(gmp_add($ipaddressArray[$m-1],1));
+    			$firstAvailable = gmp_strval(gmp_add($ipaddressArray[$m-1],1));
+    			$m = $size;
+    		}
+    		else {
+    			$firstAvailable = gmp_strval(gmp_add($ipaddressArray[$m],1));	    		
     		}
     	}
     	
-    	//no delta found
-    	if (empty($firstAvailable)) {
-    		$firstAvailable[] = gmp_strval(gmp_add($ipaddressArray[$size-1],1));
-    	} 
-    }
-    
+    	//if bcast ignore!
+        if($type == "IPv4") {
+        	require_once 'PEAR/Net/IPv4.php';
+            $Net_IPv4 = new Net_IPv4();
+            	
+            $net = $Net_IPv4->parseAddress(transform2long($subnet)."/".$mask);
+	        if ($net->broadcast <= transform2long($firstAvailable)) { $firstAvailable = false; }
+        }
+        else if ($type == "IPv6") {
+            require_once 'PEAR/Net/IPv6.php';
+            $Net_IPv6 = new Net_IPv6();
+        
+            $net = $Net_IPv6->parseAddress(transform2long($subnet)."/".$mask);
+	        if ($net->broadcast == transform2long($firstAvailable)) { $firstAvailable = false; }	            
+        }
+        //else return last
+        else {
+	    	$firstAvailable = gmp_strval(gmp_add($ipaddressArray[$size-1],1));
+    	}
+    }   
     /* return first available IP address */
-    return $firstAvailable[0];
+    return $firstAvailable;
 }
 
 
@@ -1518,8 +1807,7 @@ function long2ip6($ipv6long)
  */
 function getIPaddressesBySwitchName ( $name ) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all vlans, descriptions and subnets */

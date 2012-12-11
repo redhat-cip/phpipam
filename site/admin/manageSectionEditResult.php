@@ -8,6 +8,9 @@
 require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
+if (!checkAdmin()) die('');
+
+/* verify that user is admin */
 checkAdmin();
 
 /* verify post */
@@ -23,7 +26,7 @@ $update['id']          = $_POST['id'];
 
 /* do action! */
 if (UpdateSection ($update)) {
-    print '<div class="success">'. $update['action'] .'ed Successful!</div>';
+    print '<div class="alert alert-success">Section '. $update['action'] .' successful!</div>';
 }
 
 ?>

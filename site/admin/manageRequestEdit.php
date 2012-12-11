@@ -16,159 +16,107 @@ $requestId = $_POST['requestId'];
 /* fetch request */
 $request = getIPrequestById ($requestId);
 
+if(sizeof($request) == 0) {
+	die("<div class='alert alert-error'>Request does not exist!</div>");
+}
 ?>
 
-<!-- autocomplete -->
-<link type="text/css" href="css/jquery-ui-1.8.14.custom.css" rel="Stylesheet" />	
-<script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
-<script type="text/javascript">
-$(function() {
-	//get all swiches
-	var switches = [
-		<?php 
-		$allSwitches = getAllUniqueSwitches ();
-		foreach ($allSwitches as $switch) {
-			print '"'. $switch['hostname'] .'", ';
-		}
-		?>
-	];
 
-	//get all unique users
-	var users = [
-		<?php 
-		$allUsers = getUniqueUsers ();
-		foreach ($allUsers as $user) {
-			print '"'. $user['owner'] .'", ';
-		}
-		?>
-	];
-		
-	//autocomplete switches
-	$( "#switch" ).autocomplete({ source: switches, minLength: 0 }).focus(function(){
-		if (this.value == "") {
-			$(this).trigger('keydown.autocomplete');
-		}
-	});
-	//autocomplete users
-	$( "#owner" ).autocomplete({ source: users, minLength: 0 }).focus(function(){
-	if (this.value == "") {
-			$(this).trigger('keydown.autocomplete');
-		}
-	});
-});
-</script>
+<!-- header -->
+<div class="pHeader">Manage IP request</div>
 
 
-<div class="normalTable manageRequestEdit">
+<!-- content -->
+<div class="pContent">
 
-<!-- IP address request form -->
-<form class="manageRequestEdit" name="manageRequestEdit">
-
-<!-- edit IP address table -->
-<table class="normalTable manageRequestEdit">
-
-	<!-- title -->
-	<tr class="th">
-		<th colspan="2"><h4>IP address request (#<?php print $request['id'] ?>)</h4></th>
-	</tr>
+	<h4>IP address request (#<?php print $request['id'] ?>)</h4>
 	
+	<!-- IP address request form -->
+	<form class="manageRequestEdit" name="manageRequestEdit">
+	<!-- edit IP address table -->
+	<table id="manageRequestEdit" class="table table-striped table-condensed">
 	<!-- Section -->
 	<tr>
-		<td>Requested subnet</td>
-	
+		<th>Requested subnet</th>
 		<td>
 			<select name="subnetId">
-		
 			<?php
 			$subnets = fetchAllSubnets ();
 		
 			foreach($subnets as $subnet) {
-			
 				/* show only subnets that allow IP exporting */
 				if($subnet['allowRequests'] == 1) {
-			
-					if($request['subnetId'] == $subnet['id']) {
-						print '<option value="'. $subnet['id'] .'" selected>' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>';
-					}
-					else {
-						print '<option value="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>';
-					}
+					if($request['subnetId'] == $subnet['id'])	{ print '<option value="'. $subnet['id'] .'" selected>' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>'; }
+					else 										{ print '<option value="'. $subnet['id'] .'">' . Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ['. $subnet['description'] .']</option>'; }
 				}
 			}
 			?>
-
 			</select>
-		
 		</td>
 	</tr>
-
-
 	<!-- IP address -->
 	<tr>
-		<td>IP address</td>
+		<th>IP address</th>
 		<td>
 			<input type="text" name="ip_addr" value="<?php print transform2long($request['ip_addr']); ?>" size="30">
+			
+			<input type="hidden" name="requestId" value="<?php print $request['id']; ?>">
+			<input type="hidden" name="requester" value="<?php print $request['requester']; ?>">
     	</td>
 	</tr>
-
 	<!-- description -->
 	<tr>
-		<td>Description</td>
+		<th>Description</th>
 		<td>
-			<input type="text" name="description" value="<?php if(isset($request['description'])) { print $request['description'];} ?>" size="30"></td>
+			<input type="text" name="description" value="<?php if(isset($request['description'])) { print $request['description'];} ?>" size="30">
+		</td>
 	</tr>
-
-
 	<!-- DNS name -->
 	<tr>
-		<td>DNS name</td>
+		<th>Hostname</th>
 		<td>
-			<input type="text" name="dns_name" value="<?php if(isset($request['dns_name'])) { print $request['dns_name'];} ?>" size="30"></td>
+			<input type="text" name="dns_name" value="<?php if(isset($request['dns_name'])) { print $request['dns_name'];} ?>" size="30">
+		</td>
 	</tr>
-
-
 	<!-- owner -->
 	<tr>
-		<td>Owner</td>
+		<th>Owner</th>
 		<td>
-			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30"></td>
+			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30">
+		</td>
 	</tr>
-
 	<!-- switch / port -->
 	<tr>
-		<td>Switch / port</td>		
+		<th>Switch / port</th>		
 		<td>
 			<input type="text" name="switch" id="switch" value="<?php if(isset($request['switch'])) { print $request['switch']; } ?>" size="13" 
 			<?php if ( isset($btnName)) { if( $btnName == "Delete" ) { print " readonly "; }} ?> 
 			>/
 			<input type="text" name="port" value="<?php if(isset($request['port'])) { print $request['port']; } ?>" size="9" 
 			<?php if ( isset($btnName)) { if ( $btnName == "Delete" ) { print " readonly "; }} ?> 
-			></td>
+			>
+		</td>
 	</tr>
-
 	<!-- requested by -->
 	<tr>
-		<td>Requester email</td>
+		<th>Requester email</th>
 		<td><?php if(isset($request['requester'])) { print $request['requester']; } ?></td>
 	</tr>
-
 	<!-- comment -->
 	<tr>
-		<td>Requester comment</td>
+		<th>Requester comment</th>
 		<td><i><?php if(isset($request['comment'])) { if(!empty($request['comment'])) { print '"'. $request['comment'] .'"'; }} ?></i></td>
 	</tr>
-
 	<!-- Admin comment -->
 	<tr>
-		<td>Comment approval/reject:</td>
+		<th>Comment approval/reject:</th>
 		<td>
 			<textarea name="adminComment" rows="2" cols="30"></textarea>
 		</td>
 	</tr>
-
 	<!-- state -->
 	<tr>
-		<td>State</td>
+		<th>State</th>
 		<td>
 			<select name="state">
 				<option value="1" <?php if(isset($request['state'])) { if ($request['state'] == "1") { print 'selected'; }} ?>>Active</option>
@@ -178,27 +126,16 @@ $(function() {
 		</td>
 	</tr>
 
-	<!-- submit -->
-	<tr class="th">
-		<td></td>
-		<td>
-			<input type="hidden" name="requestId" value="<?php print $request['id']; ?>">
-			<input type="hidden" name="requester" value="<?php print $request['requester']; ?>">
-			<input type="submit" 				 value="Accept request">
-			<input type="button" class="reject"	 value="Reject request" >
-		</td>
-	</tr>	
+	</table>
+	</form>	
+</div>
+
+<!-- footer -->
+<div class="pFooter">
+	<button class="btn btn-small hidePopups">Cancel</button>
+	<button class="btn btn-small manageRequest" data-action='reject'><i class="icon-gray icon-remove"></i> Reject</button>
+	<button class="btn btn-small manageRequest" data-action='accept'><i class="icon-gray icon-ok"></i> Accept</button>
 	
 	<!-- result -->
-	<tr>
-		<td></td>
-		<td>
-			<div class="manageRequestResult"></div>
-		</td>
-	</tr>
-
-
-</table>
-</form>
-
+	<div class="manageRequestResult"></div>
 </div>

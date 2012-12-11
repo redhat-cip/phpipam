@@ -5,8 +5,10 @@
  **************************/
 ?>
 
-<h3>Some search tips</h3>
+<h4>Some search tips</h4>
+<hr>
 
+<div class="alert alert-block alert-warn">
 <ul>
 
 	<!-- text -->
@@ -74,3 +76,4 @@
 	</li>
 
 </ul>
+</div>

@@ -20,7 +20,8 @@ if ($filetype == "csv") {
 	$outFile = explode("\n", $outFile);
 }
 else {
-
+	/* include functions */
+	require_once('../../functions/functions.php');				
 	/* get excel file */
 	require_once('../../functions/excel_reader2.php');				//excel reader 2.21
 	$data = new Spreadsheet_Excel_Reader('csvupload/import.xls' ,false);	
@@ -29,9 +30,25 @@ else {
 	$numRows = $data->rowcount(0);
 	$numRows++;
 	
+	//get custom fields
+	$myFields = getCustomIPaddrFields();
+	$myFieldsSize = sizeof($myFields);
+	
+	//add custom fields
+	$numRows = $numRows + $myFieldsSize;
+	
 	//get all to array!
 	for($m=0; $m < $numRows; $m++) {
-		$outFile[] = $data->val($m,'A') . ',' . $data->val($m,'B'). ',' . $data->val($m,'C'). ',' . $data->val($m,'D'). ',' . $data->val($m,'E'). ',' . $data->val($m,'F'). ',' . $data->val($m,'G') . ',' . $data->val($m,'H') . ',' . $data->val($m,'I');
+		$outFile[$m] = $data->val($m,'A').','.$data->val($m,'B').','.$data->val($m,'C').','.$data->val($m,'D').',
+				   ' . $data->val($m,'E').','.$data->val($m,'F').','.$data->val($m,'G').','.$data->val($m,'H').',
+				   ' . $data->val($m,'I');
+		//add custom fields
+		if(sizeof($myFields) > 0) {
+			$currLett = "J";
+			foreach($myFields as $field) {
+				$outFile[$m] .= ",".$data->val($m,$currLett++);
+			}
+		}
 	}
 	/* 	echo $data->dump(false,false); */
 }
@@ -40,11 +57,10 @@ else {
 /*
  *	print table
  *********************/
-print '<div class="normalTable">';
-print '<table class="normalTable">';
+print '<table class="table table-striped table-condensed">';
 
 /* headers */
-print '<tr class="th">';
+print '<tr>';
 print '	<th>IP</th>';
 print '	<th>Status</th>';
 print '	<th>Description</th>';
@@ -54,37 +70,37 @@ print '	<th>Owner</th>';
 print '	<th>Switch</th>';
 print '	<th>Port</th>';
 print '	<th>Note</th>';
+/* Add custom fields */
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $field) {
+		print "	<th>$field[name]</th>";
+	}
+}
 print '</tr>';
 
 
 /* values - $outFile is provided by showscripts */
 foreach($outFile as $line) {
-
 	//put it to array
 	$field = explode(",", $line);
-	
 	//print
 	print '<tr>';
-	
 	foreach ($field as $value) {
 		if (!empty($field[0])) {			//IP address must be present otherwise ignore field
 			print '<td>'. $value .'</td>';
 		}
 	}
-	
 	print '</tr>';
 }
 
 print '</table>';
-print '</div>';
 ?>
 
 <!-- confirmation -->
-<br>Does this look reasonable? 
+<h4>3.) Import to database</h4>
+<hr>
+<br>Should I import values to database?
 
 <!-- YES / NO -->
-<input type="button" value="Yes" id="csvImportYes">
-<input type="button" value="No"  id="csvImportNo">
-
-<!-- result -->
-<div class="csvImportResult"></div>
+<input type="button" value="Yes" class="btn btn-small" id="csvImportYes">
+<input type="button" value="No"  class="btn btn-small" id="csvImportNo">

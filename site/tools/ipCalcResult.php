@@ -9,32 +9,27 @@
 /* include required scripts */
 require_once('../../functions/functions.php');
 
-/* check referer and requested with */
+# check referer and requested with
 CheckReferrer();
 
-/* get requested IP addresses */
+# get requested IP addresses
 $cidr = $_POST['cidr'];
 
-/* verify input */
+# verify input CIDR
 $errors = verifyCidr ($cidr,0);
 
-if (sizeof($errors) != 0) {
-    die('<div class="error">Invalid input: '.  $errors[0] .'</div>');
-}
+# die on errors
+if (sizeof($errors) != 0) { die('<div class="alert alert-error alert-absolute">Invalid input: '.  $errors[0] .'</div>'); }
 
 /* calculate results */
 $ipCalcResults = calculateIpCalcResult ($cidr);
-
 ?>
 
-<!-- IPcalc result table -->
-<div class="normalTable">
-<table class="normalTable ipCalcResult">
+<hr>
+<h4>Subnetting details for <?php print $cidr; ?>:</h4>
 
-    <!-- title -->
-    <tr class="th">
-        <th colspan="2">Subnetting details for <?php print $cidr; ?></th>
-    </tr>
+<!-- IPcalc result table -->
+<table class="ipCalcResult table table-striped table-condensed table-hover">
     
     <!-- IP details -->
     <?php
@@ -42,10 +37,8 @@ $ipCalcResults = calculateIpCalcResult ($cidr);
     foreach ($ipCalcResults as $key=>$line) 
     {
         print '<tr>';
-        
-        print '<td>'. $key .'</td>';
-        print '<td id="sub'. $m .'">'. $line .'</td>';
-        
+        print ' <td>'. $key .'</td>';
+        print ' <td id="sub'. $m .'">'. $line .'</td>';
         print '</tr>';
         
         $m++;
@@ -54,12 +47,16 @@ $ipCalcResults = calculateIpCalcResult ($cidr);
     ?>
     
     <!-- add subnet button -->
-    <tr style="border-top: 1px solid white">
+    <?php
+    # disable for viewers
+    if(!isUserViewer()) { ?>
+    <tr>
     	<td></td>
     	<td style="padding-top:10px">
-    		<img src="css/images/add.png" class="createSubnetFromCalc"> Create subnet from result
+    		<button id="createSubnetFromCalc" class="btn btn-small"><i class="icon-plus"></i> Create subnet from result</button>
     	</td>
     </tr>
+    <?php  } ?>
     
     <!-- select section -->
 	<tr id="selectSection" style="display:none">

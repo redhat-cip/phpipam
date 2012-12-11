@@ -12,17 +12,14 @@ require_once('../../functions/functions.php');
 $settings = getAllSettings();
 
 /* display only to admin users */
-if(!checkAdmin(false)) {
-	die('<div class="error">Admin user required!</div>');
-}
+if(!checkAdmin(false)) { die('<div class="alert alert-error">Admin user required!</div>'); }
 
 /* get version */
 $version = $_POST['version'];
 
 /* try to upgrade database */
 if(upgradeDatabase($version)) {
-	print '<div class="success">Database upgraded successfully!</div>';
-
+	print '<div class="alert alert-success">Database upgraded successfully!</div>';
 
 	/* update vlans and switches from v 0.4 */
 	if($version < "0.5") {
@@ -32,6 +29,12 @@ if(upgradeDatabase($version)) {
 	/* update VLANS from version 0.5 */
 	else if($version < "0.6") {
 		 updateVLANsFromOldVersions();
+	}
+	
+	/* update Switch associations */
+	if ($version < "0.7") {
+		updateSwitchFromOldVersionsToId();
+		addHTTP();
 	}
 }
 

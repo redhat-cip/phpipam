@@ -1,6 +1,7 @@
 Description 
 ===========	
-phpipam is an open-source web IP address management application. Its goal is to provide light and simple |P address management application. It is ajax-based using jQuery libraries, it uses php scripts and javascript and some HTML5/CSS3 features, so some modern browser is preferred to be able to display javascript quickly and correctly...
+phpipam is an open-source web IP address management application. Its goal is to provide light and simple |P address management application. 
+It is ajax-based using jQuery libraries, it uses php scripts and javascript and some HTML5/CSS3 features, so some modern browser is preferred to be able to display javascript quickly and correctly...
 
 Features and tools:
 - Section / Subnet separation
@@ -9,6 +10,7 @@ Features and tools:
 - Displays free range and number of clients
 - Subnet statistics
 - User management
+- AD/LDAP support
 - E-Mail notification with IP details
 - Import IP addresses from XLS / CSV file
 - Export IP database to XLS file
@@ -16,6 +18,7 @@ Features and tools:
 - Search IP database
 - IP request module
 - Custom IP address fields
+- and much more...
 
 What it does not do:
 - Updates DNS server
@@ -27,7 +30,7 @@ phpipam is released under the GPL v3 license, see misc/gpl-3.0.txt.
 
 Requirements
 ============
-- Apache2 web server with php support
+- Apache2 web server with php and mod_rewrite support (set "AllowOverride all" in vhost config)
 - Mysql server (5.1+)
 - PHP version 5.2+ with following modules (On windows php 5.3 is required!)
 	+ + mysqli              : Adds support for the improved mySQL libraries
@@ -64,3 +67,10 @@ See misc/Roadmap
 Contact
 =======
 miha.petkovsek@gmail.com
+
+Donors
+======
+special thanks to following donors:
+	- Dicom Datautveckling AB
+	- Tatung Baby
+	- Suretec Systems Ltd.

@@ -4,45 +4,49 @@
  * Script tomanage custom IP fields
  ****************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 checkAdmin();
 
 /* get all custom fields */
 $myFields = getCustomIPaddrFields();
-
 /* Custom fields by number */
 $myFieldsNum = getCustomIPaddrFieldsNumArr();
+
+
+/* get all custom subnet fields */
+$myFieldsSubnets = getCustomSubnetFields();
+/* Custom fields by number */
+$myFieldsNumSubnets = getCustomSubnetsFieldsNumArr();
+
+/* get all custom VLAN fields */
+$myFieldsVLAN = getCustomVLANFields();
+/* Custom VLAN fields by number */
+$myFieldsNumVLAN = getCustomVLANFieldsNumArr();
 ?>
 
 
-<h3>Custom IP address fields</h3>
+<h4>Custom IP address fields</h4>
+<hr>
 
-You can add additional custom fields to IP address table (like CustomerId, location, ...).
+<div class="alert alert-info">You can add additional custom fields to IP addresses and subnets (like CustomerId, location, ...).</div>
 
-<div class="normalTable customIP">
-<table class="normalTable customIP">
+
+<table class="customIP table table-striped table-auto table-top">
 
 <!-- headers -->
-<tr class="th">
-	<th colspan="5">My custom fields:</th>
+<tr>
+	<th colspan="4">My  IP address fields:</th>
 </tr>
 
-
 <?php
-
 /* no results */
 if(sizeof($myFields) == 0) {
-
 	print '<tr>'. "\n";
-	print '<td colspan="5">No custom fields created yet</td>'. "\n";
+	print '<td colspan="4"><div class="alert alert-info alert-nomargin">No custom fields created yet</div></td>'. "\n";
 	print '</tr>'. "\n";
 }
 /* already available */
 else {
-
 	# get size
 	$size = sizeof($myFields);
 	$m = 0;
@@ -50,37 +54,159 @@ else {
 	foreach($myFields as $field)
 	{
 	print '<tr>'. "\n";
-	print '<td class="name">'. $field['name'] .'</td>'. "\n";
-	print '<td>'. $field['type'] .'</td>'. "\n";
+
 	# ordering
-	if (( ($m+1) != $size) ) {
-	print '<td class="img"><img src="css/images/down.png" class="down" title="Move down" fieldName="'. $myFieldsNum[$m] .'" nextFieldName="'. $myFieldsNum[$m+1] .'"></td>'. "\n";		
-	}
-	else {
-		print '<td></td>'. "\n";
-	}
+	if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNum[$m]' data-nextfieldname='".$myFieldsNum[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+	else 						{ print '<td></td>'. "\n";}
+	
+	print '<td class="name">'. $field['name'] .'</td>'. "\n";
+
 	#actions
-	print '<td class="img"><img src="css/images/edit.png" class="edit" title="Edit field" fieldName="'. $field['name'] .'"></td>'. "\n";
-	print '<td class="img"><img src="css/images/deleteIP.png" class="delete" title="Delete field" fieldName="'. $field['name'] .'"></td>'. "\n";
+	print "<td>";
+	print "	<button class='btn btn-small' data-action='edit'   data-fieldname='$field[name]'><i class='icon-gray icon-edit'></i> Edit</button>";
+	print "	<button class='btn btn-small' data-action='delete' data-fieldname='$field[name]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print "</td>";
+
 	print '</tr>'. "\n";
 	
 	$prevName = $field['name'];
 	$m++;	
 	}
 }
-
 ?>
 
 <!-- add -->
-<tr class="th" style="border-top:1px solid white">
-	<td colspan="5" class="img">
-		<img src="css/images/add.png" class="add" title="Add new field"> Add new custom field
+<tr>
+	<td colspan="4">
+		<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom IP address field'><i class='icon-gray icon-plus'></i> Add new</button>
 	</td>
 </tr>
-
 </table>
-</div>
-
 
 <!-- result -->
 <div class="customIPResult"></div>
+
+
+
+<br>
+<h4>Custom subnet fields</h4>
+<hr>
+
+
+<table class="customSubnet table table-striped table-auto table-top">
+
+<!-- headers -->
+<tr>
+	<th colspan="4">My  IP address fields:</th>
+</tr>
+
+<?php
+/* no results */
+if(sizeof($myFieldsSubnets) == 0) {
+	print '<tr>'. "\n";
+	print '<td colspan="4"><div class="alert alert-info alert-nomargin">No custom subnet fields created yet</div></td>'. "\n";
+	print '</tr>'. "\n";
+}
+/* already available */
+else {
+	# get size
+	$size = sizeof($myFieldsSubnets);
+	$m = 0;
+
+	foreach($myFieldsSubnets as $field)
+	{
+	print '<tr>'. "\n";
+
+	# ordering
+	if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNumSubnets[$m]' data-nextfieldname='".$myFieldsNumSubnets[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+	else 						{ print '<td></td>'. "\n";}
+	
+	print '<td class="name">'. $field['name'] .'</td>'. "\n";
+
+	#actions
+	print "<td>";
+	print "	<button class='btn btn-small' data-action='edit'   data-fieldname='$field[name]'><i class='icon-gray icon-edit'></i> Edit</button>";
+	print "	<button class='btn btn-small' data-action='delete' data-fieldname='$field[name]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print "</td>";
+
+	print '</tr>'. "\n";
+	
+	$prevName = $field['name'];
+	$m++;	
+	}
+}
+?>
+
+<!-- add -->
+<tr>
+	<td colspan="4">
+		<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom subnet field'><i class='icon-gray icon-plus'></i> Add new</button>
+	</td>
+</tr>
+</table>
+
+<!-- result -->
+<div class="customSubnetResult"></div>
+
+
+
+
+<br>
+<h4>Custom VLAN fields</h4>
+<hr>
+
+
+<table class="customVLAN table table-striped table-auto table-top">
+
+<!-- headers -->
+<tr>
+	<th colspan="4">My VLAN fields:</th>
+</tr>
+
+<?php
+/* no results */
+if(sizeof($myFieldsVLAN) == 0) {
+	print '<tr>'. "\n";
+	print '<td colspan="4"><div class="alert alert-info alert-nomargin">No custom VLAN fields created yet</div></td>'. "\n";
+	print '</tr>'. "\n";
+}
+/* already available */
+else {
+	# get size
+	$size = sizeof($myFieldsVLAN);
+	$m = 0;
+
+	foreach($myFieldsVLAN as $field)
+	{
+	print '<tr>'. "\n";
+
+	# ordering
+	if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNumVLAN[$m]' data-nextfieldname='".$myFieldsNumVLAN[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+	else 						{ print '<td></td>'. "\n";}
+	
+	print '<td class="name">'. $field['name'] .'</td>'. "\n";
+
+	#actions
+	print "<td>";
+	print "	<button class='btn btn-small' data-action='edit'   data-fieldname='$field[name]'><i class='icon-gray icon-edit'></i> Edit</button>";
+	print "	<button class='btn btn-small' data-action='delete' data-fieldname='$field[name]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print "</td>";
+
+	print '</tr>'. "\n";
+	
+	$prevName = $field['name'];
+	$m++;	
+	}
+}
+?>
+
+<!-- add -->
+<tr>
+	<td colspan="4">
+		<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom VLAN field'><i class='icon-gray icon-plus'></i> Add new</button>
+	</td>
+</tr>
+</table>
+
+<!-- result -->
+<div class="customVLANResult"></div>

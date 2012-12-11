@@ -4,33 +4,21 @@
  *	Script to export IP database to excel file!
  **********************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
 checkAdmin();
 
 ?>
 
-<br>
-You can download MySQL dump of database or generate XLS file of IP addresses!
-<br>
-<br>
+<h4>phpIPAM database export</h4>
+<hr><br>
+
+<div class="alert alert-info">You can download MySQL dump of database or generate XLS file of IP addresses!</div>
 
 <!-- MySQL dump -->
-<h3>Create MySQL database dump</h3>
-<input type="button" id="MySQLdump" value="Prepare Dump">
+<h4>Create MySQL database dump</h4>
+<button class="btn btn-small" id="MySQLdump"><i class="icon-gray icon-download"></i> Prepare MySQL dump</button>
 
 <!-- XLS dump -->
-<h3>Create XLS file of IP addresses</h3>
-
-<input type="button" id="XLSdump" value="Prepare XLS">
-
-<!--
-<br>
-XLS export uses Pear's OLE and Spreadsheet_Excel_Writer extensions, so please install them through pear:
-<pre>
-$ pear install OLE 
-$ pear install Spreadsheet_Excel_Writer
-</pre>
--->
+<h4>Create XLS file of IP addresses</h4>
+<button class="btn btn-small" id="XLSdump"><i class="icon-gray icon-download"></i> Prepare XLS dump</button>

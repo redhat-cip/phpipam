@@ -5,8 +5,6 @@
  ***********************************************/
 
 
-/* required functions */
-require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
 checkAdmin();
@@ -15,11 +13,12 @@ checkAdmin();
 ?>
 
 
-<h3>Search and replace fields in IP address list</h3>
+<h4>Search and replace fields in IP address list</h4>
+<hr><br>
 
 
 <form id="searchReplace">
-<table class="normalTable" style="width:auto">
+<table class="table table-striped" style="width:auto">
 
 <tr>
 	<td>Select field to replace:</td>
@@ -63,7 +62,7 @@ checkAdmin();
 <tr class="th">
 	<td></td>
 	<td>
-		<input type="submit" value="Replace">
+		<button class="btn btn-small" id="searchReplaceSave"><i class="icon-gray icon-ok"></i> Replace</button>
 	</td>
 </tr>
 

@@ -102,6 +102,13 @@ class adLDAP {
     * @var int 
     */ 
     protected $adPort = self::ADLDAP_LDAP_PORT; 
+
+    /** 
+    * Weather to use OpenLDAP or not. 
+    *  
+    * @var int 
+    */ 
+    protected $openLDAP = false; 
 	
     /**
     * Array of domain controllers. Specifiy multiple controllers if you
@@ -564,6 +571,16 @@ class adLDAP {
     }
 
     /**
+    * Set the openLDAP to true/false
+    * 
+    * @return bool
+    */
+    public function setUseOpenLDAP($useOpenLDAP)
+    {
+          $this->openLDAP = $useOpenLDAP;
+    }
+
+    /**
     * Default Constructor
     * 
     * Tries to bind to the AD domain over LDAP or LDAPs
@@ -642,7 +659,7 @@ class adLDAP {
                
         // Bind as a domain admin if they've set it up
         if ($this->adminUsername !== NULL && $this->adminPassword !== NULL) {
-            $this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername . $this->accountSuffix, $this->adminPassword);
+           	$this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername . $this->accountSuffix, $this->adminPassword);
             if (!$this->ldapBind) {
                 if ($this->useSSL && !$this->useTLS) {
                     // If you have problems troubleshooting, remove the @ character from the ldapldapBind command above to get the actual error message
@@ -708,7 +725,11 @@ class adLDAP {
         
         // Bind as the user        
         $ret = true;
-        $this->ldapBind = @ldap_bind($this->ldapConnection, $username . $this->accountSuffix, $password);
+        
+        //OpenLDAP?
+        if($this->openLDAP == true) { $this->ldapBind = @ldap_bind($this->ldapConnection, "uid=".$username . $this->accountSuffix, $password); }
+        else 						{ $this->ldapBind = @ldap_bind($this->ldapConnection, $username . $this->accountSuffix, $password); }
+        
         if (!$this->ldapBind){ 
             $ret = false; 
         }

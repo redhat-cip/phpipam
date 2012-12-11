@@ -4,59 +4,57 @@
  * Script to get all active IP requests
  ****************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 checkAdmin();
 
 /* get all */
 $allActiveRequests = getAllActiveIPrequests();
 
-if(sizeof($allActiveRequests) == 0) {
-	die('<h3>No active IP address requests!</h3>');
-}
 ?>
 
-<h3>List of all active IP addresses requests</h3>
+<h4>List of all active IP addresses requests</h4>
+<hr><br>
 
-<div class="normalTable requestedIPaddresses">
-<table class="normalTable requestedIPaddresses">
+
+<table id="requestedIPaddresses" class="table table-striped table-condensed table-hover table-top">
 
 <!-- headers -->
-<tr class="th">
+<tr>
 	<th></th>
-	<th>IP address</th>
+	<th>Requested IP</th>
 	<th>Subnet</th>
 	<th>Hostname</th>
 	<th>Description</th>
 	<th>Requested by</th>
 </tr>
 
-<?php  
-	
+<?php 
+	# print requests
 	foreach($allActiveRequests as $request) {
 	
 	//get subnet details
 	$subnet = getSubnetDetailsById ($request['subnetId']);
 
-	//subnet	
+	
 	print '<tr>'. "\n";
-
-	print '<td><img src="css/images/edit.png" requestId="'. $request['id'] .'"></td>' . "\n";
-	print '<td class="requestedIPedit"><a href="" class="requestedIPedit">'. Transform2long($request['ip_addr']) .'</a></td>'. "\n";
-	print '<td>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ('. $subnet['description'] .')</td>'. "\n";
-	print '<td>'. $request['dns_name'] .'</td>'. "\n";
-	print '<td>'. $request['description'] .'</td>'. "\n";
-	print '<td>'. $request['requester'] .'</td>'. "\n";
-	
+	print "	<td><button class='btn btn-small' data-requestid='$request[id]'><i class='icon-gray icon-edit'></i> Edit</button></td>";
+	print '	<td>'. Transform2long($request['ip_addr']) .'</td>'. "\n";
+	print '	<td>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ('. $subnet['description'] .')</td>'. "\n";
+	print '	<td>'. $request['dns_name'] .'</td>'. "\n";
+	print '	<td>'. $request['description'] .'</td>'. "\n";
+	print '	<td>'. $request['requester'] .'</td>'. "\n";
 	print '</tr>'. "\n";
-	
 	}
 ?>
 
 </table>
-</div>
+
+<?php
+# no requests
+if(sizeof($allActiveRequests) == 0) {
+	print "<div class='alert alert-info'>No IP address requests available!</div>";
+}
+?>
 
 <!-- edit request holder -->
 <div class="manageRequestEdit"></div>

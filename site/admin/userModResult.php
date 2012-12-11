@@ -11,7 +11,6 @@ require_once('../../functions/functions.php');
 checkAdmin();
  
  
-
 /**
  * First get posted variables
  */
@@ -27,22 +26,19 @@ if (strlen($userModDetails['password1']) != 0) {
 	$userModDetails['password2'] = md5($userModDetails['password2']);
 }
 
+
 /**
  * Based on action verify the input
  */
-if ($userModDetails['action'] == "Add") {
+if ($userModDetails['action'] == "add") {
     $errors = verifyUserModInput($userModDetails);
 }
-else if ($userModDetails['action'] == "Edit") {
+else if ($userModDetails['action'] == "edit") {
     $errors = verifyUserModInput($userModDetails);
 }
-else if ($userModDetails['action'] == "Delete") {
-    if (!deleteUserById($userModDetails['userId'], $userModDetails['username'])) {
-        print '<div class="error>Cannot delete user '. $userModDetails['username'] .'!</div>"';
-    }
-    else {
-        print '<div class="success">User deleted successfully!</div>';
-    }
+else if ($userModDetails['action'] == "delete") {
+    if (!deleteUserById($userModDetails['userId'], $userModDetails['username'])) { print '<div class="alert alert-error>Cannot delete user '. $userModDetails['username'] .'!</div>"'; }
+    else 																		 { print '<div class="alert alert-success">User deleted successfully!</div>'; }
     //stop script execution
     die();
 }
@@ -52,7 +48,7 @@ else if ($userModDetails['action'] == "Delete") {
  * If no errors are present add / edit user
  */
 if (sizeof($errors) != 0) {
-    print '<div class="error">';
+    print '<div class="alert alert-error">';
     foreach ($errors as $error) {
         print $error .'<br>';
     }
@@ -63,10 +59,9 @@ else
 {
     //if no ID is present treat it as add new!
     if(!updateUserById($userModDetails)) {
-        print '<div class="error">Cannot '. $userModDetails['action'] .' user!</div>';
     }
     else {
-        print '<div class="success">User '. $userModDetails['action'] .' successfull!</div>';
+        print '<div class="alert alert-success">User '. $userModDetails['action'] .' successfull!</div>';
         //send notification mail if checked
         if ($userModDetails['notifyUser']) {
         	include('userModEmailNotif.php');

@@ -13,12 +13,8 @@ checkAdmin();
 $ad = $_POST;
 
 /* Update settings! */
-if(!updateADsettings($ad)) {
-	print '<div class="error">Failed to update AD settings!</div>';
-}
-else {
-	print '<div class="success">AD settings updated!</div>';
-}
+if(!updateADsettings($ad)) 	{ print '<div class="alert alert-error alert-absolute">Failed to update AD settings!</div>'; }
+else 						{ print '<div class="alert alert-success alert-absolute">AD settings updated!</div>'; }
 
 
 ?>

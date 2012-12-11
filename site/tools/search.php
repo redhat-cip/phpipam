@@ -1,38 +1,28 @@
 <?php
 
 /* verify that user is authenticated! */
-require_once('../../functions/functions.php');
 isUserAuthenticated ();
 
 /* get posted search term */
-if($_POST['ip']) {
-	$searchTerm = $_POST['ip'];
-}
-
-
-/* die if viewer */
-if(isUserViewer()) {
-	die('<div class="error">You do not have permissions to access this page!</div>');
-}
+if($_REQUEST['ip']) { $searchTerm = $_REQUEST['ip']; }
+else				{ $searchTerm = ""; }
 ?>
+
+<h4>Search IP database</h4>
+<hr>
 
 <!-- search form -->
 <form id="search" name="search">
-	Enter search term (IP address / hostname / description / switch / port):<br>
-	<input type="text" name="ip" value="<?php print $searchTerm; ?>" style="width:250px" class="search">
-	<input type="submit" value="search">
+	<div class="input-append">
+		<input class="span2 search" id="appendedInputButton" name="ip" value="<?php print $searchTerm; ?>" size="16" type="text"><input type="submit" class="btn" value="search">
+	</div>
 </form>
-
 
 <!-- result -->
 <div class="searchResult">
 <?php
 /* include results if IP address is posted */
-if ($searchTerm) {
-	include('searchResults.php');
-}
-else {
-	include('searchTips.php');
-}
+if ($searchTerm) 	{ include('searchResults.php'); }
+else 				{ include('searchTips.php');}
 ?>
 </div>

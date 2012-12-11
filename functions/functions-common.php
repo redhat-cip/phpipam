@@ -43,7 +43,8 @@ function isUserAuthenticated()
     
     /* redirect if not authenticated */
     if (empty($_SESSION['ipamusername'])) {
-        die('<div class="error">Please <a href="login">login</a> first!</div>');
+    	if(defined('BASE')) 	{ die('<div class="error">Please <a href="login">'.BASE.'login/</a> first!</div>'); }
+    	else 					{ die('<div class="error">Please <a href="login">/login/</a> first!</div>'); }
     }
     /* close session */
     session_write_close();
@@ -58,13 +59,11 @@ function isUserAuthenticated()
 function isUserAuthenticatedNoAjax () 
 {
     /* open session and get username / pass */
-	if (!isset($_SESSION)) { 
-		session_start();
-	}
-    
+	if (!isset($_SESSION)) { session_start(); }
     /* redirect if not authenticated */
-    if (empty($_SESSION['ipamusername'])) {
-        header("Location:login");
+    if (empty($_SESSION['ipamusername'])) { 
+    	if(defined('BASE')) 	{ header("Location:".BASE."login/"); }
+    	else					{ header("Location:/login/"); }
     }
     /* close session */
     session_write_close();    
@@ -76,8 +75,7 @@ function isUserAuthenticatedNoAjax ()
  */
 function checkAdmin ($die = true, $startSession = true) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* first get active username */
     if(!isset($_SESSION)) {
@@ -91,7 +89,8 @@ function checkAdmin ($die = true, $startSession = true)
 
     /* Check connection */
     if ($database->connect_error) {
-		header('Location: login');
+    	if(defined('BASE')) 	{ header("Location:".BASE."login/"); }
+    	else					{ header("Location:/login/"); }
 	}
 
 	/* set query if database exists! */
@@ -109,13 +108,9 @@ function checkAdmin ($die = true, $startSession = true)
     }
     else {
     	//die
-    	if($die == true) {
-	        die('<div class="error">Not admin!</div>');
-    	}
+    	if($die == true) { die('<div class="alert alert-error">Not admin!</div>'); }
     	//return false if called
-    	else {
-    		return false;
-    	}
+    	else 			{ return false; }
     }
          
 }
@@ -126,8 +121,7 @@ function checkAdmin ($die = true, $startSession = true)
  */
 function isUserViewer () 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     
     /* first get active username */
 	if (!isset($_SESSION)) { 
@@ -180,8 +174,7 @@ function getActiveUserDetails ()
  */
 function getAllUsers ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from users order by id desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -197,8 +190,7 @@ function getAllUsers ()
  */
 function getAllAdminUsers ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where `role` = "Administrator" order by id desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -214,8 +206,7 @@ function getAllAdminUsers ()
  */
 function getUserDetailsById ($id)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where id = "'. $id .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -234,8 +225,7 @@ function getUserDetailsById ($id)
  */
 function getUserDetailsByName ($username)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where username LIKE BINARY "'. $username .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -265,8 +255,7 @@ function getUserDetailsByName ($username)
  */
 function getUniqueUsers ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -285,8 +274,7 @@ function getUniqueUsers ()
  */
 function getUniqueHosts ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -314,8 +302,7 @@ function getUniqueHosts ()
  */
 function getAllSettings()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass']); 
 
     /* first check if table settings exists */
@@ -339,6 +326,16 @@ function getAllSettings()
 		return false;
 	}
 }
+
+
+/**
+ * Get SVN version
+ */
+function getSVNversion() {
+	$revision = shell_exec('svnversion');
+	return $revision;
+}
+
 
 /**
  * validate email
@@ -371,6 +368,219 @@ function ShortenText($text, $chars = 25) {
 	
     return $text; 
 } 
+
+
+
+
+
+
+
+
+
+
+/* @menu builder */
+
+/**
+ * Build the HTML menu
+ *
+ * based on http://pastebin.com/GAFvSew4
+ */
+function get_menu_html( $subnets, $rootId = 0 )
+{
+		$html = array();
+		
+		foreach ( $subnets as $item )
+			$children[$item['masterSubnetId']][] = $item;
+		
+		# loop will be false if the root has no children (i.e., an empty menu!)
+		$loop = !empty( $children[$rootId] );
+		
+		# initializing $parent as the root
+		$parent = $rootId;
+		$parent_stack = array();
+		
+		# display selected subnet as opened
+		if(isset($_REQUEST['subnetId'])) 	{ $allParents = getAllParents ($_REQUEST['subnetId']); }
+		else 								{ $allParents = array(); }
+		
+		# Menu start
+		$html[] = '<ul id="subnets">';
+		
+		while ( $loop && ( ( $option = each( $children[$parent] ) ) || ( $parent > $rootId ) ) )
+		{
+			# count levels
+			$count = count( $parent_stack ) + 1;
+			
+			# set opened or closed tag for displaying proper folders
+			if(in_array($option['value']['id'], $allParents))	{ $open = "open"; }
+			else												{ $open = "close"; }
+			
+			# for active class
+			if(isset($_REQUEST['subnetId']) && ($option['value']['id'] == $_REQUEST['subnetId']))	{ $active = "active";	$leafClass=""; }
+			else 																					{ $active = ""; 		$leafClass="icon-gray" ;}
+			
+			
+			if ( $option === false )
+			{
+				$parent = array_pop( $parent_stack );
+				
+				# HTML for menu item containing childrens (close)
+				$html[] = '</ul>';
+				$html[] = '</li>';
+			}
+			# Has children
+			elseif ( !empty( $children[$option['value']['id']] ) )
+			{	
+				# print name
+				if($option['value']['showName'] == 1) {
+					$html[] = '<li class="folder folder-'.$open.' '.$active.'"><i class="icon-gray icon-folder-'.$open.'" rel="tooltip" data-placement="right" title="Subnet contains more subnets.<br>Click on folder to open/close."></i>';
+					$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'">'.$option['value']['description'].'</a>'; 				
+				}
+				# print subnet
+				else {
+					$html[] = '<li class="folder folder-'.$open.' '.$active.'""><i class="icon-gray icon-folder-'.$open.'" rel="tooltip" data-placement="right" title="Subnet contains more subnets.<br>Click on folder to open/close."></i>';
+					$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.$option['value']['description'].'">'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'</a>'; 										
+				}
+
+				# print submenu
+				$html[] = '<ul class="submenu submenu-'.$open.'">';					
+								
+				array_push( $parent_stack, $option['value']['masterSubnetId'] );
+				$parent = $option['value']['id'];
+			}
+			# Leaf items (last)
+			else
+				# print name
+				if($option['value']['showName'] == 1) {				
+				$html[] = '<li class="leaf '.$active.'""><i class="'.$leafClass.' icon-chevron-right"></i>';
+				$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'">'.$option['value']['description'].'</a></li>';
+				}
+				# print subnet
+				else {
+				$html[] = '<li class="leaf '.$active.'""><i class="'.$leafClass.' icon-chevron-right"></i>';
+				$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.$option['value']['description'].'">'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'</a></li>';					
+				}
+		}
+		
+		# Close menu
+		$html[] = '</ul>';
+		
+		return implode( "\n", $html );
+}
+
+
+/**
+ *	get whole tree path for subnetId - from slave to parents
+ */
+function getAllParents ($subnetId) 
+{
+	$parents = array();
+	$root = false;
+	
+	while($root == false) {
+		$subd = getSubnetDetailsById($subnetId);		# get subnet details
+		
+		if($subd['masterSubnetId'] != 0) {
+			array_unshift($parents, $subd['masterSubnetId']);
+			$subnetId  = $subd['masterSubnetId'];
+		}
+		else {
+			array_unshift($parents, $subd['masterSubnetId']);
+			$root = true;
+		}
+	}
+
+	return $parents;
+}
+
+
+/**
+ *	get whole tree path for subnetId - from parent all slaves
+ *
+ * 	if multi than create multidimensional array
+ */
+$removeSlaves = array();
+
+function getAllSlaves ($subnetId, $multi = false) 
+{
+	global $removeSlaves;
+	$end = false;			# breaks while
+	
+	$removeSlaves[] = $subnetId;		# first
+
+	# db
+	global $db;                                                                      # get variables from config file
+	$database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+	
+	while($end == false) {
+		
+		/* get all immediate slaves */
+		$query = "select * from `subnets` where `masterSubnetId` = '$subnetId' order by `id` asc; ";    
+		/* execute query */
+		$slaves2 = $database->getArray($query); 
+		
+		# we have more slaves
+		if(sizeof($slaves2) != 0) {
+			# recursive
+			foreach($slaves2 as $slave) {
+				$removeSlaves[] = $slave['id'];
+				getAllSlaves ($slave['id']);
+				$end = true;
+			}
+		}
+		# no more slaves
+		else {
+			$end = true;
+		}
+	}
+}
+
+
+/**
+ *	print breadcrumbs
+ */
+function printBreadcrumbs ($req)
+{
+	# subnets
+	if($req['page'] == "subnets")	{
+		if(isset($req['subnetId'])) {
+			# get all parents
+			$parents = getAllParents ($req['subnetId']);
+			print "<ul class='breadcrumb'>";
+			# remove root - 0
+			array_shift($parents);
+			
+			# section details
+			if(is_numeric($req['section']))	{ $section = getSectionDetailsById($req['section']); }					# if id is provided
+			else							{ $section = getSectionDetailsByName($req['section']); }				# if name is provided
+			
+			print "	<li><a href='subnets/$section[name]/'>$section[name]</a> <span class='divider'>/</span></li>";	# section name
+			
+			foreach($parents as $parent) {
+			$subnet = getSubnetDetailsById($parent);
+			print "	<li><a href='subnets/$section[name]/$parent/'>$subnet[description] (".Transform2long($subnet['subnet']).'/'.$subnet['mask'].")</a> <span class='divider'>/</span></li>";								# subnets in between
+			}
+			$subnet = getSubnetDetailsById($req['subnetId']);
+			print "	<li class='active'>$subnet[description] (".Transform2long($subnet['subnet']).'/'.$subnet['mask'].")</li>";																# active subnet
+			print "</ul>";
+		}
+	}
+	# admin
+	else if($req['page'] == "admin")
+	{
+		
+	}
+	# tools
+	else if ($req['page'] == "tools") {
+		if(isset($req['tpage'])) {
+			print "<ul class='breadcrumb'>";
+			print "	<li><a href='tools/'>Tools</a> <span class='divider'>/</span></li>";
+			print "	<li class='active'>$req[tpage]></li>";
+			print "</ul>";
+		}
+	}
+}
+
 
 
 

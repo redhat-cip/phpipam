@@ -4,23 +4,20 @@
  * Script to manage sections
  *************************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 checkAdmin();
 
 ?>
 
-<h3>Import subnets from RIPE</h3>
+<h4>Import subnets from RIPE</h4>
+<hr><br>
 
-This script imports subnets from RIPE database for specific AS. Enter desired AS to start import process:
+<div class="alert alert-info">This script imports subnets from RIPE database for specific AS. Enter desired AS to search for subnets.</div>
 
-
-<br><br>
 <form name="ripeImport" id="ripeImport">
-	AS<input type="text" name="as" placeholder="number">
-	<input type="submit" value="Import">
+	<div class="input-append">
+		<input class="span2 search" id="appendedInputButton" placeholder="number" name="as" size="16" type="text"><input type="submit" class="btn" value="Search">
+	</div>
 </form>
 
 <!-- result -->

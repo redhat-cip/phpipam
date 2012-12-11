@@ -4,7 +4,7 @@
 
 phpipam has the following requirements to run:
 
-    - Apache2 web server
+    - Apache2 web server with php and mod_rewrite support (set "AllowOverride all" in vhost config)
     - Mysql server (5.1+)
     - PHP version 5.2+ with following modules (on Windows php 5.3 is required!)
         + + mysqli              : Adds support for the improved mySQL libraries

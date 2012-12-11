@@ -8,11 +8,8 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(isset($_POST['ip'])) {
 		$searchTerm = $_REQUEST['ip'];
-		
 		//remove default
-		if($searchTerm == "search") {
-			$searchTerm = "";
-		}
+		if($searchTerm == "search") { $searchTerm = ""; }
 	}
 	require_once('../../functions/functions.php');
 }
@@ -29,43 +26,28 @@ $searchTerm = str_replace("*", "%", $searchTerm);
 /* check if mac address */
 if(strlen($searchTerm) == 17) {
 	//count : -> must be 5
-	if(substr_count($searchTerm, ":") == 5) {
-		$type = "mac";
-	}
+	if(substr_count($searchTerm, ":") == 5) 												{ $type = "mac"; }
 }
 else if(strlen($searchTerm) == 12) {
 	//no dots or : -> mac without :
-	if( (substr_count($searchTerm, ":") == 0) && (substr_count($searchTerm, ".") == 0) ) {
-		$type = "mac";
-	}	
+	if( (substr_count($searchTerm, ":") == 0) && (substr_count($searchTerm, ".") == 0) ) 	{ $type = "mac"; }	
 }
 /* ok, not MAC! */
-else {
-	/* identify address type */
-	$type = IdentifyAddress( $searchTerm );
-}
+else 																						{ $type = IdentifyAddress( $searchTerm ); }		# identify address type
 
 
-if ($type == "IPv4") {
-	/* reformat the IPv4 address! */
-	$searchTermEdited = reformatIPv4forSearch ($searchTerm);
-}
-else if ($type == "mac") {
-}
-else {
-	/* reformat the IPv4 address! */
-	$searchTermEdited = reformatIPv6forSearch ($searchTerm);
-}
+# reformat
+if ($type == "IPv4") 		{ $searchTermEdited = reformatIPv4forSearch ($searchTerm);}		# reformat the IPv4 address!
+else if ($type == "mac") 	{  }
+else 						{ $searchTermEdited = reformatIPv6forSearch ($searchTerm); }	# reformat the IPv4 address!
 
-/* check also subnets! */
+# check also subnets! 
 $subnets = searchSubnets ($searchTerm, $searchTermEdited);
 
-
-/* check also VLANS! */
+# check also VLANS!
 $vlans = searchVLANs ($searchTerm);
 
-
-/* get all custom fields */
+# get all custom fields 
 $myFields = getCustomIPaddrFields();
 
 
@@ -93,42 +75,35 @@ $query .= 'order by `ip_addr` asc;';
 /* get result */
 $result = searchAddresses ($query);
 
-
 /* get all selected fields for IP print */
 $setFieldsTemp = getSelectedIPaddrFields();
 /* format them to array! */
 $setFields = explode(";", $setFieldsTemp);
 
-
 /* get all selected fields */
 $myFields = getCustomIPaddrFields();
-
 
 # set col size
 $fieldSize 	= sizeof($setFields);
 $mySize 	= sizeof($myFields);
 $colSpan 	= $fieldSize + $mySize + 3;
 
+# disable export for viewers
+if(checkAdmin(false) == false) 	{ $uClass = "disabled"; }
+else 							{ $uClass = ""; }
 ?>
 
-<h3>
-	Search results (IP address list): 
-	<?php
-	if(sizeof($result) != 0) {
-		print('<a href="" id="exportSearch" title="Export All results to XLS"><img src="css/images/download.png"></a>');
-	}	
-	?>
-</h3>
+<h4> Search results (IP address list): <?php if(sizeof($result) != 0) { print('<a href="" id="exportSearch" class="'.$uClass.'" rel="tooltip" title="Export All results to XLS"><button class="btn btn-small '.$uClass.'"><i class="icon-download"></i></button></a>');} ?></h4>
+<hr>
 
 <!-- export holder -->
 <div class="exportDIVSearch"></div>
 
 <!-- search result table -->
-<div class="searchTable normalTable">
-<table class="searchTable normalTable">
+<table class="searchTable table table-striped table-condensed table-top table-hover">
 
 <!-- headers -->
-<tr class="th" id="searchHeader">
+<tr id="searchHeader">
 <?php
 
 	print '<th>IP address</th>'. "\n";
@@ -137,34 +112,19 @@ $colSpan 	= $fieldSize + $mySize + 3;
 	print '<th>Description</th>'. "\n";
 	print '<th>Hostname</th>'. "\n";
 	# mac
-	if(in_array('mac', $setFields)) {
-	print '<th></th>'. "\n";
-	}
+	if(in_array('mac', $setFields)) 										{ print '<th></th>'. "\n"; }
 	# switch
-	if(in_array('switch', $setFields)) {
-	print '<th>Switch</th>'. "\n";
-	}
+	if(in_array('switch', $setFields))										{ print '<th>Switch</th>'. "\n"; }
 	# port
-	if(in_array('port', $setFields)) {
-	print '<th>Port</th>'. "\n";
-	}
-	
+	if(in_array('port', $setFields)) 										{ print '<th>Port</th>'. "\n"; }
 	# owner and note
-	if( (in_array('owner', $setFields)) && (in_array('note', $setFields)) ) {
-	print '<th colspan="2">Owner</th>'. "\n";
-	}
-	else if (in_array('owner', $setFields)) {
-	print '<th>Owner</th>'. "\n";	
-	}
-	else if (in_array('note', $setFields)) {
-	print '<th></th>'. "\n";
-	}
+	if( (in_array('owner', $setFields)) && (in_array('note', $setFields)) ) { print '<th colspan="2">Owner</th>'. "\n"; }
+	else if (in_array('owner', $setFields)) 								{ print '<th>Owner</th>'. "\n";	}
+	else if (in_array('note', $setFields)) 									{ print '<th></th>'. "\n"; }
 	
 	# custom fields
 	if(sizeof($myFields) > 0) {
-		foreach($myFields as $myField) {
-			print '<th>'. $myField['name'] .'</th>'. "\n";
-		}
+		foreach($myFields as $myField) 										{ print '<th>'. $myField['name'] .'</th>'. "\n"; }
 	}
 ?>
 </tr>
@@ -174,7 +134,7 @@ $colSpan 	= $fieldSize + $mySize + 3;
 
 /* if no result print nothing found */
 if(sizeof($result) == 0) {
-	print('<tr class="th"><td>Nothing found for search query "'. $_REQUEST['ip'] .'" in ip address list!</td><tr>');
+	print('<tr><td colspan="'.$colSpan.'"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in ip address list!</div></td><tr>');
 }
 else {
 	$m = 0;		//for section change
@@ -190,7 +150,7 @@ else {
 	
 		//detect section change and print headers
 		if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
-			print '<tr class="th">' . "\n";
+			print '<tr>' . "\n";
 			print '	<th colspan="'. $colSpan .'">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
 			print '</tr>';
 		}
@@ -209,69 +169,57 @@ else {
 		if(in_array('mac', $setFields)) {
 			print '	<td>'. "\n";
 			if(strlen($line['mac']) > 0) {
-				print '<img class="info" src="css/images/lan.png" title="MAC: '. $line['mac'] .'">'. "\n";
+				print '<i class="icon-mac" rel="tooltip" title=""MAC: '. $line['mac'] .'"></i>'. "\n";
 			}
 		print '	</td>'. "\n";
 		}
 		
 		# switch
-		if(in_array('switch', $setFields)) {
-		print ' <td>'. $line['switch']  .'</td>' . "\n";
-		}
+		if(in_array('switch', $setFields)) 										{ print ' <td>'. $line['switch']  .'</td>' . "\n"; }
 		# port
-		if(in_array('port', $setFields)) {
-		print ' <td>'. $line['port']  .'</td>' . "\n";
-		}
-		
+		if(in_array('port', $setFields)) 										{ print ' <td>'. $line['port']  .'</td>' . "\n"; }
 		# owner and note
 		if((in_array('owner', $setFields)) && (in_array('note', $setFields)) ) {
-		
 			print ' <td>'. $line['owner']  .'</td>' . "\n";
 			print ' <td class="note">' . "\n";
 			if(!empty($line['note'])) {
 				$line['note'] = str_replace("\n", "<br>",$line['note']);
-				print '	<img class="info" src="css/images/note.png" title="'. $line['note']. '">' . "\n";
+				print '<i class="icon-gray icon-comment" rel="tooltip" title="'. $line['note']. '"></i>' . "\n";
 			}
 			print '</td>'. "\n";
 		}
 		# owner only
-		else if (in_array('owner', $setFields)) {
-			print ' <td>'. $line['owner']  .'</td>' . "\n";		
-		}
+		else if (in_array('owner', $setFields)) 								{ print ' <td>'. $line['owner']  .'</td>' . "\n";	}
 		# note only
 		else if (in_array('note', $setFields)) {
 			print '<td class="note">' . "\n";
 			if(!empty($line['note'])) {
 				$line['note'] = str_replace("\n", "<br>",$line['note']);
-				print '	<img class="info" src="css/images/note.png" title="'. $line['note']. '">' . "\n";
+				print '	<i class="icon-gray icon-comment" rel="tooltip" title="'. $line['note']. '"></i>' . "\n";
 			}
 			print '</td>'. "\n";
 		}
-		
 		# custom
 		if(sizeof($myFields) > 0) {
-			foreach($myFields as $myField) {
-				print '<td class="customField">'. $line[$myField['name']] .'</td>'. "\n";
-			}
+			foreach($myFields as $myField) 										{ print '<td class="customField">'. $line[$myField['name']] .'</td>'. "\n"; }
 		}
-
 		print '</tr>' . "\n";
 	}
 }
 ?>
 </table>
-</div>
 
 
 
 <!-- search result table -->
-<h3>Search results (Subnet list):</h3>
+<br>
+<h4>Search results (Subnet list):</h4>
+<hr>
 
-<div class="searchTable normalTable subnetSearch">
-<table class="searchTable normalTable subnetSearch">
+<table class="searchTable table table-striped table-condensed table-top table-hover">
 
 <!-- headers -->
-<tr class="th" id="searchHeader">
+<tr id="searchHeader">
 	<th>Section</th>
 	<th>Subnet</th>
 	<th>Mask</th>
@@ -279,13 +227,13 @@ else {
 	<th>Master subnet</th>
 	<th>VLAN</th>
 	<th>Requests</th>
-	<th><img src="css/images/lock.png"></th>
+	<th><i class="icon-gray icon-lock"></i></th>
 </tr>
 
 
 <?php
 if(sizeof($subnets) == 0) {
-	print '<tr class="th"><td colspan="9">Nothing found for search query "'. $_REQUEST['ip'] .'" in subnets!</td><tr>'. "\n";
+	print '<tr class="th"><td colspan="9"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in subnets!</div></td><tr>'. "\n";
 }
 else {
 
@@ -301,7 +249,7 @@ else {
 		else 							{ $line['allowRequests'] = "disabled"; }
 	
 		//format lock
-		if($line['adminLock'] == 1) 	{ $img = '<img src="css/images/lock.png">'; }
+		if($line['adminLock'] == 1) 	{ $img = '<i class="icon-gray icon-lock" rel="tooltip" title="Subnet is locked for writing for non-admins!"></i>'; }
 		else 							{ $img = ""; }
 	
 		//format master subnet
@@ -329,19 +277,19 @@ else {
 ?>
 
 </table>
-</div>
 
 
 
 
 <!-- search result table -->
-<h3>Search results (VLANs):</h3>
+<br>
+<h4>Search results (VLANs):</h4>
+<hr>
 
-<div class="searchTable normalTable vlanSearch">
-<table class="searchTable normalTable vlanSearch">
+<table class="vlanSearch table table-striped table-condensed table-top table-hover">
 
 <!-- headers -->
-<tr class="th" id="searchHeader">
+<tr id="searchHeader">
 	<th>Name</th>
 	<th>Number</th>
 	<th>Description</th>
@@ -352,7 +300,7 @@ else {
 
 <?php
 if(sizeof($vlans) == 0) {
-	print '<tr class="th"><td colspan="4">Nothing found for search query "'. $_REQUEST['ip'] .'" in VLANs!</td><tr>'. "\n";
+	print '<tr class="th"><td colspan="6"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in VLANs!</div></td><tr>'. "\n";
 }
 else {
 
@@ -364,8 +312,8 @@ else {
 		/* no belonging subnets! */
 		if(sizeof($subnets) == 0) {
 			print '<tr class="nolink">' . "\n";
-			print ' <td><dd>'. $vlan['number']      .'</dd></td>' . "\n";
-			print ' <td><dd>'. $vlan['name']        .'</dd></td>' . "\n";
+			print ' <td><dd>'. $vlan['name']      .'</dd></td>' . "\n";
+			print ' <td><dd>'. $vlan['number']        .'</dd></td>' . "\n";
 			print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";				
 			print ' <td>----</td>' . "\n";
 			print ' <td>----</td>' . "\n";
@@ -387,8 +335,8 @@ else {
 
 			/* print first 3 only if change happened! */
 			if(strlen($change) > 0) {
-				print ' <td><dd>'. $vlan['number']         .'</dd></td>' . "\n";
-				print ' <td><dd>'. $vlan['name']           .'</dd></td>' . "\n";
+				print ' <td><dd>'. $vlan['name']         .'</dd></td>' . "\n";
+				print ' <td><dd>'. $vlan['number']           .'</dd></td>' . "\n";
 				print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";			
 			}
 			else {
@@ -417,4 +365,3 @@ else {
 ?>
 
 </table>
-</div>

@@ -56,10 +56,10 @@ $mail['content'] .= '<tr><th style="padding: 2px 10px;text-align:left; border-ri
 $mail['content'] .= '</table>' . "\n";
 
 if($userModDetails['domainUser'] == 0) {
-$mail['content'] .= '<br>You can login to IPAM with your username and password here: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
+$mail['content'] .= '<br>You can login to IPAM with your username and password here: <a href="'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
 }
 else {
-$mail['content'] .= '<br>You can login to IPAM with your <b>DOMAIN</b> username and password here: <a href="http://'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
+$mail['content'] .= '<br>You can login to IPAM with your <b>DOMAIN</b> username and password here: <a href="'. $settings['siteURL'] .'">'. $settings['siteURL'] . '</a><br>' . "\n";
 }
 
 $mail['content'] .= '</div>'. "\n";
@@ -77,13 +77,13 @@ $mail['content'] .= '</html>'. "\n";
 
 /* send mail */
 if (!mail($mail['recipients'], $mail['subject'], $mail['content'], $mail['headers'] )) {
-	print '<div class="error">Sending notification mail for new account failed!</div>';
+	print '<div class="alert alert-error">Sending notification mail for new account failed!</div>';
 	//write log
 	$text = 'Sending notification mail for new account to '. $mail['recipients'] . ' failed!';
 	updateLogTable ($text, $severity = 2);
 }
 else {
-	print '<div class="success">Notification mail for new account sent!</div>';
+	print '<div class="alert alert-success">Notification mail for new account sent!</div>';
 	//write log
 	$text = 'Sending notification mail for new account to '. $mail['recipients'] . ' succeeded!';
 	updateLogTable ($text, $severity = 1);

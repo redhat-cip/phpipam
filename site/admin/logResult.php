@@ -1,4 +1,4 @@
-<table class="normalTable logs">
+<table id="logs" class="table table-condensed table-hover table-top">
 
 <?php
 
@@ -7,7 +7,9 @@
  **********************************/
  
 /* required functions */
+if(!function_exists('countAllLogs')) {
 require_once('../../functions/functions.php'); 
+}
 
 /* if nothing is provided display all! */
 if ( empty($_POST['Informational']) && empty($_POST['Notice']) && empty($_POST['Warning']) ) {
@@ -18,12 +20,12 @@ if ( empty($_POST['Informational']) && empty($_POST['Notice']) && empty($_POST['
 ?>
 
 <!-- print headers -->
-<tr class="th">
-    <th class="id">Id</th>
+<tr>
+    <th class="date" style="width:130px;white-space:nowrap">Date</th>
     <th>Severity</th>
     <th>Username</th>
+    <th>IP address</th>
     <th colspan="2">Event</th>
-    <th class="date">Date</th>
 </tr>
 
 <!-- print logs -->
@@ -76,12 +78,15 @@ foreach ($logs as $log)
 	    /* set classes based on severity */   
 	    if ($log['severity'] == 0) {
 	        $log['severityText'] = "Informational";
+	        $color = "success";
 	    }
 	    else if ($log['severity'] == 1) {
 	        $log['severityText'] = "Notice";
+	        $color = "warning";
 	    }
 	    else {
 	        $log['severityText'] = "Warning";
+	        $color = "error";
 	    }
     
     	if (in_array($log['severityText'], $_POST)) {
@@ -89,27 +94,27 @@ foreach ($logs as $log)
     		/* format date */
 /*     		$log['date'] = date("Y/m/d H:i:s", mktime($log['date'])); */
     
-   	    	print '<tr class="'. $log['severityText'] .'" id="'. $log['id'] .'">'. "\n";
-   	    	print '	<td class="id">'. $log['id'] .'</td>'. "\n";
+   	    	print '<tr class="'.$color.' '. $log['severityText'] .'" id="'. $log['id'] .'">'. "\n";
+         	print '	<td class="date">'. $log['date']     .'</td>'. "\n";
    	    	print '	<td class="severity"><span>'. $log['severity'] .'</span>'. $log['severityText'] .'</td>'. "\n";
         	print '	<td class="username">'. $log['username'] .'</td>'. "\n";
-            print '	<td class="command">'. $log['command']  .'</td>'. "\n";
-            
+        	print '	<td class="ipaddr">'. $log['ipaddr'] .'</td>'. "\n";
+            print '	<td class="command"><a href="" class="openLogDetail" data-logid="'.$log['id'].'">'. $log['command']  .'</a></td>'. "\n";
+            print '	<td class="detailed">';
             /* details */
-            if(!empty($log['details'])) {
-            print '	<td class="detailed"><img src="css/images/infoIP.png" title="<b>Event details</b>:<hr>'. $log['details'] .'"></td>'. "\n";            
-            }
-            else {
-            print '	<td class="detailed"></td>'. "\n";
-        	}
-        	
-        	print '	<td class="date">'. $log['date']     .'</td>'. "\n";
+            if(!empty($log['details'])) { print '	<i class="icon-comment icon-gray" rel="tooltip" data-html="true" title="<b>Event details</b>:<hr>'. $log['details'] .'"></i></td>'. "\n"; }
+            print '	</td>'. "\n";
         	print '</tr>'. "\n";
     	}    	
 	}
 	$x++;
 }
-
 ?>
 
 </table>	<!-- end filter table -->
+
+<?php
+if(sizeof($logs)== 0) {
+	print "<div class='alert alert-info'>No logs available!</div>";
+}
+?>

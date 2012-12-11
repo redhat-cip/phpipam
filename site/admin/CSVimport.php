@@ -14,35 +14,49 @@ checkAdmin();
 CheckReferrer();
 ?>
 
-<!-- jQuery uploader -->
-<script src="js/jquery.fileUploader.js" type="text/javascript"></script>
+<!-- header -->
+<div class="pHeader">XLS / CSV subnet import</div>
 
-<!-- overlay -->
-<div class="csvImportOverlay">
 
-<!-- title -->
-<h3>XLS / CSV subnet import</h3>
-
-<!-- notes -->
-To successfully import data please use the following XLS/CSV structure:<br>( ip | State | Description | hostname | MAC | Owner | Switch | Port | Note )
-<br>
-<img src="css/images/csvuploadexample.jpg" style="border:1px solid #999999">
-<br>
-<hr>
-
-<!-- Upload file form -->
-<h3>1.) Upload file:</h3>
-<form name="csvimport" id="csvimport" enctype="multipart/form-data" action="site/admin/CSVimportVerify.php">
-	<!-- file -->
-	Select CSV file: <input type="file" name="file" id="csvfile">
+<!-- content -->
+<div class="pContent">
 	
-	<!-- submit -->
-	<input type="button" value="Clear" id="csvclear">
-	<input type="submit" value="Upload" id="csvsubmit">
-</form>
+	<?php  
+	# get custom fields
+	#get all custom fields!
+	$myFields = getCustomIPaddrFields();
+	if(sizeof($myFields) > 0) {
+		$custFields = " | ";
+		foreach($myFields as $myField) {
+			$custFields .= "$myField[name] | ";
+		}
+		# remove last |
+		$custFields = substr($custFields, 0,-2);
+	}
+	?>
 
-<!-- Upload JS -->
-<script type="text/javascript">
+	<!-- notes -->
+	To successfully import data please use the following XLS/CSV structure:<br>( ip | State | Description | hostname | MAC | Owner | Switch | Port | Note <?php print $custFields; ?> )
+	<br>
+	<img src="css/images/csvuploadexample.jpg" style="border:1px solid #999999">
+	<br><br>
+
+	<!-- Upload file form -->
+	<h4>1.) Upload file:</h4>
+	<hr>
+	<form name="csvimport" id="csvimport" enctype="multipart/form-data" action="site/admin/CSVimportVerify.php">
+		<!-- file -->
+		Select CSV file: <input type="file" name="file" id="csvfile">
+		<!-- submit -->
+		<input type="button" class="btn btn-small" value="Clear" id="csvclear"> 
+		<input type="submit" class="btn btn-small" value="Upload" id="csvsubmit">
+	</form>
+
+	<!-- jQuery uploader -->
+	<script src="js/jquery.fileUploader.js" type="text/javascript"></script>
+	
+	<!-- Upload JS -->
+	<script type="text/javascript">
 	$(function(){
 		$('#csvfile').fileUploader({
 			limit: '',
@@ -55,20 +69,26 @@ To successfully import data please use the following XLS/CSV structure:<br>( ip 
 			inputSize: 30,
 			allowedExtension: 'csv|xls',
 			callback: function(e) {
- 
 			}
 		});
 	});
-</script>
+	</script>
 
+	<!-- Import file -->
+	<h4>2.) Import file:</h4>
+	<hr>
 
-<!-- Import file -->
-<h3>2.) Import file:</h3>
+	<!-- import button -->
+	<input type="button" class="btn btn-small" value="Show uploaded subnets" id="csvimportcheck">
 
-<!-- import button -->
-<input type="button" value="Import" id="csvimportcheck">
+	<!-- verification holder -->
+	<div class="csvimportverify"></div>
 
-<!-- verification holder -->
-<div class="csvimportverify"></div>
+</div>
 
-</div>	<!-- end csvimportoverlay -->
+<!-- footer -->
+<div class="pFooter">
+	<button class="btn btn-small hidePopups">Close window</button>
+	<!-- result -->
+	<div class="csvImportResult"></div>
+</div>

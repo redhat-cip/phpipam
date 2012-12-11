@@ -5,22 +5,15 @@
  *
  */
 
-/* include required scripts */
-require_once('../../functions/functions.php');
-
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
 
 /* die if viewer */
-if(isUserViewer()) {
-	die('<div class="error">You do not have permissions to access this page!</div>');
-}
+if(isUserViewer()) { die('<div class="alert alert-error">You do not have permissions to access this page!</div>');}
 ?>
 
 <!-- autocomplete -->
-<link type="text/css" href="css/jquery-ui-1.8.14.custom.css" rel="stylesheet">	
-<script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
 <script>
 $(function() {
 	//get all hostnames
@@ -43,19 +36,18 @@ $(function() {
 
 
 
-<?php
+<!-- set title -->
+<h4>List of available hosts</h4>
+<hr><br>
 
-/* set title */
-print '<h3>List of available hosts</h3>'. "\n";
+<!-- search form -->
+<form id="hosts" name="hosts" action="/">
+	<div class="input-append">
+		<input class="span2 hostsFilter" id="appendedInputButton" name="hostsFilter" value="<?php print $_REQUEST['hostname']; ?>" size="16" type="text" placeholder="Search filter"><input type="submit" class="btn" value="Filter">
+	</div>
+</form>
 
-/* search form */
-print '<form name="hosts" id="hosts">'. "\n";
-print 'Search filter: <input type="text" name="hostname" id="hostsFilter">'. "\n";
-print ' <input type="submit" value="Filter">'. "\n";
-print '</form>'. "\n";
-
-/* result */
-print '<div class="hostsFilterResult">'. "\n";
-include_once('hostsResult.php');	
-print '</div>'. "\n";
-?>
+<!-- result -->
+<div class="hostsFilterResult">
+<?php include_once('hostsResult.php'); ?>
+</div>

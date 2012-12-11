@@ -1,0 +1,45 @@
+RewriteEngine on
+
+# change rewrite base if not in root
+RewriteBase /
+
+# redirect errors
+ErrorDocument 400 /error/400/
+ErrorDocument 401 /error/401/
+ErrorDocument 403 /error/403/
+ErrorDocument 404 /error/404/
+ErrorDocument 500 /error/500/
+RewriteRule ^error/(.*)/$ index.php?page=error&eid=$1 [L]
+
+# login
+RewriteRule ^login$ login/ [R]
+RewriteRule ^login/$ index.php?page=login
+# logout
+RewriteRule ^logout$ logout/ [R]
+RewriteRule ^logout/$ index.php?page=logout
+# ip requests
+RewriteRule ^request_ip$ request_ip/ [R]
+RewriteRule ^request_ip/$ index.php?page=request_ip
+
+# upgrade
+RewriteRule ^upgrade$ upgrade/ [R]
+RewriteRule ^upgrade/$ index.php?page=upgrade
+# install
+RewriteRule ^install$ install/ [R]
+RewriteRule ^install/$ index.php?page=install
+
+# subnets
+RewriteRule ^subnets/(.*)/(.*)/$ index.php?page=subnets&section=$1&subnetId=$2 [L]
+RewriteRule ^subnets/(.*)/$ index.php?page=subnets&section=$1
+
+# search override
+RewriteRule ^tools/search/(.*)$ index.php?page=tools&toolsId=search&ip=$1 [L]
+# hosts override
+RewriteRule ^tools/hosts/(.*)$ index.php?page=tools&toolsId=hosts&hostname=$1 [L]
+# tools
+RewriteRule ^tools/(.*)/$ index.php?page=tools&toolsId=$1 [L]
+RewriteRule ^tools/$ index.php?page=tools&toolsId=showAll [L]
+
+# admin
+RewriteRule ^administration/(.*)/$ index.php?page=administration&adminId=$1 [L]
+RewriteRule ^administration/$ index.php?page=administration&adminId=showAll [L]

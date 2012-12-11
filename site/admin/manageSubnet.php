@@ -4,184 +4,109 @@
  * Script to print subnets
  ***************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 if (!checkAdmin()) die('');
 
 /* print all sections with delete / edit button */
-print '<h3>Subnet management</h3>' . "\n";
+print '<h4>Subnet management</h4>' . "\n";
+print "<hr>";
 
-print 'Select section to edit belonging Subnets:' . "\n";
 
 /* first we need to fetch all sections */
 $sections = fetchSections ();
 
+/* get all site settings */
+$settings = getAllSettings();
 
-/**
- * Foreach section fetch subnets and print it!
- */
-foreach ($sections as $section) 
-{
-print '<div class="manageSubnets normalTable">' . "\n";
-print '<table class="manageSubnets normalTable">' . "\n";
-
-/* first headers */
-print '<thead class="'. $section['id'] .'">' . "\n";
-print '	<tr class="th"><td colspan="7"><h3>'. $section['name'] .'</h3></td>' . "\n";
-print '</thead>' . "\n";
-       
-print '<tbody class="'. $section['id'] .'">' . "\n";
-print '	<tr class="th">' . "\n";
-print '		<th>Subnet</th>' . "\n";
-print '		<th>Description</th>' . "\n";
-print '		<th>Master Subnet</th>' . "\n";
-print '		<th>VLAN</th>' . "\n";
-print '		<th colspan=2>Requests</th>' . "\n";
-print '		<th colspan=2></th>' . "\n";
-print '	</tr>' . "\n";
-
-/* print all subnets in section if they exist */
-$subnets = fetchMasterSubnets ( $section['id'] );
-    
-if (!empty($subnets)) {
-
-	# master subnets
-	foreach ($subnets as $subnet) {
-
-		# slaves
-		$slaves = getAllSlaveSubnetsBySubnetId ($subnet['id']);
-		if(sizeof($slaves) != 0) { $masterHasSbunetsClass = "hasSlaves"; }
-		else 					 { $masterHasSbunetsClass = "noSlaves"; }
-
-		print '	<tr class="masterSubnet '. $masterHasSbunetsClass .'">' . "\n";
-        print '		<td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
-       	print '		<td>'. $subnet['description'] .'</td>' . "\n";
-		print '		<td>/</td>' . "\n";
-		
-		# VLAN
-		$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
-		$subnet['VLAN'] = $subnet['VLAN']['number'];
-		
-		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
-		print '		<td>'. $subnet['VLAN']        .'</td>' . "\n";
-		
-		# requests
-		if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests">enabled</td>'; }
-		else 								{ print '<td class="allowRequests"></td>'; }
-		
-		# check if it is locked for writing
-		if(isSubnetWriteProtected($subnet['id'])) 	{ print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	} 
-		else 										{ print '<td class="edit nolock"></td>';}
-		
-
-        print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $subnet['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
-        print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $subnet['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
-        print '	</tr>' . "\n";
-		
-		
-		if(sizeof($slaves) != 0) 
-		{
-			foreach($slaves as $slave) 
-			{
-		
-				$master = getSubnetDetailsById ($slave['masterSubnetId']);
-			
-				print '	<tr class="slaveSubnet">' . "\n";
-		        print '		<td class="subnet">'. transform2long($slave['subnet']) .'/'. $slave['mask'] .'</td>' . "\n";
-		       	print '		<td>'. $slave['description'] .'</td>' . "\n";
-				print '		<td class="masterSubnet">'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
-		
-				# VLAN
-				$slave['VLAN'] = subnetGetVLANdetailsById($slave['vlanId']);
-				$slave['VLAN'] = $slave['VLAN']['number'];
-				
-				if(empty($slave['VLAN']) || $slave['VLAN'] == 0) { $slave['VLAN'] = ""; }
-				print '		<td>'. $slave['VLAN']        .'</td>' . "\n";
-		
-				# requests
-				if($slave['allowRequests'] == 1) 	{ print '<td class="allowRequests">enabled</td>'; }
-				else 								{ print '<td class="allowRequests"></td>'; }
-		
-				# check if it is locked for writing
-				if(isSubnetWriteProtected($slave['id'])) 	{ print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	} 
-				else 										{ print '<td class="edit nolock"></td>';}
-
-    		    print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $slave['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
-    		    print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $slave['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
-        		print '	</tr>' . "\n";
-        	
-        	
-        		/* Check for L2 Slaves! */
-        		$subSlaves = getAllSlaveSubnetsBySubnetId ($slave['id']);
-        		
-        		if(sizeof($subSlaves) != 0) 
-        		{
-        			foreach($subSlaves as $subSlave) 
-        			{
- 
-						$master = getSubnetDetailsById ($subSlave['masterSubnetId']);
-			
-						print '	<tr class="slaveSubnet subSlaveSubnet">' . "\n";
-		        		print '		<td class="subnet">'. transform2long($subSlave['subnet']) .'/'. $subSlave['mask'] .'</td>' . "\n";
-		       			print '		<td>'. $subSlave['description'] .'</td>' . "\n";
-						print '		<td class="masterSubnet">'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
-		
-						# VLAN
-						if(empty($subSlave['VLAN']) || $subSlave['VLAN'] == 0) { $subSlave['VLAN'] = ""; }
-						print '		<td>'. $subSlave['VLAN']        .'</td>' . "\n";
-		
-						# requests
-						if($subSlave['allowRequests'] == 1) 	{ print '<td class="allowRequests">enabled</td>'; }
-						else 									{ print '<td class="allowRequests"></td>'; }
-		
-						# check if it is locked for writing
-						if(isSubnetWriteProtected($subSlave['id'])) { print '<td class="edit lock" title="Subnet is locked for writing!"></td>';	} 
-						else 										{ print '<td class="edit nolock"></td>';}
-
-    		    		print '		<td class="edit"><img src="css/images/edit.png"   class="Edit"   subnetId="'. $subSlave['id'] .'" sectionId="'. $section['id'] .'" title="Edit subnet"></td>' . "\n";
-    		    		print '		<td class="edit"><img src="css/images/deleteIP.png" class="Delete" subnetId="'. $subSlave['id'] .'" sectionId="'. $section['id'] .'" title="Delete subnet"></td>' . "\n";
-        				print '	</tr>' . "\n";
-        			
-        			}
-        		}
-        	}
-			
-		}
+/* read cookie for showing subnets */
+if(isset($_COOKIE['showSubnets'])) {
+	if($_COOKIE['showSubnets'] == 1) {
+		$display = "";
+		$icon    = "icon-resize-small";	
+		$iconchevron = "icon-chevron-down";
+	}
+	else {
+		$display = "display:none";
+		$icon    = "icon-resize-full";	
+		$iconchevron = "icon-chevron-right";	
 	}
 }
-
-    /* add new link */
-    print '	<tr class="addNew info add">' . "\n";
-    print '		<td colspan="8" class="info">' . "\n";
-    print '			<img src="css/images/add.png" class="Add" sectionId="'. $section['id'] .'" title="Add new subnet to '. $section['name'] .'"> Add new subnet to '. $section['name'] . "\n";
-    print '		</td>' . "\n";
-    print '	</tr>' . "\n";
-
-    /* add / edit / delete holder */
-    print '	<tr class="th manageSubnetEdit">' . "\n";
-    print '		<td colspan="5">' . "\n";
-    print '			<div class="manageSubnetEdit">a</div>' . "\n";
-    print '		</td>' . "\n";
-    print '	</tr>' . "\n";
-
-    /* end tbody */
-    print '</tbody>' . "\n";
-
-print '</table>' . "\n";
-print '</div>' . "\n";
+else {
+		$display = "display:none";
+		$icon    = "icon-resize-full";
+		$iconchevron = "icon-chevron-right";	
 }
+
+
+/* Foreach section fetch subnets and print it! */
+if(sizeof($sections) > 0) {
+
+	# expand / collapse
+	print "<button id='toggleAllSwitches' class='btn btn-small pull-right' rel='tooltip' data-placement='left' title='click to show/hide all subnets'><i class='icon-gray $icon'></i></button>";
+	
+	# print  table structure
+	print "<table id='manageSubnets' class='table table-striped table-condensed table-top table-hover table-absolute'>";
+	
+	$m = 0;	# for subnet id
+	
+	# print titles and content
+	foreach($sections as $section)
+	{
+		# set colcount
+		if($settings['enableVRF'] == 1)		{ $colCount = "7"; }
+		else								{ $colCount = "6"; }
+		
+		# print name
+		print "<tbody id='subnet-$m'>";
+		print "<tr class='subnet-title'>";
+		print "	<th colspan='$colCount'>";
+		print "		<h4><button class='btn btn-small' id='subnet-$m' rel='tooltip' title='click to show/hide belonging subnets'><i class='icon-gray $iconchevron'></i></button> $section[name] </h4>";
+		print "	</th>";
+		print "</tr>";
+		print "</tbody>";
+		
+		# get all subnets in section
+		$subnets = fetchSubnets($section['id']);
+	
+		# collapsed div with details
+		print "<tbody id='content-subnet-$m' style='$display'>";
+				
+		# headers
+		print "<tr>";
+		print "	<th>Subnet</th>";
+		print "	<th>Description</th>";
+		print "	<th>VLAN</th>";
+		if($settings['enableVRF'] == 1) {
+		print "	<th>VRF</th>";
+		}
+		print "	<th>Requests</th>";
+		print "	<th></th>";							# lock
+		print "	<th class='actions' style='width:140px;white-space:nowrap;'></th>";
+		print "</tr>";
+
+		# add new link
+		print "<tr>";
+		print "	<td colspan='$colCount'>";
+		print "		<button class='btn btn-small editSubnet' data-action='add' data-sectionid='$section[id]' rel='tooltip' data-placement='right' title='Add new subnet to section $section[name]'><i class='icon-gray icon-plus'></i> Add subnet</button>";
+		print "	</td>";
+		print "	</tr>";
+
+		# no subnets
+		if(sizeof($subnets) == 0) {
+			print "<tr><td colspan='$colCount'><div class='alert alert-warn'>Section has no subnets!</div></td></tr>";
+		}	
+		else {
+			# subnets
+			foreach ($subnets as $subnet) {					
+				$subnets = printAdminSubnets($subnets, true, $settings['enableVRF']);
+				print $subnets;				
+			}
+		}
+		print "</tbody>";
+		$m++;
+	}
+	
+	# end master table
+	print "</table>";
+} 
 ?>
-
-
-<!-- slide to edit -->
-<script type="text/javascript" src="js/jquery.slideto.v1.1.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$('img.Edit,img.Delete,img.Add').slideto({
-		target : '.manageSubnetEdit', 
-		speed  : 'fast'
-	});
-});
-</script>

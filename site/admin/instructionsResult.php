@@ -17,11 +17,7 @@ $instructions = $_POST['instructions'];
 
 
 /* write changes */
-if(!writeInstructions ($instructions)) {
-	die('<div class="error">Failed to update instructions!</div>');
-}
-else {
-	die('<div class="success">Instructions updated successfully!</div>');	
-}
+if(!writeInstructions ($instructions)) 	{ die('<div class="alert alert-error alert-absolute">Failed to update instructions!</div>'); }
+else 									{ die('<div class="alert alert-success alert-absolute">Instructions updated successfully!</div>');	}
 
 ?>

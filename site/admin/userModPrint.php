@@ -12,125 +12,64 @@ checkAdmin();
 
 /* get all settings */
 $settings = getAllSettings();
+?>
 
+
+<!-- header -->
+<div class="pHeader">
+<?php
 /**
  * If action is not set get it form post variable!
  */
 if (!$action) {
-
     $action = $_POST['action'];
     $id     = $_POST['id'];
     
     //fetch all requested userdetails
     $user = getUserDetailsById($id);
     
-    if(!empty($user['real_name'])) {
-    	print '<h3>'. $action .'  user "'. $user['real_name'] .'"</h3>';
-    }
-    else {
-		print '<h3>Add new user</h3>';    
-    }
+    if(!empty($user['real_name'])) 	{ print ucwords($action) .'  user '. $user['real_name']; }
+    else 							{ print 'Add new user'; }
 }
 else {
-	/**
-	 * Set dummy data
-	 */
+	/* Set dummy data  */
 	$user['real_name'] = '';
 	$user['username']  = '';
 	$user['email']     = '';
 	$user['password']  = '';
 	
-	print '<h3>Add new user</h3>';
+	print 'Add new user';
 }
 ?>
+</div>
 
-<div class="normalTable userMod">
 
-<form id="userMod" name="userMod">
+<!-- content -->
+<div class="pContent">
 
-<table class="userMod normalTable">
+	<form id="userMod" name="userMod">
+	<table class="userMod table table-noborder table-condensed">
 
-<!-- real name -->
-<tr>
-    <td>Real name</td> 
-    <td>
-        <input type="text" name="real_name" value="<?php print $user['real_name']; ?>">
-    </td>
-    <td class="info">Enter users real name</td>
-</tr>
+	<!-- real name -->
+	<tr>
+	    <td>Real name</td> 
+	    <td><input type="text" name="real_name" value="<?php print $user['real_name']; ?>"></td>
+       	<td class="info">Enter users real name</td>
+    </tr>
 
-<!-- username -->
-<tr>
-    <td>Username</td> 
-    <td>
-        <input type="text" name="username" value="<?php print $user['username']; ?>" <?php if($action == "Edit") print 'readonly'; ?>>
-    </td>   
-    <td class="info">Enter username</td>
-</tr>
+    <!-- username -->
+    <tr>
+    	<td>Username</td> 
+    	<td><input type="text" name="username" value="<?php print $user['username']; ?>" <?php if($action == "Edit") print 'readonly'; ?>></td>   
+    	<td class="info">Enter username</td>
+    </tr>
 
-<!-- username -->
-<tr>
-    <td>e-mail</td> 
-    <td>
-        <input type="text" name="email" value="<?php print $user['email']; ?>">
-    </td>
-    <td class="info">Enter users email address (mail with details will be sent to user after creation!)</td>
-</tr>
-
-<!-- password -->
-<tr>
-    <td>Password</td> 
-    <td>
-        <input type="password" class="userPass" name="password1">
-    </td>   
-    <td class="info">Users password (<a href="#" id="randomPass">click to generate random!</a>)</td>
-</tr>
-
-<!-- password repeat -->
-<tr>
-    <td>Password (repeat)</td> 
-    <td>
-        <input type="password" class="userPass" name="password2">
-    </td>   
-    <td class="info">Re-type password</td>
-</tr>
-
-<!-- send notification mail -->
-<tr>
-    <td>Notification</td> 
-    <td>
-        <input type="checkbox" name="notifyUser" <?php if($action == "Add") { print 'checked'; } else if($action == "Delete") { print 'disabled="disabled"';} ?>>
-    </td>   
-    <td class="info">Send notification email to user with account details</td>
-</tr>
-
-<!-- theme -->
-<tr>
-    <td>Full-width theme</td> 
-    <td>
-        <input type="checkbox" name="useFullPageWidth" value="1" <?php if($user['useFullPageWidth'] == 1) { print 'checked'; }  ?>>
-    </td>   
-    <td class="info">Check to use full-width theme</td>
-</tr>
-
-<!-- role -->
-<tr>
-    <td>User role</td> 
-    <td>
-        <select name="role">
-            <option name="admin"    <?php if ($user['role'] == "Administrator") print "selected"; ?>>Administrator</option>
-            <option name="operator" <?php if ($user['role'] == "Operator")      print "selected"; ?>>Operator</option>      
-            <option name="viewer" 	<?php if ($user['role'] == "Viewer")      	print "selected"; ?>>Viewer</option> 
-        </select>
-    </td> 
-    <td class="info">Select user role
-    <ul>
-    	<li>Administrator is almighty</li>
-    	<li>Operator can view/edit IP addresses (cannot add section, subnets, modify server settings etc)</li>
-    	<li>Viewer can only view IP addresses</li>
-    </ul>
-    </td>  
-</tr>
+    <!-- email -->
+    <tr>
+    	<td>e-mail</td> 
+    	<td><input type="text" name="email" value="<?php print $user['email']; ?>"></td>
+    	<td class="info">Enter users email address</td>
+    </tr>
 
 <!-- type -->
 <?php
@@ -143,7 +82,7 @@ else {
 	print '<tr>'. "\n";
     print '	<td>User Type</td> '. "\n";
     print '	<td>'. "\n";
-    print '	<select name="domainUser">'. "\n";
+    print '	<select name="domainUser" id="domainUser">'. "\n";
     print '	<option value="0" '. "\n";
     		if ($user['domainUser'] == "0") print "selected"; 
     print '	>Local user</option>'. "\n";
@@ -161,33 +100,68 @@ else {
 	print '</tr>'. "\n";
 
 }
-
+	if ($user['domainUser'] == "1") { $disabled = "disabled"; }
+	else 							{ $disabled = ""; }
 ?>
 
 
-<!-- Submit and hidden values -->
-<tr class="th">
-    <td></td> 
-    <td class="submit">
+    <!-- password -->
+    <tr class="password">
+    	<td>Password</td> 
+    	<td><input type="password" class="userPass" name="password1" <?php print $disabled; ?>></td>
+    	<td class="info">Users password (<a href="#" id="randomPass">click to generate random!</a>)</td>
+    </tr>
+
+    <!-- password repeat -->
+    <tr class="password">
+    	<td>Password</td> 
+    	<td><input type="password" class="userPass" name="password2" <?php print $disabled; ?>></td>   
+    	<td class="info">Re-type password</td>
+    </tr>
+
+    <!-- send notification mail -->
+    <tr>
+    	<td>Notification</td> 
+    	<td><input type="checkbox" name="notifyUser" <?php if($action == "add") { print 'checked'; } else if($action == "delete" || $action = "edit") { print 'disabled="disabled"';} ?>></td>   
+    	<td class="info">Send notification email to user with account details</td>
+    </tr>
+
+    <!-- role -->
+    <tr>
+    	<td>User role</td> 
+    	<td>
+        <select name="role">
+            <option name="admin"    <?php if ($user['role'] == "Administrator") print "selected"; ?>>Administrator</option>
+            <option name="operator" <?php if ($user['role'] == "Operator")      print "selected"; ?>>Operator</option>      
+            <option name="viewer" 	<?php if ($user['role'] == "Viewer")      	print "selected"; ?>>Viewer</option> 
+        </select>
+        
         <input type="hidden" name="userId" value="<?php if(isset($user['id'])) { print $user['id']; } ?>">
         <input type="hidden" name="action" value="<?php print $action; ?>">
         
-        <input type="submit" value="<?php print $action; ?> User">
-    </td>   
-    <td></td>
-</tr>
-
-<!-- Edit / add result -->
-<tr class="th">
-    <td colspan="3">
-        <div class="userModResult"></div>
-    </td>
-    <td></td>
-</tr>
+        </td> 
+        <td class="info">Select user role
+	    	<ul>
+		    	<li>Administrator is almighty</li>
+		    	<li>Operator can view/edit IP addresses (cannot add section, subnets, modify server settings etc)</li>
+		    	<li>Viewer can only view IP addresses</li>
+		    </ul>
+		</td>  
+	</tr>
 
 </table>
 </form>
+
 </div>
 
 
-<!-- Result -->
+
+
+<!-- footer -->
+<div class="pFooter">
+	<button class="btn btn-small hidePopups">Cancel</button>
+	<button class="btn btn-small" id="editUserSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> user</button>
+
+	<!-- Result -->
+	<div class="userModResult"></div>
+</div>

@@ -5,111 +5,108 @@
  *
  */
 
-/* include required scripts */
-require_once('../../functions/functions.php');
 
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
 /* die if viewer */
-if(isUserViewer()) {
-	die('<div class="error">You do not have permissions to access this page!</div>');
-}
+if(isUserViewer()) { die('<div class="alert alert-error">You do not have permissions to access this page!</div>'); }
 
 /* get all unique switches */
 $switches = getAllUniqueSwitches();
 
 /* add unspecified */
-$switches[] = $switch['hostname'];
+$switches[] = array("id"=>"","hostname"=>"");
 
 /* switch count for collapse / extend */
 $m = 0;
 
+# title
+print "<h4>List of switches and belonging devices</h4>";
+print "<hr>";
+
+# main table frame
+print "<table id='switchMainTable' class='switches table table-striped table-top table-hover table-condensed'>";
+
 /* print */
 foreach($switches as $switch) {
 
-	/* Get all I addresses belonging to switch */
-	$ipaddresses = getIPaddressesBySwitchName ( $switch['hostname'] );
+	/* Get all IP addresses belonging to switch */
+	$ipaddresses = getIPaddressesBySwitchName ( $switch['id'] );
 	
 	/* Get switch details */
 	$switchDetails = getSwitchDetailsByHostname($switch['hostname']);
 	
-	if(sizeof($switchDetails['hostname']) == 0) {
-		$switchDetails['hostname'] = 'Not specified';
+	if(empty($switchDetails['hostname'])) 		{ 
+		$switchDetails['hostname'] = 'Switch not specified'; 
+		$switchDetails['ip_addr']  = "";
 	}
-	else {
-		$switchDetails['ip_addr'] = '(' . $switchDetails['ip_addr'] .')';
+	else 										{ 
+		$switchDetails['ip_addr'] = "($switchDetails[ip_addr])";
 	}
 	
 	/* reformat if empty */
-	if(empty($switch['hostname'])) {
-		$switch['hostname'] = "Unspecified";
-	}
+	if(empty($switch['hostname'])) 				{ $switch['hostname'] = "Unspecified";}
 	
-	/* count size */
+	# count size
 	$size = sizeof($ipaddresses);
 	
-	/* print table */
-	print '<div class="normalTable">'. "\n";
-	print '<table class="normalTable switches">'. "\n";
+	# print name
+	print "<tbody id='switch-$m'>";
+	print "<tr class='switch-title'>";
+	print "	<th colspan='7'>";
+	print "		<h4><button class='btn btn-small' id='switch-$m' rel='tooltip' title='click to show/hide belonging IP addresses'><i class='icon-gray icon-chevron-right'></i></button> $switchDetails[hostname] $switchDetails[ip_addr]</h4>";
+	print "	</th>";
+	print "</tr>";
+	print "</tbody>";
 	
-	/* Switch name */
-	print '<tr class="th">'. "\n";
-	print '	<th colspan="8"><h3><a href="" id="switch-'. $m .'">'. $switchDetails['hostname'] .' '. $switchDetails['ip_addr'] .'</a> <img src="css/images/sort_right.png"></h3></th>'. "\n";
-	print '</tr>'. "\n";
-	
-	
-	print '</table>';
-	
-	/* collapse div */
-	print '<div id="switch-'. $m .'-expand" style="display:none;">'. "\n";
-
-	print '<table class="normalTable switches">'. "\n";
+	# collapsed div with details
+	print "<tbody id='content-switch-$m'>";
 		
-	/* title */
-	print '<tr class="th dashed">'. "\n";
-	print '	<td>Port</td>'. "\n";
-	print '	<td>IP address</td>'. "\n";
-	print '	<td>Subnet</td>'. "\n";
-	print '	<td colspan="2">Description</td>'. "\n";
-	print '	<td>Hostname</td>'. "\n";
-	print '	<td>Owner</td>'. "\n";
-	print '</tr>'. "\n";
+	# headers
+	print "<tr>";
+	print "	<th>IP address</th>";
+	print "	<th>Port</th>";
+	print "	<th>Subnet</th>";
+	print "	<th colspan='2'>Description</th>";
+	print "	<th>Hostname</th>";
+	print "	<th>Owner</th>";
+	print "</tr>";
 	
+	# IP addresses
 	foreach ($ipaddresses as $ip) {
 	
-		//get subnet details
+		# get subnet details for belonging IP
 		$subnet = getSubnetDetails ($ip['subnetId']);
-		//get section details
+		# get section details
 		$section = getSectionDetailsById ($subnet['sectionId']);
 	
-		print '<tr id="'. $ip['id'] .'" subnetId="'. $ip['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
-		print '	<td class="port">'. $ip['port'] .'</td>'. "\n";
-		print '	<td class="ip">'. transform2long($ip['ip_addr']) .'/'. $subnet['mask'] .'</td>'. "\n";
-		print '	<td class="subnet">'. $subnet['description'] .'</td>'. "\n";
-		print '	<td class="description">'. $ip['description'] .'</td>'. "\n";
+		# print
+		print "<tr>";
+		print "	<td class='ip'>".transform2long($ip['ip_addr'])."/$subnet[mask]</td>";
+		print "	<td class='port'>$ip[port]</td>";
+		print "	<td class='subnet'><a href='/subnets/$section[id]/$subnet[id]/'>$subnet[description]</a></td>";
+		print "	<td class='description'>$ip[description]</td>";
 
-		// print info button for hover
-		print '<td class="note">' . "\n";
+		# print info button for hover
+		print "<td class='note'>";
 		if(!empty($ip['note'])) {
 			$ip['note'] = str_replace("\n", "<br>",$ip['note']);
-			print '	<img class="info" src="css/images/note.png" title="'. $ip['note']. '">' . "\n";
+			print "	<i class='icon-gray icon-comment' rel='tooltip' title='$ip[note]'></i>";
 		}
-		print '</td>'. "\n";
+		print "</td>";
 		
-		print '	<td class="dns">'. $ip['dns_name'] .'</td>'. "\n";
-		print '	<td class="owner">'. $ip['owner'] .'</td>'. "\n";
-		print '</tr>'. "\n";
+		print "	<td class='dns'>$ip[dns_name]</td>";
+		print "	<td class='owner'>$ip[owner]</td>";
+		print "</tr>";
 	
 	}
 	
-	print '</tr>'. "\n";
-	
-	print '</table>'. "\n";
-	print '</div>'. "\n";
-	
-	print '</div>';	#major switch div
+	print "</tr>";
+	print "</tbody>";
 	
 	$m++;
 }
+
+print "</table>";			# end major table
 ?>

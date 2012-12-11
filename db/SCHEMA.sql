@@ -28,15 +28,17 @@ CREATE TABLE `settings` (
   `donate` tinyint(1) DEFAULT 0,
   `IPfilter` varchar(128) DEFAULT NULL,
   `strictMode` tinyint(1) DEFAULT '1',
+  `printLimit` int(4) unsigned DEFAULT '25',
+  `vlanDuplicate` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 
-INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableDNSresolving`, `version`, `IPfilter`)
+INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableDNSresolving`, `version`, `IPfilter`, `printLimit`, `vlanDuplicate`)
 VALUES
-	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.7', 'mac;owner;state;switch;port;note');
+	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,0, '0.7', 'mac;owner;state;switch;port;note', '25', '0');
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -65,7 +67,7 @@ LOCK TABLES `users` WRITE;
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `real_name`, `email`, `domainUser`)
 VALUES
-	(2,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965','Administrator','Admin user','admin@domain.local','30');
+	(2,'Admin','d10bb806e97d3538fb13b5581db11e9e','Administrator','phpIPAM Admin','admin@domain.local','30');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -210,6 +212,7 @@ CREATE TABLE `logs` (
   `severity` int(11) DEFAULT NULL,
   `date` varchar(32) DEFAULT NULL,
   `username` varchar(32) DEFAULT NULL,
+  `ipaddr` VARCHAR(64)  NULL DEFAULT NULL,
   `command` varchar(128) DEFAULT '0',
   `details` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`)

@@ -8,266 +8,40 @@
 $(document).ready(function () {
 
 
-/* hide error div if jquery loads ok
-*********************************************/
-$('div.jqueryError').hide();
-$('div.loading').hide();
 
+/* @general functions */
 
-/*	loading spinner functions
-*******************************/
-function showSpinner() {
-    $('div.loading').show();
+/*loading spinner functions */
+function showSpinner() { $('div.loading').show(); }
+function hideSpinner() { $('div.loading').fadeOut('fast'); }
+
+/* tooltip hiding fix */
+function hideTooltips() { $('.tooltip').hide(); }
+
+/* popups */
+function showPopup(pClass) {
+	$('#popupOverlay').fadeIn('fast');
+	$('.'+pClass).fadeIn('fast');
+	$('body').addClass('stop-scrolling');		//disable page scrolling on bottom
 }
-function hideSpinner() {
-    $('div.loading').fadeOut('fast');
+function hidePopup(pClass) {
+	$('.'+pClass).fadeOut('fast');
 }
-
-/*	close error div
-*******************************/
-$('div.error').live('click', function() {
-	$(this).fadeOut();
-});
-
-/*	set reload duration after successfull edits!
-**************************************************/
-var reloadTimeout = 1000;
-
-
-/***************************************************************
-		all page functions
-***************************************************************/
-
-/*	Check and redirect
-************************************/
-function checkRedirection(data) {
-	if(data.search('<a href="login">') != -1) {
-		window.location = "login";
-	}
-}
-
-/*	Load homepage 
-*********************/
-function loadHome() {
-    showSpinner();
-    $('td#subnets').hide();
-    $('div.content').hide().load('site/home/home.php', function () {
-        hideSpinner();
-    }).fadeIn('fast');
-}
-
-/*	load subnets
-********************/
-function loadSubnets(section) {
-    //show loading spinner
-    showSpinner();
-    
-	//slide down slave subnets
-	var hash = document.location.toString();
-	var slaveId = hash.split('|')[1];
-	
-	var subnetDetails = "section=" + section + "&slaveId=" + slaveId;
-    
-    //show subnets td if hidden
-    $('td#subnets').slideDown();
-	
-	$.post('site/subnets.php', subnetDetails, function(data) {
-		$('div.subnets').html(data).slideDown('fast');
-		hideSpinner();
-		//redirect to home if "please login first"
-		checkRedirection(data);
-	});
-	//set text in content div
-	$('div.content').html('<h4>Please select Subnet from left menu!</h4>');
-	
-	//hide Spinner
+function hidePopups() {
+	$('#popupOverlay').fadeOut('fast');
+	$('.popup').fadeOut('fast');
+	$('body').removeClass('stop-scrolling')		//enable scrolling back
 	hideSpinner();
 }
+$('#popupOverlay, button.hidePopups').live('click', function() { hidePopups(); });
 
-/*	load ip addresses
-********************/
-function loadipaddresses(subnetId, section) {
-	$('div.content').fadeIn('fast');
-	showSpinner();
-	
-	$.post('site/ipAddressPrint.php', {subnetId:subnetId}, function(data) {
-		$('div.content').html(data);
-		hideSpinner();
-		checkRedirection(data);
-	});
-}
+//prevent loading for disabled buttons
+$('a.disabled, button.disabled').click(function() { return false; })
 
+//fix for menus on ipad
+$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
-/*	load slave ip addresses
-****************************/
-function loadSlaveIPAddresses(subnetId) {
-	showSpinner();
-	
-	$.post('site/ipAddressSlavesPrint.php', {subnetId:subnetId}, function(data) {
-		$('div.content').html(data).fadeIn('fast');
-		hideSpinner();
-		checkRedirection(data);
-	});
-}
-
-
-/*	modifyipaddress - load form
-********************************/
-function modifyipaddress(action,id,$subnetId) {
-    //format posted values
-	var postdata = "action=" + action + "&id=" + id + "&subnetId=" + $subnetId;
-	
-	$.post('site/modifyIpAddress.php', postdata, function(data) {
-		$('div.addnew_check').slideDown('fast');
-		$('div.addnew').removeClass('mail').html(data).slideDown('fast');
-		$('.tooltipTop').hide();
-	});	
-
-}
-
-/*	resolve DNS name
-****************************/
-$('img.refreshHostname').live('click', function() {
-	showSpinner();
-	var ipaddress = $('input.ip_addr').val();
-	$.post('site/tools/resolveDNS.php', {ipaddress:ipaddress}, function(data) {
-		if(data.length !== 0) {
-			$('input[name=dns_name]').val(data);
-		}
-		hideSpinner();
-	});
-});
-
-/*	modifyipaddress - check input
-**********************************/
-function modifyipaddresscheck() {
-	//show spinner
-	showSpinner();
-	//get active section
-	var section = $('table.newSections li.active').attr('id');
-	//get form values + add subnet
-	var postdata = $('form.editipaddress').serialize() + "&section=" + section;
-	
-	//we need subnetId to reload after successfull edit / add / delete
-	var subnetId = $('table.subnets tr.selected').attr('id');
-
-	$.post('site/modifyIpAddressCheck.php', postdata, function(data) {
-		$('div.addnew_check').html(data);
-		$('div.addnew_check').slideDown('fast');
-		//hideSpinner
-		hideSpinner();
-		//reload after 2 seconds if all is ok!
-		if(data.search("error") == -1) {
-			setTimeout( function (){
-			     loadipaddresses(subnetId); 
-					parameter = null;
-			     }, reloadTimeout);
-		}
-	});	
-}
-
-/*	load CSV import
-********************/
-function loadCSVImport() {
-	showSpinner();
-	
-	$.post('site/admin/CSVimport.php', function(data) {
-		$('div.ipaddresses_overlay').html(data);
-		hideSpinner();
-	});
-}
-
-
-
-/*	load Subnets, then load ip addresses in selected subnet 
-************************************************************/
-function hashLoadSubnets (section, subpage) {
-    loadSubnets(section);
-    setTimeout(function (){loadipaddresses(subpage, section); parameter = null;}, 100);
-    setTimeout(function (){addActiveSubnetClass(subpage); parameter = null;}, 100);
-}
-function hashLoadAdmin   (section, subpage) {
-    loadSubnets(section);
-    setTimeout(function (){loadAdminSubpage(subpage); parameter = null;}, 100);
-    setTimeout(function (){addActiveAdminClass(subpage); parameter = null;}, 100);
-}
-function hashLoadTools   (section, subpage) {
-    loadToolsMenu(section, subpage);
-    setTimeout(function (){loadToolsSubpage(subpage); parameter = null;}, 100);
-/*     setTimeout(function (){addActiveToolsClass(subpage); parameter = null;}, 100); */
-}
-
-/*	set active subnet on hash-load 
-*************************************/
-function addActiveSubnetClass (subpage) {
-    $('table.subnets tr.' + subpage).addClass('selected');
-}
-function addActiveAdminClass (subpage) {
-    $('table.admin tr.' + subpage).addClass('selected');
-}
-function addActiveToolsClass (subpage) {
-    $('table.subnets tr.' + subpage).addClass('selected');
-}
-
-/*	Load admin subpage 
-************************/
-function loadAdminSubpage(subpage) {
-
-    //show subnets td if hidden
-    $('td#subnets').slideDown();
-
-    showSpinner();
-    $('div.content').load('site/admin/' + subpage + '.php', function(data) {
-        hideSpinner();
-        checkRedirection(data);
-    }).fadeIn('fast');
-}
-
-/*	function to reload sections
-********************************/
-function reloadSections() {
-    $.post('site/sections.php', function(data) {
-        $('div.sections').html(data).fadeIn('fast');
-    });
-}
-
-/*	function to show all subnets 
-	in selected section in admin page
-***************************************/
-function showManageSubnetsBody (sectionId) {
-    //hide all
-    $('table.manageSubnets tbody').hide();
-    $('div.manageSubnetEdit').hide();
-    //show all belonging to selected class
-    $('table.manageSubnets tbody.'+ sectionId ).show('fast');
-}
-
-/*	function to load admin subpage
-	and body after small delay
-***************************************/
-function showManageSubnetsPageAndBody (subpage, sectionId) {
-    loadAdminSubpage(subpage);
-    setTimeout(function (){showManageSubnetsBody(sectionId); parameter = null;}, 50);
-    hideSpinner();
-}
-
-/*	load usermod subpage - if edit / delete successfull!
-*********************************************************/
-function loadUserModSubpage() {
-    showSpinner();
-    $('div.content').load('site/admin/userMod.php', function () {
-        hideSpinner();
-    }).fadeIn('fast');
-}
-
-/*	reload IP requests if accepted by admin!
-*********************************************************/
-function loadAdminIPRequestSubpage () {
-	hashLoadAdmin("Administration", "manageRequests");
-}
-
-/*	generate random password
-******************************/
+/*	generate random password */
 function randomPass() {
     var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     var pass = "";
@@ -278,867 +52,571 @@ function randomPass() {
     return pass;
 }
 
-/* Load Tools menu left 
-**************************/
-function loadToolsMenu (subPage) {
-    $('div.subnets').load('site/tools/toolsMenu.php').slideDown('fast', function () {
-        $('table.menu tr').removeClass('selected');
-        $('table.menu a#' + subPage).closest('tr').addClass('selected');
-    });
+/* open location */
+function openLocation(loc0, loc1, loc2) {
+	//only loc0
+	if(loc1.length == 0) 	{ window.location = loc0+"/"; }
+	//loc0 + loc1
+	if(loc2.length == 0) 	{ window.location = loc0+"/"+loc1+"/"; }
+	//both
+	else 					{ window.location = loc0+"/"+loc1+"/"+loc2+"/"; }
 }
 
-/* Load Tools subpage
-**************************/
-function loadToolsSubpage (subPage) {
-    showSpinner();
-    $('div.content').load('site/tools/' + subPage + '.php').slideDown('fast', function () {
-        $('table.menu tr').removeClass('selected');
-        $('table.menu a#' + subPage).closest('tr').addClass('selected');
-        hideSpinner();
-    });
+/* remove self on click */
+$('.selfDestruct').live('click', function() {
+	$(this).parent('div').fadeOut('fast');
+});
+
+/* @cookies */
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
 }
-
-/* Load both tools ans subpage 
-*********************************/
-function loadToolsMenuAndSubpage (subPage) {
-	//show subnets td if hidden
-    $('td#subnets').slideDown();
-    
-    $('table.menu tr').removeClass('selected');
-    loadToolsMenu (subPage);
-    setTimeout(function (){loadToolsSubpage (subPage); parameter = null;}, 100);  
-}
-
-/*	load search Page and post searchTerm
-********************************************/
-function loadSearchPage(searchTerm) {
-
-	//set href
-	document.location.href = "#tools|search";
-
-	showSpinner();
-	
-	//show subnets td if hidden
-    $('td#subnets').slideDown();
-	//load tools menu on right
-	loadToolsMenu ('search');
-
-    $.post('site/tools/search.php', searchTerm, function(data) {
-        $('div.content').html(data).fadeIn('fast');
-        hideSpinner();
-    });
-}
-/*	update search Page
-************************/
-function updateSearchPage(searchTerm) {
-
-	showSpinner();
-
-    $.post('site/tools/search.php', searchTerm, function(data) {
-        $('div.content').html(data).fadeIn('fast');
-        hideSpinner();
-    });
-}
-/*	update VLAN dropdown
-************************/
-function reloadVLANSelection () {
-	$('td#vlanDropdown').load('site/admin/manageVLANdropdownReload.php');
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
 }
 
 
 
-/***************************************************************
-		load hash-requested site
-***************************************************************/
-var hash = document.location.toString();
-if (hash.match('#')) 
-{
-	var section = hash.split('#')[1];
-	var subpage = section.split('|')[1];
-	var section2 = section.split('|')[0];
-	
-	//if subpage exists we must use section without |
-	if (subpage) {
-		//var section2 = section.split('|')[0];
-		//Add active class to selected section and subnet!
-	   $('table.newSections li[section="' + section2 + '"]').closest('li').addClass('active');
-	}
-	else {
-	   $('table.newSections li[section="' + section + '"]').closest('li').addClass('active');
-	}
-	
-	//do nothig if login
-	if (hash.indexOf("login") != -1) {
-	}
-	//load home if only # -> empty section
-	else if (section.length === 0) {
-        loadHome();
-	}
-	//load tools
-	else if (section.indexOf("tools") != -1) {
-        if(subpage)
-            loadToolsMenuAndSubpage (subpage);
-        else 
-            loadToolsMenu(section);
-    }
-	//load admin
-	else if ( section.indexOf("Administration") != -1) {
-        if(subpage)
-            hashLoadAdmin(section2, subpage);
-        else 
-            loadSubnets(section);
-	}
-	//load subnets
-	else {
-	   if (subpage)
-	       hashLoadSubnets(section2, subpage);
-	   else
-	       loadSubnets(section);
-	}
-}
-else 
-    loadHome();
 
 
 
 
-/****************************************************************
-		section menu 
-***************************************************************/
-$('table.newSections ul li, table.newSections td#Administration, table.newSections td#instructions, table.newSections td.tools').live('click', function () {
-	//get requested location - section
-	var sectionName = $(this).attr('section');
-	var sectionId   = $(this).attr('id');
-	
-	//set href
-	document.location.href = "#" + sectionName;
-	
-	//remove active class and add it to new clicked
-	$('table.newSections ul li').removeClass('active');
-	$(this).addClass('active');
-	
-	//if info load info
-	if (sectionId == "instructions" || sectionId == "tools") {
-		loadToolsMenuAndSubpage (sectionId);
-	}
-/*
-	else if (sectionId == "tools") {
-		
-	}
-*/
-	//load mainpage 
-	else {
-		loadSubnets(sectionId);
-	}
-	
+
+
+
+/* @subnets list ----------  */
+
+/* leftmenu toggle submenus */
+// default hide
+$('ul.submenu.submenu-close').hide();
+// left menu folder delay tooltip
+$('.icon-folder-close,.icon-folder-show, .icon-search').tooltip( {
+	delay: {show:2000, hide:0}, 
+	placement:"bottom"
+});
+// show submenus
+$('ul#subnets').on("click", ".icon-folder-close", function() {
+	//change icon
+	$(this).removeClass('icon-folder-close').addClass('icon-folder-open');
+	//find next submenu and hide it
+	$(this).nextAll('.submenu').slideDown('fast');
+});
+// hide submenus
+$('ul#subnets').on("click", "i.icon-folder-open", function() {
+	//change icon
+	$(this).removeClass('icon-folder-open').addClass('icon-folder-close');
+	//find next submenu and hide it
+	$(this).nextAll('.submenu').slideUp('fast');
+});
+
+//hide subnets list
+$('#hideSubnets').click(function() {
+	$('#leftMenu').hide('fast');
+	//expand content
+	$('#content').css("width","97.9147%");
 	return false;
-});
-
-
-
-/*	header link click
-**********************/
-$('div.header a').click(function () {
-    loadHome();
-});
-
-/*	load admin subpage form admin hover
-*****************************************/
-$('div.adminMenuDropdown dd').live('click', function() {
-	//get variables
-	var sectionName = $(this).attr('section');
-	var subpage = $(this).attr("id");
-	//set href
-	document.location.href = "#" + sectionName + "|" + subpage;
-	//load proper page
-	hashLoadAdmin('Administration', subpage);
-});
-
-/*	Show/hide admin hover menu
-*****************************************/
-$('table.newSections td#Administration').live("mouseover mouseout", function(event) {
-	if(event.type == "mouseover") {
-		$('div.adminMenuDropdown').stop(true,true).fadeIn('fast');
-	}
-	else {
-		$('div.adminMenuDropdown')/* .delay(500) */.fadeOut('fast');	
-	}
-});
-$('div.adminMenuDropdown dd').live("mouseenter", function() {
-	$('div.adminMenuDropdown').stop(true,true);
-	$('div.adminMenuDropdown').show();
-});
-
-$('div.adminMenuDropdown').live("mouseleave", function() {
-	$(this)/* .delay(300) */.fadeOut('fast');
-});
-
-
-
-/*	load tools subpage form tools hover
-*****************************************/
-$('div.toolsMenuDropdown dd').live('click', function() {
-	//get variables
-	var sectionName = $(this).attr('section');
-	var subpage = $(this).attr("id");
-	//set href
-	document.location.href = "#" + sectionName + "|" + subpage;
-	//load proper page
-	hashLoadTools('tools', subpage);
-});
-
-/*	Show/hide tools hover menu
-*****************************************/
-$('table.newSections td.tools').live("mouseover mouseout", function(event) {
-	if(event.type == "mouseover") {
-		$('div.toolsMenuDropdown').stop(true,true).fadeIn('fast');
-	}
-	else {
-		$('div.toolsMenuDropdown').fadeOut('fast');	
-	}
-});
-$('div.toolsMenuDropdown dd').live("mouseenter", function() {
-	$('div.toolsMenuDropdown').stop(true,true);
-	$('div.toolsMenuDropdown').show();
-});
-
-$('div.toolsMenuDropdown').live("mouseleave", function() {
-	$(this).fadeOut('fast');
-});
+})
 
 
 
 
 
 
-/***************************************************************
-		subnets 
-***************************************************************/
-
-/*	click on subnets to load it into content
- *		ignore slave and subslave toggles!
- ********************************************/
-$('table.subnets tr[class!=th] dd[class!=slavesToggle][class!=subSlavesToggle]').live("click", function () {
-	//get subnet and link
-	var subnet = $(this).attr('id');
-	var link   = $(this).attr('section');
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//make it bold and red!
-	$('table.subnets tr').removeClass('selected');
-	$(this).closest('tr').addClass('selected');
-	//load ip addresses
-	loadipaddresses(subnet);
-});
-
-/*	Toggle slaves!
-*********************************************/
-$('table.subnets tr[class!=th] dd.slavesToggle').live("click", function () {
-	var masterId = $(this).attr('id');
-
-	$('table.slaves tr').removeClass('selected');
-	$(this).closest('tr').addClass('selected');
-	
-	//show details in main page
-	loadSlaveIPAddresses (masterId);
-	
-	//change href for image
-	var imgSrc = $(this).parent('td').prev().children('img');
-	
-	if($(imgSrc).attr('src') === "css/images/folderOpened.png") { $(imgSrc).attr("src","css/images/folderClosed.png");}
-	else 											    		{ $(imgSrc).attr("src","css/images/folderOpened.png");}
-
-	//show Requested
-	$('div.slaveSubnets-' + masterId).slideToggle('fast');
-	//hide all tooltips!
-	$('div.tooltip,div.tooltipLeft,div.tooltipTop').hide();
-});
-/*	Toggle subSlaves!
-*********************************************/
-$('table.subnets tr[class!=th] dd.subSlavesToggle').live("click", function () {
-	var masterId = $(this).attr('id');
-	
-	//show details in main page
-	loadSlaveIPAddresses (masterId);
-	
-	//change href for image
-	var imgSrc = $(this).parent('td').prev().children('img');
-	
-	if($(imgSrc).attr('src') === "css/images/folderOpened.png") { $(imgSrc).attr("src","css/images/folderClosed.png");}
-	else 											    		{ $(imgSrc).attr("src","css/images/folderOpened.png");}
-
-	//show Requested
-	$('div.subSlaveSubnets-' + masterId).slideToggle('fast');
-	//hide all tooltips!
-	$('div.tooltip,div.tooltipLeft,div.tooltipTop').hide();
-});
 
 
-/*	add new subnet from subnets table
+
+
+/* @ipaddress list ---------- */
+
+
+/*	add / edit / delete IP address
 ****************************************/
-$('table.subnets td.plusSubnet').live("click", function () {
-    //set variables
-    var sectionId = $("table.newSections li.active").attr('id');
-    var postdata  = "sectionId=" + sectionId + "&subnetAction=Add&location=subnets";
-    //remove active class in subnets
-    $('table.subnets tr').removeClass('selected');
-    loadAddSectionFromSubnets(postdata);
-});
-/*	Show add new VLAN on subnet add/edit on-thy-fly
-***************************************************/
-$('select[name=vlanId]').live('change', function() {
-	var vlanId	= $(this).val();
-	
-	if(vlanId == 'Add') {
-		showSpinner();			
-		$.post('site/admin/manageVLANEdit.php', {action:"add", fromSubnet:"true"}, function(data) {
-			$('div#addNewVlanFromSubnetEdit').html(data).slideDown('fast');
-			hideSpinner();
-		});
-	}
-	else {
-		$('div#addNewVlanFromSubnetEdit').slideUp('fast');
-	}
-	return false;	
-});
-/*	Submit new VLAN on the fly
-***************************************************/
-$('form#vlanManagementEditFromSubnet').live('submit', function() {
-	showSpinner();
-
-	var postData = $(this).serialize();	
-	
-	$.post('site/admin/manageVLANEditResult.php', postData, function(data) {
-		$('div.vlanManagementEditFromSubnetResult').html(data).show();
+//show form
+$('a.modIPaddr').live("click", function () {
+	showSpinner();		
+	var action	  = $(this).attr('data-action');
+	var id        = $(this).attr('data-id');
+	var subnetId  = $(this).attr('data-subnetId');
+    //format posted values
+	var postdata = "action="+action+"&id="+id+"&subnetId="+subnetId;
+	$.post('site/ipaddr/modifyIpAddress.php', postdata, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
 		hideSpinner();
-		
-		// ok
-	    if(data.search("error") == -1) {
-            $('div#addNewVlanFromSubnetEdit').delay(reloadTimeout).slideUp('fast');
-            //reload select
-            setTimeout(function (){reloadVLANSelection (); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	
 	});
-	return false;	
+	return false;
+});
+//move orphaned IP address
+$('a.moveIPaddr').live("click", function () {
+	showSpinner();		
+	var action	  = $(this).attr('data-action');
+	var id        = $(this).attr('data-id');
+	var subnetId  = $(this).attr('data-subnetId');
+    //format posted values
+	var postdata = "action="+action+"&id="+id+"&subnetId="+subnetId;
+	$.post('site/ipaddr/moveIpAddress.php', postdata, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;
+});
+//	resolve DNS name
+$('#refreshHostname').live('click', function() {
+	showSpinner();
+	var ipaddress = $('input.ip_addr').val();
+	$.post('site/tools/resolveDNS.php', {ipaddress:ipaddress}, function(data) {
+		if(data.length !== 0) {
+			$('input[name=dns_name]').val(data);
+		}
+		hideSpinner();
+	});
+});
+//	submit ip address change
+$('button#editIPAddressSubmit').live("click", function () {
+	//show spinner
+	showSpinner();
+	var postdata = $('form.editipaddress').serialize();
+
+	$.post('site/ipaddr/modifyIpAddressCheck.php', postdata, function(data) {
+		$('div.addnew_check').html(data);
+		$('div.addnew_check').slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});	
+	return false;
 });
 
 
-/*	export Subnet and IP addresses
-****************************************/
-$('img.csvExport').live("click", function () {
-	var subnetId = $(this).attr('subnetId');
-
-	$('tr#selectFields').toggle();
+/*	send notification mail
+********************************/
+//show form
+$('a.mail_ipaddress').live("click", function () {
+	//get IP address id
+	var IPid = $(this).attr('data-id');
+	$.post('site/ipaddr/mailNotifyIP.php', { id:IPid }, function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
+	});
+	return false;
 });
-$('form#selectExportFields').live("submit", function () {
-	var subnetId = $('img.csvExport').attr('subnetId');
-	//get selected fields
-	var exportFields = $(this).serialize();
-
-	$("div.dl").remove();	//remove old innerDiv
-	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportSubnet.php?subnetId=" + subnetId + "&" + exportFields + "'></iframe></div>");
-
+//send mail with IP details!
+$('#mailIPAddressSubmit').live('click', function () {
+	showSpinner();
+	var mailData = $('form#mailNotify').serialize();
+	//post to check script
+	$.post('site/ipaddr/mailNotifyCheck.php', mailData, function(data) {
+		$('div.sendmail_check').html(data).slideDown('fast');
+		//hide if success!
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){hidePopups();}, 1500); }
+        else 							{ hideSpinner(); }	
+	});
 	return false;
 });
 
 
 
-/*	load CSV import form
-****************************************/
-$('img.csvImport').live("click", function () {
-	loadCSVImport();
-	//hide add ip form
-	$('table.ipaddress_subnet div.addnew').slideUp('fast');
+
+/*	sort IP address list
+*********************************************************/
+$('table.ipaddresses th a.sort').live('click', function() {
+	showSpinner();
+	
+	$(this).tooltip('hide');							//hide tooltips fix for ajax-load
+	
+	var direction = $(this).attr('data-id');			//sort direction
+	var subnetId  = $(this).attr('data-subnetId');		//id of the subnet
+	
+	$.post('site/ipaddr/ipAddressPrintTable.php', {direction:direction, subnetId:subnetId}, function(data) {
+		$('div.ipaddresses_overlay').html(data);
+		hideSpinner();
+	});
+	return false;
 });
 
-/*	display uploaded file
-****************************************/
+
+/*	import IP addresses
+*************************/
+// load CSV import form
+$('a.csvImport').click(function () {
+	showSpinner();
+	$.post('site/admin/CSVimport.php', function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
+	});
+	return false;
+});
+//	display uploaded file
 $('input#csvimportcheck').live('click', function () {
 	showSpinner();
-	
 	//get filetype
 	var filetype = $('span.fname').html();
-	
 	$.post('site/admin/CSVimportShowFile.php', { filetype : filetype }, function(data) {
 		$('div.csvimportverify').html(data).slideDown('fast');
 		hideSpinner();
 	});
 });
-
-/*	show / hide subnets
-****************************************/
-$('th.hideSubnets').live('click', function () {
-	$('table.content td#subnets, .tooltipLeft').fadeOut('fast');
-	
-	/* show shitcher for subnets */
-	$('#showHiddenSubnets').fadeIn('fast');
-});
-$('#showHiddenSubnets').live('click', function () {
-	$('table.content td#subnets').fadeIn('fast');
-	
-	/* show shitcher for subnets */
-	$('#showHiddenSubnets').fadeOut('fast');
-});
-
-
-/*	show / hide slave Subnets
-****************************************/
-/*
-$('img.structure').live('click', function () {
-	var Id = $(this).attr('subnetId');
-	
-	//slideUp all
-	$('div.slaveSubnets').not('div.slaveSubnets-' + Id).slideUp('fast');
-	//show Requested
-	$('div.slaveSubnets-' + Id).slideToggle('fast');
-});
-*/
-/*	show / hide subSlave Subnets
-****************************************/
-/*
-$('img.subStructure').live('click', function () {
-	var Id = $(this).attr('subnetId');
-	
-	//slideUp all
-	$('div.subSlaveSubnets').not('div.subSlaveSubnets-' + Id).slideUp('fast');
-	//show Requested
-	$('div.subSlaveSubnets-' + Id).slideToggle('fast');
-});
-*/
-
-
-/*	import file script
-****************************************/
+//	import file script
 $('input#csvImportNo').live('click',function () {
 	$('div.csvimportverify').hide('fast');
 });
 $('input#csvImportYes').live('click',function () {
-
 	showSpinner();
-	
 	//get filetype
 	var filetype = $('span.fname').html();
 	/* get active subnet ID */
-	var xlsSubnetId  = $('table.subnets  tr.selected').attr('id');
-	
+	var xlsSubnetId  = $('a.csvImport').attr('data-subnetId');
 	var postData = "subnetId=" + xlsSubnetId + "&filetype=" + filetype;
 
 	$.post('site/admin/CSVimportSubmit.php', postData, function(data) {
 		$('div.csvImportResult').html(data).slideDown('fast');
-		hideSpinner();
-		
 		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadipaddresses(xlsSubnetId); parameter = null;}, reloadTimeout);
-        }
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
 	});
 
 });
 
 
-/*	check edit subnet result
-****************************/
-$('form#manageSubnetEditFromSubnets').live('submit', function () {
-
-    var subnetData = $(this).serialize();
-    //load results
-    $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
-        $('div.manageSubnetEditResult').html(data).slideDown('fast');
-
-		//reload subnets after 2 seconds if all is ok!
-		if(data.search("error") == -1) {
-            showSpinner();
-            sectionId = $("table.newSections li.active").attr('id');
-            setTimeout(function (){loadSubnets(sectionId); parameter = null;}, reloadTimeout);
-		}
-    });
-    return false;
-});
-/*	cancel button
-********************/
-$('form#manageSubnetEditFromSubnets input.cancel').live('click', function () {
-    $('div.content').slideUp('fast');
-});
-
-/*	function to load addSubnet section from subnets
-*****************************************************/
-function loadAddSectionFromSubnets(postdata) {
-	$.post('site/admin/manageSubnetEdit.php', postdata , function(data) {
-		$('div.content').html(data).slideDown('fast');
+/*	export IP addresses
+*************************/
+//show fields
+$('a.csvExport').click(function() {
+	showSpinner();
+	//show select fields
+	$('div.popup_w400').load('site/ipaddr/exportSelectFields.php', function() {
+		showPopup('popup_w400');
+		hideSpinner();
 	});	
-}
-
-
-
-
-/***************************************************************
-		ip address table 
-***************************************************************/
-
-/*	add new ip address, delete, edit
-****************************************/
-$('img.add_ipaddress, img.edit_ipaddress, img.delete_ipaddress, img.add_ipaddress_lock').live("click", function () {
-		
-	var action	  = $(this).attr('class');
-	var id        = $(this).attr('id');
-	var subnetId  = $("div#subnetId").html();
-    
-	//load modify ip field
-	modifyipaddress(action,id,subnetId);
-	
-	//hide edit subnet if opened
-	$('div.edit_subnet').slideUp('fast');
+	return false;
+});
+//export
+$('button#exportSubnet').live("click", function () {
+	var subnetId = $('a.csvExport').attr('data-subnetId');
+	//get selected fields
+	var exportFields = $('form#selectExportFields').serialize();
+	$("div.dl").remove();	//remove old innerDiv
+	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportSubnet.php?subnetId=" + subnetId + "&" + exportFields + "'></iframe></div>");
+	return false;
 });
 
 
 /*	request IP address for non-admins if locked or viewer
 *********************************************************/
-$('img.request_ipaddress').live("click", function () {
-	var subnetId  = $("div#subnetId").html();
-
+//show request form
+$('a.request_ipaddress').live("click", function () {
 	showSpinner();
-	
+	var subnetId  = $(this).attr('data-subnetId');
 	$.post('site/tools/requestIPform.php', {subnetId:subnetId}, function(data) {
-		$('div.addnew').html(data).slideDown('fast');
+		$('div.popup_w500').html(data);
+		showPopup('popup_w500');
 		hideSpinner();
 	});
+	return false;
 });
-/*	submit request IP address 
-*********************************************************/
-$('form#requestIP').live('submit', function() {
-	var request = $(this).serialize();
-	
+//	submit request
+$('button#requestIPAddressSubmit').live('click', function() {
 	showSpinner();
-	
-	$.post('login/requestIPresult.php', request, function(data) {
+	var request = $('form#requestIP').serialize();
+	$.post('site/login/requestIPresult.php', request, function(data) {
 		$('div#requestIPresult').html(data).slideDown('fast');
 		hideSpinner();
 	});
 
 	return false;
 });
-/*	sort IP address list
+
+
+/*	IP address next/prev page
 *********************************************************/
-$('table.ipaddresses th a.sort').live('click', function() {
+//prev
+$('a#prevItem').live('click', function() {
+	$('div.loading').fadeIn('fast');
+	var active = $('table.ipaddresses').find("tbody.ipPart:visible");
+	//not first!
+	var index = active.index();
+	var dolzina = ($('table.ipaddresses tbody').length) - 1;
+	if(index != 1) {
+		$(active).prev('tbody:hidden').css({'display':'table-row-group'});
+		$(active).css({'display':'none'});	
+		$('span.stran').html("Page " + (index-1) + '/' + dolzina);
+	}
+	$('div.loading').fadeOut('fast');
+	return false;
+});
+//next
+$('a#nextItem').live('click', function() {
+	$('div.loading').fadeIn('fast');
+	var active = $('table.ipaddresses').find("tbody.ipPart:visible");
+	//not last!
+	var index = active.index();
+	var dolzina = ($('table.ipaddresses tbody').length) - 1;
+	
+	if(index != dolzina) {
+		$(active).next('tbody:hidden').css({'display':'table-row-group'});
+		$(active).css({'display':'none'});	
+		$('span.stran').html("Page " + (index+1) + '/' + dolzina);
+	}
+	$('div.loading').fadeOut('fast');
+	return false;
+});
+
+
+
+
+
+
+
+
+/* @tools ----------- */
+
+
+/* ipCalc */
+//submit form
+$('form#ipCalc').live('submit', function () {
+    showSpinner();
+    var ipCalcData = $(this).serialize();
+    $.post('site/tools/ipCalcResult.php', ipCalcData, function(data) {
+        $('div.ipCalcResult').html(data).fadeIn('fast');
+        hideSpinner();
+    });
+    return false;
+});
+//reset input
+$('form#ipCalc input.reset').live('click', function () {
+    $('form#ipCalc input[type="text"]').val('');
+    $('div.ipCalcResult').fadeOut('fast');
+});
+
+
+/* search */
+//submit form
+$('form#search').live('submit', function () {
 	showSpinner();
-	
-	var direction = $(this).attr('id');
-	var subnetId  = $(this).attr('subnetId');
-	
-	//hide tooltips
-	$('.tooltipTop').hide();
-	
-	$.post('site/ipAddressPrintTable.php', {direction:direction, subnetId:subnetId}, function(data) {
-		$('div.ipaddresses_overlay').html(data);
-		hideSpinner();
-	});
-	
+	var ip = $('form#search .search').val();
+	//update search page
+    window.location = "tools/search/" + ip;
+	return false;
+});
+//from homepage usermenu
+$('form#userMenuSearch').live('submit', function() {
+	var ip = $('#userMenuSearch #appendedInputButton').val();
+	window.location = "tools/search/" + ip;
+	return false;
+});
+//search export
+$('a#exportSearch').live('click', function() {
+	var searchTerm = $('form#search .search').val();
+	$("div.dl").remove();												//remove old innerDiv
+	$('div.exportDIVSearch').append("<div style='display:none' class='dl'><iframe src='site/tools/searchResultsExport.php?searchTerm=" + searchTerm + "'></iframe></div>");
 	return false;
 });
 
 
-/*	edit subnet
-****************************************/
-$('img.edit_subnet').live("click", function () {
-	var subnetId  = $(this).attr('subnetId');
-	var sectionId = $('table.newSections li.active').attr('id');
-    var subnetAction = "Edit";
-    var locationAction = "IPaddresses";
-    //format posted values
-	var postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction + "&location=" + locationAction;
-	//hide addnew IP address ad if present
-	$('div.addnew').slideUp('fast');
-	
-	$.post('site/admin/manageSubnetEdit.php', postdata, function(data) {
-		$('div.edit_subnet').html(data).addClass('edit_subnet').slideDown('fast');
-	});	
+/* switches */
+$('table#switchMainTable button[id^="switch-"]').live('click', function() {
+	var swid = $(this).attr('id');					//get id
+	// change icon to down
+	if( $('#content-'+swid).is(':visible') ) 	{ $(this).children('i').removeClass('icon-chevron-down').addClass('icon-chevron-right'); }	//hide
+    else 										{ $(this).children('i').removeClass('icon-chevron-right').addClass('icon-chevron-down'); }	//show
+	//show content
+	$('table#switchMainTable tbody#content-'+swid).slideToggle('fast');
 });
 
-/*	show sendmail form
-********************************/
-$('img.mail_ipaddress').live("click", function () {
-	//get IP address id
-	var IPid = $(this).attr('id');
-	//hide tooltip
-	$('.tooltipTop').hide();
-	
-	//hide edit subnet if opened
-	$('div.edit_subnet').slideUp('fast');
-	
-	$.post('site/mailNotifyIP.php', { id:IPid }, function(data) {
-		$('div.addnew').html(data).addClass('mail').slideDown('fast');
-	});
-});
 
-/*	send mail with IP details!
-*******************************/
-$('form#mailNotify').live('submit', function () {
-	var mailData = $(this).serialize();
-	//post to check script
-	$.post('site/mailNotifyCheck.php', mailData, function(data) {
-		$('div.sendmail_check').html(data).slideDown('fast');
-		//hide if success!
-		if(data.search("error") == -1) {
-			$('div.addnew').animate({opacity: '1.0'},1500).slideUp('fast');
-		}	
-	});
-	return false;
-});
-$('form#mailNotify input.cancel').live('click', function () {
-	$('td.addnew').slideUp('fast');
-});
-
-/*	submit ip address change!
-******************************/
-$('form.editipaddress').live("submit", function () {
-	modifyipaddresscheck();
+/* hosts */
+$('#hosts').submit(function() {
+	showSpinner();
+	var hostname = $('input.hostsFilter').val();	
+	window.location = "tools/hosts/"+hostname;
 	return false;
 });
 
-/*	close change field
-************************/
-$('input.cancel').live('click', function () {
-	$('div.addnew').slideUp('fast');
-});
 
-/*	load subnet from slave table in ip addresses
-*************************************************/
-$('table.slaveSubnet tr[class!=th]').live('click', function() {
-	var subnetId = $(this).attr('subnetId');
-	//add active class to selected
-	$('table.subnets td.slaveSubnets tr').removeClass('selected');
-	$('table.subnets td.slaveSubnets tr#' + subnetId).addClass('selected');
-	//load
-	loadipaddresses(subnetId);
-});
-
-
-
-/***************************************************************
-		admin section
-***************************************************************/
-
-/*	load admin subpage
-************************/
-$('table.admin tr[class!=th]').live('click', function () {
-    var subpage = $(this).attr("id");
+/* user menu selfchange */
+$('form#userModSelf').live('submit', function () {
+    var selfdata = $(this).serialize();
     
-    //set href
-    var link    = $(this).children('td').attr('link');
-    document.location.href = "#" + link;
+    $('div.userModSelfResult').hide();
     
-	//make it selected!
-	$('table.admin tr').removeClass('selected');
-	$(this).addClass('selected');
-    //load appropriate subpage into content div
-    loadAdminSubpage(subpage);
+    $.post('site/tools/userMenuSelfMod.php', selfdata, function(data) {
+        $('div.userModSelfResult').html(data).fadeIn('fast').delay(2000).fadeOut('slow');
+    });
+    return false;
+});
+//	Generate random pass
+$('#randomPassSelf').live('click', function () {
+    var password = randomPass();
+    $('input.userPass').val(password);
+    $('#userRandomPass').html( password );
+    return false;
 });
 
-/*	save server settings
-************************/
-$('#settings').live('submit', function() {
+
+
+
+
+
+
+
+
+/* @administration ---------- */
+
+/*	save server settings */
+$('#settings').submit(function() {
+	showSpinner();
 	var settings = $(this).serialize();
 	//load submit results
 	$.post('site/admin/settingsEdit.php', settings, function(data) {
 		$('div.settingsEdit').html(data).slideDown('fast');
-		//reload
-		setTimeout(function (){window.location.reload();}, reloadTimeout);
+		//reload after 1 second if all is ok!
+		if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1000); }
+		else 							{ hideSpinner() }
 	});
 	return false;
 });
 
-/*	add, edit, delete sections
-********************************/
-$('img.sectionAdd, img.sectionDelete, img.sectionEdit').live("click", function () {
-	var action	  = $(this).attr('class');
-	var id	      = $(this).attr('id');
-	//load modify field
-	$.post('site/admin/manageSectionEdit.php', { action:action, id:id }, function(data) {
-		$('div.manageSectionEdit').html(data).slideDown('fast');
-	});
-});
 
-
-/* section edit result
-************************/
-$('form.sectionEdit').live('submit', function () {
-    var sectionDetails = $(this).serialize();
-	$.post('site/admin/manageSectionEditResult.php', sectionDetails, function(data) {
+/*	Edit users
+***************************/
+//open form
+$('.editUser').click(function () {
+	showSpinner();
+    var id     = $(this).attr('data-userid');
+    var action = $(this).attr('data-action');
 	
-		$('div.sectionEditResult').hide().html(data).slideDown('fast');
-		
-		//reload after 2 seconds if all is ok!
-		if(data.search("error") == -1) {
-            subpage = $('table.admin tr.selected').attr("id");
-			setTimeout(function (){loadAdminSubpage(subpage); parameter = null;}, reloadTimeout);
-			setTimeout(reloadSections, reloadTimeout);
-		}
-	});	
-    return false;
+	$.post('site/admin/userModPrint.php',{id:id, action:action}, function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
+	});
+	return false;
 });
-
-/*	section edit cancel button
-********************************/
-$('input.cancelSectionEdit').live('click', function () {
-    $('div.manageSectionEdit').slideUp('fast');
-});
-
-
-/*	add, edit, delete subnets inside admin
-*******************************************/
-$('table.manageSubnets img').live('click', function () {
-    var sectionId    = $(this).attr('sectionId');
-    var subnetId     = $(this).attr('subnetId');
-    var subnetAction = $(this).attr('class');
-    //format posted values
-	var postdata     = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&subnetAction=" + subnetAction;
-    
-    //load edit data
-    $.post("site/admin/manageSubnetEdit.php", postdata, function(data) {
-        $('div.manageSubnetEdit').html(data).slideDown('fast');
-    });
-});
-
-/*	on thead click hide all other subnet bodies 
-	and show only ones in requested section
-**************************************************/
-$('table.manageSubnets thead').live('click', function () {
-    var sectionId = $(this).attr('class');
-    showManageSubnetsBody (sectionId);
-});
-
-
-/*	form manageSubnetEdit submit / cancel
-	submit editing subnets form
-*******************************************/
-$('form#manageSubnetEdit input.cancel').live('click', function () {
-    $('div.manageSubnetEdit').slideUp('fast');
-});
-$('form#manageSubnetEdit').live('submit', function () {
-
-    var subnetData = $(this).serialize();
-    var sectionId  = $("input[name=sectionId]").val();
-    
-    //load results
-    $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
-        $('div.manageSubnetEditResult').html(data).slideDown('fast');
-
-		//reload after 2 seconds if all is ok!
-		if(data.search("error") == -1) {
-		    showSpinner();
-            subpage = $('table.admin tr.selected').attr("id");
-            //reload IP address list if request came from there
-            if(subnetData.search("IPaddresses") != -1) {
-                subnetId = $('table.subnets tr.selected').attr('id');
-                setTimeout(function (){loadipaddresses(subnetId); parameter = null;}, reloadTimeout);
-            }
-            else {
-                //reload Admin Subpage and subnets body
-				setTimeout(function (){showManageSubnetsPageAndBody("manageSubnet", sectionId); parameter = null;}, reloadTimeout);
-			}
-		}
-    });
-    return false;
-});
-/*	check delete subnet result
-*******************************/
-$('.subnetDeleteFromIP').live('click', function () {
-
-    var subnetData = $('form#manageSubnetEdit').serialize();
-    //add delete
-    subnetData = subnetData + "&subnetAction2=Delete";
-    
-    //load results
-    $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
-        $('div.manageSubnetEditResult').html(data).slideDown('fast');
-
-		//reload subnets after 2 seconds if all is ok!
-		if(data.search("error") == -1) {
-            showSpinner();
-            sectionId = $("table.newSections li.active").attr('id');
-            setTimeout(function (){loadSubnets(sectionId); parameter = null;}, reloadTimeout);
-		}
-    });
-    return false;
-});
-
-
-/*
-add, edit, delete users
-************************/
-
-/*	Add/edit/delete user form
-*****************************/
-$('form#userMod').live('submit', function () {
-    var loginData = $(this).serialize();
+//submit form
+$('#editUserSubmit').live('click', function () {
+	showSpinner();
+    var loginData = $('form#userMod').serialize();
     
     $.post('site/admin/userModResult.php', loginData, function(data) {
-        $('div.userModResult').html(data).slideDown('fast');
-    
-        //reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(loadUserModSubpage, reloadTimeout);
-        }
+        $('div.userModResult').html(data).show();
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
     });
     
     return false;
 });
-
-/* generate random pass
-*************************/
+//disable pass if domain user
+$('select#domainUser').live('change', function () {
+	//get details - we need Section, network and subnet bitmask
+	var type = $(this).val();
+	//we changed to domain
+	if(type == "1") { $('input.userPass').attr('disabled',''); }
+	else 			{ $('input.userPass').removeAttr('disabled'); }
+});
+// generate random pass
 $('a#randomPass').live('click', function () {
     var password = randomPass();
     $('input.userPass').val(password);
     $(this).html( password );
+    return false;
 });
 
-/*	Edit users
-***************************/
-$('table.userPrint td.edit img').live('click', function () {
-    var id     = $(this).attr('id');
-    var action = $(this).attr('class');
-    //format posted values
-	var postdata     = "id=" + id + "&action=" + action;
-	
-	$.post('site/admin/userModPrint.php', postdata, function(data) {
-	   $('div.userEditLoad').html(data).slideDown('fast');
+
+/*	Edit AD settings
+********************************/
+$('form#ad').submit(function() {
+	showSpinner();
+	var addata = $(this).serialize();
+	$.post('site/admin/manageADresult.php', addata, function(data) {
+		$('div.manageADresult').html(data).slideDown('fast').delay(2000).fadeOut('slow');
+			hideSpinner();
 	});
-
+	return false;
+});
+//check AD settings
+$('#checkAD').click(function() {
+	showSpinner();
+	var addata = $('form#ad').serialize();
+	$.post('site/admin/manageADcheck.php', addata, function(data) {
+		$('div.manageADresult').html(data).slideDown('fast'); hideSpinner();
+	});
+	return false;
 });
 
 
-/*	display log files
+/*	instructions
+***********************/
+$('#instructions').submit(function () {
+	var instructions = $(this).serialize();
+    showSpinner();
+    $.post('site/admin/instructionsResult.php', instructions, function(data) {
+        $('div.instructionsResult').html(data).fadeIn('fast');
+		if(data.search("error") == -1) 	{ $('div.instructionsResult').delay(2000).fadeOut('slow'); hideSpinner(); }
+		else 							{ hideSpinner() }      
+    });
+    return false;
+});
+$('#preview').click(function () {
+	showSpinner();
+	var instructions = $('form#instructions ').serialize();
+    $.post('site/admin/instructionsPreview.php', instructions, function(data) {
+        $('div.instructionsPreview').html(data).fadeIn('fast');
+        hideSpinner();
+    });
+    return false;
+});
+
+
+/*	log files
 ************************/
-$('form#logs').live('change', function () {
+//display log files - selection change
+$('form#logs').change(function () {
     showSpinner();
     var logSelection = $('form#logs').serialize();
     $.post('site/admin/logResult.php', logSelection, function(data) {
-        $('table.logs').html(data);
+        $('div.logs').html(data);
         hideSpinner();
     });
 });
-/*	log files page change
-**************************/
-$('form#logs input').live('click', function() {
+//log files show details
+$('a.openLogDetail').live('click',function() {
+	var id = $(this).attr('data-logid');
+	$.post('site/admin/logDetail.php', {id:id}, function(data) {
+		$('div.popup_w500').html(data);
+		showPopup('popup_w500');
+		hideSpinner();		
+	})
+	return false;
+})
+//log files page change
+$('#logDirection button').click(function() {
     showSpinner();
     /* get severities */
     var logSelection = $('form#logs').serialize();
     /* get first or last id based on direction */
-    var direction = $(this).attr('class');
+    var direction = $(this).attr('data-direction');
     /* get Id */
     var lastId;
-    if (direction == "next") {
-        lastId = $('table.logs tr:last').attr('id');
-    }
-    else {
-		lastId = $('table.logs tr:nth-child(2)').attr('id');
-    }
+    if (direction == "next") 	{ lastId = $('table#logs tr:last').attr('id'); }
+    else 						{ lastId = $('table#logs tr:nth-child(2)').attr('id'); }
     
     /* set complete post */
     var postData = logSelection + "&direction=" + direction + "&lastId=" + lastId;
@@ -1147,443 +625,156 @@ $('form#logs input').live('click', function() {
     $.post('site/admin/logResult.php', postData, function(data1) {
         $('div.logs').html(data1);
         hideSpinner();
-    });    
+    }); 
+    return false;   
 });
-/*	logs export 
-***************************/
-$('#downloadLogs').live('click', function() {
+//logs export 
+$('#downloadLogs').click(function() {
     showSpinner();
 	$("div.dl").remove();	//remove old innerDiv
 	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/logsExport.php'></iframe></div>");
 	hideSpinner();
+	//show downloading
+	$('div.logs').prepend("<div class='alert alert-info' id='logsInfo'><i class='icon-remove icon-gray selfDestruct'></i> Preparing download... </div>");
+	return false;
 });
-/*	logs clear
-***************************/
-$('#clearLogs').live('click', function() {
+//logs clear
+$('#clearLogs').click(function() {
     showSpinner();
     $('div.logs').load('site/admin/logClear.php', function() {
 		hideSpinner();
     });
-});
-
-
-/*	XLS export
-***********************/
-/* get cert */
-$('input#XLSdump').live('click', function () {
-	$("div.dl").remove();	//remove old innerDiv
-	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateXLS.php'></iframe></div>");
-});
-
-/*	MySQL export
-***********************/
-/* get cert */
-$('input#MySQLdump').live('click', function () {
-	$("div.dl").remove();	//remove old innerDiv
-	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateMySQL.php' ></iframe></div>");
-});
-
-/*	Search and replace
-************************/
-$('form#searchReplace').live('submit', function() {
-	var searchData = $(this).serialize();
-	
-    $.post('site/admin/searchReplaceResult.php', searchData, function(data) {
-        $('div.searchReplaceResult').html(data);
-        hideSpinner();
-    });  
-	
-	return false;
-});
-
-
-/*	instructions
-***********************/
-$('#instructions').live('submit', function () {
-	var instructions = $(this).serialize();
-	
-    showSpinner();
-
-    $.post('site/admin/instructionsResult.php', instructions, function(data) {
-        $('div.instructionsResult').html(data).fadeIn('fast');
-        hideSpinner();
-        
-        setTimeout(function (){loadAdminSubpage ("instructions"); parameter = null;}, reloadTimeout);
-    });
-    return false;
-});
-$('#preview').live('click', function () {
-	var instructions = $('form#instructions ').serialize();
-	
-    showSpinner();
-
-    $.post('site/admin/instructionsPreview.php', instructions, function(data) {
-        $('div.instructionsPreview').html(data).fadeIn('fast');
-        hideSpinner();
-    });
     return false;
 });
 
-/*	edit IP request
-***********************/
-$('table.requestedIPaddresses img').live('click', function() {
-	
+
+
+/*	Sections
+********************************/
+//load edit form
+$('button.editSection').click(function() {
 	showSpinner();
-	
-	var requestId = $(this).attr('requestId');
-	
-    $.post('site/admin/manageRequestEdit.php', { requestId: requestId }, function(data) {
-        $('div.manageRequestEdit').html(data).fadeIn('fast');
-        $('div.manageRequestEdit div').fadeIn('fast');
-        hideSpinner();
+    var sectionId   = $(this).attr('data-sectionid');
+    var action 		= $(this).attr('data-action');
+    //load edit data
+    $.post("site/admin/manageSectionEdit.php", {sectionId:sectionId, action:action}, function(data) {
+		$('div.popup_w500').html(data);
+		showPopup('popup_w500');
+		hideSpinner();
     });
-    return false;	
 });
-
-/*	Confirm IP request
-********************************/
-$('form.manageRequestEdit').live('submit', function() {
-
+//edit section result
+$('#editSectionSubmit').live('click', function() {
 	showSpinner();
+	var sectionData = $('form#sectionEdit').serialize();
 	
-	var postValues = $(this).serialize();
-	var postData   = postValues + "&action=confirmed";
-
-	$.post('site/admin/manageRequestResult.php', postData, function(data) {
-		$('div.manageRequestResult').html(data);
-		hideSpinner();
-		
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(loadAdminIPRequestSubpage, reloadTimeout);
-        }
-	});
-	
-	return false;
-});
-
-/*	Reject IP request
-********************************/
-$('form.manageRequestEdit .reject').live('click', function() {
-
-	showSpinner();
-	
-	var postValues = $('form.manageRequestEdit').serialize();
-	var postData   = postValues + "&action=reject";
-
-	$.post('site/admin/manageRequestResult.php', postData, function(data) {
-		$('div.manageRequestResult').html(data);
-		hideSpinner();
+	$.post('site/admin/manageSectionEditResult.php', sectionData, function(data) {
+		$('div.sectionEditResult').html(data).slideDown('fast');
 
 		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(loadAdminIPRequestSubpage, reloadTimeout);
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); hideSpinner();
         }
 	});
+
 	return false;
 });
 
 
-/*	Edit switch
+/*	Subnets
 ********************************/
-$('table.switchManagement img').live('click', function() {
+//show subnets
+$('table#manageSubnets button[id^="subnet-"]').click(function() {
 	showSpinner();
-
-	var switchId = $(this).attr('switchId');
-	var action   = $(this).attr('class');
-	var switchpost = "switchId=" + switchId + "&action=" + action;
-	
-	$.post('site/admin/manageSwitchesEdit.php', switchpost, function(data) {
-		$('div.switchManagementEdit').html(data).slideDown('fast');
-		hideSpinner();
-	});
-	return false;	
+	var swid = $(this).attr('id');					//get id
+	// change icon to down
+	if( $('#content-'+swid).is(':visible') ) 	{ $(this).children('i').removeClass('icon-chevron-down').addClass('icon-chevron-right'); }	//hide
+    else 										{ $(this).children('i').removeClass('icon-chevron-right').addClass('icon-chevron-down'); }	//show
+	//show content
+	$('table#manageSubnets tbody#content-'+swid).slideToggle('fast');
+	hideSpinner();
 });
-
-/*	Edit switch result
-********************************/
-$('form#switchManagementEdit').live('submit', function() {
+//toggle show all / none
+$('#toggleAllSwitches').click(function() {
 	showSpinner();
-
-	var switchdata = $(this).serialize();
-
-	$.post('site/admin/manageSwitchesEditResult.php', switchdata, function(data) {
-		$('div.switchManagementEditResult').html(data).slideDown('fast');
-
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("manageSwitches"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
+	// show
+	if( $(this).children().hasClass('icon-resize-full') ) {
+		$(this).children().removeClass('icon-resize-full').addClass('icon-resize-small');			//change icon
+		$('table#manageSubnets i.icon-chevron-right').removeClass('icon-chevron-right').addClass('icon-chevron-down');	//change section chevrons
+		$('table#manageSubnets tbody[id^="content-subnet-"]').show();								//show content
+		createCookie('showSubnets',1,30);															//save cookie
+	}
+	//hide
+	else {
+		$(this).children().removeClass('icon-resize-small').addClass('icon-resize-full');
+		$('table#manageSubnets tbody[id^="content-subnet-"]').hide();	
+		$('table#manageSubnets i.icon-chevron-down').removeClass('icon-chevron-down').addClass('icon-chevron-right');	//change section chevrons	
+		createCookie('showSubnets',0,30);															//save cookie
+	}
+	hideSpinner();
 });
-
-
-/*	Edit VRF
-********************************/
-$('table.vrfManagement img').live('click', function() {
+//load edit form
+$('button.editSubnet').click(function() {
 	showSpinner();
-
-	var vrfId   = $(this).attr('vrfId');
-	var action   = $(this).attr('class');
-	var switchpost = "vrfId=" + vrfId + "&action=" + action;
-	
-	$.post('site/admin/manageVRFEdit.php', switchpost, function(data) {
-		$('div.vrfManagementEdit').html(data).slideDown('fast');
-		hideSpinner();
-	});
-	return false;	
-});
-/*	Edit VRF result
-********************************/
-$('form#vrfManagementEdit').live('submit', function() {
-	showSpinner();
-
-	var vrfdata = $(this).serialize();
-
-	$.post('site/admin/manageVRFEditResult.php', vrfdata, function(data) {
-		$('div.vrfManagementEditResult').html(data).slideDown('fast');
-
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("manageVRF"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
-});
-
-
-/*	Edit VLAN
-********************************/
-$('table.vlanManagement img').live('click', function() {
-	showSpinner();
-
-	var vlanId   = $(this).attr('vlanId');
-	var action   = $(this).attr('class');
-	var switchpost = "vlanId=" + vlanId + "&action=" + action;
-	
-	$.post('site/admin/manageVLANEdit.php', switchpost, function(data) {
-		$('div.vlanManagementEdit').html(data).slideDown('fast');
-		hideSpinner();
-	});
-	return false;	
-});
-/*	Edit VLAN result
-********************************/
-$('form#vlanManagementEdit').live('submit', function() {
-	showSpinner();
-
-	var vlandata = $(this).serialize();
-
-	$.post('site/admin/manageVLANEditResult.php', vlandata, function(data) {
-		$('div.vlanManagementEditResult').html(data).slideDown('fast');
-
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("manageVLANs"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
-});
-
-
-
-/*	Edit AD settings
-********************************/
-$('form#ad').live('submit', function() {
-	showSpinner();
-
-	var addata = $(this).serialize();
-
-	$.post('site/admin/manageADresult.php', addata, function(data) {
-		$('div.manageADresult').html(data).slideDown('fast');
-
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("manageAD"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
-});
-/*	check AD settings
-********************************/
-$('#checkAD').live('click', function() {
-	showSpinner();
-
-	var addata = $('form#ad').serialize();
-
-	$.post('site/admin/manageADcheck.php', addata, function(data) {
-		$('div.manageADresult').html(data).slideDown('fast');
-			hideSpinner();
-	});
-
-	return false;
-});
-
-
-/*	set selected IP fields
-********************************/
-$('form#filterIP').live('submit', function() {
-	showSpinner();
-
-	var addata = $(this).serialize();
-
-	$.post('site/admin/filterIPFieldsResult.php', addata, function(data) {
-		$('div.filterIPResult').html(data).slideDown('fast');
-		
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("filterIPFields"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
-});
-
-
-/*	custom IP field load edit form
-************************************/
-$('table.customIP img[class!=down]').live('click', function() {
-	showSpinner();
-
-	var action 	  = $(this).attr('class');
-	var fieldName = $(this).attr('fieldName');
-
-	$.post('site/admin/customIPFieldsEdit.php', {action:action, fieldName: fieldName}, function(data) {
-		$('div.customIPResult').html(data).slideDown('fast');
-			hideSpinner();
-	});
-
-	return false;
-});
-/*	custom IP field edit
-************************************/
-$('form#editCustomIPFields').live('submit', function() {
-	showSpinner();
-
-	var field = $(this).serialize();
-
-	$.post('site/admin/customIPFieldsEditResult.php', field, function(data) {
-		$('div.customIPEditResult').html(data).slideDown('fast');
-		
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("customIPFields"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
-});
-/*	custom IP field ordering
-************************************/
-$('table.customIP img.down').live('click', function() {
-	showSpinner();
-
-	var current  = $(this).attr('fieldName');
-	var next 	 = $(this).attr('nextFieldName');
-
-	$.post('site/admin/customIPFieldsOrder.php', {current:current, next: next}, function(data) {
-		$('div.customIPResult').html(data).slideDown('fast');
-
-		//reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("customIPFields"); parameter = null;}, reloadTimeout);
-        }
-        else {
-			hideSpinner();
-        }
-	});
-
-	return false;
-});
-
-
-
-
-/***************************************************************
-		tools section
-***************************************************************/
-
-/* load tools subpage on topnav click
-**************************************/
-$('ul.topNav li[id!=search], ul.subNav li').live('click', function () {
-
-    //show subnets td if hidden
-    $('td#subnets').slideDown();
+    var sectionId   = $(this).attr('data-sectionid');
+    var subnetId    = $(this).attr('data-subnetid');
+    var action 		= $(this).attr('data-action');
+    //format posted values
+	var postdata    = "sectionId=" + sectionId + "&subnetId=" + subnetId + "&action=" + action;
     
-    //set href
-    var link = $(this).attr('link');
-	document.location.href = "#" + link;
-
-    var subPage = $(this).attr('id');
-    loadToolsMenu (subPage);
+    //load edit data
+    $.post("site/admin/manageSubnetEdit.php", postdata, function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
+    });
+});
+//save edit subnet changes
+$('.editSubnetSubmit').live('click',function () {
+	showSpinner();
+    var subnetData = $('form#editSubnetDetails').serialize();
     
-    $('table.newSections li').removeClass('active');
-    $('table.menu tr').removeClass('selected');
-    setTimeout(function (){loadToolsSubpage (subPage); parameter = null;}, 100);
-});
-$('table.menu a').live('click', function () {
-    var subPage = $(this).attr('id');
-    loadToolsSubpage (subPage);  
-});
+    //if ipaddress and delete then change action!
+    if($(this).hasClass("editSubnetSubmitDelete")) {
+	    subnetData = subnetData.replace("action=edit", "action=delete");
+    }
+    
+    //load results
+    $.post("site/admin/manageSubnetEditResult.php", subnetData, function(data) {
+        $('div.manageSubnetEditResult').html(data).slideDown('fast');
 
-/*	search export
-************************/
-$('a#exportSearch').live('click', function() {
-
-	var searchTerm = $('form#search input.search').val();
-	
-	$("div.dl").remove();	//remove old innerDiv
-	$('div.exportDIVSearch').append("<div style='display:none' class='dl'><iframe src='site/tools/searchResultsExport.php?searchTerm=" + searchTerm + "'></iframe></div>");
-
-	return false;
-});
-
-/*	ipCalc form submit 
-************************/
-$('form#ipCalc').live('submit', function () {
-    var ipCalcData = $(this).serialize();
-    showSpinner();
-
-    $.post('site/tools/ipCalcResult.php', ipCalcData, function(data) {
-        $('div.ipCalcResult').html(data).fadeIn('fast');
-        hideSpinner();
+		//reload after 2 seconds if all is ok!
+		if(data.search("error") == -1) {
+		    showSpinner();
+            //reload IP address list if request came from there
+            if(subnetData.search("IPaddresses") != -1) {
+                //from ipcalc - load ip list
+                var sectionId = $('form#editSubnetDetails input[name=sectionId]').val();
+                var subnetId  = $('form#editSubnetDetails input[name=subnetId]').val();
+                setTimeout(function (){openLocation("subnets",sectionId, subnetId); parameter = null;}, 1500);
+            }
+            //from ipcalc - load subnet
+            else if (subnetData.search("ipcalc") != -1) {
+                //from ipcalc - load ip list
+                var sectionId = $('form#editSubnetDetails input[name=sectionId]').val();
+                setTimeout(function (){openLocation("subnets",sectionId, ""); parameter = null;}, 1500);
+            }
+            else {
+                //from admin, reload
+                setTimeout(function (){window.location.reload();}, 1500);
+			}
+		}
+		//hide spinner - error
+		else {
+			hideSpinner();
+		}
     });
     return false;
 });
 
-/*	ipCalc reset input
-************************/
-$('form#ipCalc input.reset').live('click', function () {
-    $('form#ipCalc input[type="text"]').val('');
-    $('div.ipCalcResult').slideUp('fast');
-});
-
-/*	Add subnet from result
-***************************/
-$('img.createSubnetFromCalc').live('click', function () {
+/*	Add subnet from IPCalc result
+*********************************/
+$('#createSubnetFromCalc').live('click', function () {
 	$('tr#selectSection').show();
 });
 $('select#selectSectionfromIPCalc').live('change', function () {
@@ -1591,300 +782,402 @@ $('select#selectSectionfromIPCalc').live('change', function () {
 	var sectionId = $(this).val();
 	var subnet	  = $('table.ipCalcResult td#sub2').html();
 	var bitmask	  = $('table.ipCalcResult td#sub4').html();
-	var postdata  = "sectionId=" + sectionId + "&subnet=" + subnet + "&bitmask=" + bitmask + "&subnetAction=Add&location=ipcalc";
+	var postdata  = "sectionId=" + sectionId + "&subnet=" + subnet + "&bitmask=" + bitmask + "&action=add&location=ipcalc";
 	//make section active
 	$('table.newSections ul#sections li#' + sectionId ).addClass('active');
-	//now load the section and add subnet
-	loadSubnets(sectionId);
-	//load add Subnet
+	//load add Subnet form / popup
 	$.post('site/admin/manageSubnetEdit.php', postdata , function(data) {
-		$('div.content').html(data).slideDown('fast');
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
 		hideSpinner();
 	});	
 });
 
-/*	VLAN link to subnets
-************************/
-$('table.vlans tr.vlanLink').live('click', function () {
-	var sectionId = $(this).attr('sectionId'); 
-	var subnetId  = $(this).attr('subnetId');
-    var link      = $(this).attr('link');
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//set active section
-	$('table.newSections li#' + sectionId ).addClass('active');
-	
-	hashLoadSubnets (sectionId, subnetId);
-});
-
-/*	Switches link to subnets
-****************************/
-$('table.switches tr[class!=th]').live('click', function () {
-	var sectionId = $(this).attr('sectionId'); 
-	var subnetId  = $(this).attr('subnetId');
-	var link      = $(this).attr('link');
-	var id	      = $(this).attr('id');			//ip address id
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//set active section
-	$('table.newSections li#' + sectionId ).addClass('active');
-	
-	hashLoadSubnets (sectionId, subnetId);
-});
-$('table.switches h3 a[id^="switch-"]').live('click', function() {
-	var swId = $(this).attr('id');
-
-	//get OLD state for css
-	if( $('#' + swId + "-expand").is(':visible') ) {
-		$(this).next('img').attr('src', 'css/images/sort_right.png');
-    }
-    else {
-		$(this).next('img').attr('src', 'css/images/sort_asc.png');
-    }
-
-	//show
-	$('#' + swId + '-expand').slideToggle('fast');
-    
-    return false;
-});
-
-/*	Hosts list filter form
-****************************/
-$('#hosts').live('submit', function() {
-	var hostname = $('input#hostsFilter').val();
-	showSpinner();
-	
-    $.post('site/tools/hostsResult.php', {hostname:hostname}, function(data) {
-        $('div.hostsFilterResult').html(data).fadeIn('fast');
-        hideSpinner();
-    });	
-    
+/*	Edit subnet from ip address list
+************************************/
+$('a.edit_subnet, button#add_subnet').click(function () {
+	var subnetId  = $(this).attr('data-subnetId');
+	var sectionId = $(this).attr('data-sectionId');
+	var action    = $(this).attr('data-action');
+    //format posted values
+	var postdata     = "sectionId="+sectionId+"&subnetId="+subnetId+"&action="+action+"&location=IPaddresses";
+	//load add Subnet form / popup
+	$.post('site/admin/manageSubnetEdit.php', postdata , function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
+	});		
 	return false;
 });
 
-/*	Hosts link to ipaddresses
-****************************/
-$('table.hosts tr[class!=th]').live('click', function () {
-	var sectionId = $(this).attr('sectionId'); 
-	var subnetId  = $(this).attr('subnetId');
-	var link      = $(this).attr('link');
-	var id	      = $(this).attr('id');			//ip address id
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//set active section
-	$('table.newSections li#' + sectionId ).addClass('active');
-	
-	hashLoadSubnets (sectionId, subnetId);
-	//load modify ip field after 1 sec when subnets should be loaded!
-	setTimeout(function (){modifyipaddress("edit_ipaddress",id,subnetId); parameter = null;}, 1000);
+
+/* Show add new VLAN on subnet add/edit on-thy-fly
+***************************************************/
+$('select[name=vlanId]').live('change', function() {
+	var vlanId	= $(this).val();
+	if(vlanId == 'Add') {
+		showSpinner();			
+		$.post('site/admin/manageVLANEdit.php', {action:"add", fromSubnet:"true"}, function(data) {
+			$('div.popup_w400').html(data);
+			showPopup('popup_w400');
+			$('.popup_w700').css("z-index", "99");		//set behind popup
+			hideSpinner();
+		});
+	}
+	return false;	
 });
-
-/*	user selfchange form submit
-********************************/
-$('form#userModSelf').live('submit', function () {
-    var selfdata = $(this).serialize();
-    
-    $('div.userModSelfResult').hide();
-    
-    $.post('site/tools/userMenuSelfMod.php', selfdata, function(data) {
-        $('div.userModSelfResult').html(data).fadeIn('fast');
-        
-        //reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadToolsSubpage ("userMenu"); parameter = null;}, reloadTimeout); 
-        }
-    });
-    return false;
-});
-
-/*	AS import
-****************************/
-$('form#ripeImport').live('submit', function() {
-
+//	Submit new VLAN on the fly
+$('.vlanManagementEditFromSubnetButton').live('click', function() {
 	showSpinner();
+	var postData = $('form#vlanManagementEditFromSubnet').serialize();	
 	
+	$.post('site/admin/manageVLANEditResult.php', postData, function(data) {
+		$('div.vlanManagementEditFromSubnetResult').html(data).show();
+		// ok
+	    if(data.search("error") == -1) {
+	    	//reload add subnet
+	    	var sectionId = $('#editSubnetDetails input[name=sectionId]').val(); 
+	    	var subnetId  = $('#editSubnetDetails input[name=subnetId]').val(); 
+	    	var postdata2 = "sectionId="+sectionId+"&subnetId="+subnetId+"&action=add";
+	    	$.post('site/admin/manageSubnetEdit.php', postdata2 , function(data) {
+		    	$('div.popup_w700').html(data);
+		    	//bring to front
+		    	$('.popup_w700').delay(1000).css("z-index", "101");		//bring to front
+		    	hideSpinner();
+		    });		
+	    	//hide popup after 1 second
+	    	setTimeout(function (){hidePopup('popup_w400'); parameter = null;}, 1000);
+        }
+        else 					 { hideSpinner(); }
+	});
+	return false;	
+});
+
+
+
+
+/*	Switches
+********************************/
+//open form
+$('.editSwitch').live('click', function() {
+	showSpinner();
+	var switchId = $(this).attr('data-switchid');
+	var action   = $(this).attr('data-action');
+	$.post('site/admin/manageSwitchesEdit.php', {switchId:switchId, action:action}, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;	
+});
+//	Edit switch result
+$('#editSwitchsubmit').live('click', function() {
+	showSpinner();
+	var switchdata = $('form#switchManagementEdit').serialize();
+	$.post('site/admin/manageSwitchesEditResult.php', switchdata, function(data) {
+		$('div.switchManagementEditResult').html(data).slideDown('fast');
+
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); hideSpinner();
+        }
+	});
+	return false;
+});
+
+
+/* VLAN
+********************************/
+//load edit form
+$('.editVLAN').click(function() {
+	showSpinner();
+	var vlanId   = $(this).attr('data-vlanid');
+	var action   = $(this).attr('data-action');
+	$.post('site/admin/manageVLANEdit.php', {vlanId:vlanId, action:action}, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;	
+});
+//result
+$('#editVLANsubmit').live('click', function() {
+	showSpinner();
+	var vlandata = $('form#vlanManagementEdit').serialize();
+	$.post('site/admin/manageVLANEditResult.php', vlandata, function(data) {
+		$('div.vlanManagementEditResult').html(data).slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
+});
+
+
+/*	VRF
+*********/
+//Load edit VRF form
+$('button.vrfManagement').click(function() {
+	showSpinner();
+	var vrfId    = $(this).attr('data-vrfid');
+	var action   = $(this).attr('data-action');
+	var switchpost = "vrfId=" + vrfId + "&action=" + action;
+	$.post('site/admin/manageVRFEdit.php', switchpost, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;	
+});
+//Edit VRF details
+$('#editVRF').live('click', function() {
+	showSpinner();
+	var vrfdata = $('form#vrfManagementEdit').serialize();
+	$.post('site/admin/manageVRFEditResult.php', vrfdata, function(data) {
+		$('div.vrfManagementEditResult').html(data).slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
+});
+
+
+/*	edit IP request
+***********************/
+//show form
+$('table#requestedIPaddresses button').click(function() {
+	showSpinner();
+	var requestId = $(this).attr('data-requestid');
+    $.post('site/admin/manageRequestEdit.php', { requestId: requestId }, function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
+    });
+    return false;	
+});
+//approve / reject
+$('button.manageRequest').live('click', function() {
+	showSpinner();
+	var postValues = $('form.manageRequestEdit').serialize();
+	var action     = $(this).attr('data-action');
+	var postData   = postValues+"&action="+action;
+	$.post('site/admin/manageRequestResult.php', postData, function(data) {
+		$('div.manageRequestResult').html(data);
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
+});
+
+
+/*	Ripe AS import
+****************************/
+//get subnets form AS
+$('form#ripeImport').submit(function() {
+	showSpinner();
 	var as = $(this).serialize();
-	
     $.post('site/admin/ripeImportTelnet.php', as, function(data) {
         $('div.ripeImportTelnet').html(data).fadeIn('fast');
-        
         hideSpinner();
     });
-	
-
 	return false;
 });
-/*	ripe as import
-***************************/
-$('table.asImport td.img').live('click', function () {
+// remove as line
+$('table.asImport .removeSubnet').live('click', function () {
 	$(this).parent('tr').remove();
+	hideTooltips();
 });
+// add selected to db
 $('form#asImport').live('submit', function () {
 	showSpinner();
 	//get subnets to add
 	var importData = $(this).serialize();
-	
 	$.post('site/admin/ripeImportResult.php', importData, function(data) {
 		$('div.ripeImportResult').html(data).slideDown('fast');
-
-        //reload after 2 seconds if succeeded!
-        if(data.search("error") == -1) {
-            setTimeout(function (){loadAdminSubpage ("ripeImport"); parameter = null;}, reloadTimeout); 
-        }
-        else {
-			hideSpinner();
-        }		
+        //hide after 2 seconds
+        if(data.search("error") == -1) 	{ $('table.asImport').delay(1000).fadeOut('fast'); hideSpinner(); }
+        else 							{ hideSpinner(); }
 	});
-	
 	return false;
 });
 
 
-/*	Generate random pass 
-***************************/
-$('a#randomPassSelf').live('click', function () {
-    var password = randomPass();
-    $('input.userPass').val(password);
-    $(this).html( password );
-    return false;
+/*	set selected IP fields
+********************************/
+$('button#filterIPSave').click(function() {
+	showSpinner();
+	var addata = $('form#filterIP').serialize();
+	$.post('site/admin/filterIPFieldsResult.php', addata, function(data) {
+		$('div.filterIPResult').html(data).slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ $('div.filterIPResult').delay(2000).fadeOut('slow');	hideSpinner(); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
 });
 
 
-/*	search form submit
+/*	custom IP fields
+************************************/
+//load edit form
+$('table.customIP button[data-direction!=down]').click(function() {
+	showSpinner();
+	var action 	  = $(this).attr('data-action');
+	var fieldName = $(this).attr('data-fieldname');
+	$.post('site/admin/customIPFieldsEdit.php',  {action:action, fieldName: fieldName}, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;
+});
+//custom IP field edit submit form
+$('#editcustomSubmit').live('click', function() {
+	showSpinner();
+	var field = $('form#editCustomIPFields').serialize();
+	$.post('site/admin/customIPFieldsEditResult.php', field, function(data) {
+		$('div.customIPEditResult').html(data).slideDown('fast');
+		
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});
+
+	return false;
+});
+// field ordering
+$('table.customIP button.down').click(function() {
+	showSpinner();
+	var current  = $(this).attr('data-fieldname');
+	var next 	 = $(this).attr('data-nextfieldname');
+	$.post('site/admin/customIPFieldsOrder.php', {current:current, next:next}, function(data) {
+		$('div.customIPResult').html(data).slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1000); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
+});
+
+
+/*	custom subnet fields
+************************************/
+//load edit form
+$('table.customSubnet button[data-direction!=down]').click(function() {
+	showSpinner();
+	var action 	  = $(this).attr('data-action');
+	var fieldName = $(this).attr('data-fieldname');
+	$.post('site/admin/customSubnetFieldsEdit.php',  {action:action, fieldName: fieldName}, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;
+});
+//custom IP field edit submit form
+$('#editcustomSubnetSubmit').live('click', function() {
+	showSpinner();
+	var field = $('form#editCustomSubnetFields').serialize();
+	$.post('site/admin/customSubnetFieldsEditResult.php', field, function(data) {
+		$('div.customSubnetEditResult').html(data).slideDown('fast');
+		
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});
+
+	return false;
+});
+// field ordering
+$('table.customSubnet button.down').click(function() {
+	showSpinner();
+	var current  = $(this).attr('data-fieldname');
+	var next 	 = $(this).attr('data-nextfieldname');
+	$.post('site/admin/customSubnetFieldsOrder.php', {current:current, next:next}, function(data) {
+		$('div.customSubnetResult').html(data).slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1000); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
+});
+
+
+/*	custom VLAN fields
+************************************/
+//load edit form
+$('table.customVLAN button[data-direction!=down]').click(function() {
+	showSpinner();
+	var action 	  = $(this).attr('data-action');
+	var fieldName = $(this).attr('data-fieldname');
+	$.post('site/admin/customVLANFieldsEdit.php',  {action:action, fieldName: fieldName}, function(data) {
+		$('div.popup_w400').html(data);
+		showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;
+});
+//custom IP field edit submit form
+$('#editcustomVLANSubmit').live('click', function() {
+	showSpinner();
+	var field = $('form#editCustomVLANFields').serialize();
+	$.post('site/admin/customVLANFieldsEditResult.php', field, function(data) {
+		$('div.customVLANEditResult').html(data).slideDown('fast');
+		
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else 							{ hideSpinner(); }
+	});
+
+	return false;
+});
+// field ordering
+$('table.customVLAN button.down').click(function() {
+	showSpinner();
+	var current  = $(this).attr('data-fieldname');
+	var next 	 = $(this).attr('data-nextfieldname');
+	$.post('site/admin/customVLANFieldsOrder.php', {current:current, next:next}, function(data) {
+		$('div.customVLANResult').html(data).slideDown('fast');
+		//reload after 2 seconds if succeeded!
+        if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1000); }
+        else 							{ hideSpinner(); }
+	});
+	return false;
+});
+
+
+
+
+/*	Search and replace
+************************/
+$('button#searchReplaceSave').click(function() {
+	showSpinner();
+	var searchData = $('form#searchReplace').serialize();	
+    $.post('site/admin/searchReplaceResult.php', searchData, function(data) {
+        $('div.searchReplaceResult').html(data);
+        hideSpinner();
+    });  
+	return false;
+});
+
+
+/* exports
 ***********************/
-
-
-
-
-/***************************************************************
-		homepage section
-***************************************************************/
-
-/*	usermenu show/hide
-**************************/
-$("ul.topNav li#userMenu").hover(function () {
-	$(this).parent().find("ul.subNav").slideDown('fast').show();
-	$(this).css('color: white');
-
-	$(this).parent().hover(function () {
-	}, function()
-	{
-		$(this).parent().find("ul.subNav").slideUp('fast');
-		$(this).stop(); 
-	});
+// XLS exports
+$('button#XLSdump').click(function () {
+	showSpinner();
+	$("div.dl").remove();	//remove old innerDiv
+	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateXLS.php'></iframe></div>");
+	hideSpinner();
 });
-
-
-/*	search - submit userMenu form (top right)
-**********************************************/
-$('form#userMenuSearch').live('submit', function () {
-	var searchTerm = $(this).serialize();
-    loadSearchPage(searchTerm);
-    return false;
-});
-
-/*	load admin page from dashboard buttons
-********************************************/
-$('table.homeStats td.HomeManage input').live('click', function () {
-	
-	var section2	= 'Administration';
-	var subpage =  $(this).attr('name');
-	
-	hashLoadAdmin(section2, subpage);
-});
-
-/*	load tools from dashboard buttons
-*****************************************/
-$('table.homeStats td.HomeTools input').live('click', function () {
-	var subpage =  $(this).attr('name');
-	loadToolsMenuAndSubpage (subpage);
-});
-
-/*	load searchpage and post search request
-*********************************************/
-$('form#homeIPSearch').live('submit', function () {
-	var searchTerm = $(this).serialize();
-	//load search page - leftmenu + page
-	loadSearchPage(searchTerm);
-	return false;
-});
-/*	search result link to ipaddresses
-*************************************/
-$('table.searchTable tr.ipSearch').live('click', function () {
-	var sectionId = $(this).attr('sectionId'); 
-	var subnetId  = $(this).attr('subnetId');
-	var link      = $(this).attr('link');
-	var id	      = $(this).attr('id');			//ip address id
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//set active section
-	$('table.newSections li').removeClass('active');
-	$('table.newSections li#' + sectionId ).addClass('active');
-	
-	hashLoadSubnets (sectionId, subnetId);
-	//load modify ip field after 1 sec when subnets should be loaded!
-	setTimeout(function (){modifyipaddress("edit_ipaddress",id,subnetId); parameter = null;}, 1000);
-});
-$('table.searchTable tr.subnetSearch').live('click', function () {
-	var sectionId 	= $(this).attr('sectionId'); 
-	var sectionName = $(this).attr('sectionName'); 
-	var subnetId  	= $(this).attr('subnetId');
-	var link      	= $(this).attr('link');
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//set active section
-	$('table.newSections li').removeClass('active');
-	$('table.newSections li#' + sectionId ).addClass('active');
-	
-	hashLoadSubnets (sectionId, subnetId);
-});
-$('table.searchTable tr.vlanSearch').live('click', function () {
-	var sectionId 	= $(this).attr('sectionId'); 
-	var sectionName = $(this).attr('sectionName'); 
-	var subnetId  	= $(this).attr('subnetId');
-	var link      	= $(this).attr('link');
-	
-	//set href
-	document.location.href = "#" + link;
-	
-	//set active section
-	$('table.newSections li').removeClass('active');
-	$('table.newSections li#' + sectionId ).addClass('active');
-	
-	hashLoadSubnets (sectionId, subnetId);
-});
-
-
-
-/*	search form from search page
-*********************************************/
-$('form#search').live('submit', function () {
-	var searchTerm = $(this).serialize();
-	//update search page
-	updateSearchPage(searchTerm);
-	return false;
-});
-
-/*	open IP addressing gude from home
-*********************************************/
-$('table.homeStats a.instructions, table.homeStats img.instructions').live('click', function () {
-	loadToolsMenuAndSubpage ("instructions");
-});
-
-/*	open IP requests from home page
-*********************************************/
-$('#adminRequestNotif').live('click', function () {
-	hashLoadAdmin("Administration", "manageRequests");
+// MySQL export
+$('button#MySQLdump').click(function () {
+	showSpinner();
+	$("div.dl").remove();	//remove old innerDiv
+	$('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateMySQL.php' ></iframe></div>");
+	hideSpinner();
 });
 
 

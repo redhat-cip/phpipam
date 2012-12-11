@@ -13,83 +13,65 @@ checkAdmin();
 /* verify post */
 CheckReferrer();
 
-
-/**
- * First we need to identify action
- */
-$action = $_POST['action'];
-$id     = $_POST['id'];
-
-
-/* format action */
-if ($action == "sectionAdd") {
-    $action = "Add";
-}
-else if ($action == "sectionEdit") {
-    $action = "Edit";
-}
-else if ($action == "sectionDelete") {
-     $action = "Delete"; 
-}
-
-
 /**
  * Fetch section info
  */
-$section = getSectionDetailsById ($id);
+$section = getSectionDetailsById ($_POST['sectionId']);
 
 ?>
 
-<!-- action table -->
-<div class="normalTable edit">
-<!-- form -->
-<form class="sectionEdit" name="sectionEdit">
 
-<!-- edit table -->
-<table class="edit">
 
-<!-- title -->
-	<tr>
-		<th colspan="2"><?php print $action;?> Section</th>
-	</tr>
+<!-- header -->
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> Section</div>
+
+
+<!-- content -->
+<div class="pContent">
+
+	<!-- form -->
+	<form id="sectionEdit" name="sectionEdit">
+
+		<!-- edit table -->
+		<table class="table">
 	
-	<!-- section name -->
-	<tr>
-		<td>Name</td>
-		<td>
-			<input type="text" name="name" value="<?php print $section['name']; ?>" size="30" <?php if ($action == "Delete" ) { print ' readonly '; } ?> placeholder="Section name">
-		</td>
-	</tr>
+		<!-- section name -->
+		<tr>
+			<td>Name</td>
+			<td>
+				<input type="text" name="name" value="<?php print $section['name']; ?>" size="30" <?php if ($_POST['action'] == "Delete" ) { print ' readonly '; } ?> placeholder="Section name">
+				<!-- hidden -->
+				<input type="hidden" name="action" 	value="<?php print $_POST['action']; ?>">
+				<input type="hidden" name="id" 		value="<?php print $_POST['sectionId']; ?>">
+			</td>
+		</tr>
 
-	<!-- description -->
-	<tr>
-		<td>Description</td>
-		<td><input type="text" name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($action == "Delete") {print " readonly ";}?> placeholder="Section description"></td>
-	</tr>
+		<!-- description -->
+		<tr>
+			<td>Description</td>
+			<td>
+				<input type="text" name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($_POST['action'] == "Delete") {print " readonly ";}?> placeholder="Section description">
+			</td>
+		</tr>
 
-	<!-- submit -->
-	<tr>
-		<td></td>
-		<td>
-			<input type="hidden" name="action" 	value="<?php print $action; ?>">
-			<input type="hidden" name="id" 		value="<?php print $id; ?>">
-			<input type="submit" 				value="<?php print $action; ?>">
-			<input type="button" 				value="Cancel" class="cancelSectionEdit">
-		</td>
-
+		</table>	<!-- end table -->
+	</form>		<!-- end form -->
+	
 	<!-- delete warning -->
 	<?php
-	if ($action == "Delete") {
-    	print '<div class="error"><b>!!! Please note !!!</b><br>Deleting Section will delete all belonging subnets and IP addresses!</div>' . "\n";
+	if ($_POST['action'] == "delete") {
+		print '<div class="alert alert-warn"><b>Warning!</b><br>Deleting Section will delete all belonging subnets and IP addresses!</div>' . "\n";
 	}
 	?>
+</div>
 
 
-</table>	<!-- end table -->
-</form>		<!-- end form -->
+<!-- footer -->
+<div class="pFooter">
+	<button class="btn btn-small hidePopups">Cancel</button>
+	<button class="btn btn-small" id="editSectionSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> section</button>
 
-</div>		<!-- end overlay div -->
-
-
-<!-- result holder -->
-<div class="sectionEditResult"></div>
+	<!-- result holder -->
+	<div class="sectionEditResult"></div>
+</div>	
+		

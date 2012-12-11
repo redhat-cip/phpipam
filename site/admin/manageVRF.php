@@ -4,9 +4,6 @@
  *	Print all available VRFs and configurations
  ************************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 checkAdmin();
 
@@ -15,61 +12,51 @@ checkAdmin();
 $allVRFs = getAllVRFs ();
 ?>
 
-<h3>Manage VRFs</h3>
+<h4>Manage VRF</h4>
+<hr><br>
 
-
-<div class="normalTable vrfManagement">
-<table class="normalTable vrfManagement">
-
-<!-- headers -->
-<tr class="th">
-	<th>Name</th>
-	<th>RD</th>
-	<th>Description</th>
-	<th></th>
-</tr>
+<button class='btn btn-small vrfManagement' data-action='add'   data-vrfid=''  style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new VRF</button>
 
 <!-- vrfs -->
 <?php
 
 /* first check if they exist! */
 if(!$allVRFs) {
-	print '<tr class="th">'. "\n";
-	print '	<td colspan="7">No VRFs configured!</td>'. "\n";
-	print '</tr>'. "\n";
+	print '	<div class="alert alert-warn alert-absolute">No VRFs configured!</div>'. "\n";
 }
 /* Print them out */
 else {
-	foreach ($allVRFs as $vrf) {
-	
+
+	print '<table id="vrfManagement" class="table table-striped table-top table-hover table-auto">'. "\n";
+
+	# headers
+	print '<tr>'. "\n";
+	print '	<th>Name</th>'. "\n";
+	print '	<th>RD</th>'. "\n";
+	print '	<th>Description</th>'. "\n";
+	print '	<th></th>'. "\n";
+	print '</tr>'. "\n";
+
+
+	foreach ($allVRFs as $vrf) {	
 	//print details
 	print '<tr>'. "\n";
 	
 	print '	<td class="name">'. $vrf['name'] .'</td>'. "\n";
 	print '	<td class="rd">'. $vrf['rd'] .'</td>'. "\n";
 	print '	<td class="description">'. $vrf['description'] .'</td>'. "\n";
-	print '	<td class="actions">'. "\n";
-	print '		<img src="css/images/edit.png" class="edit" vrfId="'. $vrf['vrfId'] .'" title="Edit VRF details">'. "\n";
-	print '		<img src="css/images/deleteIP.png" class="delete" vrfId="'. $vrf['vrfId'] .'" title="Delete VRF">'. "\n";
-	print '	</td>'. "\n";
-	
+
+	print "	<td>";
+	print "		<button class='btn btn-small vrfManagement' data-action='edit'   data-vrfid='$vrf[vrfId]'><i class='icon-gray icon-edit'></i> Edit</button>";
+	print "		<button class='btn btn-small vrfManagement' data-action='delete' data-vrfid='$vrf[vrfId]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print "	</td>";	
 	print '</tr>'. "\n";
 
 	}
+
+	print '</table>'. "\n";
 }
 ?>
-
-<!-- add new -->
-<tr class="add th">
-	<td colspan="4" class="info">
-	<img src="css/images/add.png" class="add" title="Add new VRF">
-	Add new VRF
-	</td>
-</tr>
-
-</table>
-</div>
-
 
 <!-- edit result holder -->
 <div class="vrfManagementEdit"></div>

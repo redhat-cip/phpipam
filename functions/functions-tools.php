@@ -170,8 +170,7 @@ function checkIpv6AddressType ($subnet)
  */
 function updateLogTable ($command, $details = NULL, $severity = 0)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set variable */
@@ -181,9 +180,9 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
     
     /* set query */
     $query  = 'insert into logs '. "\n";
-    $query .= '(`severity`, `date`,`username`,`command`,`details`)'. "\n";
+    $query .= '(`severity`, `date`,`username`,`ipaddr`,`command`,`details`)'. "\n";
     $query .= 'values'. "\n";
-    $query .= '("'.  $severity .'", "'. $date .'", "'. $user .'", "'. $command .'", "'. $details .'");';
+    $query .= '("'.  $severity .'", "'. $date .'", "'. $user .'", "'. $_SERVER['REMOTE_ADDR'] .'", "'. $command .'", "'. $details .'");';
     
     
     /* execute */
@@ -192,10 +191,33 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'. $error .'</div>');
 	}
 	
     return true;
+}
+
+
+/**
+ * Get log details by Id 
+ */
+function getLogByID ($logId)
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+    /* set query */
+    $query  = "select * from `logs` where `id` = '$logId';";
+    
+    /* execute */
+    try {
+    	$logs = $database->getArray($query);
+    }
+    catch (Exception $e) {
+    	$error =  $e->getMessage();
+    	die('<div class="alert alert-error">'. $error .'</div>');
+	}
+	
+    return $logs[0];
 }
 
 
@@ -204,8 +226,7 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
  */
 function getAllLogs($logCount, $direction = NULL, $lastId = NULL, $highestId = NULL, $informational, $notice, $warning)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* query start */
@@ -238,7 +259,7 @@ function getAllLogs($logCount, $direction = NULL, $lastId = NULL, $highestId = N
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'. $error .'</div>');
 	}
 
     
@@ -252,8 +273,7 @@ function getAllLogs($logCount, $direction = NULL, $lastId = NULL, $highestId = N
  */
 function getAllLogsForExport()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* increase memory size */
@@ -268,7 +288,7 @@ function getAllLogsForExport()
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'. $error .'</div>');
 	}
     /* return vlans */
     return $logs;
@@ -280,8 +300,7 @@ function getAllLogsForExport()
  */
 function clearLogs()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 	
 	/* query start */
@@ -293,7 +312,7 @@ function clearLogs()
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'. $error .'</div>');
 	}
 
     /* return result */
@@ -306,8 +325,7 @@ function clearLogs()
  */
 function countAllLogs ()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
     /* set query */
@@ -347,8 +365,7 @@ function prepareLogFromArray ($logs)
  */
 function getHighestLogId()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
     /* set query */
@@ -375,8 +392,7 @@ function getHighestLogId()
  */
 function searchAddresses ($query)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */
@@ -393,8 +409,7 @@ function searchAddresses ($query)
 function searchSubnets ($searchterm, $searchTermEdited = "")
 {
 	
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set query */    
@@ -415,8 +430,7 @@ function searchSubnets ($searchterm, $searchTermEdited = "")
 function searchVLANs ($searchterm)
 {
 	
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set query */    
@@ -554,8 +568,7 @@ function reformatIPv6forSearch ($ip)
  */
 function isIPalreadyRequested($ip)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests where `ip_addr` = "'. $ip .'" and `processed` = 0;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -576,8 +589,7 @@ function isIPalreadyRequested($ip)
  */
 function countRequestedIPaddresses()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select count(*) from requests where `processed` = 0;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -592,8 +604,7 @@ function countRequestedIPaddresses()
  */
 function getAllActiveIPrequests()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests where `processed` = 0 order by `id` desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -608,8 +619,7 @@ function getAllActiveIPrequests()
  */
 function getAllIPrequests($limit = 20)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests order by `id` desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -624,8 +634,7 @@ function getAllIPrequests($limit = 20)
  */
 function getIPrequestById ($id)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests where `id` = "'. $id .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -639,8 +648,7 @@ function getIPrequestById ($id)
  */
 function addNewRequest ($request)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set query */
@@ -670,8 +678,7 @@ function addNewRequest ($request)
  */
 function rejectIPrequest($id, $comment)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set query */
@@ -694,8 +701,7 @@ function rejectIPrequest($id, $comment)
  */
 function acceptIPrequest($request)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* first update request */
@@ -742,13 +748,11 @@ function acceptIPrequest($request)
  */
 function getAllUniqueSwitches () 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all vlans, descriptions and subnets */
-/*     $query   = 'SELECT distinct(switch) FROM ipaddresses order by switch DESC;'; */
-    $query   = 'SELECT `hostname` FROM `switches` order by `hostname` ASC;';
+    $query   = 'SELECT `hostname`,`id`,`sections` FROM `switches` order by `hostname` ASC;';
     $devices = $database->getArray($query);  
     
     /* return unique devices */
@@ -761,8 +765,7 @@ function getAllUniqueSwitches ()
  */
 function getSwitchDetailsByHostname($hostname) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all vlans, descriptions and subnets */
@@ -784,8 +787,7 @@ function getSwitchDetailsByHostname($hostname)
  */
 function getSwitchDetailsById($id) 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all vlans, descriptions and subnets */
@@ -818,8 +820,7 @@ function getSwitchDetailsById($id)
  */
 function fetchInstructions () 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
 	/* execute query */

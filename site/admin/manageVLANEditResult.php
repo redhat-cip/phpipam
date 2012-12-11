@@ -13,20 +13,26 @@ if (!checkAdmin()) die('');
 /* get modified details */
 $vlan = $_POST;
 
-
-/*
-print_r($vlan);
-die('error');
-*/
-
+/* get settings */
+$settings = getAllSettings ();
 
 /* if it already exist DIE! */
+if($settings['vlanDuplicate'] == "0") {
 if($vlan['action'] == "add") {
-	if(!getVLANbyNumber($vlan['number'])) {
+	if(!getVLANbyNumber($vlan['number'])) 	{ }
+	else 									{ die('<div class="alert alert-error">VLAN already exists!</div>'); }	
+}
+}
+
+//custom
+$myFields = getCustomVLANFields();
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		# replace possible ___ back to spaces!
+		$myField['nameTest']      = str_replace(" ", "___", $myField['name']);
+		
+		if(isset($_POST[$myField['nameTest']])) { $vlan[$myField['name']] = $vlan[$myField['nameTest']];}
 	}
-	else {
-		die('<div class="error">VLAN already exists!</div>');
-	}	
 }
 
 /* sanitize post! */
@@ -34,18 +40,11 @@ $vlan['name'] 		 = htmlentities($vlan['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"
 $vlan['number'] 	 = htmlentities($vlan['number'], ENT_COMPAT | ENT_HTML401, "UTF-8");			# prevent XSS
 $vlan['description'] = htmlentities($vlan['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	# prevent XSS
 
-
 /* Hostname must be present! */
-if($vlan['number'] == "") {
-	die('<div class="error">Number is mandatory!</div>');
-}
+if($vlan['number'] == "") 					{ die('<div class="alert alert-error">Number is mandatory!</div>'); }
 
 /* update details */
-if(!updateVLANDetails($vlan)) {
-	print('<div class="error">Failed to '. $vlan['action'] .' VLAN!</div>');
-}
-else {
-	print('<div class="success">VLAN '. $vlan['action'] .' successfull!</div>');
-}
+if(!updateVLANDetails($vlan)) 				{ print('<div class="alert alert-error">Failed to '. $vlan['action'] .' VLAN!</div>'); }
+else 										{ print('<div class="alert alert-success">VLAN '. $vlan['action'] .' successfull!</div>'); }
 
 ?>

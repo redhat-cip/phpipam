@@ -4,9 +4,6 @@
  * Script to get all active IP requests
  ****************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 checkAdmin();
 
@@ -33,18 +30,18 @@ if(sizeof($custom) > 0) {
 ?>
 
 
-<h3>Filter which fields to display in IP list</h3>
+<h4>Filter which fields to display in IP list</h4>
+<hr>
 
-You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory.
+<div class="alert alert-info">You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory.</div>
 
 
-<div class="normalTable filterIP">
 <form id="filterIP">
-<table class="normalTable filterIP">
+<table class="filterIP table table-auto table-striped table-top">
 
 <!-- headers -->
-<tr class="th">
-	<th colspan="2">Check which fields to show:</th>
+<tr>
+	<th colspan="2">Check which fields to use for IP addresses:</th>
 </tr>
 
 <!-- fields -->
@@ -54,12 +51,8 @@ foreach($fields as $field)
 	print '<tr>'. "\n";
 	
 	/* check if active - in array */
-	if(in_array($field, $setFields)) {
-		$checked = "checked";
-	}
-	else {
-		$checked = "";
-	}
+	if(in_array($field, $setFields))	{ $checked = "checked"; }
+	else 								{ $checked = ""; }
 
 	/* print */
 	print '<td style="width:10px;padding-left:10px;"><input type="checkbox" name="'. $field .'" value="'. $field .'" '. $checked .'></td>';
@@ -71,19 +64,16 @@ foreach($fields as $field)
 ?>
 
 <!-- submit -->
-<tr class="th" style="border-top:1px solid white">
-	<td></td>
-	<td><input type="submit" value="Set fields"></td>
-</tr>
-
-<!-- result -->
-<tr class="th">
+<tr>
 	<td></td>
 	<td>
-		<div class="filterIPResult" style="display:none"></div>
+		<button class="btn btn-small" id="filterIPSave"><i class="icon-gray icon-ok"></i> Set fields</button>
 	</td>
 </tr>
 
+
 </table>
 </form>
-</div>
+
+
+<div class="filterIPResult" style="display:none"></div>

@@ -11,10 +11,8 @@ ini_set('display_errors', 0);
 /* get query */
 $searchTerm = $_REQUEST['searchTerm'];
 
-
 /* verify that user is admin */
 checkAdmin();
-
 
 /* get result */
 /* change * to % for database wildchar */

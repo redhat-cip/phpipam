@@ -71,13 +71,13 @@ $mail['content'] .= '</html>'. "\n";
 
 
 if (!mail($mail['recipients'], $mail['subject'], $mail['content'], $mail['headers'] )) {
-	print '<div class="error">Sending notification mail failed!</div>';
+	print '<div class="alert alert-error">Sending notification mail failed!</div>';
 	//write log
 	$text = 'Sending notification mail to '. $mail['recipients'] . ' failed!';
 	updateLogTable ("IP request reject mail sending failed", $text, $severity = 2);
 }
 else {
-	print '<div class="success">Sending notification mail succeeded!</div>';
+	print '<div class="alert alert-success">Sending notification mail succeeded!</div>';
 	//write log
 	$text = 'Sending notification mail to '. $mail['recipients'] . ' succeeded!';
 	updateLogTable ("IP request accept mail sent ok.", $text, $severity = 1);

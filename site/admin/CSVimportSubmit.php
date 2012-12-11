@@ -16,14 +16,15 @@ $filetype = end(explode(".", $filetype));
 /* get $outFile based on provided filetype */
 if ($filetype == "csv") {
 	/* get file to string */
-	$outFile = file_get_contents('csvupload/import.csv') or die ('Cannot open csvupload/import.csv');
+	$outFile = file_get_contents('csvupload/import.csv') or die ('<div class="alert alert-error">Cannot open csvupload/import.csv</div>');
 
 	/* format file */
 	$outFile = str_replace( array("\r\n","\r") , "\n" , $outFile);	//replace windows and Mac line break
 	$outFile = explode("\n", $outFile);
 }
 else {
-
+	/* include functions */
+	require_once('../../functions/functions.php');
 	/* get excel file */
 	require_once('../../functions/excel_reader2.php');				//excel reader 2.21
 	$data = new Spreadsheet_Excel_Reader('csvupload/import.xls' ,false);	
@@ -31,13 +32,29 @@ else {
 	//get number of rows
 	$numRows = $data->rowcount(0);
 	$numRows++;
+
+	//get custom fields
+	$myFields = getCustomIPaddrFields();
+	$myFieldsSize = sizeof($myFields);
+	
+	//add custom fields
+	$numRows = $numRows + $myFieldsSize;
 	
 	//get all to array!
 	for($m=0; $m < $numRows; $m++) {
-	
 		//IP must be present!
 		if($data->val($m,'A') > 4 ) {
-			$outFile[] = $data->val($m,'A') . ',' . $data->val($m,'B'). ',' . $data->val($m,'C'). ',' . $data->val($m,'D'). ',' . $data->val($m,'E'). ',' . $data->val($m,'F'). ',' . $data->val($m,'G'). ',' . $data->val($m,'H'). ',' . $data->val($m,'I');
+		
+		$outFile[$m]  = $data->val($m,'A').','.$data->val($m,'B').','.$data->val($m,'C').','.$data->val($m,'D').',';
+		$outFile[$m] .= $data->val($m,'E').','.$data->val($m,'F').','.$data->val($m,'G').','.$data->val($m,'H').',';
+		$outFile[$m] .= $data->val($m,'I');
+		//add custom fields
+		if(sizeof($myFields) > 0) {
+			$currLett = "J";
+			foreach($myFields as $field) {
+				$outFile[$m] .= ",".$data->val($m,$currLett++);
+			}
+		}
 		}
 	}
 }
@@ -64,14 +81,14 @@ foreach($outFile as $line) {
 
 /* print errors */
 if(isset($errors)) {
-	print '<div class="error">Errors occured when importing to database!<br>';
+	print '<div class="alert alert-error">Errors occured when importing to database!<br>';
 	foreach ($errors as $error) {
 		print $error . "<br>";
 	}
 	print '</div>';
 }
 else {
-	print '<div class="success">Import successfull!</div>';
+	print '<div class="alert alert-success">Import successfull!</div>';
 }
 
 /* erase file! */

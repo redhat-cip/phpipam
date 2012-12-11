@@ -4,15 +4,12 @@
  *	print instructions
  **********************************************/
 
-/* required functions */
-require_once('../../functions/functions.php');
-
 /* fetch instructions and print them in instructions div */
 $instructions = fetchInstructions();
 $instructions = $instructions[0]['instructions'];
 
 /* format line breaks */
-$instructions = str_replace("\n\r", "<br>", $instructions);
+$instructions = str_replace("\n", "<br>", $instructions);
 $instructions = stripslashes($instructions);		//show html
 
 /* prevent <script> */
@@ -21,8 +18,9 @@ $instructions = str_replace("</script>", "</script></xmp></div>", $instructions)
 
 ?>
 
-<h3>Instructions for managing IP addresses</h3>
+<h4>Instructions for managing IP addresses</h4>
+<hr>
 
-<div class="normalTable instructions">
+<div class="instructions well">
 <?php print $instructions; ?>
 </div>

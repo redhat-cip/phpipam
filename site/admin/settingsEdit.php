@@ -13,11 +13,13 @@ checkAdmin();
 /* fetch all settings */
 $settings = $_POST;
 
-/* Update settings */
-if(!updateSettings($settings)) {
-	die('<div class="error">Cannot update settings!</div>');
-}
+/* check for http/https */
+if ( (strpos($settings['siteURL'],'http://') !== false) || (strpos($settings['siteURL'],'https://') !== false) ) {}
 else {
-	print '<div class="success">Settings updated successfully!</div>';
+	$settings['siteURL'] = "http://".$settings['siteURL'];
 }
+
+/* Update settings */
+if(!updateSettings($settings)) 	{ die('<div class="alert alert-error alert-absolute">Cannot update settings!</div>'); }
+else 							{ print '<div class="alert alert-success alert-absolute">Settings updated successfully!</div>';}
 ?>

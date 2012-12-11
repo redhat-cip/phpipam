@@ -4,60 +4,40 @@
  * Script to print switches
  ***************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 if (!checkAdmin()) die('');
-
-/* title */
-print '<h3>Switch management</h3>'. "\n";
 
 /* get current switches */
 $switches = getAllUniqueSwitches();
 
 ?>
 
+<h4>Switch management</h4>
+<hr>
+<button class='btn btn-small editSwitch' data-action='add'   data-switchid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new</button>
 
-<!-- slide to top -->
-<script type="text/javascript" src="js/jquery.slideto.v1.1.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$('img.edit, img.delete').slideto({
-		target : '#add', 
-		speed  : 'fast'
-	});
-});
-</script>
-
-
-<div class="normalTable switchManagement">
-<table class="normalTable switchManagement">
-
-<!-- headers -->
-<tr class="th">
-	<th>Hostname</th>
-	<th>IP address</th>
-	<th>Vendor</th>
-	<th>Model</th>
-	<th>SW version</th>
-	<th>Description</th>
-	<th>Sections</th>
-	<th></th>
-</tr>
-
-
-<!-- shitches -->
 <?php
-
 /* first check if they exist! */
 if(sizeof($switches) == 0) {
-	print '<tr class="th">'. "\n";
-	print '	<td colspan="8">No switches configured!</td>'. "\n";
-	print '</tr>'. "\n";
+	print '	<div class="alert alert-warn alert-absolute">No switches configured!</div>'. "\n";
 }
 /* Print them out */
 else {
+
+	print '<table id="switchManagement" class="table table-striped table-hover table-auto table-top">';
+
+	#headers
+	print '<tr>';
+	print '	<th>Hostname</th>';
+	print '	<th>IP address</th>';
+	print '	<th>Vendor</th>';
+	print '	<th>Model</th>';
+	print '	<th>SW version</th>';
+	print '	<th>Description</th>';
+	print '	<th><i class="icon-gray icon-info-sign" rel="tooltip" title="Shows in which sections switch will be visible for selection"></i> Sections</th>';
+	print '	<th></th>';
+	print '</tr>';
+
 	foreach ($switches as $switch) {
 
 	//get switch details
@@ -80,7 +60,7 @@ else {
 		foreach($temp as $line) {
 			$section = getSectionDetailsById($line);
 			if(!empty($section)) {
-			print '<div class="switchSections">'. $section['name'] .'</div>'. "\n";
+			print '<div class="switchSections"><i class="icon-gray  icon-hand-right"></i> '. $section['name'] .'</div>'. "\n";
 			}
 		}
 		}
@@ -88,40 +68,18 @@ else {
 	print '	</td>'. "\n";
 	
 	print '	<td class="actions">'. "\n";
-	print '		<img src="css/images/edit.png" class="edit" switchId="'. $switchDetails['id'] .'" title="Edit switch details">'. "\n";
-	print '		<img src="css/images/deleteIP.png" class="delete" switchId="'. $switchDetails['id'] .'" title="Delete switch">'. "\n";
+	print "		<button class='btn btn-small editSwitch' data-action='edit'   data-switchid='$switchDetails[id]'><i class='icon-gray icon-edit'></i> Edit</button>";
+	print "		<button class='btn btn-small editSwitch' data-action='delete' data-switchid='$switchDetails[id]'><i class='icon-gray icon-remove'></i> Delete</button>";
 	print '	</td>'. "\n";
 	
 	print '</tr>'. "\n";
 
 	}
+	print '</table>';
 }
+
 ?>
-
-<!-- add new -->
-<tr class="add th">
-	<td colspan="8" class="info">
-	<img src="css/images/add.png" class="add" id="add" title="Add new switch">
-	Add new switch
-	</td>
-</tr>
-
-</table>
-</div>
 
 
 <!-- edit result holder -->
 <div class="switchManagementEdit"></div>
-
-
-
-<!-- slide to top -->
-<script type="text/javascript" src="js/jquery.slideto.v1.1.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	$('img.edit,img.delete,img.add').slideto({
-		target : '.switchManagementEdit', 
-		speed  : 'fast'
-	});
-});
-</script>

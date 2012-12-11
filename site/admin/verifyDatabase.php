@@ -4,27 +4,25 @@
  * Script to verify database structure
  ****************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
 checkAdmin();
 
 
 /* title */
-print '<h3>Database structure verification</h3>'. "\n";
+print '<h4>Database structure verification</h4><hr>'. "\n";
 
 
 /* required tables */
-$reqTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "settingsDomain", "subnets", "switches", "users", "vrf");
+$reqTables = array("instructions", "ipaddresses", "logs", "requests", "sections", "settings", "settingsDomain", "subnets", "switches", "users", "vrf", "vlans");
 
 /* required fields for each table */
 $fields['instructions']   = array("instructions");
 $fields['ipaddresses'] 	  = array("subnetId", "ip_addr", "description", "dns_name", "mac", "owner", "switch", "port", "owner", "state", "note");
-$fields['logs']			  = array("severity", "date", "username", "command", "details");
+$fields['logs']			  = array("severity", "date", "username", "ipaddr", "command", "details");
 $fields['requests']		  = array("subnetId", "ip_addr", "description", "dns_name", "owner", "requester", "comment", "processed", "accepted", "adminComment");
 $fields['sections']		  = array("name", "description");
-$fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "siteDomain", "siteURL", "domainAuth", "showTooltips", "enableIPrequests", "enableVRF", "enableDNSresolving", "version", "donate", "IPfilter", "strictMode");
+$fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "siteDomain", "siteURL", "domainAuth", "showTooltips", "enableIPrequests", "enableVRF", "enableDNSresolving", "version", "donate", "IPfilter", "strictMode", "printLimit", "vlanDuplicate");
 $fields['settingsDomain'] = array("account_suffix", "base_dn", "domain_controllers", "use_ssl", "use_tls", "ad_port");
 $fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "adminLock", "vlanId", "showName");
 $fields['switches'] 	  = array("hostname", "ip_addr", "vendor", "model", "version", "description", "sections");
@@ -57,10 +55,10 @@ foreach($reqTables as $table) {
 
 /* print result */
 if( (!isset($tableError)) && (!isset($fieldError)) ) {
-	print '<div class="success">All tables and fields are installed properly!</div>'. "\n";
+	print '<div class="alert alert-success alert-absolute">All tables and fields are installed properly!</div>'. "\n";
 }
 else if (isset($tableError)) {
-	print '<div class="error" style="text-align:left;">'. "\n";
+	print '<div class="alert alert-error alert-absolute" style="text-align:left;">'. "\n";
 	print '<b>Missing tables:</b>'. "\n";
 	print '<ul>'. "\n";
 	
@@ -72,7 +70,7 @@ else if (isset($tableError)) {
 	print '</div>'. "\n";
 }
 else if (isset($fieldError)) {
-	print '<div class="error" style="text-align:left;">'. "\n";
+	print '<div class="alert alert-error alert-absolute" style="text-align:left;">'. "\n";
 	print '<b>Missing fields:</b>'. "\n";
 	print '<ul>'. "\n";
 	

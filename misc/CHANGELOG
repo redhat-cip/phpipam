@@ -1,27 +1,54 @@
-== 0.6
+== 0.7
 
 	New features:
 	----------------------------	
+	+ Completely rewritten UI using twitter's bootstrap as base;
+	+ Using mod_rewrite apache module to handle GET requests (new install requitements!);
+	+ Unlimited number of subnetting levels;
+	+ New URL structure;
 	+ Sorting of IP addresses;
-	+ Script to automatically update IP <-> hostname, run via cron;
+	+ Custom subnet fields;
+	+ Custom VLAN fields and admin option to allow duplicate VLAN names (metro area VLANs);
+	+ Script to automatically update IP <-> hostname, run via cron (functions/scripts/resolveIPaddresses.php);
+	+ Show Subnet name instead of subnet IP address option;
+	+ Strict mode option in config files that controlls overlapping checks;
+	+ New subnet menu;
+	+ Added printLimit feature to break IP addresses into pages;
 	
 	Enhancements:
 	----------------------------
+	+ Lots of UI changes;
+	+ Less Ajax usage to display websites and details;
+	+ Hierarchy display under subnet details (breadcrumbs);
 	+ Search results covering VLANs;
 	+ Custom IP fields ordering;
-	+ Show Subnet name instead of subnet IP address option;
-	+ Strict mode option in config files that controlls overlapping checks;
 	+ VLAN creation from adding/editing subnets;
 	+ IP addresses can now be edited;
 	+ Collapsed switch list;
+	+ Removing VLANs also removes references from subnet list;
+	+ Removing VRFs also removes references from subnet list;
+	+ Logs for admin on dashboard;
+	+ Search via GET;
+	+ Support for range networks (allows use of subnet and broadcast as IP);
+	+ Import of custom IP fields;
+	+ Abiility to move subnets between sections;
+	+ Improved display of nested subnets now shows all IP addresses from nested subnets and orphaned IPs;
+	+ Hides display of custom fields in subnet if none is filled in whole subnet;
 
 	Bugfixes:
 	------------------------
 	+ Fixed error with missing custom IP fields when adding new IP address;
+	+ Fixed bug when deleteing root subnet only deleted directly nested subnets (now whole tree);
 	+ Fixed checkboxes not working in various browsers;
+	+ Fixed change in switch details causing IP address associations to switch to be lost; 
 	+ Fixed subnet description display in under subnet administration;
 	+ Fixed depricated error when showing XLS files;
-
+	+ Fixed error when custom fields were not updated on adding IP address;
+	+ Fixed error when custom fields were with spaces in name were not updated;
+	+ Fixed error when providing already requested IP address;
+	+ Search available also to viewer user types;
+	+ Fixed /127 and /128 IPv6 subnets;
+	+ Fixed /31 and /32 IPv4 subnets;
 
 == 0.6
 

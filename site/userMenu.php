@@ -8,32 +8,26 @@
 
 
 /* get username */
-/* session_start(); */
 $ipamusername = $_SESSION['ipamusername'];
-session_write_close();
+$userDetails = getActiveUserDetails ();
 
 ?>
-<ul class="topNav">
-    
-    <!-- userdata link -->
-    <li link="tools|userMenu" id="userMenu"> <img src="css/images/user.png"> <?php print $ipamusername; ?>
-        <ul class="subNav">
-            <li>
-                <a href="login">Logout</a>
-            </li>
-            <li link="tools|userMenu" id="userMenu">My account</li>
-        </ul>
-    </li>
-    
+
+<div id="userNav">
+		
+	<!-- search -->
     <?php
-    if(!isUserViewer()) {
-    	# search
-    	print '<li id="search">'. "\n";
-    	print '<form id="userMenuSearch" name="userMenuSearch">'. "\n";
-        print '	<input type="text" class="search" size="12" name="ip" placeholder="Search">'. "\n";
-        print '	<input type="submit" value="Search">'. "\n";
-        print '</form>'. "\n";
-    	print '</li>'. "\n";
-    }
+    print "<div class='input-append'>";
+    print "<form id='userMenuSearch' name='userMenuSearch' action='tools/search/' method='GET'>";
+    print "	<input class='span2 search' name='ip' placeholder='Search string' id='appendedInputButton' size='16' type='text'><input class='btn' type='submit' value='Search'>";
+    print "</form>";
+  	print "</div>";
     ?>
-</ul>
+
+	<!-- settings -->
+	<a href="tools/userMenu/">Hi, <?php print $userDetails['real_name']; ?></a><br>
+	<span class="info">Logged in as  <?php print $userDetails['role']; ?></span><br>
+	
+	<!-- logout -->
+	<a  href="logout/">Logout <i class="icon-off icon-white"></i></a>
+</div>

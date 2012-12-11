@@ -5,102 +5,88 @@
  *
  */
 
-/* include required scripts */
-require_once('../../functions/functions.php');
 
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
 /* die if viewer */
-if(isUserViewer()) {
-	die('<div class="error">You do not have permissions to access this page!</div>');
-}
+if(isUserViewer()) { die('<div class="alert alert-error">You do not have permissions to access this page!</div>'); }
 
 /* get all VLANs and subnet descriptions */
 $vrfs = getAllVRFs ();
 
 
 /* title */
-print '<h3>Available VRFs and belonging subnets</h3>'. "\n";
+print "<h4>Available VRFs and belonging subnets</h4>";
+print "<hr>";
 
 
 /* for each VRF check which subnet has it configured */
-if(!$vrfs) {
-	print 'No VRFs configured!';
-}
+if(!$vrfs) { print "<div class='alert alert-warn'>No VRFs configured!</div>"; }
 else {
+	# print table
+	print "<table id='vrf' class='table table-striped table-condensed table-hover table-top'>";
+	
 	foreach ($vrfs as $vrf) {
 
-	/*  print VLANs */
-	print '<div class="normalTable vlans">';
-	print '<table class="normalTable vlans">';
+	# print table body
+	print "<tbody>";
 
-	/* section names */
-	print '<tr class="th">' . "\n";
-    print '	<th colspan="8"><h3>'. $vrf['name'] .'</h3></th>' . "\n";
-	print '</tr>';	
+	# section names
+	print "<tr class='vrf-title'>";
+    print "	<th colspan='8'><h4>$vrf[name]</h4></th>";
+	print "</tr>";	
 	
-	/* fetch subnets */
+	# fetch subnets in vrf
 	$subnets = getAllSubnetsInVRF($vrf['vrfId']);
 	
-	/* subnet headers */
-	print '	<tr class="th dashed">' . "\n";
-	print '	<td>VLAN</td>' . "\n";	
-	print '	<td>Description</td>' . "\n";
-	print '	<td>Subnet</td>' . "\n";
-	print '	<td>Master Subnet</td>' . "\n";
-	print '	<td>Used</td>' . "\n";
-	print '	<td>free [%]</td>' . "\n";
-	print '	<td>Requests</td>' . "\n";
-	print '	<td class="lock" title="Admin lock"></td>' . "\n";
-	print '</tr>' . "\n";	
+	# headers
+	print "	<tr>";
+	print "	<th>VLAN</th>";	
+	print "	<th>Description</td>";
+	print "	<th>Subnet</td>";
+	print "	<th>Master Subnet</td>";
+	print "	<th>Used</td>";
+	print "	<th>free [%]</td>";
+	print "	<th>Requests</td>";
+	print "	<th><i class='icon-gray icon-lock' rel='tooltip' title='Subnet lock for non-admins'></i></td>";
+	print "</tr>";	
 
-
+	# subnets
 	if($subnets) {
 		foreach ($subnets as $subnet) {
 	
-		/* check if it is master */
-		if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) {
-			$masterSubnet = true;
-		}
-		else {
-			$masterSubnet = false;
-		}
+		# check if it is master
+		if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) 	{ $masterSubnet = true; }
+		else 																			{ $masterSubnet = false; }
 	
-		//identify slaves for CSS
-		if(!$masterSubnet) {
-			print '<tr class="vlanLink slaveSubnet"';
-		}
-		else {
-			print '<tr class="vlanLink masterSubnet"';
-		}
+		print "<tr>";
 	
-		//get VLAN details
+		# get VLAN details
 		$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
 		$subnet['VLAN'] = $subnet['VLAN']['number'];
 	
-		//reformat empty VLAN
-		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) {
-			$subnet['VLAN'] = "";
-		}
+		# reformat empty VLAN
+		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
 		
-		//get section name
+		# get section name
 		$section = getSectionDetailsById($subnet['sectionId']);
 	
-		print ' sectionId="'. $section['id'] .'" subnetId="'. $subnet['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">' . "\n";
-	    print '	<td><dd>'. $subnet['VLAN'] 	   .'</dd></td>' . "\n";
-	    print '	<td><dd>'. $subnet['description'] .'</dd></td>' . "\n";
-	    print '	<td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
-    
-	   	if($masterSubnet) {
-			print '	<td>/</td>' . "\n";
-		}
+	    print "	<td>$subnet[VLAN]</td>";
+	    print "	<td>$subnet[description]</td>";
+	    print "	<td><a href='/subnets/$section[id]/$subnet[id]/'>".transform2long($subnet['subnet'])."/$subnet[mask]</a></td>";    
+	    
+	    if($masterSubnet) { 
+	    	print '	<td>/</td>' . "\n"; 
+	    }
 		else {
 			$master = getSubnetDetailsById ($subnet['masterSubnetId']);
-	      	print '	<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
+			# orphaned
+			if(strlen($master['subnet']) == 0)	{ print "	<td><div class='alert alert-warn'>Master subnet does not exist!</div></td>";}
+			else 								{ print "	<td><a href='/subnets/$subnet[sectionId]/$subnet[masterSubnetId]/'>".transform2long($master['subnet'])."/$master[mask] ($master[description])</a></td>"; }
 		}
 	
-		//details
+		# details
 		if( (!$masterSubnet) || (!subnetContainsSlaves($subnet['id']))) {
 		    $ipCount = countIpAddressesBySubnetId ($subnet['id']);
 			$calculate = calculateSubnetDetails ( gmp_strval($ipCount), $subnet['mask'], $subnet['subnet'] );
@@ -113,40 +99,28 @@ else {
 			print '<td></td>'. "\n";
 		}
 	
-		//allow requests
-		if($subnet['allowRequests'] == 1) {
-			print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>';
-		}
-		else {
-			print '<td class="allowRequests"></td>';
-		}
+		# allow requests
+		if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>'; }
+		else 								{ print '<td class="allowRequests"></td>'; }
 	
-		//check if it is locked for writing
-		if(isSubnetWriteProtected($subnet['id'])) {
-			print '<td class="lock" title="Subnet is locked for writing!"></td>';	
-		} else {
-			print '<td class="nolock"></td>';
-		}
-	
+		# check if it is locked for writing
+		if($subnet['adminLock'] == 1) 		{ print "<td><i class='icon-gray icon-lock' rel='tooltip' title='Subnet lock for non-admins'></i></td>"; } 
+		else 								{ print "<td></td>";}
     
 		print '</tr>' . "\n";
-	
 		}
 	}
-	
-	//no subnets!
+	# no subnets!
 	else {
 		print '<tr>'. "\n";
-		print '<td colspan="8">No subnets belonging to this VRF!</td>'. "\n";
+		print '<td colspan="8"><div class="alert alert-warn">No subnets belonging to this VRF!</div></td>'. "\n";
 		print '</tr>'. "\n";
 	}
 	
-	
-
 	/* end */
-	print '</table>';
-	print '</div>';
+	print '</tbody>';
 }
 }
+print "</table>";
 
 ?>

@@ -4,9 +4,6 @@
  *	Site settings
  **************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
-
 /* verify that user is admin */
 checkAdmin();
 
@@ -15,29 +12,29 @@ $settings = getAllSettings();
 ?>
 
 <!-- title -->
-<h3>phpIPAM Server settings</h3>
+<h4>phpIPAM Server settings</h4>
+<hr>
+
 <form name="settings" id="settings">
-<!-- settings talbe -->
-<div class="normalTable">
-<table class="normalTable settings">
+<table id="settings" class="table table-striped table-condensed table-hover table-top">
 
 <!-- site settings -->
-<tr class="th">
-	<th colspan="3">Site settings</th>
+<tr class="settings-title">
+	<th colspan="3"><h4>Site settings</h4></th>
 </tr>
 
 <!-- site title -->
 <tr>
-	<td class="title">Site title</th>
+	<td>Site title</th>
 	<td>
-		<input type="text" size="50"name="siteTitle" value="<?php print $settings['siteTitle']; ?>">
+		<input type="text" name="siteTitle" value="<?php print $settings['siteTitle']; ?>">
 	</td>
 	<td class="info">Set site title</td>
 </tr>
 
 <!-- site domain -->
 <tr>
-	<td class="title">Site domain</td>
+	<td>Site domain</td>
 	<td>
 		<input type="text" size="50"name="siteDomain" value="<?php print $settings['siteDomain']; ?>">
 	</td>
@@ -53,14 +50,10 @@ $settings = getAllSettings();
 	<td class="info">Set site URL</td>
 </tr>
 
-<!-- space holder -->    
-<tr class="th">
-    <td>&nbsp;</td>
-</tr>
 
 <!-- Admin settings -->
-<tr class="th">
-	<th colspan="3">Admin settings</th>
+<tr class="settings-title">
+	<th colspan="3"><h4>Admin settings</h4></th>
 </tr>
 
 <!-- Admin name -->
@@ -85,25 +78,25 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
-<!-- space holder -->    
-<tr class="th">
-    <td>&nbsp;</td>
-</tr>
+
 
 <!-- features -->
-<tr class="th">
-	<th colspan="3">Feature settings</th>
+<tr class="settings-title">
+	<th colspan="3"><h4>Feature settings</h4></th>
 </tr>
 
 <!-- Domain auth -->
 <tr>
-	<td class="title">Domain auth</td>
+	<td class="title">Auth type</td>
 	<td>
-		<input type="checkbox" value="1" name="domainAuth" <?php if($settings['domainAuth'] == 1) print 'checked'; ?>>
+		<select name="domainAuth">
+			<option value="0" <?php if($settings['domainAuth'] == 0) print 'selected'; ?>>Local authentication only</option>
+			<option value="1" <?php if($settings['domainAuth'] == 1) print 'selected'; ?>>AD authentication</option>
+			<option value="2" <?php if($settings['domainAuth'] == 2) print 'selected'; ?>>OpenLDAP authentication</option>
+		</select>
 	</td>
 	<td class="info">
-		Use domain authentication for users. Requires php LDAP support.<br>
-		Set connection settings in admin menu.<br>
+		Set authentication type for users. Requires php LDAP support. Set connection settings in admin menu.
 	</td>
 </tr>
 
@@ -159,7 +152,18 @@ $settings = getAllSettings();
 		<input type="checkbox" value="1" name="strictMode" <?php if($settings['strictMode'] == 0) print ''; else print 'checked'; ?>>
 	</td>
 	<td class="info">
-	If strict mode is disabled then no more overlapping subnet checks will be made.
+	If strict mode is disabled then no more overlapping subnet checks will be made. Subnets can be nested/created randomly. Anarchy.
+	</td>
+</tr>
+
+<!-- duplicate VLANs -->
+<tr>
+	<td class="title">Duplicate VLANs</td>
+	<td>
+		<input type="checkbox" value="1" name="vlanDuplicate" <?php if($settings['vlanDuplicate'] == 0) print ''; else print 'checked'; ?>>
+	</td>
+	<td class="info">
+	Allow duplicate VLAN numbers.
 	</td>
 </tr>
 
@@ -174,18 +178,42 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
-<!-- space holder -->    
-<tr class="th">
-    <td>&nbsp;</td>
+<!-- Output limit -->
+<tr>
+	<td class="title">IP address print limit</td>
+	<td>
+		<select name="printLimit" style="width:auto;">
+			<?php
+			$opts = array(
+				"0"=>"Show all",
+				"10"=>"10",
+				"25"=>"25",
+				"50"=>"50",
+				"100"=>"100"
+			);
+			
+			foreach($opts as $key=>$line) {
+				if($settings['printLimit'] == $key) { print "<option value='$key' selected>$line</option>"; }
+				else 								{ print "<option value='$key'>$line</option>"; }
+			}
+			
+			?>
+		</select>
+	</td>
+	<td class="info">
+	Number of IP addresses per page
+	</td>
 </tr>
+
+
 
 <!-- Submit -->
 <tr class="th">
 	<td class="title"></td>
 	<td class="submit">
-		<input type="submit" value="Save changes">
+		<input type="submit" class="btn btn-small pull-right" value="Save changes">
 	</td>
-	<td class="info">Save changes</td>
+	<td></td>
 </tr>
 
 </table>
@@ -193,5 +221,3 @@ $settings = getAllSettings();
 
 <!-- result holder -->
 <div class="settingsEdit"></div>
-
-</div>

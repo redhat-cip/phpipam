@@ -9,9 +9,12 @@ UPDATE `settings` set `donate` = '0';
 /* Add IPfilter to settings */
 ALTER TABLE `settings` ADD `IPfilter` varchar(128) DEFAULT NULL;
 UPDATE `settings` set `IPfilter` = 'mac;owner;state;switch;port;note';
-
 /* strict mode */
 ALTER TABLE `settings` ADD `strictMode` tinyint(1) DEFAULT '1';
+/* add printLimit */
+ALTER TABLE `settings` ADD `printLimit` int(4) unsigned DEFAULT '25';
+/* add vlan duplicate option */
+ALTER TABLE `settings` ADD `vlanDuplicate` int(1) DEFAULT '0';
 
 /* add show names */
 ALTER TABLE `subnets` ADD `showName` tinyint(1) DEFAULT '0';
@@ -24,6 +27,9 @@ ALTER TABLE `subnets` ADD COLUMN `vlanId` INTEGER(11) DEFAULT NULL;
 
 /* ALTER ipaddresses - expand dns_name to 64 chars */
 ALTER TABLE `ipaddresses` CHANGE COLUMN `dns_name` `dns_name` VARCHAR(64) CHARACTER SET utf8 DEFAULT NULL;
+
+/* Add ipaddr to logs */
+ALTER TABLE `logs` ADD `ipaddr` VARCHAR(64)  NULL  DEFAULT NULL  AFTER `username`;
 
 
 # Dump of table VLANS

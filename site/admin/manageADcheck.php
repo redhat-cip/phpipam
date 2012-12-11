@@ -32,19 +32,15 @@ try {
 	    						));
 }
 catch (adLDAPException $e) {
-	die ('<div class="error">'. $e .'</div>');
+	die ('<div class="alert alert-error">'. $e .'</div>');
 }
 
 
 foreach($ad['domain_controllers'] as $line) {
 
 	$fp = fsockopen($line, $ad['ad_port'], $errno, $errstr, 3); 
-	if (!$fp) {
-		print '<div class="error">'. $line .': '. $errstr .' ('. $errno .')</div>';
-	}
-	else {
-		print '<div class="success">'. $line .': AD network connection ok!</div>';
-	}
+	if (!$fp) 	{ print '<div class="alert alert-error">'. $line .': '. $errstr .' ('. $errno .')</div>';}
+	else 		{ print '<div class="alert alert-success">'. $line .': AD network connection ok!</div>';}
 
 }
 

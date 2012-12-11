@@ -12,8 +12,7 @@
  */
 function updateSwitchFromOldVersions() 
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all existing switches */
@@ -43,8 +42,7 @@ function updateSwitchFromOldVersions()
  */
 function updateVLANsFromOldVersions()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* get all existing switches */
@@ -76,12 +74,67 @@ function updateVLANsFromOldVersions()
 
 
 /**
+ * Since 0.7 the switches are not linked with hostnames but with Id's!
+ */
+function updateSwitchFromOldVersionsToId() 
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all existing switches */
+    $query 	  = 'select `id`,`hostname` from `switches`;';
+    $switches = $database->getArray($query); 
+        
+    /* change name to id to database */
+    foreach($switches as $switch) {
+    	$query 	  = 'update `ipaddresses` set `switch` = "'.$switch['id'].'" where `switch` ="'.$switch['hostname'].'" ;';
+    	/* execute */
+    	try {
+    		$database->executeQuery( $query );
+    	}
+    	catch (Exception $e) {
+    		$error =  $e->getMessage();
+    		print('<div class="alert alert-error">Failed to update switch ip address associations for switch '.$switch['hostname'].': '. $error .'</div>');
+    	}
+    }
+    /* remove remaining non-numeric values */
+    $query = "update `ipaddresses` set `switch` = '' WHERE `switch` REGEXP '[^0-9]';";
+    /* execute */
+    try {
+    	$database->executeQuery( $query );
+    }    
+    catch (Exception $e) {
+    	$error =  $e->getMessage();
+    	print('<div class="alert alert-error">Failed to remove orphaned switches from IP address list!: '. $error .'</div>');
+    }    
+    
+    return true;
+}
+
+
+/**
+ * add http to siteURL by default
+ */
+function addHTTP() 
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+	$query = "UPDATE `settings` SET `siteURL` = IFNULL(CONCAT('http://',`siteURL`), 'http://');";
+
+    /* execute */
+    try { $database->executeQuery( $query ); }    
+    catch (Exception $e) {}   
+}
+
+
+
+/**
  * Get all tables
  */
 function getAllTables()
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* first update request */
@@ -98,26 +151,29 @@ function getAllTables()
  */
 function tableExists($table)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass']); 
 
     /* Check connection */
     if ($database->connect_error) {
-    	die('Connect Error (' . $database->connect_errno . '): '. $database->connect_error);
+    	if($quit)   { die('Connect Error (' . $database->connect_errno . '): '. $database->connect_error);}
+    	else		{ return false; }
 	}
     
     /* first update request */
     $query    = 'SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = "'. $db['name'] .'" AND table_name = "'. $table .'";';
-    $count	  = $database->getArray($query); 
+    
+	/* execute */
+    try { $count = $database->getArray($query); }
+    catch (Exception $e) { $error =  $e->getMessage(); } 
   
-	/* return true if it exists */
-	if($count[0]['count'] == 1) {
-		return true;
-	}
-	else {
-		return false;
-	}
+    /* die if error */
+    if(isset($error)) 				{ return false; }
+    else {
+		/* return true if it exists */
+		if($count[0]['count'] == 1) { return true; }
+		else 						{ return false; }  
+    }
 }
 
 
@@ -126,8 +182,7 @@ function tableExists($table)
  */
 function fieldExists($table, $fieldName)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* first update request */
@@ -149,13 +204,12 @@ function fieldExists($table, $fieldName)
  */
 function upgradeDatabase($version)
 {
-    /* get variables from config file */
-    global $db;
+    global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
 
     /* Check connection */
     if ($database->connect_error) {
-    	die('<div class="error">Connect Error (' . $database->connect_errno . '): '. $database->connect_error). "</div>";
+    	die('<div class="alert alert-error">Connect Error (' . $database->connect_errno . '): '. $database->connect_error). "</div>";
 	}
     
     /* import querries from upgrade file */
@@ -168,12 +222,12 @@ function upgradeDatabase($version)
     catch (Exception $e) {
     	$error =  $e->getMessage();
     	updateLogTable ('DB update failed', 'DB updated failed with error: '. $error, 2);
-    	die('<div class="error">Update error: '. $error .'</div>');
+    	die('<div class="alert alert-error">Update error: '. $error .'</div>');
 	}
     
     /* return true if we came to here */
     sleep(1);
-    updateLogTable ('DB updated', 'DB updated from version '. $version .' to version 0.6', 1);
+    updateLogTable ('DB updated', 'DB updated from version '. $version .' to version 0.7', 1);
     return true;
 }
 

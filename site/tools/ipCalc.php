@@ -1,17 +1,14 @@
 <?php  
 /* verify that user is authenticated! */
-require_once('../../functions/functions.php');
 isUserAuthenticated ();
 ?>
 
-<h3>IPv4v6 calculator</h3>
+<h4>IPv4v6 calculator</h4>
+<hr>
 
 <!-- ipCalc form -->
 <form name="ipCalc" id="ipCalc">
-
-<!-- form table content -->
-<div class="normalTable">
-<table class="normalTable ipCalc">
+<table class="ipCalc table">
 
     <!-- IP address input -->
     <tr>
@@ -19,8 +16,8 @@ isUserAuthenticated ();
         <td>
             <input type="text" name="cidr" size="40">
         </td>
-        <td class="info">
-            Please enter IP address and mask in CIDR format
+        <td>
+            <div class="alert alert-warn" style="margin-bottom:0px;">Please enter IP address and mask in CIDR format</div>
         </td>
     </tr>
 
@@ -28,18 +25,14 @@ isUserAuthenticated ();
     <tr class="th">
         <td></td>
         <td>
-            <input type="submit" value="Calculate">
-            <input type="button" value="Reset" class="reset">
+            <input type="submit" class="btn btn-small" value="Calculate">
+            <input type="button" class="btn btn-small" value="Reset" class="reset">
         </td>
         <td></td>
     </tr>
 
 
 </table>
-</div>
-<!-- end form table content -->
-
-<!-- end ipCalc form -->
 </form>
 
 

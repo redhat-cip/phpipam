@@ -13,6 +13,15 @@ $db['name'] = "phpipam";
  * 1 = SHOW all php errors
  * 0 = HIDE all php errors
  ******************************/
-$debugging = 1;
+$debugging = 0;
+
+/**	
+ *	BASE definition if phpipam 
+ * 	is not in root directory
+ *
+ *  Also change 
+ *	RewriteBase / in .htaccess
+ ******************************/
+define('BASE', "/");
 
 ?>

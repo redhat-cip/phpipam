@@ -38,7 +38,7 @@ if(sizeof($temp) > 0) {
 
 /* Hostname must be present! */
 if($switch['hostname'] == "") {
-	die('<div class="error">Hostname is mandatory!</div>');
+	die('<div class="alert alert-error">Hostname is mandatory!</div>');
 }
 
 # we need old hostname
@@ -57,24 +57,16 @@ if(($switch['action'] == "edit") || ($switch['action'] == "delete") ) {
 
 /* update details */
 if(!updateSwitchDetails($switch)) {
-	print('<div class="error">Failed to '. $switch['action'] .' switch!</div>');
+	print('<div class="alert alert-error">Failed to '. $switch['action'] .' switch!</div>');
 }
 else {
 	/* update IP addresses on edit and delete */
 	if(($switch['action'] == "edit") || ($switch['action'] == "delete") ) {
-	
-		# update hosts
-		if(!updateIPaddressesOnSwitchChange($oldHostname, "")) {
-			print('<div class="success">Switch '. $switch['action'] .' successfull!</div>');
-			print('<div class="error">Failed to update ip address list!</div>');
-		}
-		else {
-			print('<div class="success">Switch '. $switch['action'] .' successfull!</div>');
-		}
+		print('<div class="alert alert-success">Switch '. $switch['action'] .' successfull!</div>');
 	}
 	/* on add do nothing */
 	else {
-		print('<div class="success">Switch '. $switch['action'] .' successfull!</div>');
+		print('<div class="alert alert-success">Switch '. $switch['action'] .' successfull!</div>');
 	}
 }
 

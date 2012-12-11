@@ -63,17 +63,17 @@ if(!isset($errors)) {
 	foreach($subnetInsert as $subnetDetails) {
 		
 		if(!modifySubnetDetails ($subnetDetails)) {
-			print '<div class="error">Failed to import subnet '. $subnetDetails['subnet'] .'</div>';
+			print '<div class="alert alert-error alert-absolute">Failed to import subnet '. $subnetDetails['subnet'] .'</div>';
 			$errors2++;
 		}	
 	}
 	//check if all is ok and print it!
 	if($errors2 == 0) {
-		print '<div class="success">Import successfull!</div>';
+		print '<div class="alert alert-success alert-absolute">Import successfull!</div>';
 	}
 }
 else {
-	print '<div class="error">Please fix the following errors before inserting:<br>'. "\n";
+	print '<div class="alert alert-error alert-absolute">Please fix the following errors before inserting:<hr>'. "\n";
 	
 	foreach ($errors as $line) {
 		print $line.'<br>';

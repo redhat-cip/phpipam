@@ -2,100 +2,88 @@
 
 /**
  * Script to display available VLANs
- *
  */
-
-/* include required scripts */
-require_once('../../functions/functions.php');
 
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
-
 /* die if viewer */
-if(isUserViewer()) {
-	die('<div class="error">You do not have permissions to access this page!</div>');
-}
+if(isUserViewer()) { die('<div class="alert alert-error">You do not have permissions to access this page!</div>'); }
 
 
 /* get all sections */
 $sections = fetchSections ();
 
+/* get custom fields */
+$custom = getCustomSubnetFields();
 
 # title
-print '<h3>Available subnets</h3>'. "\n";
+print "<h4>Available subnets</h4>";
+print "<hr>";
 
-/* print vlans in each section */
+# table
+print "<table id='subnets' class='table table-striped table-condensed table-hover table-top'>";
+
+# print vlans in each section
 foreach ($sections as $section) {
 
-	/*  print VLANs */
-	print '<div class="normalTable vlans">';
-	print '<table class="normalTable vlans">';
+	# set colspan
+	$colSpan = 8 + (sizeof($custom));
 
-	/* section names */
-	print '<tr class="th">' . "\n";
-    print '	<th colspan="8"><h3>'. $section['name'] .' section [ '. $section['description'] .' ]</h3></th>' . "\n";
-	print '</tr>';	
+	# section names
+	print "<tbody>";
+	print "	<tr class='subnets-title'>";
+    print "		<th colspan='$colSpan'><h4>$section[name] section [$section[description]]</h4></th>";
+	print "	</tr>";
+	print "</tbody>";	
 
+	# body
+	print "<tbody>";
 
-	/* headers */
-	print '	<tr class="th dashed">' . "\n";
-	print '	<td>Subnet</td>' . "\n";
-	print '	<td>Description</td>' . "\n";
-	print '	<td>VLAN</td>' . "\n";	
-	print '	<td>Master Subnet</td>' . "\n";
-	print '	<td>Used</td>' . "\n";
-	print '	<td>free [%]</td>' . "\n";
-	print '	<td>Requests</td>' . "\n";
-	print '	<td class="lock" title="Admin lock"></td>' . "\n";
-	print '</tr>' . "\n";
-
-		
-	/* get and print all vlans */
+	# headers
+	print "	<tr>";
+	print "	<th>Subnet</th>";
+	print "	<th>Description</th>";
+	print "	<th>VLAN</th>";	
+	print "	<th>Master Subnet</th>";
+	print "	<th>Used</th>";
+	print "	<th>free [%]</th>";
+	print "	<th>Requests</th>";
+	print "	<th><i class='icon-gray icon-lock'></i></th>";
+	if(sizeof($custom) > 0) {
+		foreach($custom as $field) {
+			print "	<th>$field[name]</th>";
+		}
+	}
+	print "</tr>";
+	
+	# get all subnets in section
 	$subnets = fetchSubnets ($section['id']);
 
 	foreach ($subnets as $subnet) {
+		# check if it is master */
+		if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) { $masterSubnet = true; }
+		else 																		 { $masterSubnet = false; }
 	
-		/* check if it is master */
-		if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) {
-			$masterSubnet = true;
-		}
-		else {
-			$masterSubnet = false;
-		}
-	
-		//identify slaves for CSS
-		if(!$masterSubnet) {
-			print '<tr class="vlanLink slaveSubnet"';
-		}
-		else {
-			print '<tr class="vlanLink masterSubnet"';
-		}
-	
-		//VLANs
+		# VLAN details
 		$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
 		$subnet['VLAN'] = $subnet['VLAN']['number'];
 	
-		//reformat empty VLAN
-		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) {
-			$subnet['VLAN'] = "";
-		}
+		# reformat empty VLAN
+		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
 	
-		print ' sectionId="'. $section['id'] .'" subnetId="'. $subnet['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">' . "\n";
-
-	    print '	<td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
-	    print '	<td><dd>'. $subnet['description'] .'</dd></td>' . "\n";
-	    print '	<td><dd>'. $subnet['VLAN'] 	   .'</dd></td>' . "\n";
+		print "<tr>";	
+	    print "	<td><a href='/subnets/$section[id]/$subnet[id]/'>".transform2long($subnet['subnet']) ."/$subnet[mask]</a></td>";
+	    print "	<td>$subnet[description]</td>";
+	    print "	<td>$subnet[VLAN]</td>";
     
-   		if($masterSubnet) {
-			print '	<td>/</td>' . "\n";
-		}
+   		if($masterSubnet) { print '	<td>/</td>' . "\n"; }
 		else {
 			$master = getSubnetDetailsById ($subnet['masterSubnetId']);
-    	  	print '	<td>'. transform2long($master['subnet']) .'/'. $master['mask'] .'</td>' . "\n";
+    	  	print "	<td><a href='/subnets/$subnet[sectionId]/$master[id]/'>".transform2long($master['subnet']) .'/'. $master['mask'] .'</a></td>' . "\n";
 		}
 	
-		//details
+		# details - usage
 		if( (!$masterSubnet) || (!subnetContainsSlaves($subnet['id']))) {
 		    $ipCount = countIpAddressesBySubnetId ($subnet['id']);
 			$calculate = calculateSubnetDetails ( gmp_strval($ipCount), $subnet['mask'], $subnet['subnet'] );
@@ -108,24 +96,26 @@ foreach ($sections as $section) {
 			print '<td></td>'. "\n";
 		}
 	
-		//allow requests
-		if($subnet['allowRequests'] == 1) {
-			print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>';
-		}
-		else {
-			print '<td class="allowRequests"></td>';
-		}
+		# allow requests
+		if($subnet['allowRequests'] == 1) 			{ print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>'; }
+		else 										{ print '<td class="allowRequests"></td>'; }
 	
-		//check if it is locked for writing
-		if(isSubnetWriteProtected($subnet['id'])) {
-			print '<td class="lock" title="Subnet is locked for writing!"></td>';	
-		} else {
-			print '<td class="nolock"></td>';
-		}
+		# check if it is locked for writing
+		if(isSubnetWriteProtected($subnet['id'])) 	{ print '<td><i class="icon-gray icon-lock" rel="tooltip" title="Subnet is locked for writing!"></i></td>'; } 
+		else 										{ print '<td class="nolock"></td>';}
+
+		# custom
+		if(sizeof($custom) > 0) {
+		   	foreach($custom as $field) {
+		    	print "	<td>".$subnet[$field['name']]."</td>"; 
+	    	}
+	    }
+		
 		print '</tr>' . "\n";
 	}
 
-	print '</table>';
-	print '</div>';
+	print '</tbody>';
 }
 ?>
+
+</table>

@@ -4,28 +4,29 @@
  * Script to manage sections
  *************************************************/
 
-/* required functions */
-require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
 checkAdmin();
 
-/* print all sections with delete / edit button */
-print '<h3>Section management</h3>';
 
 $sections = fetchSections ();
-
 ?>
 
-<!-- show sections -->
-<div class="manageSection normalTable">
-<table class="manageSection normalTable">
+<h4>Section management</h4>
+<hr>
 
+<!-- Add new section -->
+<button class='btn btn-small editSection' data-action='add'   data-sectionid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new</button>
+
+
+<!-- show sections -->
+<?php if(sizeof($sections) > 0) { ?>
+<table id="manageSection" class="table table-striped table-condensed table-top table-hover">
 <!-- headers -->
-<tr class="th">
+<tr>
     <th>Name</th>
     <th>Description</th>
-    <th colspan=2></th>
+    <th></th>
 </tr>
 
 <!-- existing sections -->
@@ -35,22 +36,20 @@ foreach ($sections as $section)
 	print '<tr>'. "\n";
     print '	<td>'. str_replace("_", " ", $section['name']).'</td>'. "\n";
     print '	<td>'. $section['description'] .'</td>'. "\n";
-    print '	<td class="edit"><img src="css/images/edit.png"   class="sectionEdit"   id="'. $section['id'] .'" title="Edit section"></td>'. "\n";
-    print '	<td class="edit"><img src="css/images/deleteIP.png" class="sectionDelete" id="'. $section['id'] .'" title="Delete section"></td>'. "\n";
+    
+   	print '	<td class="actions">'. "\n";
+	print "		<button class='btn btn-small editSection' data-action='edit'   data-sectionid='$section[id]'><i class='icon-gray icon-edit'></i> Edit</button>";
+	print "		<button class='btn btn-small editSection' data-action='delete' data-sectionid='$section[id]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print '	</td>'. "\n";
+    
 	print '</tr>'. "\n";;
 }
 ?>
 
-<!-- add new section -->
-<tr class="th add">
-    <td colspan=4 class="info">
-        <img src="css/images/add.png" class="sectionAdd" title="Create new section"> Add new section
-    </td>
-</tr>
-
-
 </table>	<!-- end table -->
-</div>		<!-- end overlay div -->
 
-<!-- result holder -->
-<div class="manageSectionEdit"></div>
+<!-- show no configured -->
+<?php } else { ?>
+<div class="alert alert-warn alert-absolute">No sections configured!</div>
+
+<?php } ?>

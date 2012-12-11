@@ -12,10 +12,10 @@ checkAdmin();
 
 /* clear logs */
 if(!clearLogs()) {
-	print '<div class="error">Error clearing logs!</div>';
+	print '<div class="alert alert-error alert-absolute">Error clearing logs!</div>';
 }
 else {
-	print '<div class="success">Logs cleared successfully!</div>';
+	print '<div class="alert alert-success alert-absolute">Logs cleared successfully!</div>';
 }
 
 ?>

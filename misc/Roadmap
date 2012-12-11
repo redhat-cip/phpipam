@@ -5,11 +5,25 @@ features for next releases:
 		- translations (gettext);
 		- custom groups
 		- per-section permissions for groups;
-		- cron update DNS resolving;
+		
+		+ OpenLDAP auth
+		
+		+ SVN log under admin
+		+ SVN up notification under admin
+		
+		+ subnet split;
+		+ subnet change mask;
+		
+		+ check providing first free IP address
+		
+		+ Prettier URLs -> subnets and sections
+		
+		Martin Komon:
+		+ Subnet importing via cli with switches;
+		+ Notification of new hosts that become available;
 		
 	
 	- Requests
-		- VLAN sorting;
 		- Sorting of subnets;
 		- SMTP auth;
 		- subnet splitting;

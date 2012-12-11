@@ -11,40 +11,40 @@ require_once('../../functions/functions.php');
 checkAdmin();
 
 /* reset field name for add! */
-if($_POST['action'] == "add") {
-	$_POST['fieldName'] = "";
-}
-else {
-	$_POST['oldname'] = $_POST['fieldName'];
-}
+if($_POST['action'] == "add") 	{ $_POST['fieldName'] = ""; }
+else 							{ $_POST['oldname'] = $_POST['fieldName'];}
 ?>
 
 
-<div class="normalTable editCustomIPFields" style="width:300px;">
-<form id="editCustomIPFields">
-<table class="normalTable editCustomIPFields">
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> custom IP field</div>
 
-<!-- name -->
-<tr>
-	<td>Name</td>
-	<td>
-		<input type="text" name="name" value="<?php print $_POST['fieldName']; ?>" placeholder="Select field name" <?php if($_POST['action'] == "delete") { print 'readonly'; } ?>>
-	</td>
-</tr>
 
-<!-- submit -->
-<tr class="th">
-	<td></td>
-	<td>
-		<input type="hidden" name="oldname" value="<?php print $_POST['oldname']; ?>">
-		<input type="hidden" name="action" value="<?php print $_POST['action']; ?>">
-		<input type="submit" value="<?php print ucwords($_POST['action']); ?> field">
-	</td>
-</tr>
+<div class="pContent">
 
-</table>
-</form>
+	<form id="editCustomIPFields">
+	<table id="editCustomIPFields" class="table table-striped table-hover">
+
+	<!-- name -->
+	<tr>
+		<td>Name</td>
+		<td>	
+			<input type="text" name="name" value="<?php print $_POST['fieldName']; ?>" placeholder="Select field name" <?php if($_POST['action'] == "delete") { print 'readonly'; } ?>>
+			
+			<input type="hidden" name="oldname" value="<?php print $_POST['oldname']; ?>">
+			<input type="hidden" name="action" value="<?php print $_POST['action']; ?>">
+		</td>
+	</tr>
+
+	</table>
+	</form>	
 </div>
 
-<!-- result -->
-<div class="customIPEditResult"></div>
+
+<!-- footer -->
+<div class="pFooter">
+	<button class="btn btn-small hidePopups">Close</button>
+	<button class="btn btn-small" id="editcustomSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> field</button>
+
+	<!-- result -->
+	<div class="customIPEditResult"></div>
+</div>
