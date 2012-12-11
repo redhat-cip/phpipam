@@ -15,12 +15,20 @@ if($_POST['action'] == "delete") {
 	# no cehcks
 }
 else {
+	# remove spaces
+	$_POST['name'] = trim($_POST['name']);
+	
 	# length > 4 and < 12
 	if( (strlen($_POST['name']) < 4) || (strlen($_POST['name']) > 24) ) 	{ $errors[] = 'Name must be between 4 and 24 characters!'; }
-	# no numbers
-	if (strcspn($_POST['name'], '0123456789') != strlen($_POST['name'])) 	{ $errors[] = 'Name must not contain any numbers!'; }
-}
+	
+	/* validate HTML */
+	
+	# must not start with number
+	if(is_numeric(substr($_POST['name'], 0, 1))) 							{ $errors[] = 'Name must not start with number'; }		
 
+	# only alphanumeric and _ are allowed
+	if(!preg_match('!^[\w_ ]*$!', $_POST['name'])) 							{ $errors[] = 'Only alphanumeric, spaces and underscore characters are allowed'; }
+}
 
 
 /* die if errors otherwise execute */

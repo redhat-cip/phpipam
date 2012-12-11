@@ -65,6 +65,10 @@ else {
 	print "<td>";
 	print "	<button class='btn btn-small' data-action='edit'   data-fieldname='$field[name]'><i class='icon-gray icon-edit'></i> Edit</button>";
 	print "	<button class='btn btn-small' data-action='delete' data-fieldname='$field[name]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	
+	# warning for older versions
+	if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+	
 	print "</td>";
 
 	print '</tr>'. "\n";
@@ -127,6 +131,10 @@ else {
 	print "<td>";
 	print "	<button class='btn btn-small' data-action='edit'   data-fieldname='$field[name]'><i class='icon-gray icon-edit'></i> Edit</button>";
 	print "	<button class='btn btn-small' data-action='delete' data-fieldname='$field[name]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	
+	# warning for older versions
+	if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+	
 	print "</td>";
 
 	print '</tr>'. "\n";
@@ -190,6 +198,10 @@ else {
 	print "<td>";
 	print "	<button class='btn btn-small' data-action='edit'   data-fieldname='$field[name]'><i class='icon-gray icon-edit'></i> Edit</button>";
 	print "	<button class='btn btn-small' data-action='delete' data-fieldname='$field[name]'><i class='icon-gray icon-remove'></i> Delete</button>";
+
+	# warning for older versions
+	if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+
 	print "</td>";
 
 	print '</tr>'. "\n";
