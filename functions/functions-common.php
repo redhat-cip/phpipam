@@ -428,8 +428,17 @@ function get_menu_html( $subnets, $rootId = 0 )
 			$count = count( $parent_stack ) + 1;
 			
 			# set opened or closed tag for displaying proper folders
-			if(in_array($option['value']['id'], $allParents))	{ $open = "open"; }
-			else												{ $open = "close"; }
+			if(in_array($option['value']['id'], $allParents))		{ $open = "open"; }
+			else													{ $open = "close"; }
+			
+			# override if cookie is set
+			if(isset($_COOKIE['expandfolders'])) {
+				if($_COOKIE['expandfolders'] == "1")					{ $open='open'; }
+				else									{ 
+					if(in_array($option['value']['id'], $allParents))	{ $open = "open"; }
+					else												{ $open = "close"; }
+				}
+			}
 			
 			# for active class
 			if(isset($_REQUEST['subnetId']) && ($option['value']['id'] == $_REQUEST['subnetId']))	{ $active = "active";	$leafClass=""; }

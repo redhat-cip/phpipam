@@ -45,7 +45,13 @@ else
 
 
     # header
-    print "<h4>Available subnets</h4>";	
+    if(isset($_COOKIE['expandfolders'])) {
+	    if($_COOKIE['expandfolders'] == "1")	{ $iconClass='icon-resize-small'; $action = 'open';}
+	    else									{ $iconClass='icon-resize-full';  $action = 'close'; }
+    }
+    else 										{ $iconClass='icon-resize-full';  $action = 'close';}
+    
+    print "<h4>Available subnets <span class='pull-right' style='margin-right:5px;cursor:pointer;'><i class='icon-gray $iconClass' rel='tooltip' data-placement='bottom' title='Expand/compress all folders' id='expandfolders' data-action='$action'></i></span></h4>";	
     print "<hr>";
 	
 	/* print subnets table ---------- */
