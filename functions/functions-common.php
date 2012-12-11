@@ -459,7 +459,9 @@ function get_menu_html( $subnets, $rootId = 0 )
 				}
 
 				# print submenu
-				$html[] = '<ul class="submenu submenu-'.$open.'">';					
+				if($open == "open") { $html[] = '<ul class="submenu submenu-'.$open.'">'; }							# show if opened
+				else 				{ $html[] = '<ul class="submenu submenu-'.$open.'" style="display:none">'; }	# hide - prevent flickering
+									
 								
 				array_push( $parent_stack, $option['value']['masterSubnetId'] );
 				$parent = $option['value']['id'];

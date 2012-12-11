@@ -6,15 +6,8 @@ features for next releases:
 		- custom groups
 		- per-section permissions for groups;
 		
-		+ OpenLDAP auth
-		
-		+ SVN log under admin
-		+ SVN up notification under admin
-		
 		+ subnet split;
 		+ subnet change mask;
-		
-		+ check providing first free IP address
 		
 		+ Prettier URLs -> subnets and sections
 		

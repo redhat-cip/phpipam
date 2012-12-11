@@ -61,7 +61,7 @@ $setFields = explode(";", $setFieldsTemp);
 				else {
 					print "<li>";
 				}
-				print "	<a href='subnets/$section[name]/' rel='tooltip' data-placement='bottom' title='Show all subnets in $section[name] section'>$section[name]</a>";
+				print "	<a href='subnets/$section[id]/' rel='tooltip' data-placement='bottom' title='Show all subnets in $section[name] section'>$section[name]</a>";
 				print "</li>";
 			}
 			?>
