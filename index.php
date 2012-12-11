@@ -8,9 +8,6 @@ require('config.php');
 /* site functions */
 require('functions/functions.php');
 
-/* to be removed before release!!!!!! */
-updateSwitchFromOldVersionsToId();
-
 # set default page
 if(!isset($_REQUEST['page'])) { $_REQUEST['page'] = "dashboard"; }
 

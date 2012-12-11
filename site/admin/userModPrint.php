@@ -60,7 +60,7 @@ else {
     <!-- username -->
     <tr>
     	<td>Username</td> 
-    	<td><input type="text" name="username" value="<?php print $user['username']; ?>" <?php if($action == "Edit") print 'readonly'; ?>></td>   
+    	<td><input type="text" name="username" value="<?php print $user['username']; ?>" <?php if($action == "edit" || $action == "delete") print 'readonly'; ?>></td>   
     	<td class="info">Enter username</td>
     </tr>
 

@@ -558,7 +558,7 @@ function installDatabase($root)
 	    
     /* return true, if some errors occured script already died! */
     sleep(1);
-   	updateLogTable ('Database installed successfully!', "version 0.5 installed", 1);
+   	updateLogTable ('Database installed successfully!', "version 0.7 installed", 1);
    	return true;
 }
 

@@ -67,7 +67,7 @@ LOCK TABLES `users` WRITE;
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `real_name`, `email`, `domainUser`)
 VALUES
-	(2,'Admin','d10bb806e97d3538fb13b5581db11e9e','Administrator','phpIPAM Admin','admin@domain.local','30');
+	(2,'Admin','d10bb806e97d3538fb13b5581db11e9e','Administrator','phpIPAM Admin','admin@domain.local','0');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -54,13 +54,13 @@ if (sizeof($missingExt) != 1) {
 	$error  .= '</div>';
 	$error  .= '</div>';
     /* error */
-    $error  .= "<div class='alert alert-error'><strong>The following required PHP extensions are missing:</strong><br><hr>";
+    $error  .= "<div class='alert alert-error' style='margin-top:110px;'><strong>The following required PHP extensions are missing:</strong><br><hr>";
     $error  .= '<ul>' . "\n";
     foreach ($missingExt as $missing) {
         $error .= '<li>'. $missing .'</li>' . "\n";
     }
     $error  .= '</ul>' . "\n";
-    $error  .= 'Please recompile PHP to include missing extensions.' . "\n";
+    $error  .= 'Please recompile PHP to include missing extensions and restart Apache.' . "\n";
     
     $error  .= "</body>";
     $error  .= "</html>";
