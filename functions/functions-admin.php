@@ -872,7 +872,8 @@ function updateSettings($settings)
 	$query   .= '`strictMode`   	  = "'. isCheckbox($settings['strictMode']) .'", ' . "\n";
 	$query   .= '`enableDNSresolving` = "'. isCheckbox($settings['enableDNSresolving']) .'", ' . "\n";  
     $query   .= '`printLimit` 	      = "'. $settings['printLimit'] .'", ' . "\n"; 
-    $query   .= '`vlanDuplicate` 	  = "'. $settings['vlanDuplicate'] .'" ' . "\n"; 
+    $query   .= '`vlanDuplicate` 	  = "'. $settings['vlanDuplicate'] .'", ' . "\n"; 
+    $query   .= '`subnetOrdering` 	  = "'. $settings['subnetOrdering'] .'" ' . "\n"; 
 	$query   .= 'where id = 1;' . "\n";   
 
 	/* set log file */

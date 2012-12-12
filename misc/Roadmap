@@ -9,6 +9,10 @@ features for next releases:
 		+ subnet split;
 		+ subnet change mask;
 		
+		+ Get next available subnet (provide mask);
+		+ Compress DHCP, reserved and offline ranges;
+		
+		
 		+ Prettier URLs -> subnets and sections
 		
 		Martin Komon:

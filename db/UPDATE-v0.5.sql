@@ -15,6 +15,8 @@ ALTER TABLE `settings` ADD `strictMode` tinyint(1) DEFAULT '1';
 ALTER TABLE `settings` ADD `printLimit` int(4) unsigned DEFAULT '25';
 /* add vlan duplicate option */
 ALTER TABLE `settings` ADD `vlanDuplicate` int(1) DEFAULT '0';
+/* add subnet sorting */
+ALTER TABLE `settings` ADD `subnetOrdering` VARCHAR(16)  NULL  DEFAULT 'subnet,asc';
 
 /* add show names */
 ALTER TABLE `subnets` ADD `showName` tinyint(1) DEFAULT '0';

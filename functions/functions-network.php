@@ -422,12 +422,21 @@ function getNumberOfSubnets ()
 /**
  * Get all subnets in provided sectionId
  */
-function fetchSubnets ($sectionId)
+function fetchSubnets ($sectionId, $orderType = "subnet", $orderBy = "asc" )
 {
     global $db;                                                                      # get variables from config file
+    
+    /* check for sorting in settings and override */
+    $settings = getAllSettings();
+    
+    if(isset($settings['subnetOrdering']))	{
+	    $sort = explode(",", $settings['subnetOrdering']);
+	    $orderType = $sort[0];
+	    $orderBy   = $sort[1];
+    }
 
     /* set query, open db connection and fetch results */
-    $query 	  = 'select * from subnets where sectionId = "'. $sectionId .'" ORDER BY masterSubnetId,subnet ASC;';
+    $query 	  = "select * from `subnets` where `sectionId` = '$sectionId' ORDER BY `masterSubnetId`,`$orderType` $orderBy;";
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $subnets  = $database->getArray($query);
     $database->close();

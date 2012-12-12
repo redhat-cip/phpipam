@@ -30,6 +30,7 @@ CREATE TABLE `settings` (
   `strictMode` tinyint(1) DEFAULT '1',
   `printLimit` int(4) unsigned DEFAULT '25',
   `vlanDuplicate` int(1) DEFAULT '0',
+  `subnetOrdering` VARCHAR(16)  NULL  DEFAULT 'subnet,asc',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

@@ -205,6 +205,31 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
+<!-- Subnet ordering -->
+<tr>
+	<td class="title">Subnet ordering</td>
+	<td>
+		<select name="subnetOrdering" style="width:auto;">
+			<?php
+			$opts = array(
+				"subnet,asc"		=> "Subnet, ascending",
+				"subnet,desc"		=> "Subnet, descending",
+				"description,asc"	=> "Description, ascending",
+				"description,desc"	=> "Description, descending",
+			);
+			
+			foreach($opts as $key=>$line) {
+				if($settings['subnetOrdering'] == $key) { print "<option value='$key' selected>$line</option>"; }
+				else 									{ print "<option value='$key'>$line</option>"; }
+			}
+			
+			?>
+		</select>
+	</td>
+	<td class="info">
+	How to order display of subnets
+	</td>
+</tr>
 
 
 <!-- Submit -->

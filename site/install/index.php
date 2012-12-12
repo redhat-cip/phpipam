@@ -4,6 +4,9 @@
  * Check for fresh installation
  ****************************************************/
 
+# show only errors
+error_reporting(E_ERROR);
+
 
 if(!tableExists("ipaddresses")) { ?>
 	
