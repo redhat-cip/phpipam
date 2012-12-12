@@ -199,12 +199,7 @@ else {
 	       	******************************************/
 	       	$compress = true;
 	       	if($compress) {
-	       		# find and print same - $n-1 not , $n yes, $n+m yes
-	       		$grouped = FindGroupedIpAddresses($ipaddresses, $n);
-	       		print "<pre>";
-	       		print_r($grouped);
-	       		print "</pre>";
-	       		
+	       	
 		       	# hide if previous is same type
 		       	if($n == 0) {
 		       		if($ipaddresses[$n]['state'] == "3" && $ipaddresses[$n+1]['state'] == "3") 			{ $hiddenClass = "dhcp-hidden-$g"; }
@@ -240,7 +235,7 @@ else {
 		    # print IP address
 		    # 
 		    print "<tr class='$stateClass $hiddenClass'>";
-		    print "	<td class='ipaddress'>$n - ".Transform2long( $ipaddress[$n]['ip_addr']);
+		    print "	<td class='ipaddress'>".Transform2long( $ipaddress[$n]['ip_addr']);
 		    if(in_array('state', $setFields)) 				{ print reformatIPState($ipaddress[$n]['state']); }	
 		    print "</td>";
 
