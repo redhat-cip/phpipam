@@ -22,8 +22,8 @@ function verifyUserModInput ($userModDetails)
     if ($userModDetails['password1'] != $userModDetails['password2']) 									{ $errors[] = "Passwords do not match!"; }
     # pass must be at least 8 chars long for non-domain users
     if($userModDetails['domainUser'] != 1 ) { 
-    	if ((strlen($userModDetails['password1']) < 8 ) && (strlen($userModDetails['password1']) != 0)) { $errors[] = "Password must be at least 8 characters long!"; }
-    	else if (($userModDetails['action'] == "add") && (strlen($userModDetails['password1']) < 8 )) 	{ $errors[] = "Password must be at least 8 characters long!"; }
+    	if ((strlen($userModDetails['password1orig']) < 8 ) && (strlen($userModDetails['password1orig']) != 0)) { $errors[] = "Password must be at least 8 characters long!"; }
+    	else if (($userModDetails['action'] == "add") && (strlen($userModDetails['password1orig']) < 8 )) 	{ $errors[] = "Password must be at least 8 characters long!"; }
     }
     # email format must be valid
     if (!checkEmail($userModDetails['email'])) 															{ $errors[] = "Invalid email address!"; }

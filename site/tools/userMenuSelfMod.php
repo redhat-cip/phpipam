@@ -20,13 +20,13 @@ if (!checkEmail($modData['email'])) 												{ $error = 'Email not valid!'; }
 
 /* verify password if changed (not empty) */
 if (strlen($modData['password1']) != 0) {
-
+	
 	/* Hash passwords */
 	$modData['password1'] = md5($modData['password1']);
 	$modData['password2'] = md5($modData['password2']);
 
-	if ( (strlen($modData['password1']) < 8) && (!empty($modData['password1'])) ) 	{ $error = 'Password must be at least 8 characters long!'; }
-	else if ($modData['password1'] != $modData['password2']) 						{ $error = 'Passwords do not match!'; }
+	if ( (strlen($_POST['password1']) < 8) && (!empty($_POST['password1'])) ) 	{ $error = 'Password must be at least 8 characters long!'; }
+	else if ($modData['password1'] != $modData['password2']) 					{ $error = 'Passwords do not match!'; }
 }
 
 

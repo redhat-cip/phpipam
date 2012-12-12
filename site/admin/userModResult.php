@@ -24,6 +24,9 @@ $userModDetails['plainpass'] = $userModDetails['password1'];
 if (strlen($userModDetails['password1']) != 0) {
 	$userModDetails['password1'] = md5($userModDetails['password1']);
 	$userModDetails['password2'] = md5($userModDetails['password2']);
+	# for length check
+	$userModDetails['password1orig'] = $_POST['password1'];
+	$userModDetails['password2orig'] = $_POST['password2'];	
 }
 
 
