@@ -181,6 +181,7 @@ else {
 
 	$c = 0;		# count for print for pages - $c++ per page
 	$n = 0;		# count for IP addresses - $n++ per IP address
+	$g = 0;		# count for compress consecutive class
 	
 	foreach($ipaddressesChunk as $ipaddresses2) {
 
@@ -193,6 +194,28 @@ else {
 	       	****************************************************************************/
 	       	if ( $n == 0 ) 	{ $unused = FindUnusedIpAddresses ( Transform2decimal($SubnetParsed['network']), $ipaddresses[$n]['ip_addr'], $type, 0, "network", $SubnetDetails['mask']  ); }
 	       	else 			{ $unused = FindUnusedIpAddresses ( $ipaddresses[$n-1]['ip_addr'], $ipaddresses[$n]['ip_addr'], $type, 0, "", $SubnetDetails['mask'] ); }
+	       	
+	       	/*	compress DHCP / Offline / Reserved
+	       	******************************************/
+	       	$compress = true;
+	       	if($compress) {
+	       		# find and print same - $n-1 not , $n yes, $n+m yes
+	       		$grouped = FindGroupedIpAddresses($ipaddresses, $n);
+	       		print "<pre>";
+	       		print_r($grouped);
+	       		print "</pre>";
+	       		
+		       	# hide if previous is same type
+		       	if($n == 0) {
+		       		if($ipaddresses[$n]['state'] == "3" && $ipaddresses[$n+1]['state'] == "3") 			{ $hiddenClass = "dhcp-hidden-$g"; }
+		       		else																				{ $hiddenClass = ""; $g++; }  			       	
+		       	}
+		       	else {
+		       		if($ipaddresses[$n-1]['state'] == "3" && $ipaddresses[$n]['state'] == "3") 			{ $hiddenClass = "dhcp-hidden-$g"; }
+		       		else if ($ipaddresses[$n]['state'] == "3" && $ipaddresses[$n+1]['state'] == "3")	{ $hiddenClass = "dhcp-hidden-$g"; }
+		       		else																				{ $hiddenClass = ""; $g++; }  	
+		       	}
+	       	}
     
 	       	
 	       	/*	if there is some result for unused print it - if sort == ip_addr
@@ -211,12 +234,13 @@ else {
 	        if(in_array('state', $setFields)) {
 		        if ($ipaddress[$n]['state'] == "0") 	 { $stateClass = "offline"; }
 		        else if ($ipaddress[$n]['state'] == "2") { $stateClass = "reserved"; }
+		        else if ($ipaddress[$n]['state'] == "3") { $stateClass = "DHCP"; }
 		    }
 
 		    # print IP address
 		    # 
-		    print "<tr class='$stateClass'>";
-		    print "	<td class='ipaddress'>".Transform2long( $ipaddress[$n]['ip_addr']);
+		    print "<tr class='$stateClass $hiddenClass'>";
+		    print "	<td class='ipaddress'>$n - ".Transform2long( $ipaddress[$n]['ip_addr']);
 		    if(in_array('state', $setFields)) 				{ print reformatIPState($ipaddress[$n]['state']); }	
 		    print "</td>";
 

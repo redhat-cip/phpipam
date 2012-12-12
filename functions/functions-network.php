@@ -72,9 +72,10 @@ function reformatIPState ($state)
 		case "2": return "Reserved";break;
 		default: return $state;
 */
-		case "0": return "<i class='icon-warning-sign icon-gray state' rel='tooltip' title='Not in use (Offline)'></i>"; break;
+		case "0": return "<i class='icon-red   icon-tag state' rel='tooltip' title='Not in use (Offline)'></i>"; break;
 		case "1": return " "; 		break;
-		case "2": return "<i class='icon-gray icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
+		case "2": return "<i class='icon-gray  icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
+		case "3": return "<i class='icon-green icon-tag state' rel='tooltip' title='DHCP'></i>"; break;
 		default: return $state;
 	}	
 }
@@ -1786,6 +1787,95 @@ function FindUnusedIpAddresses ($ip1, $ip2, $type, $broadcast = 0, $checkType = 
     
     /* return result array with IP range and free hosts */
     return $result;
+}
+
+
+/**
+ *	Function to find grouped DHCP/Offline/Reserved IP addresses
+ *
+ *	$n = consecutive number
+ */
+function FindGroupedIpAddresses ($ipaddresses, $n)
+{
+	$cons = true;						# set to true for start
+	$m = $n;							# set start
+	$size = sizeof($ipaddresses) -1;	# set max (start with 0!)
+
+	unset($return);
+	
+	print "m:$m, size:$size  <br>";
+	
+	# loop
+	while($cons) {
+		
+		# first item
+		if($m == 0) 
+		{
+			# check against next
+			$diff = gmp_strval(gmp_sub($ipaddresses[$m+1]['ip_addr'], $ipaddresses[$m]['ip_addr']));
+			
+			# if diff == 1 then check state, else return false
+			if($diff == 1) 
+			{
+				if($ipaddresses[$m+1]['state']=="3" && $ipaddresses[$m]['state']=="3") {
+					$return['start'] = $m;
+					$return['stop']  = $m;
+				}
+				else {
+					$cons = false;
+				}
+			}
+			else 
+			{
+				$cons = false;
+			}
+		}
+		# last item
+		else if ($m==$size)
+		{
+			# check against previous
+			$diff = gmp_strval(gmp_sub($ipaddresses[$m]['ip_addr'], $ipaddresses[$m-1]['ip_addr']));			
+			
+			# if diff == 1 then check state, else return false
+			if($diff == 1) 
+			{
+				if($ipaddresses[$m]['state']=="3" && $ipaddresses[$m-1]['state']=="3") {
+					$return['stop'] = $m;
+				}
+			}
+			$cons = false;
+		}
+		# middle items
+		else {
+			# check against previous
+			$diff = gmp_strval(gmp_sub($ipaddresses[$m+1]['ip_addr'], $ipaddresses[$m]['ip_addr']));
+
+			# if diff == 1 then check state, else return false
+			if($diff > 1) 
+			{
+				if($ipaddresses[$m]['state']=="3" && $ipaddresses[$m+1]['state']=="3") {
+					$return['start'] = $m;
+				}
+			}
+			
+			# check against next
+			$diff = gmp_strval(gmp_sub($ipaddresses[$m]['ip_addr'], $ipaddresses[$m+1]['ip_addr']));			
+			
+			# if diff == 1 then check state, else return false
+			if($diff > 1) 
+			{
+				if($ipaddresses[$m]['state']=="3" && $ipaddresses[$m-1]['state']=="3") {
+					$return['stop'] = $m;
+				}
+				$cons = false;
+			}
+
+		}
+		$m++;
+	}
+	
+	# result
+	return $return;	
 }
 
 

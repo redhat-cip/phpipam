@@ -245,7 +245,7 @@ $(function() {
 	
 
 		print '<tr>'. "\n";
-		print '	<td>State</td>'. "\n";
+		print '	<td>Type</td>'. "\n";
 		print '	<td>'. "\n";
 		print '		<select name="state">'. "\n";
 		
@@ -253,6 +253,7 @@ $(function() {
 		print '		<option value="1" '; if(isset($details['state'])) { if ($details['state'] == "1") print 'selected'; } print '>Active</option>'. "\n";
 		print '		<option value="2" '; if(isset($details['state'])) { if ($details['state'] == "2") print 'selected'; } print '>Reserved</option>'. "\n";
 		print '		<option value="0" '; if(isset($details['state'])) { if ($details['state'] == "0") print 'selected'; } print '>Offline</option>'. "\n";
+		print '		<option value="3" '; if(isset($details['state'])) { if ($details['state'] == "3") print 'selected'; } print '>DHCP</option>'. "\n";
 
 		print '		</select>'. "\n";
 		print '	</td>'. "\n";
