@@ -286,10 +286,20 @@ else {
 				print "<td class='btn-actions'>";
 				print "	<div class='btn-toolbar'>";
 				print "	<div class='btn-group'>";
-				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
-				print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='Search same hostnames in db'"; } print ">	<i class='icon-gray icon-search'></i></a>";
-				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='Send mail notification'>		<i class='icon-gray icon-envelope'></i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress[$n]['id']."' href='#' id2='".Transform2long($ipaddress[$n]['ip_addr'])."' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";
+				#locked for writing
+				if( (isSubnetWriteProtected($SubnetDetails['id'])) && !checkAdmin(false)) {
+					print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='Edit IP address details (disabled)'>			<i class='icon-gray icon-pencil'>  </i></a>";
+					print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='Search same hostnames in db'"; } print ">	<i class='icon-gray icon-search'></i></a>";
+					print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='Send mail notification'>		<i class='icon-gray icon-envelope'></i></a>";
+					print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='Delete IP address (disabled)'>				<i class='icon-gray icon-remove'>  </i></a>";										
+				}
+				# unlocked
+				else {
+					print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
+					print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='Search same hostnames in db'"; } print ">	<i class='icon-gray icon-search'></i></a>";
+					print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='Send mail notification'>		<i class='icon-gray icon-envelope'></i></a>";
+					print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress[$n]['id']."' href='#' id2='".Transform2long($ipaddress[$n]['ip_addr'])."' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";					
+				}
 				print "	</div>";
 				print "	</div>";
 				print "</td>";		

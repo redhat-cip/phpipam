@@ -580,6 +580,8 @@ ul#subnets li.leaf.active i {
 .table.ipaddresses tr.offline td.ipaddress {
 	text-decoration: line-through;
 }
+
+.table.searchTable td.btn-actions .btn-toolbar,
 .table.ipaddresses td.btn-actions .btn-toolbar {
 	margin: 0px;
 }

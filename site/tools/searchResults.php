@@ -86,7 +86,7 @@ $myFields = getCustomIPaddrFields();
 # set col size
 $fieldSize 	= sizeof($setFields);
 $mySize 	= sizeof($myFields);
-$colSpan 	= $fieldSize + $mySize + 3;
+$colSpan 	= $fieldSize + $mySize + 4;
 
 # disable export for viewers
 if(checkAdmin(false) == false) 	{ $uClass = "disabled"; }
@@ -126,6 +126,9 @@ else 							{ $uClass = ""; }
 	if(sizeof($myFields) > 0) {
 		foreach($myFields as $myField) 										{ print '<th>'. $myField['name'] .'</th>'. "\n"; }
 	}
+	
+	# actions
+	print '<th class="actions" width="10px"></th>';
 ?>
 </tr>
 
@@ -212,6 +215,33 @@ else {
 		if(sizeof($myFields) > 0) {
 			foreach($myFields as $myField) 										{ print '<td class="customField">'. $line[$myField['name']] .'</td>'. "\n"; }
 		}
+		
+		# print action links if user can edit 
+		if(!$viewer = isUserViewer()) {		
+			print "<td class='btn-actions'>";
+			print "	<div class='btn-toolbar'>";
+			print "	<div class='btn-group'>";
+
+			#locked for writing
+			if( (isSubnetWriteProtected($subnet['id'])) && !checkAdmin(false)) {
+				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='Edit IP address details (disabled)'>		<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='Delete IP address (disabled)'>			<i class='icon-gray icon-remove'>  </i></a>";
+			}
+			# unlocked
+			else {
+				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#' 	rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#'  rel='tooltip' title='Delete IP address'>			<i class='icon-gray icon-remove'>  </i></a>";
+			}
+			print "	</div>";
+			print "	</div>";
+			print "</td>";		
+		}
+		else {
+			print '<td></td>';
+		}
+		
 		print '</tr>' . "\n";
 	}
 }

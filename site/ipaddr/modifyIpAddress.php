@@ -26,7 +26,12 @@ $subnet = transform2long($subnet['subnet']) . "/" . $subnet['mask'];
 
 /* verify that subnet is not write-protected */
 if( (isSubnetWriteProtected($subnetId)) && !checkAdmin(false)) {
-	die('<div class="alert alert-error">This subnet is locked for writing!</div>');
+	print '<div class="pHeader">'. ucwords($action).' IP address</div>';
+	print '<div class="pContent">';
+	print '<div class="alert alert-error">Cannot edit IP address details! <br>This subnet is locked for writing!</div>';
+	print '</div>';
+	print '<div class="pFooter"><button class="btn btn-small hidePopups">Cancel</button></div>';
+	die();
 }
 
 /**
