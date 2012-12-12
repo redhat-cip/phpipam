@@ -155,11 +155,20 @@ else {
 			print '</tr>';
 		}
 		$m++;
+		
+		$stateClass = "";
+	    if(in_array('state', $setFields)) {
+		    if ($line['state'] == "0") 	 	{ $stateClass = "offline"; }
+		    else if ($line['state'] == "2") { $stateClass = "reserved"; }
+		    else if ($line['state'] == "3") { $stateClass = "DHCP"; }
+		}
 	
 		//print table
-		print '<tr class="ipSearch" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
+		print '<tr class="ipSearch '.$stateClass.'" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
 	
-		print ' <td>'. transform2long($line['ip_addr'])  .'</td>' . "\n";
+		print ' <td>'. transform2long($line['ip_addr']);
+		if(in_array('state', $setFields)) 				{ print reformatIPState($line['state']); }	
+		print ' </td>' . "\n";
 		print ' <td>'. $vlan['number']  .'</td>' . "\n";
 		print ' <td>'. ShortenText($line['description'], $chars = 50) .'</td>' . "\n";
 	
