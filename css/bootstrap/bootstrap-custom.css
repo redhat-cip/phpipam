@@ -55,8 +55,10 @@ input[type="file"] {
 	margin-bottom: 0px;
 }
 select, input[type="file"] {
+/*
 	height: 25px;
 	line-height: 30px;
+*/
 }
 
 
@@ -641,6 +643,18 @@ table.slaves tr.sumTop th {
 
 .state {
 	margin-left: 7px;
+}
+
+.toolbar-ip {
+	margin-top: 2px;
+}
+.jumptoPage {
+	padding-top: 5px;
+	margin-right: 10px;
+}
+.jumptoPage select {
+	line-height: normal !important;
+	height: auto !important;
 }
 
 

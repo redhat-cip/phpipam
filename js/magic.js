@@ -377,7 +377,9 @@ $('a#prevItem').live('click', function() {
 	if(index != 1) {
 		$(active).prev('tbody:hidden').css({'display':'table-row-group'});
 		$(active).css({'display':'none'});	
-		$('span.stran').html("Page " + (index-1) + '/' + dolzina);
+		$('span.stran').html("Page " + (index-1) + '/' + dolzina);	//change text
+		//change select
+		$("select.jumptoPage").val('page-'+(index-2));
 	}
 	$('div.loading').fadeOut('fast');
 	return false;
@@ -393,11 +395,28 @@ $('a#nextItem').live('click', function() {
 	if(index != dolzina) {
 		$(active).next('tbody:hidden').css({'display':'table-row-group'});
 		$(active).css({'display':'none'});	
-		$('span.stran').html("Page " + (index+1) + '/' + dolzina);
+		$('span.stran').html("Page " + (index+1) + '/' + dolzina);	//change text
+		//change select
+		$("select.jumptoPage").val('page-'+index);
 	}
 	$('div.loading').fadeOut('fast');
 	return false;
 });
+//jump to page
+$('select.jumptoPage').change(function() {
+	$('div.loading').fadeIn('fast');
+	var page = $(this).val();		//get page id
+	var pageTemp = page.replace("page-","");
+	var active = $('table.ipaddresses').find("tbody.ipPart:visible");
+	
+	$('table.ipaddresses tbody.'+page).css({'display':'table-row-group'});	//show new
+	$(active).css({'display':'none'});
+	
+	pageTemp++;
+	var dolzina = ($('table.ipaddresses tbody').length) - 1;
+	$('span.stran').html("Page " + pageTemp + '/' + dolzina);		//change text
+	$('div.loading').fadeOut('fast');
+})
 
 
 

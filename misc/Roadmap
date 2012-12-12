@@ -12,6 +12,8 @@ features for next releases:
 		+ Get next available subnet (provide mask);
 		+ Compress DHCP, reserved and offline ranges;
 		
+		+ Logs search;
+		+ User actvity display;
 		
 		+ Prettier URLs -> subnets and sections
 		

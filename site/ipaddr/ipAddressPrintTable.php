@@ -113,6 +113,20 @@ if($sizeIP  > $pageLimit) { ?>
 	</div>
 </div>
 <?php } ?>
+
+<?php
+# jump to page
+if($sizeIP  > $pageLimit) { 
+	print "<div class='pull-right'>";
+	print "<select name='jumptoPage' class='jumptoPage' style='width:auto;'>";
+	for($m=0; $m<$repeats; $m++) {
+		$p = $m+1;
+		print "<option value='page-$m'>Page $p</option>";
+	}
+	print "</select>";
+	print "</div>";
+}
+?>
 </h4>
 
 <table class="ipaddresses normalTable table table-striped table-condensed table-hover table-full table-top">
@@ -185,8 +199,8 @@ else {
 	
 	foreach($ipaddressesChunk as $ipaddresses2) {
 
-		if($c == 0) { print "<tbody class='ipPart'>"; }
-		else 		{ print "<tbody class='ipPart' style='display:none;'>"; }
+		if($c == 0) { print "<tbody class='ipPart page-$c'>"; }
+		else 		{ print "<tbody class='ipPart page-$c' style='display:none;'>"; }
 	
 		foreach($ipaddresses2 as $ipaddress2)  
 		{
@@ -336,7 +350,8 @@ else {
 # next / previous
 $colspanStran['unused'] = $colspan['unused']+1;
 if($sizeIP  > $pageLimit) { ?>
-<div class='btn-toolbar pull-right'>
+<hr>
+<div class='btn-toolbar pull-right toolbar-ip'>
 	<div class="btn-group">
 		<a href="" class="btn btn-mini" id="prevItem" rel="tooltip" title="Previous page"><i class="icon-gray icon-chevron-left"></i></a>
 		<a href="" class="btn btn-mini" id="nextItem" rel="tooltip" title="Next page"><i class="icon-gray icon-chevron-right"></i></a>
