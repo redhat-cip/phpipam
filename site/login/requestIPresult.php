@@ -10,6 +10,9 @@
 /* functions */
 if(!function_exists(getSubnetDetailsById)) { require_once('../../functions/functions.php'); }
 
+# First chech referer and requested with 
+CheckReferrer();
+
 /* get all posted variables */
 $request = $_POST;
 
@@ -36,7 +39,19 @@ if(addNewRequest ($request)) {
 	print '<div class="alert alert-success">Request submitted successfully!</div>';
 	
 	/* send confirmation emails to requester and all admins! */
-	include_once('requestIPmail.php');
+	# get all admins
+	$admins = getAllAdminUsers ();
+
+	# set recipients
+	$to  = $request['requester'];
+	foreach($admins as $admin) 	{ $to .= ', '. $admin['email']; }
+
+	# set subnject
+	$subject	= 'New IP address request ('. Transform2long($request['ip_addr']) .')';
+
+	# send mail
+	if(!sendIPReqEmail($to, $subject, $request))	{ print '<div class="alert alert-error">Sending mail for new IP request failed!</div>'; }
+	else											{ print '<div class="alert alert-success">Sending mail for IP request succeeded!</div>'; }
 }
 else {
 	print '<div class="alert alert-error">Error submitting new IP address request!</div>';

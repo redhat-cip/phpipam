@@ -122,7 +122,7 @@ else {
     <!-- send notification mail -->
     <tr>
     	<td>Notification</td> 
-    	<td><input type="checkbox" name="notifyUser" <?php if($action == "add") { print 'checked'; } else if($action == "delete" || $action = "edit") { print 'disabled="disabled"';} ?>></td>   
+    	<td><input type="checkbox" name="notifyUser" <?php if($action == "add") { print 'checked'; } else if($action == "delete") { print 'disabled="disabled"';} ?>></td>   
     	<td class="info">Send notification email to user with account details</td>
     </tr>
 

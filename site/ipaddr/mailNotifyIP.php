@@ -40,7 +40,6 @@ $title = 'IP address details :: ' . $ip['ip_addr'];
 
 
 /* Preset content */
-$content  = '<b><u>IP address details - '	 . $ip['ip_addr'] .'</b></u>' . "\n\n";
 $content .= '&bull; IP address: ' . "\t" . $ip['ip_addr'] . '/' . $subnet['mask']. "\n";
 # desc
 if(!empty($ip['description'])) {
@@ -75,9 +74,6 @@ if(sizeof($myFields) > 0) {
 		}
 	}
 }
-
-$content .= "\n" . 'Contact: '. $userDetails['email'] . "\n";
-$content .= 'www: <a href="'. $settings['siteURL'] .'">'. $settings['siteURL'] ."</a>";
 
 
 ?>
@@ -115,19 +111,19 @@ $content .= 'www: <a href="'. $settings['siteURL'] .'">'. $settings['siteURL'] .
 	<tr>
 		<th>Content</th>
 		<td style="padding-right:20px;">
-			<textarea name="content" rows="7" style="width:100%;"><?php print $content ?></textarea>
+			<textarea name="content" rows="7" style="width:100%;"><?php print $content; ?></textarea>
 		</td>
 	</tr>
 
 	</table>
 	</form>
-
-	<!-- holder for result -->
-	<div class="sendmail_check"></div>
 </div>
 
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
 	<button class="btn btn-small" id="mailIPAddressSubmit">Send Mail</button>
+
+	<!-- holder for result -->
+	<div class="sendmail_check"></div>
 </div>
