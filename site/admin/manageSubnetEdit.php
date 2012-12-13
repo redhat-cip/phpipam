@@ -78,6 +78,7 @@ else															{ $readonly = false; }
         <td class="info">Enter subnet description</td>
     </tr>  
 
+    <?php if($_POST['action'] != "add") { ?>
     <!-- section -->
     <tr>
         <td class="middle">Section</td>
@@ -98,6 +99,7 @@ else															{ $readonly = false; }
         </td>
         <td class="info">Move to different section</td>
     </tr>  
+    <?php } ?>
     
     <!-- vlan -->
     <tr>
