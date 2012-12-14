@@ -70,6 +70,9 @@ foreach($outFile as $line) {
 		$line = str_replace("Reserved", "2", $line);
 		$line = str_replace("Offline", "0", $line);
 		
+		//add slashes
+		$line = addslashes($line);
+		
 		//import
 		$import = importCSVline ($line, $subnetId);
 		if (strlen($import) != 1) {

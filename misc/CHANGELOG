@@ -50,6 +50,7 @@
 	+ Fixed /127 and /128 IPv6 subnets;
 	+ Fixed /31 and /32 IPv4 subnets;
 	+ Significally reduced php processing for dashboard statistics; 
+	+ Fixed importing of if quote is present;
 
 == 0.6
 
