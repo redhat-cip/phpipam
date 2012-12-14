@@ -69,6 +69,7 @@ foreach($outFile as $line) {
 		$line = str_replace("Active", "1", $line);
 		$line = str_replace("Reserved", "2", $line);
 		$line = str_replace("Offline", "0", $line);
+		$line = str_replace("DHCP", "3", $line);
 		
 		//add slashes
 		$line = addslashes($line);
