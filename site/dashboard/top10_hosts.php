@@ -24,7 +24,7 @@ $(function () {
 	if(sizeof($subnetHost) > 0) {
 		$m=0;
 		foreach ($subnetHost as $subnet) {
-			$subnet['subnet'] = long2ip($subnet['subnet']);
+			$subnet['subnet'] = transform2long($subnet['subnet']);
 			$subnet['descriptionLong'] = $subnet['description'];
 			# odd/even if more than 5 items
 			if(sizeof($subnetHost) > 5) {
