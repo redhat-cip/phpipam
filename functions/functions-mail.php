@@ -20,7 +20,7 @@ $mail['from']		= "$settings[siteTitle] <ipam@$settings[siteDomain]>";
 $mail['headers']	= 'From: ' . $mail['from'] . "\r\n";
 $mail['headers']   .= 'Reply-To: '. $settings['siteAdminMail'] . "\r\n";
 $mail['headers']   .= "Content-type: text/html; charset=utf8" . "\r\n";
-$mail['headers']   .= 'X-Mailer: PHP/' . phpversion();
+$mail['headers']   .= 'X-Mailer: PHP/' . phpversion() ."\r\n";
   
 $mail['header'] = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
@@ -171,18 +171,37 @@ function sendUserAccDetailsEmail($userDetails, $subject)
 /**
  *	Send IP request mail
  */ 
-function sendIPReqEmail($to, $subject, $request)
+function sendIPReqEmail($request)
 {
 	# get settings
 	global $settings;
 	global $mail;
+
+	# set subnject
+	$subject	= 'New IP address request ('. Transform2long($request['ip_addr']) .')';
+
+	# add admins to TO
+	$admins = getAllAdminUsers ();
+	$to = "";
+	foreach($admins as $admin) { $to .= ''. $admin['email'].', '; }
+	$to = substr($to, 0,-2);
 	
 	# set additional headers
 	$mail['recipients'] = $to;
 	$mail['subject']	= $subject;
 	
+	# send copy to requester
+	$mail['headers'] .= 'Cc: '.$request['requester']."\r\n";
+	
 	# get active user name */
 	$sender = getActiveUserDetails();
+
+	# get subnet details
+	$subnet = getSubnetDetailsById($request['subnetId']);
+	$subnet2 = Transform2long($subnet['subnet'])."/".$subnet['mask'];
+	
+	# get section detaiils
+	$section = getSectionDetailsById($subnet['sectionId']);
 
 	# reformat \n to breaks
 	$request['comment'] = str_replace("\n", "<br>", $request['comment']);	
@@ -191,13 +210,14 @@ function sendIPReqEmail($to, $subject, $request)
 	$mail['content']  = $mail['header'];
 	$mail['content'] .= "<tr><td style='padding:5px;margin:0px;color:#333;font-size:16px;text-shadow:1px 1px 1px white;border-bottom:1px solid #eeeeee;' colspan='2'><font face='Helvetica, Verdana, Arial, sans-serif' style='font-size:16px;'>$subject</font></td></tr>";
 	
-	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;border-top:1px solid white;padding-top:10px;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Requested section   	</font></td><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;border-top:1px solid white;padding-top:10px;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $subnet .'</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;border-top:1px solid white;padding-top:10px;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Section   	</font></td><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;border-top:1px solid white;padding-top:10px;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $section['name'] .' ('.$section['description'].')</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Subnet				</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $subnet2 .'</font></td></tr>' . "\n";
 	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Requested IP address	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. Transform2long($request['ip_addr']) .'</font></td></tr>' . "\n";
 	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Description		 	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['description'] .'</font></td></tr>' . "\n";
 	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Hostname			 	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['dns_name'] .'</font></td></tr>' . "\n";
 	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Owner				</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['owner'] .'</font></td></tr>' . "\n";
 	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Requested from		</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;"><a href="mailto:'.$request['requester'].'" style="color:#08c;">'. $request['requester'] .'</a></font></td></tr>' . "\n";
-	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Comment			 	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['comment'] .'</font></td></tr>' . "\n";	
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;vertical-align:top;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Comment			 	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['comment'] .'</font></td></tr>' . "\n";	
 	
 	$mail['content'] .= "<tr><td style='padding:5px;padding-left:15px;margin:0px;font-style:italic;padding-bottom:3px;text-align:right;color:#ccc;text-shadow:1px 1px 1px white;border-top:1px solid white;' colspan='2'><font face='Helvetica, Verdana, Arial, sans-serif' style='font-size:11px;'>Sent by user ".$mail['sender']['real_name']." at ".date('Y/m/d H:i')."</font></td></tr>";
 	$mail['content'] .= $mail['footer2'];
@@ -213,6 +233,77 @@ function sendIPReqEmail($to, $subject, $request)
 	else {
 		# write log
 		updateLogTable ("New IP request mail sent ok", "Sending notification mail to $mail[recipients] succeeded!", $severity = 0);
+		return true;
+	}
+}
+
+
+/**
+ *	Send IP result mail - reject or confirm reservation
+ */ 
+function sendIPResultEmail($request)
+{
+	# get settings
+	global $settings;
+	global $mail;
+
+	# set subject
+	$subject	= "IP address request (".Transform2long($request['ip_addr']).") $request[action]ed";
+	
+	# set additional headers
+	$mail['recipients'] = $request['requester'];	// it is sent to requester this time!
+	$mail['subject']	= $subject;
+	
+	# add admins to CC
+	$admins = getAllAdminUsers ();
+	$cc = "";
+	foreach($admins as $admin) { $cc .= ''. $admin['email'].', '; }
+	$cc = substr($cc, 0,-2);
+	
+	$mail['headers'] .= 'Cc: '.$cc."\r\n";
+	
+	# get active user name */
+	$sender = getActiveUserDetails();
+	
+	# get subnet details
+	$subnet = getSubnetDetailsById($request['subnetId']);
+	$subnet2 = Transform2long($subnet['subnet'])."/".$subnet['mask'];
+	
+	# get section detaiils
+	$section = getSectionDetailsById($subnet['sectionId']);
+
+	# reformat \n to breaks
+	$request['comment'] 	 = str_replace("\n", "<br>", $request['comment']);	
+	$request['adminComment'] = str_replace("\n", "<br>", $request['adminComment']);
+	
+	# set content
+	$mail['content']  = $mail['header'];
+	$mail['content'] .= "<tr><td style='padding:5px;margin:0px;color:#333;font-size:16px;text-shadow:1px 1px 1px white;border-bottom:1px solid #eeeeee;' colspan='2'><font face='Helvetica, Verdana, Arial, sans-serif' style='font-size:16px;'>$subject</font></td></tr>";
+	
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;border-top:1px solid white;padding-top:10px;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Section   	</font></td><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;border-top:1px solid white;padding-top:10px;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $section['name'] .' ('.$section['description'].')</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Subnet   			</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $subnet2 .'</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Requested IP address	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. Transform2long($request['ip_addr']) .'</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Description		 	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['description'] .'</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Hostname			 	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['dns_name'] .'</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Owner				</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['owner'] .'</font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Requested from		</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;"><a href="mailto:'.$request['requester'].'" style="color:#08c;">'. $request['requester'] .'</a></font></td></tr>' . "\n";
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;vertical-align:top;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Comment (request)	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">'. $request['comment'] .'</font></td></tr>' . "\n";	
+	$mail['content'] .= '<tr><td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;vertical-align:top;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px;">&bull; Admin accept/reject comment	</font></td>	<td style="padding: 0px;padding-left:10px;margin:0px;line-height:18px;text-align:left;"><font face="Helvetica, Verdana, Arial, sans-serif" style="font-size:13px; font-weight:bold;">'. $request['adminComment'] .'</font></td></tr>' . "\n";	
+	
+	$mail['content'] .= "<tr><td style='padding:5px;padding-left:15px;margin:0px;font-style:italic;padding-bottom:3px;text-align:right;color:#ccc;text-shadow:1px 1px 1px white;border-top:1px solid white;' colspan='2'><font face='Helvetica, Verdana, Arial, sans-serif' style='font-size:11px;'>Sent by user ".$mail['sender']['real_name']." at ".date('Y/m/d H:i')."</font></td></tr>";
+	$mail['content'] .= $mail['footer2'];
+	
+	
+	# send mail and update log
+	if (!mail($mail['recipients'], $mail['subject'], $mail['content'], $mail['headers'] )) {
+		# write log
+		$text = 'Sending notification mail to '. $mail['recipients'] . ' failed!';
+		updateLogTable ("IP request response mail (confirm,reject) sending failed", "Sending notification mail to $mail[recipients] failed!", $severity = 2);
+		return false;
+	}
+	else {
+		# write log
+		updateLogTable ("IP request response mail (confirm,reject) sent ok", "Sending notification mail to $mail[recipients] succeeded!", $severity = 0);
 		return true;
 	}
 }

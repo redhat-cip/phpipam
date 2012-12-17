@@ -105,7 +105,7 @@ if(sizeof($request) == 0) {
 	<!-- comment -->
 	<tr>
 		<th>Requester comment</th>
-		<td><i><?php if(isset($request['comment'])) { if(!empty($request['comment'])) { print '"'. $request['comment'] .'"'; }} ?></i></td>
+		<td><i><?php if(isset($request['comment'])) { if(!empty($request['comment'])) { print '"'. $request['comment'] .'"'; print "<input type='hidden' name='comment' value='$request[comment]'>"; }} ?></i></td>
 	</tr>
 	<!-- Admin comment -->
 	<tr>
