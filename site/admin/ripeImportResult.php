@@ -28,7 +28,7 @@ foreach($allSubnets as $subnet) {
 	$m = str_replace("subnet-", "", $subnet);
 
 	//set subnet details
-	$subnetDetails['subnetAction'] = "Add";	
+	$subnetDetails['action'] 	   = "add";	
 	$subnetDetails['subnet'] 	   = $_POST['subnet-' . $m];	
 	$subnetDetails['sectionId']    = $_POST['section-' . $m];
 	$subnetDetails['description']  = $_POST['description-' . $m];

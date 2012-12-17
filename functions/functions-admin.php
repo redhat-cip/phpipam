@@ -170,7 +170,7 @@ function modifySubnetDetails ($subnetDetails)
 {
     global $db;                                                                     # get variables from config file
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
-    
+
     # set modify subnet details query
     $query = setModifySubnetDetailsQuery ($subnetDetails, $sectionChange);
 

@@ -30,13 +30,13 @@ function hidePopup(pClass) {
 function hidePopups() {
 	$('#popupOverlay').fadeOut('fast');
 	$('.popup').fadeOut('fast');
-	$('body').removeClass('stop-scrolling')		//enable scrolling back
+	$('body').removeClass('stop-scrolling');		//enable scrolling back
 	hideSpinner();
 }
 $('#popupOverlay, button.hidePopups').live('click', function() { hidePopups(); });
 
 //prevent loading for disabled buttons
-$('a.disabled, button.disabled').click(function() { return false; })
+$('a.disabled, button.disabled').click(function() { return false; });
 
 //fix for menus on ipad
 $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
@@ -55,9 +55,9 @@ function randomPass() {
 /* open location */
 function openLocation(loc0, loc1, loc2) {
 	//only loc0
-	if(loc1.length == 0) 	{ window.location = loc0+"/"; }
+	if(loc1.length === 0) 	{ window.location = loc0+"/"; }
 	//loc0 + loc1
-	if(loc2.length == 0) 	{ window.location = loc0+"/"+loc1+"/"; }
+	if(loc2.length === 0) 	{ window.location = loc0+"/"+loc1+"/"; }
 	//both
 	else 					{ window.location = loc0+"/"+loc1+"/"+loc2+"/"; }
 }
@@ -74,7 +74,9 @@ function createCookie(name,value,days) {
 		date.setTime(date.getTime()+(days*24*60*60*1000));
 		var expires = "; expires="+date.toGMTString();
 	}
-	else var expires = "";
+	else {
+		var expires = "";
+	}
 	document.cookie = name+"="+value+expires+"; path=/";
 }
 function readCookie(name) {
@@ -83,7 +85,7 @@ function readCookie(name) {
 	for(var i=0;i < ca.length;i++) {
 		var c = ca[i];
 		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
 	}
 	return null;
 }
@@ -106,21 +108,21 @@ $('ul.submenu.submenu-close').hide();
 $('.icon-folder-close,.icon-folder-show, .icon-search').tooltip( {
 	delay: {show:2000, hide:0}, 
 	placement:"bottom"
-})
+});
 // show submenus
 $('ul#subnets').on("click", ".icon-folder-close", function() {
 	//change icon
 	$(this).removeClass('icon-folder-close').addClass('icon-folder-open');
 	//find next submenu and hide it
 	$(this).nextAll('.submenu').slideDown('fast');
-})
+});
 // hide submenus
 $('ul#subnets').on("click", "i.icon-folder-open", function() {
 	//change icon
 	$(this).removeClass('icon-folder-open').addClass('icon-folder-close');
 	//find next submenu and hide it
 	$(this).nextAll('.submenu').slideUp('fast');
-})
+});
 
 //hide subnets list
 $('#hideSubnets').click(function() {
@@ -128,7 +130,7 @@ $('#hideSubnets').click(function() {
 	//expand content
 	$('#content').css("width","97.9147%");
 	return false;
-})
+});
 
 //expand/contract all
 $('#expandfolders').click(function() {
@@ -146,10 +148,10 @@ $('#expandfolders').click(function() {
 		$('.subnets ul#subnets li.folder > i').addClass('icon-folder-close').removeClass('icon-folder-open');
 		$('.subnets ul#subnets ul.submenu').addClass('submenu-close').removeClass('submenu-open').slideUp('fast');
 		$(this).attr('data-action','close');
-		createCookie('expandfolders','0','365')	
+		createCookie('expandfolders','0','365');
 		$(this).removeClass('icon-resize-small').addClass('icon-resize-full');
 	}
-})
+});
 
 
 
@@ -416,7 +418,7 @@ $('select.jumptoPage').change(function() {
 	var dolzina = ($('table.ipaddresses tbody').length) - 1;
 	$('span.stran').html("Page " + pageTemp + '/' + dolzina);		//change text
 	$('div.loading').fadeOut('fast');
-})
+});
 
 
 
@@ -528,7 +530,7 @@ $('#settings').submit(function() {
 		$('div.settingsEdit').html(data).slideDown('fast');
 		//reload after 1 second if all is ok!
 		if(data.search("error") == -1) 	{ setTimeout(function (){window.location.reload();}, 1000); }
-		else 							{ hideSpinner() }
+		else 							{ hideSpinner(); }
 	});
 	return false;
 });
@@ -610,7 +612,7 @@ $('#instructions').submit(function () {
     $.post('site/admin/instructionsResult.php', instructions, function(data) {
         $('div.instructionsResult').html(data).fadeIn('fast');
 		if(data.search("error") == -1) 	{ $('div.instructionsResult').delay(2000).fadeOut('slow'); hideSpinner(); }
-		else 							{ hideSpinner() }      
+		else 							{ hideSpinner(); }      
     });
     return false;
 });
@@ -643,9 +645,9 @@ $('a.openLogDetail').live('click',function() {
 		$('div.popup_w500').html(data);
 		showPopup('popup_w500');
 		hideSpinner();		
-	})
+	});
 	return false;
-})
+});
 //log files page change
 $('#logDirection button').click(function() {
     showSpinner();
