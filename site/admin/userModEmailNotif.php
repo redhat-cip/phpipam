@@ -6,6 +6,8 @@
 
 /* use required functions */
 require_once('../../config.php');
+/* @mail functions ------------------- */
+include_once('../../functions/functions-mail.php');
 
 /* verify that user is authenticated! */
 isUserAuthenticated ();

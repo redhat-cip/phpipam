@@ -35,7 +35,4 @@ include_once('functions-admin.php');
 /* @upgrade functions ------------------- */
 include_once('functions-upgrade.php');
 
-/* @mail functions ------------------- */
-include_once('functions-mail.php');
-
 ?>

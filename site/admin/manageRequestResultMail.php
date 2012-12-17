@@ -4,6 +4,9 @@
  * Script to notify requester and admins that new IP request has been accepted / rejected
  */
 
+/* @mail functions ------------------- */
+include_once('../../functions/functions-mail.php');
+
 /* verify that user is admin */
 checkAdmin();
 

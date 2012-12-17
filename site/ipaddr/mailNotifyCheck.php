@@ -6,6 +6,8 @@
 
 /* include required scripts */
 require_once('../../functions/functions.php');
+/* @mail functions ------------------- */
+include_once('../../functions/functions-mail.php');
 
 /* check referer and requested with */
 CheckReferrer();

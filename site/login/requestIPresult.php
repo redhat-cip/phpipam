@@ -10,6 +10,9 @@
 /* functions */
 if(!function_exists(getSubnetDetailsById)) { require_once('../../functions/functions.php'); }
 
+/* @mail functions ------------------- */
+include_once('../../functions/functions-mail.php');
+
 # First chech referer and requested with 
 CheckReferrer();
 
