@@ -77,9 +77,6 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 	} 
 	?>
 
-	<!-- HighCharts script -->
-	<script type="text/javascript" src="js/Highcharts-2.3.3/highcharts.js"></script>
-
 	<!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="css/ie.css" />
     <![endif]-->

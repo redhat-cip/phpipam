@@ -615,6 +615,15 @@ table.ipaddresses tr[class*="hidden-"] {
 }
 
 
+/* pie graph legend */
+td.legendLabel {
+	padding-left: 0px;
+}
+span#pieLabel0 div {
+	color: #999 !important;
+}
+
+
 .slaves th {
 }
 .slaves td {

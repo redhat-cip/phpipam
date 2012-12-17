@@ -17,6 +17,12 @@ $(function($) {
 </script>
 
 
+<!-- charts -->
+<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.categories.js"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot/excanvas.min.js"></script><![endif]-->
+
+
 <div class="welcome">
 <b><?php $user = getActiveUserDetails(); print_r($user['real_name']); ?></b>, welcome to your IPAM dashboard. <span class="jclock pull-right"></span>
 </div>
@@ -76,12 +82,13 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 		
 </div>
 
+
 <?php if(checkAdmin(false,false)) { ?>
 <div class="row-fluid">
 	<!-- IPv4 hosts -->
 	<div class="span6" id="homeAccessLogs">
 	<div class="inner">
-		<h4>Last 10 informational logs</h4>
+		<h4>Last 5 informational logs</h4>
 		<div class="hContent">
 			<?php include('access_logs.php'); ?>
 		</div>
@@ -91,7 +98,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- IPv4 percentage -->
 	<div class="span6" id="homeIPv6Hosts">
 	<div class="inner">
-		<h4>Last 10 warning / error logs</h4>
+		<h4>Last 5 warning / error logs</h4>
 		<div class="hContent">
 			<?php include('error_logs.php');?>
 		</div>

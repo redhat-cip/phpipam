@@ -59,7 +59,7 @@ $rowSpan = 10 + $customSubnetFieldsSize;
 		<td><?php print '<b>'. transform2long($SubnetDetails['subnet']) ."/$SubnetDetails[mask]</b> ($SubnetParsed[netmask])"; ?></td>
 		<td rowspan="<?php print $rowSpan; ?>" style="vertical-align:top;align:left">
 		<!-- container -->
-		<div id="pieChart" style="height:200px;width:200px;float:right;"></div>
+		<div id="pieChart" style="height:200px;width:300px;float:right;"></div>
 		<?php include('subnetDetailsGraph.php'); ?>
 		</td>
 	</tr>

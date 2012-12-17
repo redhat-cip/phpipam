@@ -16,79 +16,132 @@ $subnetHost = getSubnetStatsDashboard($type);
 ?>
 
 
+<script type="text/javascript">
+$(function () {
+    
+    var data = [
+    <?php
+	if(sizeof($subnetHost) > 0) {
+		$m=0;
+		foreach ($subnetHost as $subnet) {
+			$subnet['subnet'] = long2ip($subnet['subnet']);
+			$subnet['descriptionLong'] = $subnet['description'];
+			# odd/even if more than 5 items
+			if(sizeof($subnetHost) > 5) {
+				if ($m&1) 	{ print "['|<br>$subnet[description]', $subnet[usage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}
+				else		{ print "['$subnet[description]', $subnet[usage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}
+			}
+			else {
+							{ print "['$subnet[description]', $subnet[usage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}			
+			}		
+			$m++;
+		}
+	}
+	?>
+	];
+	
+
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y - 29,
+            left: x,
+            border: '1px solid white',
+            'border-radius': '4px',
+            padding: '4px',
+            'font-size': '11px',
+            'background-color': 'rgba(0,0,0,0.7)',
+            color: 'white'
+        }).appendTo("body").fadeIn(500);
+    }
+
+    var previousPoint = null;
+    $("#<?php print $type; ?>top10Hosts").bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0],
+                        y = item.datapoint[1];
+                    
+                    showTooltip(item.pageX, item.pageY,
+                    			
+                                data[x][2] + "<br>" + y + " hosts");
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;            
+            }
+        
+    });
+	
+		var options = {
+        series: {
+            bars: {
+                show: true,
+                barWidth: 0.6,
+                lineWidth: 1,
+                align: "center",
+                fillColor: "rgba(170, 70, 67, 0.8)"
+            }
+        },
+        xaxis: {
+            mode: "categories",
+            tickLength: 0,
+            color: '#666',
+            tickLength: 1,
+            show: true,
+        },
+        yaxis: {
+        },
+        margin: {
+	        top: 10,
+	        left: 30,
+	        bottom: 10,
+	        right: 10
+	    },
+	    grid: {
+		  	hoverable: true,
+		  	clickable: true
+	    },
+        legend: {
+	        show: false
+	    },
+        shadowSize: 10,
+        highlightColor: '#AA4643',
+        colors: ['#AA4643' ],
+        grid: {
+	        show: true,
+	        aboveData: false,
+	        color: "#666",
+	        backgroundColor: "white",
+/*     margin: number or margin object */
+/*     labelMargin: number */
+/*     axisMargin: number */
+/*     markings: array of markings or (fn: axes -> array of markings) */
+    		borderWidth: 0,
+    		borderColor: null,
+    		minBorderMargin: null,
+    		clickable: true,
+    		hoverable: true,
+    		autoHighlight: true,
+    		mouseActiveRadius: 3
+    		}
+    };
+    
+    $.plot($("#<?php print $type; ?>top10Hosts"), [ data ], options);
+});
+</script>
+
 
 
 <!-- graph holder -->
-<div id="<?php print $type; ?>top10Hosts" class="top10" style="height:200px">
+<div id="<?php print $type; ?>top10Hosts" class="top10"  style="height:200px;width:95%;margin-left:3%;">
 	<div class="alert alert-warn"><strong>Info:</strong> No <?php print $type; ?> host configured!</div>
 </div>
-
-
-<!-- create data! -->
-<script type="text/javascript">
-
-var chart1; // globally available
-$(document).ready(function() {
-	chart1 = new Highcharts.Chart({
-	
-	chart: {
-		renderTo: '<?php print $type; ?>top10Hosts',
- 		defaultSeriesType: 'column'
-	},
-	colors: [
-		'#AA4643' 
-	],
-	title: {
-		text: '',
-        floating: true
-	},
-    tooltip: {
-        borderWidth: 0,
-        formatter: function() {
-            return '<b>' + this.point.name + '</b><br>' + this.y + ' <?php print $type; ?> addresses used';
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    credits: {
-        enabled: false
-    },
-	xAxis: {
-		categories: [
-			<?php
-			if(sizeof($subnetHost) > 0) {
-			foreach ($subnetHost as $subnet) {
-				$subnet['subnet'] = long2ip($subnet['subnet']);
-				$subnet['description'] = ShortenText($subnet['description'], 8);
-				print "'" . $subnet['description'] . "',";
-			}
-			}
-			?>
-		],
-		labels: {
-            rotation: 300,
-            align: 'right'
-        }
-	},
-	yAxis: {
-		title: {
-			text: '<?php print $type; ?> address used'
-		}
-	},
-    series: [{
-         name: 'Used %',
-         data: [         	
-         	<?php
-         		if(sizeof($subnetHost) > 0) {
-				foreach ($subnetHost as $subnet) {
-					print "{ name: '" . $subnet['description'] . "<br>" . transform2long($subnet['subnet']) . "/" . $subnet['mask'] . "', y:" . $subnet['usage'] . "},";
-				}         	
-				}
-         	?>
-         	]   
-    }]  
-    });
-});
-   
-</script>

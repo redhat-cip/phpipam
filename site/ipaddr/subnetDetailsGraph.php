@@ -9,77 +9,71 @@ $used = 100 - $CalculateSubnetDetails['freehosts_percent'];
 
 ?>
 
+
+
+<!-- charts -->
+<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.pie.js"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot/excanvas.min.js"></script><![endif]-->
+
+
+
+
 <script type="text/javascript">
-
-var chart;
-
-$(document).ready(function() {
-	chart = new Highcharts.Chart({
+$(function () {
+    
+    var data = [
+    	{ label: "Free", data: <?php print $free; ?>},
+    	{ label: "Used", data: <?php print $used; ?>}
+	];
 	
-	chart: {
-         renderTo: 'pieChart',
-         plotBackgroundColor: null,
-         plotBorderWidth: null,
-         plotShadow: false,
-         backgroundColor: null,
-         spacingTop: 0,
-         spacingRight: 0,
-         spacingLeft: 0,
-         spacingBottom: 0,
-         
-	},
+	var options = {
+    series: {
+        pie: {
+            show: true,
+            label: {
+	            show: true,
+	            radius: 1
+            },
+            background: {
+	            color: 'red'
+            },
+            radius: 0.9,
+            stroke: {
+	            color: '#fff',
+	            width: 2
+            },
+            offset: {
+	            left: 0
+            }
+            
+        }
+    },
     legend: {
-        enabled: false
+	    show: true,
+	    backgroundColor: ""
     },
-	colors: [
-		'#D8D8D8',
-/* 		'#AA4643' */
-		'#da4f49'
-	],
-    credits: {
-        enabled: false
-    },
-	title: {
-		text: '',
-        floating: true
+	grid: {
+		hoverable: false,
+	  	clickable: true
 	},
-      tooltip: {
-         formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
-         }
-      },
-      plotOptions: {
-         pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-               enabled: true,
-               distance: -30,
-/*                color: 'white', */
-               color: '#424242',
-               formatter: function() {
-                  return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
-               }
-            }
-         }
-      },
-   
-       series: [{
-         type: 'pie',
-         name: 'TYPE',
-         data: [
-            ['Free',   <?php print $free; ?>],
-            {
-               name: 'Used',    
-               y: <?php print $used; ?>,
-               sliced: true,
-               selected: true
-            }
-         ]
-      }]
-   });
+    highlightColor: '#AA4643',
+    colors: ['#D8D8D8', '#da4f49' ],		//free, used
+    grid: {
+	        show: true,
+	        aboveData: false,
+	        color: "#666",
+	        backgroundColor: "white",
+    		borderWidth: 0,
+    		borderColor: null,
+    		minBorderMargin: null,
+    		clickable: true,
+    		hoverable: true,
+    		autoHighlight: true,
+    		mouseActiveRadius: 3
+    		}
+    };
+    
+    $.plot($("#pieChart"), data, options);
 });
-
-
 </script>
-   

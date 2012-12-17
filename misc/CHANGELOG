@@ -34,6 +34,7 @@
 	+ Abiility to move subnets between sections;
 	+ Improved display of nested subnets now shows all IP addresses from nested subnets and orphaned IPs;
 	+ Hides display of custom fields in subnet if none is filled in whole subnet;
+	+ Replaced Highcharts with Flot because of licencing issues;
 
 	Bugfixes:
 	------------------------
