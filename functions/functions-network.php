@@ -1809,7 +1809,7 @@ function getFirstAvailableIPAddress ($subnetId)
     
     /* get all ip addresses in subnet */
     $query 		 = 'SELECT `ip_addr` from `ipaddresses` where `subnetId` = "'. $subnetId .'" order by `ip_addr` ASC;';    
-    $ipAddresses = $database->getArray($query);  
+    $ipAddresses = $database->getArray($query);
 
     /* get subnet */
     $query 	 = 'SELECT `subnet`,`mask` from `subnets` where `id` = "'. $subnetId .'";';    
@@ -1883,7 +1883,7 @@ function getFirstAvailableIPAddress ($subnetId)
             $Net_IPv4 = new Net_IPv4();
             	
             $net = $Net_IPv4->parseAddress(transform2long($subnet)."/".$mask);
-	        if ($net->broadcast <= transform2long($firstAvailable)) { $firstAvailable = false; }
+	        if ($net->broadcast == transform2long($firstAvailable)) { $firstAvailable = false; }
         }
         else if ($type == "IPv6") {
             require_once 'PEAR/Net/IPv6.php';

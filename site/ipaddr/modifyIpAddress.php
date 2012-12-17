@@ -59,7 +59,6 @@ else {
 	$details = getIpAddrDetailsById ($id);
 }
 
-
 /**
  *	Get first available IP address!
  */
