@@ -6,14 +6,16 @@ features for next releases:
 		- custom groups
 		- per-section permissions for groups;
 		
-		+ subnet split;
-		+ subnet change mask;
+		+ Split subnets to multiple sub-subnets based on provided mask;
+		+ Change subnets mask size;
 		
-		+ Get next available subnet (provide mask);
+		+ Get next available subnet by providing mask;
 		+ Compress DHCP, reserved and offline ranges;
 		
 		+ Logs search;
 		+ User actvity display;
+		
+		+ VLAN header ordering;
 		
 		+ Prettier URLs -> subnets and sections
 		
@@ -23,7 +25,6 @@ features for next releases:
 		
 	
 	- Requests
-		- Sorting of subnets;
 		- SMTP auth;
 		- subnet splitting;
 		- API 
@@ -33,7 +34,6 @@ features for next releases:
 		- better exception handling (functions);
 		- RDNS zone file export (in admin!);
 		- IPv6 migration guide document;
-		- Overlapping subnets if VRF is enabled;
 	
 	- Problematic
 		- Subnet scan for alive IP addresses (ICMP);

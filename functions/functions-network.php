@@ -74,7 +74,7 @@ function reformatIPState ($state)
 */
 		case "0": return "<i class='icon-red   icon-tag state' rel='tooltip' title='Not in use (Offline)'></i>"; break;
 		case "1": return " "; 		break;
-		case "2": return "<i class='icon-gray  icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
+		case "2": return "<i class='icon-blue  icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
 		case "3": return "<i class='icon-green icon-tag state' rel='tooltip' title='DHCP'></i>"; break;
 		default: return $state;
 	}	
@@ -523,7 +523,7 @@ function getIpAddressesBySubnetIdSort ($subnetId, $fieldName, $direction)
 /**
  * Get all ip addresses in requested subnet by provided Id, sort by fieldname and direction!
  */
-function getIpAddressesBySubnetIdslavesSort ($subnetId, $fieldName, $direction) 
+function getIpAddressesBySubnetIdslavesSort ($subnetId, $fieldName = "subnetId", $direction = "asc") 
 {
     global $db;                                                                      # get variables from config file
     
@@ -637,19 +637,56 @@ function calculateSubnetDetails ( $usedhosts, $bitmask, $subnet )
 		$SubnetCalculateDetails['maxhosts'] = "1";
 	}
 
-    //if more than 100% fix it! (for /31 and /32)
-/*
-    if($SubnetCalculateDetails['used'] > $SubnetCalculateDetails['maxhosts'] ) {
-	    $SubnetCalculateDetails['maxhosts']  = $SubnetCalculateDetails['used'];
-	    $SubnetCalculateDetails['freehosts'] = 0;
-    }
-*/
-
     // calculate use percentage
     $SubnetCalculateDetails['freehosts_percent'] = round( ( ($SubnetCalculateDetails['freehosts'] * 100) / $SubnetCalculateDetails['maxhosts']), 2 );
      
     return( $SubnetCalculateDetails );
 }
+
+
+/**
+ * Calculate subnet details
+ *
+ * Calculate subnet details based on input!
+ *
+ * We must provide used hosts and subnet mask to calculate free hosts, and subnet to identify type
+ */
+function calculateSubnetDetailsNew ( $subnet, $bitmask, $online, $offline, $reserved, $dhcp )
+{
+    $details['online']            = $online;		// number of online hosts
+    $details['reserved']          = $reserved;		// number of reserved hosts
+    $details['offline']           = $offline;		// number of offline hosts
+    $details['dhcp']              = $dhcp;   		// number of dhcp hosts 
+    
+    $details['used']			  = gmp_strval( gmp_add ($online,$reserved) );
+    $details['used']			  = gmp_strval( gmp_add ($details['used'],$offline) );
+    $details['used']			  = gmp_strval( gmp_add ($details['used'],$dhcp) );
+    
+    // calculate max hosts
+    if ( IdentifyAddress( $subnet ) == "IPv4") 	{ $type = 0; }
+    else 										{ $type = 1; }
+    
+    $details['maxhosts']          = MaxHosts( $bitmask, $type ); 
+    
+    // calculate free hosts
+    $details['freehosts']         = gmp_strval( gmp_sub ($details['maxhosts'] , $details['used']) );
+
+	//reset maxhosts for /31 and /32 subnets
+	if (gmp_cmp($details['maxhosts'],1) == -1) {
+		$details['maxhosts'] = "1";
+	}
+
+    // calculate use percentage
+    $details['freehosts_percent'] = round( ( ($details['freehosts'] * 100) / $details['maxhosts']), 2 );
+    $details['used_percent'] 	  = round( ( ($details['used'] * 100) / $details['maxhosts']), 2 );
+    $details['online_percent'] 	  = round( ( ($details['online'] * 100) / $details['maxhosts']), 2 );
+    $details['reserved_percent']  = round( ( ($details['reserved'] * 100) / $details['maxhosts']), 2 );
+    $details['offline_percent']   = round( ( ($details['offline'] * 100) / $details['maxhosts']), 2 );
+    $details['dhcp_percent']      = round( ( ($details['dhcp'] * 100) / $details['maxhosts']), 2 );
+     
+    return( $details );
+}
+
 
 
 /**

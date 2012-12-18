@@ -36,16 +36,11 @@ $settings = getAllSettings();
  */
 $SubnetParsed = parseIpAddress ( transform2long($SubnetDetails['subnet']), $SubnetDetails['mask']);
 
-/* Calculate free / used etc */
-$CalculateSubnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $SubnetDetails['mask'], $SubnetDetails['subnet'] );
-
+# set rowspan
 $rowSpan = 10 + $customSubnetFieldsSize;
 ?>
 
 <!-- content print! -->
-
-
-<?php getAllParents ($subnetId); ?>
 
 <!-- for adding IP address! -->
 <div id="subnetId" style="display:none"><?php print $subnetId; ?></div>
@@ -60,7 +55,7 @@ $rowSpan = 10 + $customSubnetFieldsSize;
 		<td><?php print '<b>'. transform2long($SubnetDetails['subnet']) ."/$SubnetDetails[mask]</b> ($SubnetParsed[netmask])"; ?></td>
 		<td rowspan="<?php print $rowSpan; ?>" style="vertical-align:top;align:left">
 		<!-- container -->
-		<div id="pieChart" style="height:200px;width:300px;float:right;"></div>
+		<div id="pieChart" style="height:200px;width:400px;float:right;"></div>
 		</td>
 	</tr>
 	<tr>

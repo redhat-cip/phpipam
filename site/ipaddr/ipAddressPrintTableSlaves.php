@@ -81,14 +81,15 @@ foreach ($slaves as $slave) {
 	print '</tr>' . "\n";
 }
 
+# reset free/used
+$CalculateSubnetDetails['freehosts_percent'] = round((100 - ($usedSum/$allSum * 100)) ,2);
+
 # sum
 print "<tr class='sum sumTop'>";
 print "	<th colspan='2'></th>";
 print "	<th style='text-align:right'>Sum (IPv4):</th>";
 print "	<th style='text-align:left'>$usedSum / $allSum used</th>";
 print "	<th colspan='3' rowspan=2>";
-# reset free/used
-$CalculateSubnetDetails['freehosts_percent'] = round((100 - ($usedSum/$allSum * 100)) ,2);
 include_once('subnetDetailsGraph.php');
 print " </th>";
 print "</tr>";

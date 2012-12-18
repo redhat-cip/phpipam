@@ -91,19 +91,7 @@ select, input[type="file"] {
 /* @icons green ---------- */
 
 /* Gray icons with optional class, or on hover/active states of certain elements */
-.icon-green,
-.nav-tabs > .active > a > [class^="icon-"],
-.nav-tabs > .active > a > [class*=" icon-"],
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"] {
+.icon-green {
   background-image: url("../img/glyphicons-halflings-green.png");
 }
 
@@ -111,21 +99,19 @@ select, input[type="file"] {
 /* @icons red ---------- */
 
 /* Gray icons with optional class, or on hover/active states of certain elements */
-.icon-red,
-.nav-tabs > .active > a > [class^="icon-"],
-.nav-tabs > .active > a > [class*=" icon-"],
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"] {
+.icon-red {
   background-image: url("../img/glyphicons-halflings-red.png");
 }
+
+
+
+/* @icons blue ---------- */
+
+/* Gray icons with optional class, or on hover/active states of certain elements */
+.icon-blue {
+  background-image: url("../img/glyphicons-halflings-blue.png");
+}
+
 
  
 /* @header ---------- */

@@ -68,7 +68,7 @@ foreach($myFields as $field) {
 if(sizeof($ipaddresses) > 0) {
 ?>
 <br><hr>
-<h4><div class="alert alert-warn">Orphaned IP addresses for subnet <strong><?php print $SubnetDetails['description'] ?></strong> (<?php print sizeof($ipaddresses); ?>) <i class="icon-gray icon-info-sign" rel="tooltip" title="This happens if subnet had IP addresses<br>when new nested subnet was added."></i></div></h4>
+<h4><div class="alert alert-warn">Orphaned IP addresses for subnet <strong><?php print $SubnetDetails['description'] ?></strong> (<?php print sizeof($ipaddresses); ?>) <i class="icon-gray icon-info-sign" rel="tooltip" data-html="true" title="This happens if subnet had IP addresses<br>when new nested subnet was added."></i></div></h4>
 
 <table class="ipaddresses table table-striped table-condensed table-hover table-full table-top">
 
