@@ -195,11 +195,11 @@ $(function() {
 	# both are active
 	if(in_array('switch', $setFields)) {
 		print '<tr>'. "\n";
-		print '	<td>Switch</td>'. "\n";
+		print '	<td>Device</td>'. "\n";
 		print '	<td>'. "\n";
 
 		print '<select name="switch">'. "\n";
-		print '<option disabled>Select Switch:</option>'. "\n";
+		print '<option disabled>Select device:</option>'. "\n";
 		print '<option value="" selected>None</option>'. "\n";
 		$switches = getAllUniqueSwitches();
 		

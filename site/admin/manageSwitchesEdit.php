@@ -46,6 +46,22 @@ else 								{ $readonly = ""; }
 		</td>
 	</tr>
 
+	<!-- Type -->
+	<tr>
+		<td>Device type</td>
+		<td>
+			<select name="type">
+			<?php
+			$types = getSwitchTypes();
+			foreach($types as $key=>$name) {
+				if($switch['type'] == $key)	{ print "<option value='$key' selected='selected'>$name</option>"; }
+				else						{ print "<option value='$key' >$name</option>"; }
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+
 	<!-- Vendor -->
 	<tr>
 		<td>Vendor</td>

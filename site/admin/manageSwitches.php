@@ -12,7 +12,7 @@ $switches = getAllUniqueSwitches();
 
 ?>
 
-<h4>Switch management</h4>
+<h4>Device management</h4>
 <hr>
 <button class='btn btn-small editSwitch' data-action='add'   data-switchid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new</button>
 
@@ -30,6 +30,7 @@ else {
 	print '<tr>';
 	print '	<th>Hostname</th>';
 	print '	<th>IP address</th>';
+	print '	<th>Type</th>';
 	print '	<th>Vendor</th>';
 	print '	<th>Model</th>';
 	print '	<th>SW version</th>';
@@ -48,6 +49,7 @@ else {
 	
 	print '	<td>'. $switchDetails['hostname'] .'</td>'. "\n";
 	print '	<td>'. $switchDetails['ip_addr'] .'</td>'. "\n";
+	print '	<td>'. TransformSwitchType($switchDetails['type']) .'</td>'. "\n";
 	print '	<td>'. $switchDetails['vendor'] .'</td>'. "\n";
 	print '	<td>'. $switchDetails['model'] .'</td>'. "\n";
 	print '	<td>'. $switchDetails['version'] .'</td>'. "\n";

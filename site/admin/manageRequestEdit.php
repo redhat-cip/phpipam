@@ -113,17 +113,29 @@ $myFieldsSize = sizeof($myFields);
 	<?php if(in_array('switch', $setFields)) { ?>
 	<!-- switch / port -->
 	<tr>
-		<th>Switch / port</th>		
+		<th>Device / port</th>		
 		<td>
-			<input type="text" name="switch" id="switch" value="<?php if(isset($request['switch'])) { print $request['switch']; } ?>" size="13" placeholder="Switch"  
-			<?php if ( isset($btnName)) { if( $btnName == "Delete" ) { print " readonly "; }} ?> 
-			>
+			<select name="switch">'. "\n";
+				<option disabled>Select device:</option>
+				<option value="" selected>None</option>
+				<?php
+				$switches = getAllUniqueSwitches();
+		
+				foreach($switches as $switch) {
+					if($switch['id'] == $details['switch']) { print '<option value="'. $switch['id'] .'" selected>'. $switch['hostname'] .'</option>'. "\n"; }
+					else 									{ print '<option value="'. $switch['id'] .'">'. $switch['hostname'] .'</option>'. "\n";			 }
+				}
+				?>
+			</select>
 			<?php if(in_array('port', $setFields)) { ?>
 			/
 			<input type="text" name="port" value="<?php if(isset($request['port'])) { print $request['port']; } ?>" size="9"  placeholder="Port" 
 			<?php if ( isset($btnName)) { if ( $btnName == "Delete" ) { print " readonly "; }} ?> 
 			>
-			<?php } ?>
+			
+		</td>
+	</tr>
+	<?php } ?>	
 		</td>
 	</tr>
 	<?php } ?>

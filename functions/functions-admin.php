@@ -530,13 +530,13 @@ function updateSwitchDetails($switch)
     /* set querry based on action */
     if($switch['action'] == "add") {
     	$query  = 'insert into `switches` '. "\n";
-    	$query .= '(`hostname`,`ip_addr`,`vendor`,`model`,`version`,`description`,`sections`) values '. "\n";
-   		$query .= '("'. $switch['hostname'] .'", "'. $switch['ip_addr'] .'", "'. $switch['vendor'] .'", '. "\n";
+    	$query .= '(`hostname`,`ip_addr`, `type`, `vendor`,`model`,`version`,`description`,`sections`) values '. "\n";
+   		$query .= '("'. $switch['hostname'] .'", "'. $switch['ip_addr'] .'", "'.$switch['type'].'", "'. $switch['vendor'] .'", '. "\n";
    		$query .= ' "'. $switch['model'] .'", "'. $switch['version'] .'", "'. $switch['description'] .'", "'. $switch['sections'] .'" );'. "\n";
     }
     else if($switch['action'] == "edit") {
     	$query  = 'update `switches` set '. "\n";    
-    	$query .= '`hostname` = "'. $switch['hostname'] .'", `ip_addr` = "'. $switch['ip_addr'] .'", `vendor` = "'. $switch['vendor'] .'", '. "\n";    
+    	$query .= '`hostname` = "'. $switch['hostname'] .'", `ip_addr` = "'. $switch['ip_addr'] .'", `type` = "'. $switch['type'] .'", `vendor` = "'. $switch['vendor'] .'", '. "\n";    
     	$query .= '`model` = "'. $switch['model'] .'", `version` = "'. $switch['version'] .'", `description` = "'. $switch['description'] .'", '. "\n";    
     	$query .= '`sections` = "'. $switch['sections'] .'" '. "\n"; 
     	$query .= 'where `id` = "'. $switch['switchId'] .'";'. "\n";    
@@ -616,6 +616,38 @@ function updateIPaddressesOnSwitchChange($old, $new)
     	return false;
     }
 }
+
+
+/**
+ * get switch type
+ */
+function getSwitchTypes() 
+{
+	$res[0] = "Switch";
+	$res[1] = "Router";
+	$res[2] = "Firewall";
+	$res[3] = "Hub";
+	$res[4] = "Wireless";
+	
+	return $res;
+}
+
+
+/**
+ * Transfor switch type
+ */
+function TransformSwitchType($type) 
+{
+	switch($type) {
+		case "0":	$res = "Switch";	break;
+		case "1":	$res = "Router";	break;
+		case "2":	$res = "Firewall";	break;
+		case "3":	$res = "Hub";		break;
+		case "4":	$res = "Wireless";		break;
+	}	
+	return $res;
+}
+
 
 
 

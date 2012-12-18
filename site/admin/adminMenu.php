@@ -50,7 +50,7 @@ $settings = getAllSettings();
 		<a href="administration/manageSubnet/"><i class="icon-chevron-right pull-right icon-gray"></i> Subnet management</a>
 	</li>
 	<li <?php if($_REQUEST['adminId'] == "manageSwitches") print "class='active'"; ?>>
-		<a href="administration/manageSwitches/"><i class="icon-chevron-right pull-right icon-gray"></i> Switch management</a>
+		<a href="administration/manageSwitches/"><i class="icon-chevron-right pull-right icon-gray"></i> Device management</a>
 	</li>
 	<li <?php if($_REQUEST['adminId'] == "manageVLANs") print "class='active'"; ?>>
 		<a href="administration/manageVLANs/"><i class="icon-chevron-right pull-right icon-gray"></i> VLAN management</a>

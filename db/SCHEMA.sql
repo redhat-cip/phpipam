@@ -248,6 +248,7 @@ CREATE TABLE `switches` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `hostname` varchar(32) DEFAULT NULL,
   `ip_addr` varchar(100) DEFAULT NULL,
+  `type` INT(2)  NULL  DEFAULT '0',
   `vendor` varchar(156) DEFAULT NULL,
   `model` varchar(124) DEFAULT NULL,
   `version` varchar(128) DEFAULT NULL,

@@ -22,7 +22,7 @@ $switches[] = array("id"=>"","hostname"=>"");
 $m = 0;
 
 # title
-print "<h4>List of switches and belonging devices</h4>";
+print "<h4>List of network devices</h4>";
 print "<hr>";
 
 # main table frame

@@ -20,3 +20,6 @@ ALTER TABLE `subnets` ADD `showName` tinyint(1) DEFAULT '0';
 
 /* Add ipaddr to logs */
 ALTER TABLE `logs` ADD `ipaddr` VARCHAR(64)  NULL  DEFAULT NULL  AFTER `username`;
+
+/* Add devicetype to switches */
+ALTER TABLE `switches` ADD `type` INT(2)  NULL  DEFAULT '0' AFTER `ip_addr`;

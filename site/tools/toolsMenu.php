@@ -41,7 +41,7 @@ if(!$viewer)  {  ?>
     <?php # if switch enabled
     if(in_array("switch", $setFields)) {?>    
 	<li <?php if($_REQUEST['toolsId'] == "switches") print "class='active'"; ?>>
-		<a href="tools/switches/"><i class="icon-chevron-right pull-right icon-gray <?php if($_REQUEST['toolsId'] != "switches") print "icon-white"; ?>"></i> Switches</a>
+		<a href="tools/switches/"><i class="icon-chevron-right pull-right icon-gray <?php if($_REQUEST['toolsId'] != "switches") print "icon-white"; ?>"></i> Devices</a>
 	</li>
     <?php } ?>
     <?php # if vrf enabled

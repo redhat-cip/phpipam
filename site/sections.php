@@ -99,7 +99,7 @@ $setFields = explode(";", $setFieldsTemp);
 			print "		<li class='nav-header'>IP related settings</li>";
 			print "		<li "; if($_REQUEST['adminId'] == "manageSection") 	print "class='active'"; print "><a href='administration/manageSection/'>Sections</a></li>";
 			print "		<li "; if($_REQUEST['adminId'] == "manageSubnet") 	print "class='active'"; print "><a href='administration/manageSubnet/'>Subnets</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "manageSwitches") print "class='active'"; print "><a href='administration/manageSwitches/'>Switches</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageSwitches") print "class='active'"; print "><a href='administration/manageSwitches/'>Devices</a></li>";
 			print "		<li "; if($_REQUEST['adminId'] == "manageVLANs") 	print "class='active'"; print "><a href='administration/manageVLANs/'>VLANs</a></li>";
 			# vrf if enabled
 			if($settings['enableVRF'] == 1) { 
@@ -132,7 +132,7 @@ $setFields = explode(";", $setFieldsTemp);
 			    		
 			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>IP calculator</a></li>"; 
 			    		if(in_array('switch', $setFields)) {								# print Switches if visible
-				    	print "	<li "; if($_REQUEST['toolsId'] == "switches") 	print "class='active'"; print "><a href='tools/switches/'>Switches</a></li>";
+				    	print "	<li "; if($_REQUEST['toolsId'] == "switches") 	print "class='active'"; print "><a href='tools/switches/'>Devices</a></li>";
 				    	}
 				    	if($settings['enableVRF'] == 1) {									# print VRFs if enabled
 				    	print "	<li "; if($_REQUEST['toolsId'] == "vrf") 		print "class='active'"; print "><a href='tools/vrf/'>VRFs</a></li>"; 
