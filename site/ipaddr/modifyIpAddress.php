@@ -76,7 +76,7 @@ $setFieldsTemp = getSelectedIPaddrFields();
 $setFields = explode(";", $setFieldsTemp);
 
 
-/* get all selected fields */
+/* get all custom fields */
 $myFields = getCustomIPaddrFields();
 $myFieldsSize = sizeof($myFields);
 ?>

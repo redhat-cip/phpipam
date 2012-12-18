@@ -12,6 +12,16 @@ checkAdmin();
 /* get posted request */
 $request = $_POST;
 
+/* custom fields modification */
+$myFields = getCustomIPaddrFields();
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		# replace possible ___ back to spaces!
+		$myField['nameTest']      = str_replace(" ", "___", $myField['name']);
+		
+		if(isset($request[$myField['nameTest']])) { $request[$myField['name']] = $request[$myField['nameTest']];}
+	}
+}
 
 /* if action is reject set processed and accepted to 1 and 0 */
 if($request['action'] == "reject") {

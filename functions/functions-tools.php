@@ -706,13 +706,28 @@ function acceptIPrequest($request)
     
     /* first update request */
     $query  = 'update requests set `processed` = "1", `accepted` = "1", `adminComment` = "'. $request['adminComment'] .'" where `id` = "'. $request['requestId'] .'";' . "\n";
-    
-    /* insert to ip database */
-    $query .= "insert into ipaddresses ";
-	$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`, `owner`, `state`, `switch`, `port`) ";
-	$query .= "values ";
-	$query .= "('". $request['subnetId'] ."', '". $request['description'] ."', '". $request['ip_addr'] ."', '". $request['dns_name'] ."', '". $request['owner'] ."', '". $request['state'] ."', '". $request['switch'] ."', '". $request['port'] ."');";    
 
+	/* We need to get custom fields! */
+	$myFields = getCustomIPaddrFields();
+	$myFieldsInsert['query']  = '';
+	$myFieldsInsert['values'] = '';
+	
+	if(sizeof($myFields) > 0) {
+		/* set inserts for custom */
+		foreach($myFields as $myField) {			
+			$myFieldsInsert['query']  .= ', `'. $myField['name'] .'`';
+			$myFieldsInsert['values'] .= ", '". $request[$myField['name']] . "'";
+		}
+	}
+
+	/* insert */
+	$query .= "insert into `ipaddresses` ";
+	$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note` ". $myFieldsInsert['query'] .") ";
+	$query .= "values ";
+	$query .= "('". $request['subnetId'] ."', '". $request['description'] ."', '".$request['ip_addr']."', ". "\n"; 
+	$query .= " '". $request['dns_name'] ."', '". $request['mac'] ."', '". $request['owner'] ."', '". $request['state'] ."', ". "\n";
+	$query .= " '". $request['switch'] ."', '". $request['port'] ."', '". $request['note'] ."'". $myFieldsInsert['values'] .");";
+	
 	/* set log file */
     foreach($request as $key=>$req) {
 		$log .= " ". $key . ": " . $req . "<br>";

@@ -73,6 +73,8 @@ $('#requestIP').live('submit', function() {
     $.post('site/login/requestIPresult.php', postData, function(data) {
         $('div#requestIPresult').html(data).slideDown('fast');
         hideSpinner();
+        //reset sender to prevent duplicates
+        $('input[name=requester]').val('');
     });
 	return false;
 });

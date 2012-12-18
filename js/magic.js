@@ -354,6 +354,17 @@ $('a.request_ipaddress').live("click", function () {
 	});
 	return false;
 });
+//	auto-suggest first available IP in selected subnet
+$('select#subnetId').live('change', function() {
+	showSpinner();
+	var subnetId = $('select#subnetId option:selected').attr('value');
+	//post it via json to requestIPfirstFree.php
+	$.post('site/login/requestIPfirstFree.php', { subnetId:subnetId}, function(data) {
+		$('input.ip_addr').val(data);
+		hideSpinner();
+	});
+});
+
 //	submit request
 $('button#requestIPAddressSubmit').live('click', function() {
 	showSpinner();

@@ -19,27 +19,33 @@ $request = getIPrequestById ($requestId);
 if(sizeof($request) == 0) {
 	die("<div class='alert alert-error'>Request does not exist!</div>");
 }
+
+/* get all selected fields for filtering */
+$setFieldsTemp = getSelectedIPaddrFields();
+/* format them to array! */
+$setFields = explode(";", $setFieldsTemp);
+
+/* get all custom fields */
+$myFields = getCustomIPaddrFields();
+$myFieldsSize = sizeof($myFields);
 ?>
 
 
 <!-- header -->
-<div class="pHeader">Manage IP request</div>
-
+<div class="pHeader">Manage IP address request</div>
 
 <!-- content -->
 <div class="pContent">
-
-	<h4>IP address request (#<?php print $request['id'] ?>)</h4>
 	
 	<!-- IP address request form -->
 	<form class="manageRequestEdit" name="manageRequestEdit">
 	<!-- edit IP address table -->
-	<table id="manageRequestEdit" class="table table-striped table-condensed">
+	<table id="manageRequestEdit" class="table table-noborder table-condensed">
 	<!-- Section -->
 	<tr>
 		<th>Requested subnet</th>
 		<td>
-			<select name="subnetId">
+			<select name="subnetId" id="subnetId">
 			<?php
 			$subnets = fetchAllSubnets ();
 		
@@ -58,7 +64,7 @@ if(sizeof($request) == 0) {
 	<tr>
 		<th>IP address</th>
 		<td>
-			<input type="text" name="ip_addr" value="<?php print transform2long($request['ip_addr']); ?>" size="30">
+			<input type="text" name="ip_addr" class="ip_addr" value="<?php print transform2long(getFirstAvailableIPAddress ($request['subnetId'])); ?>" size="30"><span class="help-inline">Auto-generated first available</span>
 			
 			<input type="hidden" name="requestId" value="<?php print $request['id']; ?>">
 			<input type="hidden" name="requester" value="<?php print $request['requester']; ?>">
@@ -68,35 +74,94 @@ if(sizeof($request) == 0) {
 	<tr>
 		<th>Description</th>
 		<td>
-			<input type="text" name="description" value="<?php if(isset($request['description'])) { print $request['description'];} ?>" size="30">
+			<input type="text" name="description" value="<?php if(isset($request['description'])) { print $request['description'];} ?>" size="30" placeholder="Enter IP description">
 		</td>
 	</tr>
 	<!-- DNS name -->
 	<tr>
 		<th>Hostname</th>
 		<td>
-			<input type="text" name="dns_name" value="<?php if(isset($request['dns_name'])) { print $request['dns_name'];} ?>" size="30">
+			<input type="text" name="dns_name" value="<?php if(isset($request['dns_name'])) { print $request['dns_name'];} ?>" size="30" placeholder="Enter hostname">
 		</td>
 	</tr>
+
+	<?php if(in_array('state', $setFields)) { ?>
+	<!-- state -->
+	<tr>
+		<th>State</th>
+		<td>
+			<select name="state">
+				<option value="1" <?php if(isset($request['state'])) { if ($request['state'] == "1") { print 'selected'; }} ?>>Active</option>
+				<option value="2" <?php if(isset($request['state'])) { if ($request['state'] == "2") { print 'selected'; }} ?>>Reserved</option>
+				<option value="0" <?php if(isset($request['state'])) { if ($request['state'] == "0") { print 'selected'; }} ?>>Offline</option>
+				<option value="3" <?php if(isset($request['state'])) { if ($request['state'] == "3") { print 'selected'; }} ?>>DHCP</option>
+			</select>
+		</td>
+	</tr>
+	<?php } ?>
+	
+	<?php if(in_array('owner', $setFields)) { ?>
 	<!-- owner -->
 	<tr>
 		<th>Owner</th>
 		<td>
-			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30">
+			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30" placeholder="Enter IP owner">
 		</td>
 	</tr>
+	<?php } ?>
+	
+	<?php if(in_array('switch', $setFields)) { ?>
 	<!-- switch / port -->
 	<tr>
 		<th>Switch / port</th>		
 		<td>
-			<input type="text" name="switch" id="switch" value="<?php if(isset($request['switch'])) { print $request['switch']; } ?>" size="13" 
+			<input type="text" name="switch" id="switch" value="<?php if(isset($request['switch'])) { print $request['switch']; } ?>" size="13" placeholder="Switch"  
 			<?php if ( isset($btnName)) { if( $btnName == "Delete" ) { print " readonly "; }} ?> 
-			>/
-			<input type="text" name="port" value="<?php if(isset($request['port'])) { print $request['port']; } ?>" size="9" 
+			>
+			<?php if(in_array('port', $setFields)) { ?>
+			/
+			<input type="text" name="port" value="<?php if(isset($request['port'])) { print $request['port']; } ?>" size="9"  placeholder="Port" 
 			<?php if ( isset($btnName)) { if ( $btnName == "Delete" ) { print " readonly "; }} ?> 
 			>
+			<?php } ?>
 		</td>
 	</tr>
+	<?php } ?>
+	
+	<?php if(in_array('note', $setFields)) { ?>
+	<!-- note -->
+	<tr>
+		<th>Note</th>
+		<td>
+			<input type="text" name="note" id="note" placeholder="Write note" size="30">
+		</td>
+	</tr>	
+	<?php } ?>
+	
+	<!-- Custom fields -->
+	<?php
+	if(sizeof($myFields) > 0) {
+		print "<tr><td colspan='2'><hr></td></tr>";
+		# all my fields
+		foreach($myFields as $myField) {
+			# replace spaces with |
+			$myField['nameNew'] = str_replace(" ", "___", $myField['name']);
+			
+			print '<tr>'. "\n";
+			print '	<th>'. $myField['name'] .'</th>'. "\n";
+			print '	<td>'. "\n";
+			print ' <input type="text" name="'. $myField['nameNew'] .'" placeholder="'. $myField['name'] .'" size="30">'. "\n";
+			print '	</td>'. "\n";
+			print '</tr>'. "\n";		
+		}
+	}
+	?>	
+	
+	<!-- divider -->
+	<tr>
+		<td colspan="2"><hr></td>
+	</tr>
+	
 	<!-- requested by -->
 	<tr>
 		<th>Requester email</th>
@@ -111,18 +176,7 @@ if(sizeof($request) == 0) {
 	<tr>
 		<th>Comment approval/reject:</th>
 		<td>
-			<textarea name="adminComment" rows="2" cols="30"></textarea>
-		</td>
-	</tr>
-	<!-- state -->
-	<tr>
-		<th>State</th>
-		<td>
-			<select name="state">
-				<option value="1" <?php if(isset($request['state'])) { if ($request['state'] == "1") { print 'selected'; }} ?>>Active</option>
-				<option value="2" <?php if(isset($request['state'])) { if ($request['state'] == "2") { print 'selected'; }} ?>>Reserved</option>
-				<option value="0" <?php if(isset($request['state'])) { if ($request['state'] == "0") { print 'selected'; }} ?>>Offline</option>
-			</select>
+			<textarea name="adminComment" rows="2" cols="30" placeholder="Enter reason for reject/approval to be sent to requester"></textarea>
 		</td>
 	</tr>
 

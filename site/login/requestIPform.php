@@ -76,25 +76,6 @@ if($n == 0) {
 	</td>
 </tr>
 
- 
-<!-- IP address -->
-<script type="text/javascript">
-$(document).ready(function() {
-	//autofill first IP address
-	var subnetId = <?php print $firstSubnet; ?>;
-	//post it via json to requestIPfirstFree.php
-	$.post('/site/login/requestIPfirstFree.php', { subnetId:subnetId}, function(data) {
-		$('input.ip_addr').val(data);
-	});
-});
-</script>
-
-<tr>
-	<th>IP address *</th>
-	<td>
-		<input type="text" name="ip_addr" class="ip_addr" size="30" value="">
-   	</td>
-</tr>
 
 <!-- description -->
 <tr>

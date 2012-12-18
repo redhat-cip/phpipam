@@ -21,11 +21,11 @@ $allActiveRequests = getAllActiveIPrequests();
 <!-- headers -->
 <tr>
 	<th></th>
-	<th>Requested IP</th>
 	<th>Subnet</th>
 	<th>Hostname</th>
 	<th>Description</th>
 	<th>Requested by</th>
+	<th>Comment</th>
 </tr>
 
 <?php 
@@ -34,15 +34,14 @@ $allActiveRequests = getAllActiveIPrequests();
 	
 	//get subnet details
 	$subnet = getSubnetDetailsById ($request['subnetId']);
-
 	
 	print '<tr>'. "\n";
 	print "	<td><button class='btn btn-small' data-requestid='$request[id]'><i class='icon-gray icon-edit'></i> Edit</button></td>";
-	print '	<td>'. Transform2long($request['ip_addr']) .'</td>'. "\n";
 	print '	<td>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ('. $subnet['description'] .')</td>'. "\n";
 	print '	<td>'. $request['dns_name'] .'</td>'. "\n";
 	print '	<td>'. $request['description'] .'</td>'. "\n";
 	print '	<td>'. $request['requester'] .'</td>'. "\n";
+	print '	<td>'. $request['comment'] .'</td>'. "\n";
 	print '</tr>'. "\n";
 	}
 ?>

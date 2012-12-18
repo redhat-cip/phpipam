@@ -25,18 +25,8 @@ $subnet2 = $subnet;												//for later check
 $subnet['subnet'] = Transform2long ($subnet['subnet']);
 $subnet = $subnet['subnet'] . "/" . $subnet['mask'];
 
-/* verify IP address and subnet */
-$validIP = VerifyIpAddress ($request['ip_addr'], $subnet);
-if(!empty($validIP)) 											{ die('<div class="alert alert-error">'. $validIP .'</div>'); }
-/* verify that it is not yet used */
-if(checkDuplicate ($request['ip_addr'], $subnet2['id'])) 		{ die('<div class="alert alert-error">IP address '. $request['ip_addr'] .' already in use!<br>* First available IP address is <b>'. Transform2long(getFirstAvailableIPAddress ($request['subnetId'])) .'</a>!</div>');}
-/* verify that it is not already requested */
-if(isIPalreadyRequested(Transform2decimal($request['ip_addr']))) { die('<div class="alert alert-error">IP address '. $request['ip_addr'] .' is already in request procedure!</div>'); }
 /* verify email */
 if(!checkEmail($request['requester']) ) 						{ die('<div class="alert alert-error">Please provide valid email address! (requester: <del>'. $request['requester'] .'</del>)</div>');	 }
-
-/* insert new request to database */
-$request['ip_addr'] = Transform2decimal($request['ip_addr']);
 
 if(addNewRequest ($request)) {
 	print '<div class="alert alert-success">Request submitted successfully!</div>';
