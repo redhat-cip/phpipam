@@ -75,7 +75,7 @@ function reformatIPState ($state)
 		case "0": return "<i class='icon-red   icon-tag state' rel='tooltip' title='Not in use (Offline)'></i>"; break;
 		case "1": return " "; 		break;
 		case "2": return "<i class='icon-blue  icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
-		case "3": return "<i class='icon-green icon-tag state' rel='tooltip' title='DHCP'></i>"; break;
+		case "3": return "<i class='icon-gray icon-tag state' rel='tooltip' title='DHCP'></i>"; break;
 		default: return $state;
 	}	
 }

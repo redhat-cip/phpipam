@@ -9,27 +9,23 @@ $slaves = getAllSlaveSubnetsBySubnetId ($subnetId);
 
 # slaves details are provided with ipaddressprintslaves script
 if(sizeof($slaves)>0) {
-	$details['freehosts_percent'] = $CalculateSubnetDetails['freehosts_percent'];
-	$details['online_percent'] = 100 - $details['freehosts_percent'];
-	
-	print $details['freehosts_percent'];
+	$ipaddresses   = getIpAddressesBySubnetIdSlavesSort ($subnetId);
 }
-else {
-	# get offline, reserved and DHCP
-	$out['offline']  = 0;
-	$out['online']   = 0;
-	$out['reserved'] = 0;
-	$out['dhcp']     = 0;
-	
-	foreach($ipaddresses as $ip) {
-		if		($ip['state'] == "0")	{ $out['offline']++; 	}
-		else if ($ip['state'] == "1")	{ $out['online']++; 	}
-		else if ($ip['state'] == "2")	{ $out['reserved']++; 	}
-		else if ($ip['state'] == "3")	{ $out['dhcp']++; 		}
-	}
 
-	$details = calculateSubnetDetailsNew ( $SubnetDetails['subnet'], $SubnetDetails['mask'], $out['online'], $out['offline'], $out['reserved'], $out['dhcp'] );	
+# get offline, reserved and DHCP
+$out['offline']  = 0;
+$out['online']   = 0;
+$out['reserved'] = 0;
+$out['dhcp']     = 0;
+	
+foreach($ipaddresses as $ip) {
+	if		($ip['state'] == "0")	{ $out['offline']++; 	}
+	else if ($ip['state'] == "1")	{ $out['online']++; 	}
+	else if ($ip['state'] == "2")	{ $out['reserved']++; 	}
+	else if ($ip['state'] == "3")	{ $out['dhcp']++; 		}
 }
+# get details
+$details = calculateSubnetDetailsNew ( $SubnetDetails['subnet'], $SubnetDetails['mask'], $out['online'], $out['offline'], $out['reserved'], $out['dhcp'] );	
 ?>
 
 <!-- charts -->
@@ -43,17 +39,20 @@ $(function () {
     
     var data = [
     	<?php
+     	if($details['freehosts_percent']>0) 
     	print "{ label: 'Free',     data: $details[freehosts_percent], color: '#D8D8D8' }, ";		# free hosts
-    	print "{ label: 'Active',   data: $details[online_percent],    color: '#a9a9a9' }, ";		# active hosts
+    	
+    	if($details['online_percent']>0)
+    	print "{ label: 'Active',   data: $details[online_percent],    color: '#A9C9A4' }, ";		# active hosts
     	
     	if($details['offline_percent']>0) 
-    	print "{ label: 'Offline',  data: $details[offline_percent],   color: '#da4f49'  },";			# offline hosts	    	
+    	print "{ label: 'Offline',  data: $details[offline_percent],   color: '#F59C99'  },";		# offline hosts	    	
 
     	if($details['reserved_percent']>0) 
-    	print "{ label: 'Reserved', data: $details[reserved_percent],  color: '#08c' },";		# reserved hosts	     	
+    	print "{ label: 'Reserved', data: $details[reserved_percent],  color: '#9AC0CD' },";			# reserved hosts	     	
 
     	if($details['dhcp_percent']>0) 
-    	print "{ label: 'DHCP',     data: $details[dhcp_percent],      color: '#5bb75b' },";		# reserved hosts	 
+    	print "{ label: 'DHCP',     data: $details[dhcp_percent],      color: '#a9a9a9' },";		# dhcp hosts	 
     	
     	?>
     

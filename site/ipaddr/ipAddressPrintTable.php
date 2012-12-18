@@ -53,7 +53,7 @@ $setFields = explode(";", $setFieldsTemp);
  */
 $title = "IP addresses in subnet ";	# prefix for multiple subnets
 if(sizeof($slaves) == 0) { $ipaddresses   = getIpAddressesBySubnetIdSort ($subnetId, $sort['field'], $sort['direction']);  }
-else					 { $ipaddresses   = getIpAddressesBySubnetIdSlavesSort ($subnetId, $sort['field'], $sort['direction']);	$title = "All IP addresses belonging to nested subnets "; }
+else					 { $ipaddresses   = getIpAddressesBySubnetIdSlavesSort ($subnetId, $sort['field'], $sort['direction']);	$title = "All IP addresses belonging to ALL nested subnets "; }
 $SubnetDetails = getSubnetDetailsById     ($subnetId);
 
 /* die if empty! */
@@ -209,7 +209,7 @@ else {
 	       	if ( $n == 0 ) 	{ $unused = FindUnusedIpAddresses ( Transform2decimal($SubnetParsed['network']), $ipaddresses[$n]['ip_addr'], $type, 0, "network", $SubnetDetails['mask']  ); }
 	       	else 			{ $unused = FindUnusedIpAddresses ( $ipaddresses[$n-1]['ip_addr'], $ipaddresses[$n]['ip_addr'], $type, 0, "", $SubnetDetails['mask'] ); }
 	       	
-	       	/*	compress DHCP / Offline / Reserved
+	       	/*	compress DHCP / Offline / Reserved - under constr!!!!
 	       	******************************************/
 	       	$compress = true;
 	       	if($compress) {

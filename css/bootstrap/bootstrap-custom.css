@@ -566,7 +566,7 @@ ul#subnets li.leaf.active i {
 	padding-right: 3px;
 }
 .table.ipaddresses tr.offline td.ipaddress {
-	text-decoration: line-through;
+/* 	text-decoration: line-through; */
 }
 
 .table.searchTable td.btn-actions .btn-toolbar,
