@@ -16,7 +16,7 @@ $settings = getAllSettings();
 <hr>
 
 <form name="settings" id="settings">
-<table id="settings" class="table table-striped table-condensed table-hover table-top">
+<table id="settings" class="table table-striped table-condensed table-top">
 
 <!-- site settings -->
 <tr class="settings-title">

@@ -139,7 +139,6 @@ $setFields = explode(";", $setFieldsTemp);
 					    }
 				    	print "	<li "; if($_REQUEST['toolsId'] == "vlan") 		print "class='active'"; print "><a href='tools/vlan/'>VLANs</a></li>"; 	
 				    	print "	<li "; if($_REQUEST['toolsId'] == "subnets") 	print "class='active'"; print "><a href='tools/subnets/'>Subnets</a></li>"; 
-				    	print "	<li "; if($_REQUEST['toolsId'] == "hosts") 		print "class='active'"; print "><a href='tools/hosts/'>Hosts</a></li>"; 	
 				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>Search</a></li>"; 
 				    	print "	<li class='divider'></li>";
 				    	print "	<li><a href='tools/'>Show all tools</a></li>";		

@@ -24,7 +24,7 @@ if(sizeof($switches) == 0) {
 /* Print them out */
 else {
 
-	print '<table id="switchManagement" class="table table-striped table-hover table-auto table-top">';
+	print '<table id="switchManagement" class="table table-striped table-auto table-top">';
 
 	#headers
 	print '<tr>';

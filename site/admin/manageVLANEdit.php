@@ -36,7 +36,7 @@ else 							{ $formId = "vlanManagementEdit"; }
 <div class="pContent">
 	<form id="<?php print $formId; ?>">
 	
-	<table id="vlanManagementEdit2" class="table table-striped table-hover">
+	<table id="vlanManagementEdit2" class="table table-striped table-condensed">
 	<!-- hostname  -->
 	<tr>
 		<td style="width:20px;">Name</td>

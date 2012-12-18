@@ -38,7 +38,7 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 
 <head>
 	<?php if(defined('BASE')) { ?><base href="<?php print BASE; ?>" /><?php } ?>
-	
+
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	
 	<meta name="Description" content=""> 
@@ -61,8 +61,8 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 	<!-- js -->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
-<!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
-	<script type="text/javascript" src="js/magic.js"></script>
+	<script type="text/javascript" src="js/magic.min.js"></script>
+<!-- 	<script type="text/javascript" src="js/magic.js"></script> -->
 	<script type="text/javascript" src="js/login.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<?php 

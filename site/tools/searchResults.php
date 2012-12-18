@@ -100,7 +100,7 @@ else 							{ $uClass = ""; }
 <div class="exportDIVSearch"></div>
 
 <!-- search result table -->
-<table class="searchTable table table-striped table-condensed table-top table-hover">
+<table class="searchTable table table-striped table-condensed table-top">
 
 <!-- headers -->
 <tr id="searchHeader">
@@ -255,7 +255,7 @@ else {
 <h4>Search results (Subnet list):</h4>
 <hr>
 
-<table class="searchTable table table-striped table-condensed table-top table-hover">
+<table class="searchTable table table-striped table-condensed table-top">
 
 <!-- headers -->
 <tr id="searchHeader">
@@ -325,7 +325,7 @@ else {
 <h4>Search results (VLANs):</h4>
 <hr>
 
-<table class="vlanSearch table table-striped table-condensed table-top table-hover">
+<table class="vlanSearch table table-striped table-condensed table-top">
 
 <!-- headers -->
 <tr id="searchHeader">

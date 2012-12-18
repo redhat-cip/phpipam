@@ -516,7 +516,7 @@ ul#subnets li.active {
 }
 ul#subnets li.active a {
 	font-weight: bold;
-	text-decoration: underline;
+	color: #333;
 }
 ul#subnets li.leaf.active i {
 	padding-left: 0px;
@@ -543,7 +543,7 @@ ul#subnets li.leaf.active i {
 .table.ipaddresses tbody tr:nth-child(even):hover td,
 .table.slaves tbody tr:nth-child(even):hover td,
 .table-striped tbody tr:nth-child(even):hover td {
-	background: #F9F9F9 !important;
+/* 	background: #F9F9F9 !important; */
 }
 .table.ipaddresses th,
 .table.slaves th,
@@ -996,31 +996,7 @@ table.requestIP th {
 	
 	z-index: 100;
 }
-/*
-.popup {
-	display: none;
 
-	position: fixed;
-	background: white;
-	
-	overflow-y: auto;
-	
-	border: 1px solid black;
-
-	-webkit-box-shadow: 0px 0px 3px silver;
-	   -moz-box-shadow: 0px 0px 3px silver;
-		    box-shadow: 0px 0px 3px silver;
-
-    -webkit-border-radius: 6px;
-	-moz-border-radius:    6px;
-	border-radius:         6px;
-
-	top:160px;
-	
-	top: 10%;
-	max-height: 80%;
-}
-*/
 .popup_w400 {
 	width: 400px;
 	
@@ -1045,57 +1021,6 @@ table.requestIP th {
 	
 	z-index: 101;
 }
-
-/*
-.popup .pHeader {
-	position: relative;
-	
-	padding: 12px;
-	text-align: center;
-	text-align: left;
-	
-	color: white;
-	text-shadow: 1px 1px 0px black;
-	
-	background: #40464a;
-	
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF696969', endColorstr='#FF252525');
-	background: #252525;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #696969), color-stop(95%, #363636), color-stop(97%, #313131), color-stop(100%, #252525));
-	background-image: -webkit-linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
-	background-image: -moz-linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
-	background-image: -o-linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
-	background-image: -ms-linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
-	background-image: linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
-
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	
-
-	line-height: 1;
-	text-rendering: optimizelegibility;
-	font-size: 18px;
-	line-height: 20px;
-}
-.popup .pContent {
-	position: relative;
-	
-	padding: 10px;
-}
-.popup .pFooter {
-	border-top: 1px solid #ddd;
-	background: white;
-
-	text-align: right;
-
-	padding: 5px;
-	margin: auto 5px;
-}
-*/
 .popup .alert {
 	margin-bottom: 5px;
 }
@@ -1107,7 +1032,7 @@ table.requestIP th {
 
 	position: fixed;
   
-	overflow: auto;
+	overflow-x: hidden;
   
   background-color: #ffffff;
   border: 1px solid #999;

@@ -26,7 +26,7 @@ print "<h4>List of network devices</h4>";
 print "<hr>";
 
 # main table frame
-print "<table id='switchMainTable' class='switches table table-striped table-top table-hover table-condensed'>";
+print "<table id='switchMainTable' class='switches table table-striped table-top table-condensed'>";
 
 /* print */
 foreach($switches as $switch) {

@@ -28,7 +28,7 @@ if(!$vlans) {
 else {
 ?>
 
-<table id="vlanManagement" class="table table-striped table-hover table-top table-auto">
+<table id="vlanManagement" class="table table-striped table-top table-auto">
 	<!-- headers -->
 	<tr>
 		<th>Name</th>	

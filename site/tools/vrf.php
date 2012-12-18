@@ -25,7 +25,7 @@ print "<hr>";
 if(!$vrfs) { print "<div class='alert alert-warn'>No VRFs configured!</div>"; }
 else {
 	# print table
-	print "<table id='vrf' class='table table-striped table-condensed table-hover table-top'>";
+	print "<table id='vrf' class='table table-striped table-condensed table-top'>";
 	
 	foreach ($vrfs as $vrf) {
 

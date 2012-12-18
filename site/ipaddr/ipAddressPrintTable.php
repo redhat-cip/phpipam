@@ -273,7 +273,7 @@ else {
 		
        		# print info button for hover
        		if(in_array('note', $setFields)) {
-        		if(!empty($ipaddress[$n]['note'])) 					{ print "<td><i class='icon-gray icon-comment' rel='tooltip' title='".str_replace("\n", "<br>",$ipaddress[$n]['note'])."'></td>"; }
+        		if(!empty($ipaddress[$n]['note'])) 					{ print "<td><i class='icon-gray icon-comment' rel='tooltip' data-html='true' title='".str_replace("\n", "<br>",$ipaddress[$n]['note'])."'></td>"; }
         		else 											{ print "<td></td>"; }
         	}
 	
@@ -309,10 +309,10 @@ else {
 				}
 				# unlocked
 				else {
-					print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
+					print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
 					print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='Search same hostnames in db'"; } print ">	<i class='icon-gray icon-search'></i></a>";
 					print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='Send mail notification'>		<i class='icon-gray icon-envelope'></i></a>";
-					print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress[$n]['id']."' href='#' id2='".Transform2long($ipaddress[$n]['ip_addr'])."' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";					
+					print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' id2='".Transform2long($ipaddress[$n]['ip_addr'])."' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";					
 				}
 				print "	</div>";
 				print "	</div>";

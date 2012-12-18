@@ -49,10 +49,7 @@ if(!$viewer)  {  ?>
 	<li <?php if($_REQUEST['toolsId'] == "vrf") print "class='active'"; ?>>
 		<a href="tools/vrf/"><i class="icon-chevron-right pull-right icon-gray"></i> VRF</a>
 	</li>    
-    <?php } ?>
-	<li <?php if($_REQUEST['toolsId'] == "hosts") print "class='active'"; ?>>
-		<a href="tools/hosts/"><i class="icon-chevron-right pull-right icon-gray"></i> Hosts</a>
-	</li>   
+    <?php } ?> 
 	<li <?php if($_REQUEST['toolsId'] == "vlan") print "class='active'"; ?>>
 		<a href="tools/vlan/"><i class="icon-chevron-right pull-right icon-gray"></i> VLANs</a>
 	</li>   

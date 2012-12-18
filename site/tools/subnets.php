@@ -22,7 +22,7 @@ print "<h4>Available subnets</h4>";
 print "<hr>";
 
 # table
-print "<table id='subnets' class='table table-striped table-condensed table-hover table-top'>";
+print "<table id='subnets' class='table table-striped table-condensed table-top'>";
 
 # print vlans in each section
 foreach ($sections as $section) {

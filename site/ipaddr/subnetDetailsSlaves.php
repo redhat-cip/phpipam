@@ -94,15 +94,6 @@ $rowSpan = 10 + $customSubnetFieldsSize;
 		print "	<td>$vrfText</td>";
 		print "</tr>";
 	}
-
-	/* Are IP requests allowed? */
-	if ($settings['enableIPrequests'] == 1) {
-		print "<tr>";
-		print "	<th>IP requests</th>";
-		if($SubnetDetails['allowRequests'] == 1) 	{ print "	<td>enabled</td>"; }		# yes
-		else 										{ print "	<td>disabled</td>";}		# no
-		print "</tr>";
-	}
 	
 	/* print custom subnet fields if any */
 	if(sizeof($customSubnetFieldsSize) > 0) {

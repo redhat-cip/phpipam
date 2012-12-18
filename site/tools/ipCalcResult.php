@@ -29,7 +29,7 @@ $ipCalcResults = calculateIpCalcResult ($cidr);
 <h4>Subnetting details for <?php print $cidr; ?>:</h4>
 
 <!-- IPcalc result table -->
-<table class="ipCalcResult table table-striped table-condensed table-hover">
+<table class="ipCalcResult table table-striped table-condensed">
     
     <!-- IP details -->
     <?php

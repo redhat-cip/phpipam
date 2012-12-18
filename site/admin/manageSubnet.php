@@ -45,7 +45,7 @@ if(sizeof($sections) > 0) {
 	print "<button id='toggleAllSwitches' class='btn btn-small pull-right' rel='tooltip' data-placement='left' title='click to show/hide all subnets'><i class='icon-gray $icon'></i></button>";
 	
 	# print  table structure
-	print "<table id='manageSubnets' class='table table-striped table-condensed table-top table-hover table-absolute'>";
+	print "<table id='manageSubnets' class='table table-striped table-condensed table-top table-absolute'>";
 	
 	$m = 0;	# for subnet id
 	

@@ -21,7 +21,7 @@ print "<h4>Available VLANs:</h4>";
 print "<hr><br>";
 
 # table
-print "<table id='vlans' class='table table-striped table-condensed table-hover table-top'>";
+print "<table id='vlans' class='table table-striped table-condensed table-top'>";
 
 /* headers */
 print '<tr">' . "\n";

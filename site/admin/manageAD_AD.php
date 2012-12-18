@@ -31,7 +31,7 @@ if (!in_array("ldap", $availableExt)) { print '<div class="alert alert-error"><s
 ?>
 
 <form id="ad">
-<table id="ad" class="table table-striped table-top table-hover">
+<table id="ad" class="table table-striped table-top">
 
 <!-- DC -->
 <tr>

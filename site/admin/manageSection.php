@@ -21,7 +21,7 @@ $sections = fetchSections ();
 
 <!-- show sections -->
 <?php if(sizeof($sections) > 0) { ?>
-<table id="manageSection" class="table table-striped table-condensed table-top table-hover">
+<table id="manageSection" class="table table-striped table-condensed table-top">
 <!-- headers -->
 <tr>
     <th>Name</th>

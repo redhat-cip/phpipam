@@ -22,7 +22,7 @@ print "<hr><br>";
 
 
 <form id="userModSelf">
-<table id="userModSelf" class="table table-striped table-hover ">
+<table id="userModSelf" class="table table-striped table-condensed">
 
 <!-- real name -->
 <tr>

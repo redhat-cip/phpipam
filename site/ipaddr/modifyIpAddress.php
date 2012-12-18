@@ -18,7 +18,6 @@ $subnetId= $_REQUEST['subnetId'];
 $action  = $_REQUEST['action'];
 $id      = $_REQUEST['id'];
 
-
 /* set subnet -> for adding new only */
 $subnet = getSubnetDetailsById($subnetId);
 $subnet2 = $subnet;
@@ -312,7 +311,7 @@ $(function() {
 		<td>Not strict</td>
 		<td>
 			<input type="checkbox" name="nostrict" value="yes" style="margin-top:0px;"> 
-			<i class="icon-gray icon-info-sign" rel="tooltip" title="Permit adding network and broadcast as IP<br>For /31, /32 and range networks"></i>
+			<i class="icon-gray icon-info-sign" rel="tooltip" data-html="true" title="Permit adding network and broadcast as IP<br>For /31, /32 and range networks"></i>
 		</td>
 	</tr>
 	<?php } ?>
