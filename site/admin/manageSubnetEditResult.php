@@ -29,7 +29,7 @@ if(	(isset($_POST['action2'])) && ($_POST['action2'] == "delete") ) {
 /**
  *	If section changes then do checks!
  */
-if ($_POST['sectionId'] != $_POST['sectionIdNew']) {
+if ( ($_POST['sectionId'] != $_POST['sectionIdNew']) && $_POST['action'] == "edit" ) {
 	
 	# reset masterId - we are putting it to root
 	$_POST['masterSubnetId'] = "0";

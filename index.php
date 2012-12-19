@@ -48,7 +48,7 @@ else								 { $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 	<meta name="title" content="<?php print $settings['siteTitle']; ?>"> 
 	<meta name="robots" content="noindex, nofollow"> 
 	<meta http-equiv="X-UA-Compatible" content="IE=9" >
-	<meta name="viewport" content="width=1024, initial-scale=1, user-scalable=yes">
+	<meta name="viewport" content="width=1024, initial-scale=0.85, user-scalable=yes">
 	
 	<!-- chrome frame support -->
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">

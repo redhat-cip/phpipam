@@ -291,7 +291,6 @@ function setModifySubnetDetailsQuery ($subnetDetails)
     else {
 	    
     }
-    
     # return query
     return $query;
 }
@@ -306,7 +305,7 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 		
 		$rootId = 0;									# root is 0
 
-		if(sizeof($subnets) > 1) {
+		if(sizeof($subnets) > 0) {
 		foreach ( $subnets as $item ) {
 			$children[$item['masterSubnetId']][] = $item;
 		}
@@ -353,7 +352,7 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				# get VLAN
 				$vlan = subnetGetVLANdetailsById($option['value']['vlanId']);
 				$vlan = $vlan['number'];
-				if(empty($vlan) || $vlan == 0) 	{ $vlan = ""; }			# no VLAN
+				if(empty($vlan) || $vlan == "0") 	{ $vlan = ""; }			# no VLAN
 
 				# description
 				if(strlen($option['value']['description']) == 0) 	{ $description = "/"; }													# no description
@@ -370,7 +369,7 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				#vrf
 				if($vrf == "1") {
 					# get VRF details
-					if(($option['value']['vrfId'] != 0) && ($option['value']['vrfId'] != "NULL") ) {
+					if(($option['value']['vrfId'] != "0") && ($option['value']['vrfId'] != "NULL") ) {
 						$vrfTmp = getVRFDetailsById ($option['value']['vrfId']);
 						$vrfText = $vrfTmp['name'];
 					}

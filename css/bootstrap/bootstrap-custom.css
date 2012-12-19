@@ -369,8 +369,10 @@ ul.admin li.active a {
 	margin-top: 5px;
 }
 .container-fluid .span2 {
-/* 	white-space: nowrap; */
+	white-space: nowrap;
 }
+.container-fluid .span8,
+.container-fluid .span9,
 .container-fluid .span10 {
 	position: relative;
 	margin-left: 20px;

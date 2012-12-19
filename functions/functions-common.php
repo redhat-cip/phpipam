@@ -351,6 +351,7 @@ function getAllSettings()
  */
 function getSVNversion() {
 	$revision = shell_exec('svnversion');
+	if($svnversion == "exported") {$svnversion = "";}
 	return $revision;
 }
 

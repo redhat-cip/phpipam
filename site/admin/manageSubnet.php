@@ -97,9 +97,9 @@ if(sizeof($sections) > 0) {
 		}	
 		else {
 			# subnets
-			foreach ($subnets as $subnet) {					
-				$subnets = printAdminSubnets($subnets, true, $settings['enableVRF']);
-				print $subnets;				
+			foreach ($subnets as $subnet) {				
+				$subnetsPrint = printAdminSubnets($subnets, true, $settings['enableVRF']);
+				print $subnetsPrint;				
 			}
 		}
 		print "</tbody>";

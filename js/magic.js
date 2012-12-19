@@ -972,7 +972,7 @@ $('#editVLANsubmit').live('click', function() {
         $('div.vlanManagementEditResult').html(data).slideDown('fast');
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
-        else                             { hideSpinner(); }
+        else                               { hideSpinner(); }
     });
     return false;
 });
