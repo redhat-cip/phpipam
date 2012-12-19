@@ -155,7 +155,7 @@ else															{ $readonly = false; }
 	/* set default value */
 	if(empty($subnetDataOld['vrfId'])) 			{ $subnetDataOld['vrfId'] = "0"; }
 	/* set default value */
-	if(empty($subnetDataOld['allowRequests'])) 	{ $subnetDataOld['allowRequests'] = "1"; }
+	if(empty($subnetDataOld['allowRequests'])) 	{ $subnetDataOld['allowRequests'] = "0"; }
 
 	/* if vlan support is enabled print available vlans */	
 	if($settings['enableVRF'] == 1) {

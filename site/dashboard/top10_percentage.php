@@ -10,6 +10,7 @@ ini_set('display_errors', 0);
 # get subnets statistic
 $subnetHost = getSubnetStatsDashboard("IPv4", "0");
 
+$max = 0;
 if(sizeof($subnetHost) != 0) {
 	$i = 0;
 	/* we have subnets now. Calculate usage for each */
@@ -19,6 +20,14 @@ if(sizeof($subnetHost) != 0) {
 		$subnetHost[$i]['percentage'] = 100 - $temp['freehosts_percent'];
 		
 		$i++;
+		
+		# set max
+		if($i==0) { $max = $subnetHost[$i]['percentage']; }
+		else {
+			if($subnetHost[$i]['percentage'] > $subnetHost[$i-1]['percentage']) {
+				$max = $subnetHost[$i]['percentage'];
+			}
+		}
 	}
 	
 	/* sort by percentage - keys change! */
@@ -126,7 +135,7 @@ $(function () {
             show: true
         },
         yaxis: {
-        	max: 100
+        	max: <?php print $max; ?>
         },
         margin: {
 	        top: 10,

@@ -161,6 +161,6 @@ mysql -u root -p my_root_pass < db/UPDATE-v<?php print $version; ?>.sql</pre>
 }
 else {
 	# redirect, all good!
-	header("Location: /login/");
+	header("Location: login/");
 }
 ?>

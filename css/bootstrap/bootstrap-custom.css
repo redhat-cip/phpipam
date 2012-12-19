@@ -482,11 +482,13 @@ ul.submenu {
 	margin-left: 0px;	
 }
 ul[class*="submenu-"] {
-	background: url("/css/images/ul-bg.png") repeat-y;
+	background-image: url("../../css/images/ul-bg.png");
+	background-repeat: repeat-y;
+/* 	background: url("../../css/images/ul-bg.png") repeat-y; */
 }
 ul[class*="submenu-"] li {
 	padding-left: 20px !important;
-	background: url("/css/images/li-bg.png") no-repeat 4px 11px;
+	background: url("../../css/images/li-bg.png") no-repeat 4px 11px;
 }
 li.leaf {
 /* 	padding-left: 27px !important; */
@@ -667,7 +669,7 @@ table.slaves tr.sumTop th {
 
 /* @tools */
 .icon-mac {
-	background-image: url("/css/images/lan.png") !important;
+	background-image: url("../../css/images/lan.png") !important;
 	background-position: 0px 0px;
 	height: 15px;
 	width: 15px;
@@ -738,7 +740,7 @@ table.ipCalc td input[type="text"] {
 	margin-top: 10px;
 }
 .icon-mac {
-	background: "/css/images/lan.png" no-repeat;
+	background: "../../css/images/lan.png" no-repeat;
 }
 
 table#switchMainTable tbody[id*="content-switch-"] {
@@ -839,7 +841,7 @@ table#manageSubnets td.level1 {
 	padding-left: 10px;
 }
 table#manageSubnets .structure {
-	background: url("/css/images/sn-bg.png")  0px 7px;
+	background: url("../../css/images/sn-bg.png")  0px 7px;
 	margin-right: 5px;
 	
 	padding-top: 10px;

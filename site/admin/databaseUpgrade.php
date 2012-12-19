@@ -20,6 +20,7 @@ $version = $_POST['version'];
 /* try to upgrade database */
 if(upgradeDatabase($version)) {
 	print '<div class="alert alert-success">Database upgraded successfully!</div>';
+	print '<a href="login/"><button class="btn btn-small">Go to login</button></a>';
 
 	/* update vlans and switches from v 0.4 */
 	if($version < "0.5") {

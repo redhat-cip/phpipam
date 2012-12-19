@@ -3,8 +3,8 @@
 /*	database connection details
  ******************************/
 $db['host'] = "localhost";
-$db['user'] = "ipv6";
-$db['pass'] = "ipv6admin";
+$db['user'] = "phpipam";
+$db['pass'] = "phpipamadmin";
 $db['name'] = "phpipam";
 
 /**

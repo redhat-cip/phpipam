@@ -8,11 +8,13 @@
 	</td>
 	<?php
 	# print if dev installed and which revision
+/*
 	if(strlen($ver = getSVNversion()) > 0) {
 		print "<td>";
 		print "SVN version ". $ver;
 		print "</td>";
 	}
+*/
 	?>
 	<td>
 		<?php print 'In case of problems please contact <a href="mailto:'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>'; ?>
