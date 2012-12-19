@@ -17,7 +17,7 @@ $debugging = 0;
 
 /**	
  *	BASE definition if phpipam 
- * 	is not in root directory
+ * 	is not in root directory (e.g. /phpipam/)
  *
  *  Also change 
  *	RewriteBase / in .htaccess

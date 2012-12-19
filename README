@@ -5,12 +5,12 @@ It is ajax-based using jQuery libraries, it uses php scripts and javascript and 
 
 Features and tools:
 - Section / Subnet separation
-- Subnet nesting;
+- Subnet nesting
 - IPv4/IPv6 support
 - Displays free range and number of clients
 - Subnet statistics
 - User management
-- AD/LDAP support
+- AD/LDAP/OpenLDAP authentication support
 - E-Mail notification with IP details
 - Import IP addresses from XLS / CSV file
 - Export IP database to XLS file
@@ -50,7 +50,7 @@ Update
 
 Demo page
 ============
-http://phpipamdemo.mihap.si
+http://demo.phpipam.net
 
 Default user
 ============
@@ -74,3 +74,5 @@ special thanks to following donors:
 	- Dicom Datautveckling AB
 	- Tatung Baby
 	- Suretec Systems Ltd.
+	
+and to all users that filed a bug report / feature report and helped with feature testing!

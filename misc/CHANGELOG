@@ -5,6 +5,7 @@
 	+ Completely rewritten UI using twitter's bootstrap as base;
 	+ Using mod_rewrite apache module to handle GET requests (new install requitements!);
 	+ Unlimited number of subnetting levels;
+	+ OpenLDAP authentication support;
 	+ New URL structure;
 	+ Sorting of IP addresses;
 	+ Custom subnet fields;

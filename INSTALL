@@ -4,7 +4,8 @@
 
 phpipam has the following requirements to run:
 
-    - Apache2 web server with php and mod_rewrite support (set "AllowOverride all" in vhost config)
+    - Apache2 web server with php and mod_rewrite support
+    - "AllowOverride all" set in vhost config for mod_rewrite to work
     - Mysql server (5.1+)
     - PHP version 5.2+ with following modules (on Windows php 5.3 is required!)
         + + mysqli              : Adds support for the improved mySQL libraries
@@ -30,6 +31,10 @@ Since this is beta version security aspects were not taken into consideration, t
 ----------------------------------
 config.php file is where site configuration and database details are configured. Please edit it according to your needs and installation.
 	vi config.php
+
+if you have placed phpipam in web subdirectory, you need to modify the following (example for /phpipam/):
+	- Set BASE in config.php to /phpipam/
+	- RewriteBase /phpipam/ in .htaccess
 
 ---------------------------------------------
 2a.) Automatic installation of database files

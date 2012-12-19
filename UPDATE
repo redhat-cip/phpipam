@@ -9,25 +9,37 @@ Backup phpipam files:
 	mv <mywebdir>/phpipam <myphpipamdir>/phpipam-<version>
 
 
+#
+# !!! important !!!
+#
+
+since version 0.7 phpipam uses mod_rewrite to handle url's. Please make sure you meet the following requirements:
+	1.) Apache2 with mod_rewrite support
+	2.) "AllowOverride all" set in vhost config for mod_rewrite to work
+	
+In case your URL for phpipam is not root please set the following variables (example for /phpipam/):
+	3.) Set BASE in config.php to /phpipam/
+	4.) RewriteBase /phpipam/ in .htaccess
+
 
 #
 # a) Automatic upgrade procedure
 #
 
-1.) Extract files form tar package:
+	1.) Extract files form tar package:
 		tar -xvf phpipam-0.6.tar
-2.) Set database connection settings in config.php;
-3.) Open phpipam in browser and update database;
+	2.) Set database connection settings in config.php;
+	3.) Open phpipam in browser and update database;
 
  
 
 #
 # b) Manual upgrade procedure
 #
-1.) Extract files form tar package:
+	1.) Extract files form tar package:
 		tar -xvf phpipam-0.6.tar
-2.) Set database connection settings in config.php;
-3.) Manual database structure update
+	2.) Set database connection settings in config.php;
+	3.) Manual database structure update
 		Update database structure by importing database scheme for your version.
 		If you have version 0.4 and want to upgrade to 0.6 use UPDATE-v0.4.sql file;
 			mysql -u root -p phpipam < db/UPDATE-v0.5.sql
