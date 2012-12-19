@@ -25,7 +25,7 @@ function hideSpinner() {
 
 /*	Login redirect function if success
 ****************************************/
-function loginRedirect() { window.location=""; }
+function loginRedirect() { window.location="dashboard/"; }
 
 /*	submit login 
 *********************/
@@ -33,7 +33,7 @@ $('form#login').submit(function() {
     //stop all active animations
     $('div#loginCheck').stop(true,true);
     //get login data
-    logindata = $(this).serialize();
+    var logindata = $(this).serialize();
     
     $('div#loginCheck').hide();
     //post to check form

@@ -30,6 +30,9 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 	include('functions/checkPhpBuild.php');		# check for support for PHP modules and database connection 
 }
 
+/* recreate base */
+if($_SERVER['SERVER_PORT'] == "443") { $url = "https://$_SERVER[SERVER_NAME]".BASE; }
+else								 { $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 
 /* site header */
 ?>
@@ -37,7 +40,7 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 <html>
 
 <head>
-	<?php if(defined('BASE')) { ?><base href="<?php print BASE; ?>" /><?php } ?>
+	<base href="<?php print $url; ?>" />
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	
@@ -61,8 +64,8 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 	<!-- js -->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
-	<script type="text/javascript" src="js/magic.min.js"></script>
-<!-- 	<script type="text/javascript" src="js/magic.js"></script> -->
+<!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
+	<script type="text/javascript" src="js/magic.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<?php 
@@ -76,15 +79,6 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 	<?php
 	} 
 	?>
-
-	<!--[if lt IE 9]>
-    <link rel="stylesheet" type="text/css" href="css/ie.css" />
-    <![endif]-->
-    
-    <!--[if gte IE 9]>
-    <link rel="stylesheet" type="text/css" href="css/ie9.css" />
-	<![endif]-->
-
 	<!--[if IE 6]>
 	<script type="text/javascript" src="js/dieIE.js"></script>
 	<![endif]-->
@@ -100,7 +94,7 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 <div class="wrapper">
 
 <!-- jQuery error -->
-<div class="jqueryError"><br><br><br><br><br><br><br>jQuery error!</div>
+<div class="jqueryError">jQuery error!</div>
 
 <!-- Popups -->
 <div id="popupOverlay"></div>

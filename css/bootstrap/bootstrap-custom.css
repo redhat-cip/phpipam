@@ -532,6 +532,14 @@ ul#subnets li.leaf.active i {
 .alert-absolute {
 	position: absolute;
 }
+.alert-norounded {
+    -webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	
+	border-left: 0px;
+	border-right: 0px;
+}
 
 
 /* @IP addresses and subnet details ---------- */
@@ -1249,16 +1257,23 @@ div.loading {
 }
 
 div.jqueryError {
-    position: absolute;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	
     background: rgba(0,0,0,0.8);
-    width: 100%;
-    height: 100%;
-    
+	padding-top: 200px;    
     text-align: center;
     
-    z-index: 2;
+    z-index: 120;
     
     color: white;
     
     display: none;
+}
+div.jqueryError.dieIE {
+
+	background-color: #ccc;
+	color: white;
+	z-index: 110;
 }

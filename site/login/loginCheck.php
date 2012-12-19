@@ -12,7 +12,6 @@
 /* require scripts */
 require_once('../../functions/functions-install.php');
 
-
 /* fetch username / pass if they are provided */
 if( !empty($_POST['ipamusername']) && !empty($_POST['ipampassword']) )  {
 	$ipamusername = $_POST['ipamusername'];

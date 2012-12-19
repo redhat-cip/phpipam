@@ -20,6 +20,9 @@ RewriteRule ^logout/$ index.php?page=logout
 # ip requests
 RewriteRule ^request_ip$ request_ip/ [R]
 RewriteRule ^request_ip/$ index.php?page=request_ip
+# IE fix
+RewriteRule ^login/dashboard/$ dashboard/ [R]
+RewriteRule ^logout/dashboard/$ dashboard/ [R]
 
 # upgrade
 RewriteRule ^upgrade$ upgrade/ [R]
@@ -27,6 +30,9 @@ RewriteRule ^upgrade/$ index.php?page=upgrade
 # install
 RewriteRule ^install$ install/ [R]
 RewriteRule ^install/$ index.php?page=install
+
+# dashboard
+RewriteRule ^dashboard/$ index.php?page=dashboard
 
 # subnets
 RewriteRule ^subnets/(.*)/(.*)/$ index.php?page=subnets&section=$1&subnetId=$2 [L]

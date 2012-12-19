@@ -37,14 +37,13 @@ function CheckReferrer()
 function isUserAuthenticated() 
 {
     /* open session and get username / pass */
-	if (!isset($_SESSION)) { 
-		session_start();
-	}
-    
+	if (!isset($_SESSION)) {  session_start(); }
     /* redirect if not authenticated */
     if (empty($_SESSION['ipamusername'])) {
-    	if(defined('BASE')) 	{ die('<div class="error">Please <a href="login">'.BASE.'login/</a> first!</div>'); }
-    	else 					{ die('<div class="error">Please <a href="login">/login/</a> first!</div>'); }
+    	if($_SERVER['SERVER_PORT'] == "443") { $url = "https://".$_SERVER['SERVER_NAME'].BASE; }
+    	else								 { $url = "http://".$_SERVER['SERVER_NAME'].BASE; }
+    	# die
+    	die('<div class="error">Please <a href="'.$url.'login">login/</a> first!</div>');
     }
     /* close session */
     session_write_close();
@@ -61,9 +60,12 @@ function isUserAuthenticatedNoAjax ()
     /* open session and get username / pass */
 	if (!isset($_SESSION)) { session_start(); }
     /* redirect if not authenticated */
-    if (empty($_SESSION['ipamusername'])) { 
-    	if(defined('BASE')) 	{ header("Location:".BASE."login/"); }
-    	else					{ header("Location:/login/"); }
+    if (empty($_SESSION['ipamusername'])) {
+    
+    	if($_SERVER['SERVER_PORT'] == "443") { $url = "https://".$_SERVER['SERVER_NAME'].BASE; }
+    	else								 { $url = "http://".$_SERVER['SERVER_NAME'].BASE; }
+    	# redirect
+    	header("Location:".$url."login/");    
     }
     /* close session */
     session_write_close();    
@@ -78,9 +80,7 @@ function checkAdmin ($die = true, $startSession = true)
     global $db;                                                                      # get variables from config file
     
     /* first get active username */
-    if(!isset($_SESSION)) {
-    	session_start();
-    }
+    if(!isset($_SESSION)) { session_start(); }
     $ipamusername = $_SESSION['ipamusername'];
     session_write_close();
     
@@ -89,8 +89,10 @@ function checkAdmin ($die = true, $startSession = true)
 
     /* Check connection */
     if ($database->connect_error) {
-    	if(defined('BASE')) 	{ header("Location:".BASE."login/"); }
-    	else					{ header("Location:/login/"); }
+    	if($_SERVER['SERVER_PORT'] == "443") { $url = "https://".$_SERVER['SERVER_NAME']; }
+    	else								 { $url = "http://".$_SERVER['SERVER_NAME']; }
+    	# redirect
+    	header("Location:".$url."login/");  
 	}
 
 	/* set query if database exists! */
