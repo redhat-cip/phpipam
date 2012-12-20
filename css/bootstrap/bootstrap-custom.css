@@ -915,7 +915,7 @@ table#logs span {
 div#login {
 
 	margin: auto;
-	margin-top: 30px;
+/* 	margin-top: 30px; */
 
 	background: white;
 	width: 500px;

@@ -75,7 +75,8 @@ else {
 <?php
 /* if domainauth is not enabled default to local user */
 if($settings['domainAuth'] == 0) {
-	print '<input type="hidden" name="domainUser" value="'. $user['domainUser'] .'">'. "\n";
+	if($_POST['action'] == "add") 	{ print '<input type="hidden" name="domainUser" value="0">'. "\n"; }
+	else 							{ print '<input type="hidden" name="domainUser" value="'. $user['domainUser'] .'">'. "\n"; }
 }
 else {
 

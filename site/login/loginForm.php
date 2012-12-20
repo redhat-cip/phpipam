@@ -10,7 +10,7 @@
 		<tr>
 			<th>Username</th>
             <td>
-            	<input type="text" id="username" name="ipamusername" class="login"></input>
+            	<input type="text" id="username" name="ipamusername" class="login" placeholder="Username"></input>
             </td>
         </tr>
             
@@ -18,7 +18,7 @@
         <tr>
             <th>Password</th>
             <td>
-                <input type="password" id="password" name="ipampassword" class="login"></input>
+                <input type="password" id="password" name="ipampassword" class="login" placeholder="Password"></input>
             </td>
         </tr>
             

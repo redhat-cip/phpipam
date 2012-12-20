@@ -46,8 +46,8 @@ foreach ($users as $user)
 	print '<tr>' . "\n";
 	
 	# set icon based on normal user or admin
-	if($user['role'] == "Administrator") 	{ print '	<td><img src="css/images/userVader.png" title="Administrator"></td>'. "\n"; }
-	else 									{ print '	<td><img src="css/images/userTrooper.png" title="'. $user['role'] .'"></td>'. "\n";	}
+	if($user['role'] == "Administrator") 	{ print '	<td><img src="css/images/userVader.png" rel="tooltip" title="Administrator"></td>'. "\n"; }
+	else 									{ print '	<td><img src="css/images/userTrooper.png" rel="tooltip" title="'. $user['role'] .'"></td>'. "\n";	}
 	
 	print '	<td>' . $user['real_name'] . '</td>'. "\n";
 	print '	<td>' . $user['username']  . '</td>'. "\n";
