@@ -19,7 +19,7 @@ else {
 	$_POST['name'] = trim($_POST['name']);
 	
 	# length > 4 and < 12
-	if( (strlen($_POST['name']) < 4) || (strlen($_POST['name']) > 24) ) 	{ $errors[] = 'Name must be between 4 and 24 characters!'; }
+	if( (strlen($_POST['name']) < 3) || (strlen($_POST['name']) > 24) ) 	{ $errors[] = 'Name must be between 4 and 24 characters!'; }
 	
 	/* validate HTML */
 	
