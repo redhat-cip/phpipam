@@ -880,7 +880,7 @@ $('select#selectSectionfromIPCalc').live('change', function () {
 
 /*    Edit subnet from ip address list
 ************************************/
-$('a.edit_subnet, button#add_subnet').click(function () {
+$('a.edit_subnet, button.edit_subnet, button#add_subnet').click(function () {
     var subnetId  = $(this).attr('data-subnetId');
     var sectionId = $(this).attr('data-sectionId');
     var action    = $(this).attr('data-action');

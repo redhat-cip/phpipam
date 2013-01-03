@@ -6,7 +6,8 @@
 	
 	Enhancements:
 	----------------------------
-	+ Added add nested subnet under subnet details to simplify selection in hierarchy;
+	+ Added add nested subnet under subnet details to simplify master subnet selection in hierarchy;
+	+ Added edit subnet link from search results;
 
 	Bugfixes:
 	------------------------

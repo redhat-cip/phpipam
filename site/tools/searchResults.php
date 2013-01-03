@@ -267,6 +267,7 @@ else {
 	<th>VLAN</th>
 	<th>Requests</th>
 	<th><i class="icon-gray icon-lock"></i></th>
+	<th style="width:5px;"></th>
 </tr>
 
 
@@ -304,11 +305,21 @@ else {
 		print '	<td>'. $section['name'] . '</td>'. "\n"; 
 		print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 
 		print ' <td>'. $line['mask'] .'</td>' . "\n";
-		print ' <td>'. $line['description'] .'</td>' . "\n";
+		print ' <td><a href="subnets/'.$line['sectionId'].'/'.$line['id'].'/">'. $line['description'] .'</a></td>' . "\n";
 		print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
 		print ' <td>'. $vlan['number'] .'</td>' . "\n";
 		print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
 		print ' <td>'. $img .'</td>' . "\n";
+		
+		#locked for writing
+		if( (isSubnetWriteProtected($subnet['id'])) && !checkAdmin(false)) {
+			print "	<td><button class='btn btn-mini disabled' rel='tooltip' title='Edit subnet (disabled)'>	<i class='icon-gray icon-pencil'>  </i></button>";
+		}
+		# unlocked
+		else {
+			print "	<td><button class='btn btn-mini edit_subnet' data-action='edit'   data-subnetId='$line[id]' data-sectionId='$line[sectionId]' href='#' rel='tooltip' title='Edit subnet details'>		<i class='icon-gray icon-pencil'>  </i></a>";
+		}
+
 	
 		print '</tr>'. "\n";
 	}
