@@ -129,24 +129,25 @@ $rowSpan = 10 + $customSubnetFieldsSize;
 	
 	# admin and operator
 	if(!$viewer) {
-		if(checkAdmin(false))
 		# if locked disable for operators
 		if(isSubnetWriteProtected($SubnetDetails['id'])) 
 		{
 			# admin - locked
 			if(checkAdmin(false)) 
 			{
-				print "<button class='btn btn-small btn-inverse disabled' 	href='' rel='tooltip' title='Subnet is locked for writing for non-admins'>																										<i class='icon-lock icon-white'></i></button> ";		# lock info
-				print "<a class='edit_subnet btn btn-small' 				href='' rel='tooltip' title='Edit subnet properties'						data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='edit'>	<i class='icon-pencil'></i></a>";						# edit subnet
+				print "<button class='btn btn-small btn-inverse disabled' 	href='' rel='tooltip' title='Subnet is locked for writing for non-admins'>																								<i class='icon-lock icon-white'></i></button> ";		# lock info
+				print "<a class='edit_subnet btn btn-small' 				href='' rel='tooltip' title='Edit subnet properties'		data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='edit'>			<i class='icon-pencil'></i></a>";						# edit subnet
+				print "<a class='edit_subnet btn btn-small'					href='' rel='tooltip' title='Add new nested subnet' 	 	data-action='add' data-subnetId='$SubnetDetails[id]' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";	# add new child subnet
 			}
 			# operator - locked
 			else 
 			{
 				if(checkAdmin(false))  {
-					print "<a class='edit_subnet btn btn-small' 				href='' rel='tooltip' title='Edit subnet properties'						data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='edit'>	<i class='icon-pencil'></i></a>";						# edit subnet
+					print "<a class='edit_subnet btn btn-small' href='' rel='tooltip' title='Edit subnet properties'	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='edit'>	<i class='icon-pencil'></i></a>";						# edit subnet
+					print "<a class='edit_subnet btn btn-small'	href='' rel='tooltip' title='Add new nested subnet' 	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='add' > 	<i class='icon-plus-sign'></i></a> ";	# add new child subnet
 				}
 				else {
-					print "<a class='disabled btn btn-small'   					href='' rel='tooltip' title='Edit subnet properties (not allowed)'>		<i class='icon-pencil'></i></a>";				# edit subnet					
+					print "<a class='disabled btn btn-small'	href='' rel='tooltip' title='Edit subnet properties (not allowed)'>		<i class='icon-pencil'></i></a>";				# edit subnet					
 				}
 			}		
 		}
@@ -156,19 +157,21 @@ $rowSpan = 10 + $customSubnetFieldsSize;
 			# admin - unlocked
 			if(checkAdmin(false)) 
 			{
-				print "<a class='edit_subnet btn btn-small' 				href='' rel='tooltip' title='Edit subnet properties'						data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='edit'>	<i class='icon-pencil'></i></a>";						# edit subnet
+				print "<a class='edit_subnet btn btn-small' href='' rel='tooltip' title='Edit subnet properties' data-action='edit' data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]'>				<i class='icon-pencil'></i></a>";						# edit subnet
+				print "<a class='edit_subnet btn btn-small' href='' rel='tooltip' title='Add new nested subnet'  data-action='add'  data-subnetId='$SubnetDetails[id]' data-id='' data-sectionId='$SubnetDetails[sectionId]'> 	<i class='icon-plus-sign'></i></a> ";	# add new child subnet
 			}
 			# operator - unlocked
 			else {
-				print "<a class='disabled btn btn-small' 				    href='' rel='tooltip' title='Edit subnet properties (not allowed)'>		<i class='icon-pencil'></i></a>";				# edit subnet				
+				print "<a class='disabled btn btn-small'  	href='' rel='tooltip' title='Edit subnet properties (not allowed)'>		<i class='icon-pencil'></i></a>";		# edit subnet				
+				print "<a class='disabled btn btn-small'	href='' rel='tooltip' title='Add new nested subnet (not allowed)' > 	<i class='icon-plus-sign'></i></a> ";	# add new child subnet
 			}
 		}
 	}
 	# viewer
 	else 
 	{
-				print "<a class='btn btn-small disabled'   					href='' rel='tooltip' title='Edit subnet properties (not allowed)'>		<i class='icon-pencil'></i></a>";				# edit subnet
-
+				print "<a class='btn btn-small disabled'   	href='' rel='tooltip' title='Edit subnet properties (not allowed)'>		<i class='icon-pencil'></i></a>";		# edit subnet
+				print "<a class='disabled btn btn-small'	href='' rel='tooltip' title='Add new nested subnet (not allowed)' > 	<i class='icon-plus-sign'></i></a> ";	# add new child subnet
 	}
 	
 	print "	</div>";

@@ -6,6 +6,10 @@ features for next releases:
 		- custom groups
 		- per-section permissions for groups;
 		
+		
+		+ Add new subnet on subnet details (selects parent as master)
+		+ Edit subnet from search result;
+		
 		+ Split subnets to multiple sub-subnets based on provided mask;
 		+ Change subnets mask size;
 		

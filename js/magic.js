@@ -31,9 +31,16 @@ function hidePopups() {
     $('#popupOverlay').fadeOut('fast');
     $('.popup').fadeOut('fast');
     $('body').removeClass('stop-scrolling');        //enable scrolling back
+    $('.popup_w700').css("z-index", "100");        //set popup back
+    hideSpinner();
+}
+function hidePopup2() {
+    $('.popup_w400').fadeOut('fast');
+    $('.popup_w700').css("z-index", "100");        //set popup back
     hideSpinner();
 }
 $('#popupOverlay, button.hidePopups').live('click', function() { hidePopups(); });
+$('button.hidePopup2').live('click', function() { hidePopup2(); });
 
 //prevent loading for disabled buttons
 $('a.disabled, button.disabled').click(function() { return false; });
@@ -792,6 +799,20 @@ $('button.editSubnet').click(function() {
         showPopup('popup_w700');
         hideSpinner();
     });
+});
+//resize / split subnet
+$('#resize, #split').live('click', function() {
+	showSpinner();
+	var action = $(this).attr('id');
+	var subnetId = $(this).attr('data-subnetId');
+	//dimm and show popup2
+    $.post("site/admin/manageSubnet"+action+".php", {action:action, subnetId:subnetId}, function(data) {
+        $('div.popup_w400').html(data);
+        showPopup('popup_w400');
+        $('.popup_w700').css("z-index", "99");        //set behind popup
+        hideSpinner();
+    });	
+	return false;
 });
 //save edit subnet changes
 $('.editSubnetSubmit').live('click',function () {

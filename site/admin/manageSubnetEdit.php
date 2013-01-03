@@ -30,9 +30,13 @@ if ($_POST['action'] != "add") {
 }
 # we are adding new subnet - get section details
 else {
+	# for selecting master subnet if added from subnet details!
+	if(strlen($_REQUEST['subnetId']) > 0) {
+    	$tempData = getSubnetDetailsById ($_POST['subnetId']);	
+    	$subnetDataOld['masterSubnetId'] = $tempData['id'];
+	}
 	$sectionName = getSectionDetailsById ($_POST['sectionId']);
 }
-
 
 /* get custom subnet fields */
 $customSubnetFields = getCustomSubnetFields();
@@ -184,9 +188,21 @@ else															{ $readonly = false; }
 	else {
 		print '<tr style="display:none"><td colspan="8"><input type="hidden" name="vrfId" value="'. $subnetDataOld['vrfId'] .'"></td></tr>'. "\n";
 	}
+
+	?>
+	<?php if($_POST['action'] == "edit") { ?>
+	<!-- resize / split -->
+	<tr>
+        <td class="middle">Resize / split</td>
+        <td>
+        	<button class="btn btn-small" id="resize" rel="tooltip" title="Resize subnet" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-vertical"></i></button>
+        	<button class="btn btn-small" id="split"  rel="tooltip" title="Split subnet"  data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-full"></i></button>
+        </td>
+        <td class="info">Resize or split this subnet</td>
+    </tr>
+    <?php } ?>
 	
-	
-	
+	<?php
 	/* allow / deny IP requests if enabled in settings */	
 	if($settings['enableIPrequests'] == 1) {
 	

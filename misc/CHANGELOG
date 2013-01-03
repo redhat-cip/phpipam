@@ -1,3 +1,17 @@
+== 0.8
+
+	New features:
+	----------------------------	
+	+ 
+	
+	Enhancements:
+	----------------------------
+	+ Added add nested subnet under subnet details to simplify selection in hierarchy;
+
+	Bugfixes:
+	------------------------
+	+ Fixed overlay on second popup;
+
 == 0.7
 
 	New features:
