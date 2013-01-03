@@ -27,7 +27,7 @@ In case your URL for phpipam is not root please set the following variables (exa
 #
 
 	1.) Extract files form tar package:
-		tar -xvf phpipam-0.6.tar
+		tar -xvf phpipam-0.8.tar
 	2.) Set database connection settings in config.php;
 	3.) Open phpipam in browser and update database;
 
@@ -37,9 +37,9 @@ In case your URL for phpipam is not root please set the following variables (exa
 # b) Manual upgrade procedure
 #
 	1.) Extract files form tar package:
-		tar -xvf phpipam-0.6.tar
+		tar -xvf phpipam-0.8.tar
 	2.) Set database connection settings in config.php;
 	3.) Manual database structure update
 		Update database structure by importing database scheme for your version.
-		If you have version 0.4 and want to upgrade to 0.6 use UPDATE-v0.4.sql file;
-			mysql -u root -p phpipam < db/UPDATE-v0.5.sql
+		If you have version 0.6 and want to upgrade to 0.8 use UPDATE-v0.6.sql file;
+			mysql -u root -p phpipam < db/UPDATE-v0.6.sql

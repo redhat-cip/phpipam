@@ -38,13 +38,15 @@ else if($settings['version'] != VERSION) {
 	else if ( (!fieldExists("subnets", "allowRequests")) || (!fieldExists("subnets", "adminLock")) ) { $version = "0.3"; }
 	/* v0.4 check -> table switches does not exist yet */
 	else if (!tableExists("switches")) { $version = "0.4";}
-	/* v0.4 check -> table vlans does not exist yet */
+	/* v0.5 check -> table vlans does not exist yet */
 	else if (!tableExists("vlans")) { $version = "0.5"; }
-	/* ok, latest version */
-	else { $version = "0.6"; }
+	/* v0.6 check -> field strictmode does not exist yet */
+	else if (!fieldExists("settings", "strictMode")) { $version = "0.6"; }
+	/* ok, "latest" OLD version */
+	else { $version = "0.7"; }
 
-	if($version == "0.2" || $version == "0.3" || $version == "0.4") {
-		die("<div class='alert alert-error'>It seems you are using phpipam version ".$version.". This version cannot be upgraded to 0.7, please install at least version 0.5first!</div>");
+	if($version == "0.2" || $version == "0.3" || $version == "0.4" || $version == "0.5") {
+		die("<div class='alert alert-error'>It seems you are using phpipam version ".$version.". This version cannot be upgraded to 0.8, please install at least version 0.6 first!</div>");
 	}
  	/* if version is not the latest print warning that it will be upgraded! */
 	else if($version != VERSION) { ?>

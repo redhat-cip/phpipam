@@ -227,7 +227,7 @@ function upgradeDatabase($version)
     
     /* return true if we came to here */
     sleep(1);
-    updateLogTable ('DB updated', 'DB updated from version '. $version .' to version 0.7', 1);
+    updateLogTable ('DB updated', 'DB updated from version '. $version .' to version 0.8', 1);
     return true;
 }
 

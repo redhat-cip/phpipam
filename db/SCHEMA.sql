@@ -173,7 +173,7 @@ LOCK TABLES `settings` WRITE;
 
 INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `strictMode`, `printLimit`, `vlanDuplicate`, `subnetOrdering`)
 VALUES
-	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,1,0,'0.7',0,'mac;owner;state;switch;note',1,25,0,'subnet,asc');
+	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,1,0,'0.8',0,'mac;owner;state;switch;note',1,25,0,'subnet,asc');
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;

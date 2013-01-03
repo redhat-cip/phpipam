@@ -3,6 +3,11 @@ RewriteEngine on
 # change rewrite base if not in root
 RewriteBase /
 
+# index.php
+RewriteRule ^index.php$ - [L]
+# pass-through
+RewriteRule ^(css|js|site)/.*$ - [L]
+
 # redirect errors
 ErrorDocument 400 /error/400/
 ErrorDocument 401 /error/401/
@@ -36,7 +41,7 @@ RewriteRule ^dashboard/$ index.php?page=dashboard
 
 # subnets
 RewriteRule ^subnets/(.*)/(.*)/$ index.php?page=subnets&section=$1&subnetId=$2 [L]
-RewriteRule ^subnets/(.*)/$ index.php?page=subnets&section=$1
+RewriteRule ^subnets/(.*)/$ index.php?page=subnets&section=$1 [L]
 
 # search override
 RewriteRule ^tools/search/(.*)$ index.php?page=tools&toolsId=search&ip=$1 [L]

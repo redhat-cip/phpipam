@@ -1,8 +1,8 @@
 <?php
 
 /* @database functions ------------------- */
-require( dirname(__FILE__) . '/../config.php' );
-require( dirname(__FILE__) . '/dbfunctions.php' );
+require_once( dirname(__FILE__) . '/../config.php' );
+require_once( dirname(__FILE__) . '/dbfunctions.php' );
 
 
 
@@ -18,7 +18,7 @@ else{
 
 
 /* set latest version */
-define("VERSION", "0.7");
+define("VERSION", "0.8");
 
 /* @general functions ------------------- */
 include_once('functions-common.php');
