@@ -297,6 +297,31 @@ function setModifySubnetDetailsQuery ($subnetDetails)
 
 
 /**
+ * Resize subnet - change mask
+ */
+function modifySubnetMask ($subnetId, $mask) 
+{
+    global $db;                                                                     # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
+
+    # set modify subnet details query
+    $query = "update `subnets` set `mask` = '$mask' where `id` = '$subnetId';";
+
+	$log = "subnetId: $subnetId\n New mask: $mask";																				# prepare log 
+
+    # execute query
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('Subnet resize failed', $log, 2);	# write error log
+        return false;
+    }
+    else {
+        updateLogTable ('Subnet resized ok', $log, 1);		# write success log
+        return true;
+    }
+}
+
+
+/**
  * Print subnets structure
  */
 function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )

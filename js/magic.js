@@ -814,6 +814,20 @@ $('#resize, #split').live('click', function() {
     });	
 	return false;
 });
+//resize save
+$('button#subnetResizeSubmit').live('click', function() {
+	showSpinner();
+	var resize = $('form#subnetResize').serialize();
+	$.post("site/admin/manageSubnetresizeSave.php", resize, function(data) {
+		$('div.subnetResizeResult').html(data);
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             { hideSpinner(); hideSpinner(); }
+	});
+	return false;
+});
+//split save
+
 //save edit subnet changes
 $('.editSubnetSubmit').live('click',function () {
     showSpinner();

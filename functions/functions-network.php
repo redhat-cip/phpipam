@@ -904,7 +904,7 @@ function verifyIPv6SubnetOverlapping ($subnet1, $subnet2)
 /**
  * Verify that new nested subnet is inside master subnet!
  *
- * $root = root subnet
+ * $root = root subnet Id
  * $new  = new subnet that we wish to add to root subnet
  */
 function verifySubnetNesting ($rootId, $new)
@@ -924,12 +924,8 @@ function verifySubnetNesting ($rootId, $new)
 	}
 
     /* we need network and broadcast address and check for both if the exist in any network!*/
-    if(isSubnetInsideSubnet ($new, $rootDetails)) {
-    	return true;
-    }
-    else {
-    	return false;
-    }
+    if(isSubnetInsideSubnet ($new, $rootDetails)) 	{ return true; }
+    else 											{ return false; }
 }
 
 
@@ -1536,11 +1532,11 @@ function VerifyIpAddress( $ip , $subnet , $noStrict = false )
         
 		// is it valid?
 		if (!$Net_IPv4->validateIP($ip)) {
-			$error = "IP address not valid!";
+			$error = "IP address not valid! ($ip)";
 		}
 		// it must be in provided subnet
 		else if (!$Net_IPv4->ipInNetwork($ip, $subnet)) {
-			$error = "IP address not in selected subnet!";
+			$error = "IP address not in selected subnet! ($ip)";
 		}
 		//ignore  /31 and /32 subnet broadcast and subnet checks!
 		else if ($mask[1] == "31" || $mask[1] == "32" || $noStrict == true) {
@@ -1570,11 +1566,11 @@ function VerifyIpAddress( $ip , $subnet , $noStrict = false )
 		
 		// is it valid?
 		if (!$Net_IPv6->checkIPv6($ip)) {
-			$error = "IP address not valid!";
+			$error = "IP address not valid! ($ip)";
 		}
 		// it must be in provided subnet
 		else if (!$Net_IPv6->isInNetmask($ip, $subnet)) {
-			$error = "IP address not in selected subnet!";
+			$error = "IP address not in selected subnet! ($ip)";
 		}
 		//ignore  /127 and /128 subnet broadcast and subnet checks!
 		else if ($mask[1] == "127" || $mask[1] == "128" || $noStrict == true) {

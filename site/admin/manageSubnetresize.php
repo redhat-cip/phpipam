@@ -25,7 +25,7 @@ $subnet = getSubnetDetailsById ($_POST['subnetId']);
 <!-- content -->
 <div class="pContent">
 
-	<form id="subnetSplit">
+	<form id="subnetResize">
 	<table class="table table-noborder table-condensed">
 
     <!-- subnet -->
@@ -43,8 +43,9 @@ $subnet = getSubnetDetailsById ($_POST['subnetId']);
     <!-- new Mask -->
     <tr>
         <td class="middle">New mask</td>
-        <td>
-	        <input type="text" class="input-mini" name="newMask">
+        <td style="vertical-align:middle">
+	        / <input type="text" class="input-mini" name="newMask">
+	        <input type="hidden" name="subnetId" value="<?php print $_POST['subnetId']; ?>">
         </td>
     </tr>
         
@@ -53,7 +54,11 @@ $subnet = getSubnetDetailsById ($_POST['subnetId']);
 
     <!-- warning -->
     <div class="alert alert-warn">
-    
+    You can change subnet size by specifying new mask (bigger or smaller). Please note:
+    <ul>
+    	<li>If subnet has hosts outside of resized subnet resizing will not be possible</li>
+    	<li>If strict mode is enabled check will be made to ensure it is still inside master subnet</li>
+    </ul>
     </div>
 
 </div>
@@ -62,7 +67,7 @@ $subnet = getSubnetDetailsById ($_POST['subnetId']);
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopup2">Cancel</button>
-	<button class="btn btn-small editSubnetSubmit"><i class="icon-gray icon-ok"></i> Resize subnet</button>
+	<button class="btn btn-small" id="subnetResizeSubmit"><i class="icon-gray icon-ok"></i> Resize subnet</button>
 
-	<div class="subnetSplitResult"></div>
+	<div class="subnetResizeResult"></div>
 </div>
