@@ -13,6 +13,27 @@
 
 
 /**
+ * Calculate reverse DNS entry for IPv6 addresses
+ * If a prefix length is given, generate only up to this length (ie. for zone definitions) 
+ */
+function calculateReverseDNS6 ($ipv6, $pflen=128)
+{
+    $uncompressed = Net_IPv6::removeNetmaskSpec(Net_IPv6::uncompress($ipv6));
+    $len = $pflen / 4;
+    $parts = explode(':', $uncompressed);
+    $res = '';
+    foreach($parts as $part)
+    {
+        $res .= str_pad($part, 4, '0', STR_PAD_LEFT);
+    }
+    $res = implode('.', str_split(strrev(substr($res, 0, $len)))) . '.ip6.arpa';
+    if ($pflen % 4 != 0) {
+        $res .= " (closest parent)";
+    }
+    return $res;
+}
+
+/**
  * ipCalc calculations
  */
 function calculateIpCalcResult ($cidr)
@@ -66,10 +87,15 @@ function calculateIpCalcResult ($cidr)
         $out['Subnet prefix']             = Net_IPv6::compress ( $subnet ) .'/'. $mask;
         $out['Prefix length']             = Net_IPv6::getNetmaskSpec( $cidr );
         
-        //if IP == subnet clear the Host fields
-        if ($out['Host address'] == $out['Subnet prefix']) {
-            $out['Host address']                = '/';
-            $out['Host address (uncompressed)'] = '/';
+        // get reverse DNS entries
+        $out['Host Reverse DNS'] = calculateReverseDNS6($out['Host address (uncompressed)']);
+        $out['Subnet Reverse DNS'] = calculateReverseDNS6($subnet, $mask);
+        
+        //if IP == subnet clear the Host fields and Host Reverse DNS
+         if ($out['Host address'] == $out['Subnet prefix']) {
+             $out['Host address']                = '/';
+             $out['Host address (uncompressed)'] = '/';
+             unset($out['Host Reverse DNS']);
         }
         
         //min / max hosts

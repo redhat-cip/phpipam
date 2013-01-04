@@ -9,6 +9,7 @@
 	----------------------------
 	+ Added add nested subnet under subnet details to simplify master subnet selection in hierarchy;
 	+ Added edit subnet link from search results;
+	+ Added reverse IPv6 DNS entries to IPCalc (Vincent Boisard);
 
 	Bugfixes:
 	------------------------
