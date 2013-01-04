@@ -34,6 +34,11 @@ foreach($ipaddresses as $ip) {
 	} 
 }
 
+/* ask must be > 8 */
+if($_POST['newMask'] < 8) {
+	die('<div class="alert alert-error">New mask must be at least /8!</div>');
+}
+
 /* 
  * if strict mode is enabled check that is is still inside master subnet!
  */
@@ -41,9 +46,24 @@ if($settings['strictMode'] == 1) {
     if ( (!$overlap = verifySubnetNesting($subnetOld['masterSubnetId'], transform2long($subnetOld['subnet'])."/".$_POST['newMask'])) && $subnetOld['masterSubnetId']!=0) {
     	# get master details
     	$master = getSubnetDetailsById($subnetOld['masterSubnetId']);
-		$master = Transform2long($master['subnet']) . "/" . $master['mask'];
-    	$errors[] = "New subnet not in master subnet! ($master)";
+		$master = Transform2long($master['subnet']) . "/" . $master['mask']." - ".$master['description'];
+    	$errors[] = "New subnet not in master subnet!<br>($master)";
     }
+}
+
+
+/*
+ * If subnet has slaves make sure all slaves are still inside!
+ */
+if($settings['strictMode'] == 1) {
+	$slaves = getAllSlaveSubnetsBySubnetId ($_POST['subnetId']);
+	if(sizeof($slaves) > 0) {
+		foreach($slaves as $slave) {
+			if(!isSubnetInsideSubnet (transform2long($slave['subnet'])."/".$slave['mask'], transform2long($subnetOld['subnet'])."/".$_POST['newMask'])) {
+				$errors[] = "Nested subnet out of new subnet!<br>(".transform2long($slave['subnet'])."/$slave[mask] - $slave[description])";	
+			}
+		}
+	}
 }
 
 

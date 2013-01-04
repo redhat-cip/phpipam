@@ -3,6 +3,7 @@
 	New features:
 	----------------------------	
 	+ Subnet resizing;
+	+ Subnet splitting into smaller subnets (including IP addresses);
 	
 	Enhancements:
 	----------------------------

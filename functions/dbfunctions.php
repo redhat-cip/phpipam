@@ -16,25 +16,31 @@ class database extends mysqli
     parent::__construct($host, $username, $dbname, $port, $socket);
     $this->set_charset("utf8");
   } 
+  
+  # save last SQL insert id
+  public $lastSqlId;
 	
 	/**
 	 * execute given query 
 	 *
 	 */
-	function executeQuery( $query ) 
+	function executeQuery( $query, $lastId = false ) 
 	{
 		/* execute query */
-		$result = parent::query( $query );
+		$result     = parent::query( $query );
+		$this->lastSqlId   = $this->insert_id;
 
 		/* if it failes throw new exception */
 		if ( mysqli_error( $this ) ) {
             throw new exception( mysqli_error( $this ), mysqli_errno( $this ) ); 
       		}
         else {
-            return true;
+        	# return lastId if requested
+        	if($lastId)	{ return $this->lastSqlId; }
+        	else 		{ return true; }
         }
 	}
-	
+		
 	
 	/**
 	 * get only 1 row
@@ -150,17 +156,19 @@ class database extends mysqli
 	 * Execute multiple querries!
 	 *
 	 */
-	function executeMultipleQuerries( $query ) 
+	function executeMultipleQuerries( $query, $lastId = false ) 
 	{	
         /* execute querries */
 		$result = parent::multi_query($query);
+		$this->lastSqlId   = $this->insert_id;
 
 		/* if it failes throw new exception */
 		if ( mysqli_error( $this ) ) {
             throw new exception( mysqli_error( $this ), mysqli_errno( $this ) ); 
       	}
         else {
-            return true;
+       		if($lastId)	{ return $this->lastSqlId; }
+        	else 		{ return true; }
         }
 		
 		/* free result */

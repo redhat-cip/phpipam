@@ -196,7 +196,12 @@ else															{ $readonly = false; }
         <td class="middle">Resize / split</td>
         <td>
         	<button class="btn btn-small" id="resize" rel="tooltip" title="Resize subnet" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-vertical"></i></button>
+        	<?php
+        	# check if it has slaves - if yes it cannot be splitted!
+        	$slaves = getAllSlaveSubnetsBySubnetId ($_POST['subnetId']);
+        	if(sizeof($slaves) == 0) {?>
         	<button class="btn btn-small" id="split"  rel="tooltip" title="Split subnet"  data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-full"></i></button>
+        	<?php } ?>
         </td>
         <td class="info">Resize or split this subnet</td>
     </tr>

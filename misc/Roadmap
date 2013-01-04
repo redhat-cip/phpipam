@@ -5,10 +5,6 @@ features for next releases:
 		- translations (gettext);
 		- custom groups
 		- per-section permissions for groups;
-
-		
-		+ Split subnets to multiple sub-subnets based on provided mask;
-		+ Change subnets mask size;
 		
 		+ Get next available subnet by providing mask;
 		+ Compress DHCP, reserved and offline ranges;

@@ -166,7 +166,7 @@ function selfUpdateUser ($userModDetails)
 /**
  * Add new subnet
  */
-function modifySubnetDetails ($subnetDetails) 
+function modifySubnetDetails ($subnetDetails, $lastId = false) 
 {
     global $db;                                                                     # get variables from config file
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
@@ -177,13 +177,14 @@ function modifySubnetDetails ($subnetDetails)
 	$log = prepareLogFromArray ($subnetDetails);																				# prepare log 
 
     # execute query
-    if (!$database->executeMultipleQuerries($query)) {
+    if (!$updateId=$database->executeMultipleQuerries($query, $lastId)) {
         updateLogTable ('Subnet ('. $subnetDetails['description'] .') '. $subnetDetails['action'] .' failed', $log, 2);	# write error log
         return false;
     }
     else {
         updateLogTable ('Subnet ('. $subnetDetails['description'] .') '. $subnetDetails['action'] .' ok', $log, 1);		# write success log
-        return true;
+        if(!$lastId) { return true; }
+        else		 { return $updateId; }
     }
 }
 
@@ -293,6 +294,29 @@ function setModifySubnetDetailsQuery ($subnetDetails)
     }
     # return query
     return $query;
+}
+
+
+/**
+ * delete subnet - only single subnet, no child/slave hosts and IP addresses are removed!!!! Beware !!!
+ */
+function deleteSubnet ($subnetId) 
+{
+    global $db;                                                                     # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
+
+    # set modify subnet details query
+    $query = "delete from `subnets` where `id` = '$subnetId';";
+
+    # execute query
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('Subnet delete from split failed', "id:$ subnetId", 2);	# write error log
+        return false;
+    }
+    else {
+        updateLogTable ('Subnet deleted from split ok', "id: $subnetId", 0);		# write success log
+        return true;
+    }
 }
 
 

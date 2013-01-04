@@ -1490,6 +1490,33 @@ function SetInsertQuery( $ip )
 
 
 /**
+ * Move IP address to new subnet - for subnet splitting
+ */
+function moveIPAddress ($id, $subnetId) 
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'update `ipaddresses` set `subnetId` = "'.$subnetId.'" where `id` = "'. $id .'";';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);             
+	   
+	/* execute */
+    try { $database->executeQuery( $query ); }
+    catch (Exception $e) { $error =  $e->getMessage(); }
+
+	# ok
+	if(!isset($error)) {
+        updateLogTable ('IP address move ok', "id: $id\nsubnetId: $subnetId", 0);			# write success log
+        return true;		
+	}
+	# problem
+	else {
+        updateLogTable ('IP address move error', "id: $id\nsubnetId: $subnetId", 2);			# write error log
+        return false;	
+	}
+}
+
+
+/**
  * Get IP address details
  */
 function getIpAddrDetailsById ($id) 
