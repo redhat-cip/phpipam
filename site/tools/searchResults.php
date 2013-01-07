@@ -312,7 +312,7 @@ else {
 		print ' <td>'. $img .'</td>' . "\n";
 		
 		#locked for writing
-		if( (isSubnetWriteProtected($subnet['id'])) && !checkAdmin(false)) {
+		if( (isSubnetWriteProtected($line['id'])) && !checkAdmin(false)) {
 			print "	<td><button class='btn btn-mini disabled' rel='tooltip' title='Edit subnet (disabled)'>	<i class='icon-gray icon-pencil'>  </i></button>";
 		}
 		# unlocked
