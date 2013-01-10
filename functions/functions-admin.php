@@ -81,8 +81,8 @@ function updateUserById ($userModDetails) {
     # set query - add or edit user
     if (empty($userModDetails['userId'])) {
         $query  = "insert into users ";
-        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`, `useFullPageWidth`) values "; 
-        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]', '$userModDetails[useFullPageWidth]' );";
+        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`) values "; 
+        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]');";
     }
     else {
         $query  = "update users set "; 
@@ -90,7 +90,7 @@ function updateUserById ($userModDetails) {
         if (strlen($userModDetails['password1']) != 0) {
         $query .= "`password` = '$userModDetails[password1]', "; 
         }
-        $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]', `useFullPageWidth`= '$userModDetails[useFullPageWidth]' "; 
+        $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]' "; 
         $query .= "where `id` = '$userModDetails[userId]';";
     }
     
@@ -127,7 +127,7 @@ function selfUpdateUser ($userModDetails)
     if(strlen($userModDetails['password1']) != 0) {
     $query .= "`password` = '$userModDetails[password1]',";
     }
-    $query .= "`real_name`= '$userModDetails[real_name]', `useFullPageWidth`= '$userModDetails[useFullPageWidth]', `email` = '$userModDetails[email]' ";
+    $query .= "`real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]' ";
     $query .= "where `id` = '$userModDetails[userId]';";
     
     /* set log file */

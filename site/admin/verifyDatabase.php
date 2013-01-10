@@ -26,7 +26,7 @@ $fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "s
 $fields['settingsDomain'] = array("account_suffix", "base_dn", "domain_controllers", "use_ssl", "use_tls", "ad_port");
 $fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "adminLock", "vlanId", "showName");
 $fields['switches'] 	  = array("hostname", "ip_addr", "type", "vendor", "model", "version", "description", "sections");
-$fields['users'] 	  	  = array("username", "password", "role", "real_name", "email", "domainUser", "useFullPageWidth");
+$fields['users'] 	  	  = array("username", "password", "role", "real_name", "email", "domainUser");
 $fields['vrf'] 	  	  	  = array("name", "rd", "description");
 $fields['vlans']   	  	  = array("vlanId", "name", "number", "description");
 

@@ -288,7 +288,6 @@ CREATE TABLE `users` (
   `real_name` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `domainUser` binary(1) DEFAULT '0',
-  `useFullPageWidth` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`username`),
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`)
@@ -297,9 +296,9 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `real_name`, `email`, `domainUser`, `useFullPageWidth`)
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `real_name`, `email`, `domainUser`)
 VALUES
-	(1,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965','Administrator','phpIPAM Admin','admin@domain.local',X'30',0);
+	(1,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965','Administrator','phpIPAM Admin','admin@domain.local',X'30');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
