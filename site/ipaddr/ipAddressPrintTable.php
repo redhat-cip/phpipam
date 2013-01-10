@@ -151,7 +151,7 @@ if($sizeIP  > $pageLimit) {
 	# note
 	if(in_array('note', $setFields)) 	{ print "<th></th>"; }	
 	# switch
-	if(in_array('switch', $setFields)) 	{ print "<th><a href='' data-id='switch|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by switch'						>Switch "; 		if($sort['field'] == "switch") 		print $icon;  print "</a></th>"; }	
+	if(in_array('switch', $setFields)) 	{ print "<th><a href='' data-id='switch|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by switch'						>Device "; 		if($sort['field'] == "switch") 		print $icon;  print "</a></th>"; }	
 	# port
 	if(in_array('port', $setFields)) 	{ print "<th><a href='' data-id='port|$sort[directionNext]'   class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by port'  						>Port "; 		if($sort['field'] == "port") 		print $icon;  print "</a></th>"; }
 	# owner
