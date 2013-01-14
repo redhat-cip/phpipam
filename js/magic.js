@@ -62,18 +62,6 @@ function randomPass() {
     return pass;
 }
 
-/* open location */
-function openLocation(loc0, loc1, loc2) {
-    var loc0;
-    var loc1;
-    var loc2;
-    //only loc0
-    if(loc1.length === 0)     { window.location = loc0+"/"; }
-    //loc0 + loc1
-    if(loc2.length === 0)     { window.location = loc0+"/"+loc1+"/"; }
-    //both
-    else                      { window.location = loc0+"/"+loc1+"/"+loc2+"/"; }
-}
 /* reload */
 function reloadPage() {
 	window.location.reload();

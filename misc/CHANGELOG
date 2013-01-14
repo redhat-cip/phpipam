@@ -14,6 +14,8 @@
 	Bugfixes:
 	------------------------
 	+ Fixed overlay on second popup;
+	+ Fixed IE search bug;
+	+ Fixed support for non-standard ports;
 
 == 0.7
 

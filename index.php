@@ -32,6 +32,9 @@ if($_REQUEST['page'] != 'upgrade' && $_REQUEST['page'] != "login" && $_REQUEST['
 
 /* recreate base */
 if($_SERVER['SERVER_PORT'] == "443") { $url = "https://$_SERVER[SERVER_NAME]".BASE; }
+/* custom port */
+if($_SERVER['SERVER_PORT'] != "80")  { $url = "http://$_SERVER[SERVER_NAME]:$_SERVER[SERVER_PORT]".BASE; }
+/* normal http */
 else								 { $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 
 /* site header */
