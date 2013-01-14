@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		//remove default
 		if($searchTerm == "search") { $searchTerm = ""; }
 	}
-	require_once('../../functions/functions.php');
+	require_once( dirname(__FILE__) . '/../../functions/functions.php' );
+
 }
 
 

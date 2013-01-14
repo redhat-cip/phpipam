@@ -8,6 +8,7 @@ features for next releases:
 		
 		+ Get next available subnet by providing mask;
 		+ Compress DHCP, reserved and offline ranges;
+		+ Support for custom ports;
 		
 		+ Logs search;
 		+ User actvity display;

@@ -487,12 +487,6 @@ $('form#search').live('submit', function () {
     window.location = "tools/search/" + ip;
     return false;
 });
-//from homepage usermenu
-$('form#userMenuSearch').live('submit', function() {
-    var ip = $('#userMenuSearch #appendedInputButton').val();
-    window.location = "tools/search/" + ip;
-    return false;
-});
 //search export
 $('a#exportSearch').live('click', function() {
     var searchTerm = $('form#search .search').val();

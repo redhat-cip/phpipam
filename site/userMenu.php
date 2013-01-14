@@ -18,8 +18,8 @@ $userDetails = getActiveUserDetails ();
 	<!-- search -->
     <?php
     print "<div class='input-append'>";
-    print "<form id='userMenuSearch' name='userMenuSearch' action='tools/search/' method='GET'>";
-    print "	<input class='span2 search' name='ip' placeholder='Search string' id='appendedInputButton' size='16' type='text'><input class='btn' type='submit' value='Search'>";
+    print "<form id='userMenuSearch' name='userMenuSearch' method='post' action='tools/search/'>";
+    print "	<input class='span2 search' name='ip' placeholder='Search string' id='appendedInputButton' size='16' type='text' value='$_REQUEST[ip]'><input class='btn' type='submit' value='Search'>";
     print "</form>";
   	print "</div>";
     ?>

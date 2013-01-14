@@ -23,8 +23,7 @@
 
 /* use scripts, but only if requested through post! */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once('../functions/functions.php');
-    
+    require_once( dirname(__FILE__) . '/../functions/functions.php' );
 }
 
 /* verify that user is authenticated! */
