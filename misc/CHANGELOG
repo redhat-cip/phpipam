@@ -5,6 +5,7 @@
 	+ Subnet resizing;
 	+ Subnet splitting into smaller subnets (including IP addresses);
 	+ Added free space for nested subnets;
+	+ Added visual display of subnet usage;
 	
 	Enhancements:
 	----------------------------

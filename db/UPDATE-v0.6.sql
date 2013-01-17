@@ -26,3 +26,6 @@ ALTER TABLE `switches` ADD `type` INT(2)  NULL  DEFAULT '0' AFTER `ip_addr`;
 
 /* remove useFullPageWidth */
 ALTER TABLE `users` DROP `useFullPageWidth`;
+
+/* add visual Limit */
+ALTER TABLE `settings` ADD `visualLimit` INT(2)  NOT NULL  DEFAULT '0';

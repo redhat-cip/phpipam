@@ -8,3 +8,6 @@ UPDATE `settings` set `donate` = '0';
 
 /* remove useFullPageWidth */
 ALTER TABLE `users` DROP `useFullPageWidth`;
+
+/* add visual Limit */
+ALTER TABLE `settings` ADD `visualLimit` INT(2)  NOT NULL  DEFAULT '0';

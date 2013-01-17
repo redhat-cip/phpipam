@@ -20,6 +20,6 @@ else {
 }
 
 /* Update settings */
-if(!updateSettings($settings)) 	{ die('<div class="alert alert-error alert-absolute">Cannot update settings!</div>'); }
-else 							{ print '<div class="alert alert-success alert-absolute">Settings updated successfully!</div>';}
+if(!updateSettings($settings)) 	{ die('<div class="alert alert-error">Cannot update settings!</div>'); }
+else 							{ print '<div class="alert alert-success">Settings updated successfully!</div>';}
 ?>

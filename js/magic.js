@@ -175,9 +175,9 @@ $('#expandfolders').click(function() {
 /*    add / edit / delete IP address
 ****************************************/
 //show form
-$('a.modIPaddr').live("click", function () {
+$('.modIPaddr').live("click", function () {
     showSpinner();        
-    var action      = $(this).attr('data-action');
+    var action    = $(this).attr('data-action');
     var id        = $(this).attr('data-id');
     var subnetId  = $(this).attr('data-subnetId');
     //format posted values
@@ -220,6 +220,9 @@ $('button#editIPAddressSubmit').live("click", function () {
     //show spinner
     showSpinner();
     var postdata = $('form.editipaddress').serialize();
+    
+    //replace delete if from visual
+    if($(this).attr('data-action') == "all-delete" ) { postdata = postdata + '&action-visual=delete';}
 
     $.post('site/ipaddr/modifyIpAddressCheck.php', postdata, function(data) {
         $('div.addnew_check').html(data);

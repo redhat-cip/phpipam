@@ -551,6 +551,31 @@ function getIpAddressesBySubnetIdslavesSort ($subnetId, $fieldName = "subnetId",
 }
 
 
+/**
+ * Get all ip addresses in requested subnet by provided Id for visual display
+ */
+function getIpAddressesForVisual ($subnetId) 
+{
+    global $db;                                                                      # get variables from config file
+    
+    /* set query, open db connection and fetch results */
+    $query       = 'select * from `ipaddresses` where `subnetId` = "'. $subnetId .'" order by `ip_addr` ASC;';
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+    
+    $ipaddresses = $database->getArray($query);
+    $database->close();
+    
+    /* reformat array */
+    foreach($ipaddresses as $ip) {
+	    $out[$ip['ip_addr']]['state'] = $ip['state'];
+	    $out[$ip['ip_addr']]['id']    = $ip['id'];
+    }
+
+    /* return ip address array */
+    return($out);       
+}
+
+
 
 /**
  * Count number of ip addresses in provided subnet
@@ -985,8 +1010,11 @@ function isSubnetWriteProtected($subnetId)
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* first update request */
-    $query    = 'select `adminLock` from subnets where id = '. $subnetId .';';
-    $lock 	  = $database->getArray($query); 
+    $query    = 'select `adminLock` from subnets where id = '. $subnetId .';'; 
+
+	/* execute */
+    try { $lock = $database->getArray($query); }
+    catch (Exception $e) { $error =  $e->getMessage(); }
   
 	/* return true if locked */
 	if($lock[0]['adminLock'] == 1) {

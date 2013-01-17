@@ -69,6 +69,11 @@ $myFieldsSize = sizeof($myFields);
 $colspan['unused'] = sizeof($setFields) + $myFieldsSize + 1;
 $colspan['ipaddr'] = sizeof($setFields) + $myFieldsSize + 4;
 
+/* 
+if result not empty use first IP address in subnet to identify type 
+else use subnet
+*/
+$type = IdentifyAddress( $SubnetDetails['subnet'] );
 
 /* remove myFields if all empty! */
 foreach($myFields as $field) {
@@ -85,7 +90,6 @@ foreach($myFields as $field) {
 	}
 }
 
-
 /* For page repeats */
 $m = 1;
 # how many per page
@@ -99,7 +103,7 @@ $sizeIP = sizeof($ipaddresses);				# number of all
 $repeats   = ceil($sizeIP / $pageLimit); # times to repeat body
 
 ?>
-<hr>
+<br>
 <h4><?php print $title; ?>
 <?php if($sizeIP  > $pageLimit) { print "(<span class='stran'>Page 1/$repeats</span>)"; }  ?>
 <?php
@@ -175,17 +179,10 @@ if($sizeIP  > $pageLimit) {
 $n = 0;
 $m = $CalculateSubnetDetails['used'] -1;
 
-
-/* 
-if result not empty use first IP address in subnet to identify type 
-else use subnet
-*/
-$type = IdentifyAddress( $SubnetDetails['subnet'] );
-
 # if no IP is configured only display free subnet!
 if (sizeof($ipaddresses) == 0) {
     $unused = FindUnusedIpAddresses ( Transform2decimal($SubnetParsed['network']), Transform2decimal($SubnetParsed['broadcast']), $type, 1, "networkempty", $SubnetDetails['mask'] );
-    print '<tr class="th success"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
+    print '<tr class="th"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
 }
 # print IP address
 else {
@@ -230,7 +227,7 @@ else {
 	       	/*	if there is some result for unused print it - if sort == ip_addr
 		    ****************************************************/
 		    if ( $unused && ($sort['field'] == 'ip_addr') && $sort['direction'] == "asc" ) { 
-        		print "<tr class='th success'><td></td><td colspan='$colspan[ipaddr]' class='unused'>$unused[ip] ($unused[hosts])</td></tr>"; 
+        		print "<tr class='th'><td></td><td colspan='$colspan[ipaddr]' class='unused'>$unused[ip] ($unused[hosts])</td></tr>"; 
         	}
             
             
@@ -330,7 +327,7 @@ else {
 			{   
             	$unused = FindUnusedIpAddresses ( $ipaddresses[$n]['ip_addr'], Transform2decimal($SubnetParsed['broadcast']), $type, 1, "broadcast", $SubnetDetails['mask'] );
             	if ( $unused  ) {
-            	    print '<tr class="th success"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
+            	    print '<tr class="th"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
             	}    
             }	   
             
@@ -358,3 +355,13 @@ if($sizeIP  > $pageLimit) { ?>
 	</div>
 </div>
 <?php } ?>
+
+
+<?php
+# visual display of used IP addresses
+if($settings['visualLimit'] > 0) {
+	if($settings['visualLimit'] <= $SubnetDetails['mask']) {
+		include_once('ipAddressPrintVisual.php');
+	}
+}
+?>

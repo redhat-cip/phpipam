@@ -40,7 +40,17 @@ if( (isSubnetWriteProtected($subnetId)) && !checkAdmin(false)) {
  * otherwise format the $ip field
  *
  */
-if ( $action == "add" ) {	
+if ($action == "all-add") {
+    $details = array(
+    	"ip_addr" => transform2long($id), 
+    	"description" => "", 
+    	"dns_name" => "", 
+    	"owner"	=> "",
+    	"switch" => "",
+    	"port"	=> ""
+    	 );	
+}
+else if ($action == "add") {	
 	$first = getFirstAvailableIPAddress ($subnetId);
 	if(!$first) { $first = ""; }
 	else		{ $first = transform2long($first); }
@@ -64,9 +74,12 @@ else {
 
 
 /* Set title and button text */
-if ($action == "add") 		{ $btnName = "add"; }
-else if ($action == "edit") { $btnName = "edit"; }
-else 						{ $btnName = "delete"; }
+if ($action == "add") 			{ $btnName = "add"; }
+else if ($action == "all-add")	{ $btnName = "add"; }
+else if ($action == "edit") 	{ $btnName = "edit"; }
+else if ($action == "all-edit")	{ $btnName = "edit"; }
+else if ($action == "delete")	{ $btnName = "delete"; }
+else							{ $btnName = ""; }
 
 
 /* get all selected fields for filtering */
@@ -79,32 +92,6 @@ $setFields = explode(";", $setFieldsTemp);
 $myFields = getCustomIPaddrFields();
 $myFieldsSize = sizeof($myFields);
 ?>
-
-<!-- autocomplete -->
-<script>
-/*
-$(function() {
-
-	//get all unique users
-	var users = [
-		<?php 
-		$allUsers = getUniqueUsers ();
-		foreach ($allUsers as $user) {
-			print '"'. $user['owner'] .'", ';
-		}
-		?>
-	];
-
-	//autocomplete users
-	$( "#owner" ).autocomplete({ source: users, minLength: 0 }).focus(function(){
-	if (this.value == "")
-		$(this).trigger('keydown.autocomplete');
-	});
-
-});
-*/
-</script>
-
 
 <!-- header -->
 <div class="pHeader"><?php print ucwords($btnName); ?> IP address</div>
@@ -327,7 +314,13 @@ $(function() {
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small" id="editIPAddressSubmit"><?php print ucwords($btnName); ?> IP</button>
+	<?php
+	# add delete if it came from visual edit!
+	if($action == 'all-edit') {
+	print "<button class='btn btn-small' id='editIPAddressSubmit' data-action='all-delete'>Delete IP</button>";		
+	}
+	?>
+	<button class="btn btn-small" id="editIPAddressSubmit" data-action='<?php print $action; ?>'><?php print ucwords($btnName); ?> IP</button>
 
 	<!-- holder for result -->
 	<div class="addnew_check"></div>

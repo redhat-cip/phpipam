@@ -4,7 +4,7 @@
  * Script to check edited / deleted / new IP addresses
  * If all is ok write to database
  *************************************************/
-
+ 
 /* include required scripts */
 require_once('../../functions/functions.php');
 
@@ -60,6 +60,14 @@ $ip['subnetId']= $_REQUEST['subnetId'];
 $ip['section'] = $_REQUEST['section'];
 $ip['id']      = $_REQUEST['id'];
 $ip['state']   = $_REQUEST['state'];
+
+
+//delete form visual
+if(isset($_REQUEST['action-visual'])) {
+	/* replace action to delete if action-visual == delete */
+	if($_REQUEST['action-visual'] == "delete") { $ip['action'] = "delete"; }	
+}
+
 
 //no strict checks - for range networks and /31, /32
 if(isset($_POST['nostrict'])) {

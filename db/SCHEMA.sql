@@ -163,6 +163,7 @@ CREATE TABLE `settings` (
   `IPfilter` varchar(128) DEFAULT NULL,
   `strictMode` tinyint(1) DEFAULT '1',
   `printLimit` int(4) unsigned DEFAULT '25',
+  `visualLimit` int(2)  NOT NULL  DEFAULT '0',
   `vlanDuplicate` int(1) DEFAULT '0',
   `subnetOrdering` varchar(16) DEFAULT 'subnet,asc',
   PRIMARY KEY (`id`)

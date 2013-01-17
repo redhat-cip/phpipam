@@ -178,6 +178,36 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
+<!-- Visual display limit -->
+<tr>
+	<td class="title">IP visual display limit</td>
+	<td>
+		<select name="visualLimit" style="width:auto;">
+			<?php
+			$opts = array(
+				"0"=>"Don't show visual display",
+				"19"=>"/19 (8190)",
+				"20"=>"/20 (4094)",
+				"21"=>"/21 (2046)",
+				"22"=>"/22 (1024)",
+				"23"=>"/23 (512)",
+				"24"=>"/24 (255)"
+			);
+			
+			foreach($opts as $key=>$line) {
+				if($settings['visualLimit'] == $key) { print "<option value='$key' selected>$line</option>"; }
+				else 								{ print "<option value='$key'>$line</option>"; }
+			}
+			
+			?>
+		</select>
+	</td>
+	<td class="info">
+	Select netmask limit for visual display of IP addresses (mask equal or smaller than - mode then /22 not recommended)
+	</td>
+</tr>
+
+
 <!-- Output limit -->
 <tr>
 	<td class="title">IP address print limit</td>
