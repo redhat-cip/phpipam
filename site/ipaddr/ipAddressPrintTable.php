@@ -185,7 +185,7 @@ $type = IdentifyAddress( $SubnetDetails['subnet'] );
 # if no IP is configured only display free subnet!
 if (sizeof($ipaddresses) == 0) {
     $unused = FindUnusedIpAddresses ( Transform2decimal($SubnetParsed['network']), Transform2decimal($SubnetParsed['broadcast']), $type, 1, "networkempty", $SubnetDetails['mask'] );
-    print '<tr class="th"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
+    print '<tr class="th success"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . reformatNumber ($unused['hosts']) .')</td><td colspan=2></td></tr>'. "\n";
 }
 # print IP address
 else {
@@ -230,7 +230,7 @@ else {
 	       	/*	if there is some result for unused print it - if sort == ip_addr
 		    ****************************************************/
 		    if ( $unused && ($sort['field'] == 'ip_addr') && $sort['direction'] == "asc" ) { 
-        		print "<tr class='th'><td></td><td colspan='$colspan[ipaddr]' class='unused'>$unused[ip] ($unused[hosts])</td></tr>"; 
+        		print "<tr class='th success'><td></td><td colspan='$colspan[ipaddr]' class='unused'>$unused[ip] ($unused[hosts])</td></tr>"; 
         	}
             
             
@@ -330,7 +330,7 @@ else {
 			{   
             	$unused = FindUnusedIpAddresses ( $ipaddresses[$n]['ip_addr'], Transform2decimal($SubnetParsed['broadcast']), $type, 1, "broadcast", $SubnetDetails['mask'] );
             	if ( $unused  ) {
-            	    print '<tr class="th"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
+            	    print '<tr class="th success"><td></td><td colspan="'. $colspan['unused'] .'" class="unused">'. $unused['ip'] . ' (' . $unused['hosts'] .')</td><td colspan=2></td></tr>'. "\n";
             	}    
             }	   
             

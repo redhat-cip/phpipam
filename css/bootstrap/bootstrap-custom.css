@@ -550,7 +550,12 @@ ul#subnets li.leaf.active i {
 .table.ipaddresses tbody tr:nth-child(even) td,
 .table.slaves tbody tr:nth-child(even) td,
 .table-striped tbody tr:nth-child(even) td {
-	background: white !important;
+	background: white;
+}
+.table.ipaddresses tbody tr:nth-child(even):hover td,
+.table.slaves tbody tr:nth-child(even):hover td,
+.table-striped tbody tr:nth-child(even):hover td {
+	background: rgba(225,225,225,0.01);
 }
 .table.ipaddresses tbody tr:nth-child(even):hover td,
 .table.slaves tbody tr:nth-child(even):hover td,
@@ -638,6 +643,27 @@ table.slaves tr.sum th {
 table.slaves tr.sumTop th {
 	border-top: double medium #dddddd;
 	border-bottom: none;
+}
+table.slaves th.small,
+table.slaves td.small {
+	white-space: nowrap;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 10px;
+}
+table.slaves th.description,
+table.slaves td.description {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+table.ipaddresses tr.success td,
+table.slaves tr.success td {
+/* 	background: #dff0d8; */
+	background: rgba(223,240,216,0.35) !important;
+/* 	background: #f9f9f9 !important; */
+	
+	text-shadow: 1px 1px 1px white;
+	color: rgb(192, 192, 192);
 }
 
 .editIPAddress select {
