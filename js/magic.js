@@ -958,7 +958,7 @@ $('.editSwitch').live('click', function() {
     showSpinner();
     var switchId = $(this).attr('data-switchid');
     var action   = $(this).attr('data-action');
-    $.post('site/admin/manageSwitchesEdit.php', {switchId:switchId, action:action}, function(data) {
+    $.post('site/admin/manageDevicesEdit.php', {switchId:switchId, action:action}, function(data) {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
@@ -969,7 +969,7 @@ $('.editSwitch').live('click', function() {
 $('#editSwitchsubmit').live('click', function() {
     showSpinner();
     var switchdata = $('form#switchManagementEdit').serialize();
-    $.post('site/admin/manageSwitchesEditResult.php', switchdata, function(data) {
+    $.post('site/admin/manageDevicesEditResult.php', switchdata, function(data) {
         $('div.switchManagementEditResult').html(data).slideDown('fast');
 
         //reload after 2 seconds if succeeded!

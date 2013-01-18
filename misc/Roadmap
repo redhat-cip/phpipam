@@ -9,7 +9,12 @@ features for next releases:
 		+ Get next available subnet by providing mask;
 		+ Compress DHCP, reserved and offline ranges;
 		
+		+ Create multiple networks with same bitmasks (when adding new);
+		+ delete all hosts (truncate network);
+		
 		+ Session timeout setup;
+		+ Add option for non-html mails;
+		+ smtp auth;
 		
 		+ Logs search;
 		+ User actvity display;

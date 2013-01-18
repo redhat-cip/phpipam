@@ -32,11 +32,6 @@ if(sizeof($slaves) == 0 && $type == 0 && $SubnetDetails['mask']!="31" && $Subnet
 		print "<span class='ip-$class modIPaddr'  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";		
 	}
 	print "</div>";
-	print "<div style='clear:both'></div>";	# clear float
-	
-	# legend
-	print "<div class='legend'>";
-	
-	print "</div>";
+	print "<div style='clear:both;padding-bottom:20px;'></div>";	# clear float
 }
 ?>

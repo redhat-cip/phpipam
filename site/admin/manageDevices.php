@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Script to print switches
+ * Script to print devices
  ***************************/
 
 /* verify that user is admin */
 if (!checkAdmin()) die('');
 
-/* get current switches */
+/* get current devices */
 $switches = getAllUniqueSwitches();
 
 ?>
@@ -35,7 +35,7 @@ else {
 	print '	<th>Model</th>';
 	print '	<th>SW version</th>';
 	print '	<th>Description</th>';
-	print '	<th><i class="icon-gray icon-info-sign" rel="tooltip" title="Shows in which sections switch will be visible for selection"></i> Sections</th>';
+	print '	<th><i class="icon-gray icon-info-sign" rel="tooltip" title="Shows in which sections device will be visible for selection"></i> Sections</th>';
 	print '	<th></th>';
 	print '</tr>';
 

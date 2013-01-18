@@ -676,7 +676,10 @@ function getSwitchTypes()
 	$res[2] = "Firewall";
 	$res[3] = "Hub";
 	$res[4] = "Wireless";
-	
+	$res[5] = "Database";
+	$res[6] = "Workstation";
+	$res[7] = "Other";
+
 	return $res;
 }
 
@@ -691,7 +694,10 @@ function TransformSwitchType($type)
 		case "1":	$res = "Router";	break;
 		case "2":	$res = "Firewall";	break;
 		case "3":	$res = "Hub";		break;
-		case "4":	$res = "Wireless";		break;
+		case "4":	$res = "Wireless";	break;
+		case "5":	$res = "Database";	break;
+		case "6":	$res = "Workstation";	break;
+		case "7":	$res = "Other";		break;
 	}	
 	return $res;
 }

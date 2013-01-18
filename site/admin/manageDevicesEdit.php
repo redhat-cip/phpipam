@@ -21,7 +21,7 @@ else 								{ $readonly = ""; }
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> switch</div>
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> device</div>
 
 
 <!-- content -->
@@ -34,7 +34,7 @@ else 								{ $readonly = ""; }
 	<tr>
 		<td>Hostname</td>
 		<td>
-			<input type="text" name="hostname" placeholder="hostname" value="<?php if(isset($switch['hostname'])) print $switch['hostname']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="hostname" placeholder="Hostname" value="<?php if(isset($switch['hostname'])) print $switch['hostname']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
@@ -66,7 +66,7 @@ else 								{ $readonly = ""; }
 	<tr>
 		<td>Vendor</td>
 		<td>
-			<input type="text" name="vendor" placeholder="Switch vendor" value="<?php if(isset($switch['vendor'])) print $switch['vendor']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="vendor" placeholder="Vendor" value="<?php if(isset($switch['vendor'])) print $switch['vendor']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
@@ -74,7 +74,7 @@ else 								{ $readonly = ""; }
 	<tr>
 		<td>Model</td>
 		<td>
-			<input type="text" name="model" placeholder="Switch model" value="<?php if(isset($switch['model'])) print $switch['model']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="model" placeholder="Model" value="<?php if(isset($switch['model'])) print $switch['model']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
@@ -101,7 +101,7 @@ else 								{ $readonly = ""; }
 
 	<!-- Sections -->
 	<tr>
-		<td colspan="2">Sections to display switch in:</td>
+		<td colspan="2">Sections to display device in:</td>
 	</tr>
 	<tr>
 		<td></td>
@@ -128,7 +128,7 @@ else 								{ $readonly = ""; }
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small" id="editSwitchsubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> Switch</button>
+	<button class="btn btn-small" id="editSwitchsubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> Device</button>
 
 	<!-- result -->
 	<div class="switchManagementEditResult"></div>
