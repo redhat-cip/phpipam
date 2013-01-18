@@ -167,6 +167,17 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
+<!-- HTML email -->
+<tr>
+	<td class="title">HTML email</td>
+	<td>
+		<input type="checkbox" value="1" name="htmlMail" <?php if($settings['htmlMail'] == 1) print 'checked'; ?>>
+	</td>
+	<td class="info">
+	Send html mail instead of plain text.
+	</td>
+</tr>
+
 <!-- Disable donation field -->
 <tr>
 	<td class="title">Hide donation button</td>

@@ -166,6 +166,7 @@ CREATE TABLE `settings` (
   `visualLimit` int(2)  NOT NULL  DEFAULT '0',
   `vlanDuplicate` int(1) DEFAULT '0',
   `subnetOrdering` varchar(16) DEFAULT 'subnet,asc',
+  `htmlMail` BINARY(1)  NOT NULL  DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

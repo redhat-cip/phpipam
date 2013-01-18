@@ -957,6 +957,7 @@ function updateSettings($settings)
 	$query   .= '`donate`   		  = "'. isCheckbox($settings['donate']) .'", ' . "\n";
 	$query   .= '`strictMode`   	  = "'. isCheckbox($settings['strictMode']) .'", ' . "\n";
 	$query   .= '`enableDNSresolving` = "'. isCheckbox($settings['enableDNSresolving']) .'", ' . "\n";  
+	$query   .= '`htmlMail` 		  = "'. isCheckbox($settings['htmlMail']) .'", ' . "\n";  
     $query   .= '`printLimit` 	      = "'. $settings['printLimit'] .'", ' . "\n"; 
     $query   .= '`visualLimit` 	      = "'. $settings['visualLimit'] .'", ' . "\n"; 
     $query   .= '`vlanDuplicate` 	  = "'. $settings['vlanDuplicate'] .'", ' . "\n"; 
