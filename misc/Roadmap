@@ -13,7 +13,6 @@ features for next releases:
 		+ delete all hosts (truncate network);
 		
 		+ Session timeout setup;
-		+ Add option for non-html mails;
 		+ smtp auth;
 		
 		+ Logs search;

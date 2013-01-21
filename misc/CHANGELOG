@@ -12,12 +12,14 @@
 	+ Added add nested subnet under subnet details to simplify master subnet selection in hierarchy;
 	+ Added edit subnet link from search results;
 	+ Added reverse IPv6 DNS entries to IPCalc (Vincent Boisard);
+	+ Added option for plain-text emails;
 
 	Bugfixes:
 	------------------------
 	+ Fixed overlay on second popup;
 	+ Fixed IE search bug;
 	+ Fixed support for non-standard ports;
+	+ Fixed permitting overlapping subnets if vrfs are different;
 
 == 0.7
 

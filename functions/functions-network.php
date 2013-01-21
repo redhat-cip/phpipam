@@ -721,14 +721,14 @@ function calculateSubnetDetailsNew ( $subnet, $bitmask, $online, $offline, $rese
  *      - inside section subnets cannot overlap!
  *      - same subnet can be configured in different sections
  */
-function verifySubnetOverlapping ($sectionId, $subnetNew) 
+function verifySubnetOverlapping ($sectionId, $subnetNew, $vrfId = 0) 
 {
     /* we need to get all subnets in section */
     global $db;
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
     
     /* first we must get all subnets in section (by sectionId) */
-    $querySubnets     = 'select subnet,mask from subnets where sectionId = "'. $sectionId .'";';  
+    $querySubnets     = 'select `subnet`,`mask`,`vrfId`,`description` from subnets where sectionId = "'. $sectionId .'";';  
     $allSubnets       = $database->getArray($querySubnets);   
 
     /* set new Subnet array */
@@ -747,10 +747,13 @@ function verifySubnetOverlapping ($sectionId, $subnetNew)
             	/* we need cidr format! */
             	$existingSubnet['subnet'] = Transform2long($existingSubnet['subnet']) .'/'. $existingSubnet['mask'];
                                 
-                if ( verifyIPv4SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-                    return 'Subnet overlapps with '. $existingSubnet['subnet'];
-                }
-            }
+                /* only check if vrfId's match */
+                if($existingSubnet['vrfId'] == $vrfId) {
+	                if ( verifyIPv4SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
+	                    return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+	                }
+	            }
+	        }
         }
     }
     else
@@ -760,13 +763,15 @@ function verifySubnetOverlapping ($sectionId, $subnetNew)
             
             /* we need cidr format! */
             $existingSubnet['subnet'] = Transform2long($existingSubnet['subnet']) .'/'. $existingSubnet['mask'];
-            
-            if ( verifyIPv6SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-                return 'Subnet overlapps with '. $existingSubnet['subnet'];
+
+            /* only check if vrfId's match */
+            if($existingSubnet['vrfId'] == $vrfId) {            
+        	    if ( verifyIPv6SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
+            	    return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+            	}
             }
         }
     }
-    
     return false;
 }
 
@@ -777,15 +782,16 @@ function verifySubnetOverlapping ($sectionId, $subnetNew)
  * Subnet policy:
  *      - inside section subnets cannot overlap!
  *      - same subnet can be configured in different sections
+ *		- if vrf is same do checks, otherwise skip
  */
-function verifyNestedSubnetOverlapping ($sectionId, $subnetNew) 
+function verifyNestedSubnetOverlapping ($sectionId, $subnetNew, $vrfId) 
 {
     /* we need to get all subnets in section */
     global $db;
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
     
     /* first we must get all subnets in section (by sectionId) */
-    $querySubnets     = 'select subnet,mask from subnets where sectionId = "'. $sectionId .'" and `masterSubnetId` != "0" and `masterSubnetId` IS NOT NULL;';  
+    $querySubnets     = 'select `subnet`,`mask`,`description`,`vrfId` from `subnets` where sectionId = "'. $sectionId .'" and `masterSubnetId` != "0" and `masterSubnetId` IS NOT NULL;';  
     $allSubnets       = $database->getArray($querySubnets);   
 
     /* set new Subnet array */
@@ -803,9 +809,12 @@ function verifyNestedSubnetOverlapping ($sectionId, $subnetNew)
             	
             	/* we need cidr format! */
             	$existingSubnet['subnet'] = Transform2long($existingSubnet['subnet']) .'/'. $existingSubnet['mask'];
-                                
-                if ( verifyIPv4SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-                    return 'Subnet overlapps with '. $existingSubnet['subnet'];
+
+                /* only check if vrfId's match */
+                if($existingSubnet['vrfId'] == $vrfId) {                                
+                	if ( verifyIPv4SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
+                    	return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+                    }
                 }
             }
         }
@@ -817,9 +826,12 @@ function verifyNestedSubnetOverlapping ($sectionId, $subnetNew)
             
             /* we need cidr format! */
             $existingSubnet['subnet'] = Transform2long($existingSubnet['subnet']) .'/'. $existingSubnet['mask'];
-            
-            if ( verifyIPv6SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-                return 'Subnet overlapps with '. $existingSubnet['subnet'];
+
+            /* only check if vrfId's match */
+            if($existingSubnet['vrfId'] == $vrfId) {              
+        	    if ( verifyIPv6SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
+            	    return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+            	}
             }
         }
     }
