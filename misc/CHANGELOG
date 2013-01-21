@@ -3,9 +3,10 @@
 	New features:
 	----------------------------	
 	+ Subnet resizing;
-	+ Subnet splitting into smaller subnets (including IP addresses);
-	+ Added free space for nested subnets;
-	+ Added visual display of subnet usage;
+	+ Subnet splitting into smaller subnets;
+	+ Added free space display for nested subnets;
+	+ Added visual display of subnet usage per IP address;
+	+ Added truncate network option that deletes all IP addresses in subnet;
 	
 	Enhancements:
 	----------------------------

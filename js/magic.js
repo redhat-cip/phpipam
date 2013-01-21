@@ -787,7 +787,7 @@ $('button.editSubnet').click(function() {
     });
 });
 //resize / split subnet
-$('#resize, #split').live('click', function() {
+$('#resize, #split, #truncate').live('click', function() {
 	showSpinner();
 	var action = $(this).attr('id');
 	var subnetId = $(this).attr('data-subnetId');
@@ -818,6 +818,18 @@ $('button#subnetSplitSubmit').live('click', function() {
 	var split = $('form#subnetSplit').serialize();
 	$.post("site/admin/manageSubnetSplitSave.php", split, function(data) {
 		$('div.subnetSplitResult').html(data);
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             { hideSpinner(); hideSpinner(); }
+	});
+	return false;
+});
+//truncate save
+$('button#subnetTruncateSubmit').live('click', function() {
+	showSpinner();
+	var subnetId = $(this).attr('data-subnetId');
+	$.post("site/admin/manageSubnetTruncateSave.php", {subnetId:subnetId}, function(data) {
+		$('div.subnetTruncateResult').html(data);
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner(); }

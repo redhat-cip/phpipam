@@ -1039,6 +1039,30 @@ function isSubnetWriteProtected($subnetId)
 
 
 /**
+ * truncate subnet
+ */
+function truncateSubnet($subnetId) 
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'delete from `ipaddresses` where `subnetId` = '. $subnetId .';'; 
+
+	/* execute */
+    try { $database->executeQuery($query); }
+    catch (Exception $e) { 
+    	$error =  $e->getMessage(); 
+    	die('<div class="alert alert-error">'.$error.'</div>');
+    }
+  
+	/* return true if locked */
+	return true;	
+}
+
+
+
+/**
  *	Print dropdown menu for subnets in section!
  */
 function printDropdownMenuBySection($sectionId, $subnetMasterId = "0") 

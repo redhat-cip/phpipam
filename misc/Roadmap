@@ -10,7 +10,6 @@ features for next releases:
 		+ Compress DHCP, reserved and offline ranges;
 		
 		+ Create multiple networks with same bitmasks (when adding new);
-		+ delete all hosts (truncate network);
 		
 		+ Session timeout setup;
 		+ smtp auth;
