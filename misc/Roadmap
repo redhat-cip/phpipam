@@ -11,6 +11,8 @@ features for next releases:
 		
 		+ Create multiple networks with same bitmasks (when adding new);
 		
+		+ Subnets import with vlan information;
+		
 		+ Session timeout setup;
 		+ smtp auth;
 		
