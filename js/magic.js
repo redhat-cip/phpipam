@@ -228,7 +228,7 @@ $('button#editIPAddressSubmit').live("click", function () {
         $('div.addnew_check').html(data);
         $('div.addnew_check').slideDown('fast');
         //reload after 2 seconds if succeeded!
-        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
     });    
     return false;
@@ -878,6 +878,22 @@ $('.editSubnetSubmit').live('click',function () {
     });
     return false;
 });
+
+//get subnet info from ripe database
+$('#get-ripe').live('click', function() {
+	showSpinner();
+	var subnet = $('form#editSubnetDetails input[name=subnet]').val();
+	
+	$.getJSON("site/admin/manageSubnetEditRipeQuery.php", {subnet: subnet}, function(data) { 
+		//fill fields
+		$.each(data, function(key, val) {
+			$('form#editSubnetDetails #field-'+key).val(val);
+		});
+		hideSpinner();
+	});
+	return false;
+});
+
 
 /*    Add subnet from IPCalc result
 *********************************/

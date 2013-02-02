@@ -70,14 +70,17 @@ else															{ $readonly = false; }
         	?>
             <input type="text" name="subnet"   placeholder="subnet in CIDR"   value="<?php print $cidr; ?>" <?php if ($readonly) print "readonly"; ?>>
         </td>
-        <td class="info">Enter subnet in CIDR format (e.g. 192.168.1.1/24)</td>
+        <td class="info">
+        	<button class="btn btn-small"  id='get-ripe' rel='tooltip' title='Get information form RIPE database'><i class="icon-refresh icon-gray"></i></button>
+        	Enter subnet in CIDR format (e.g. 192.168.1.1/24)
+        </td>
     </tr>
 
     <!-- description -->
     <tr>
         <td class="middle">Description</td>
         <td>
-            <input type="text" name="description"  placeholder="subnet description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
+            <input type="text" id="field-descr" name="description"  placeholder="subnet description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
         </td>
         <td class="info">Enter subnet description</td>
     </tr>  
@@ -285,7 +288,7 @@ else															{ $readonly = false; }
 			    print "<tr>";
 			    print "	<td class='middle'>$field[name]</td>";
 			    print "	<td>";
-			    print "	<input type='text' name='$field[nameNew]' value='".$subnetDataOld[$field['name']]."' placeholder='".$subnetDataOld[$field['name']]."'>";
+			    print "	<input type='text' id='field-$field[nameNew]' name='$field[nameNew]' value='".$subnetDataOld[$field['name']]."' placeholder='".$subnetDataOld[$field['name']]."'>";
 			    print " </td>";
 			    print " <td></td>";
 			    print "</tr>";
