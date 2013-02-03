@@ -1405,10 +1405,10 @@ function updateCustomSubnetField($field)
     	$query  = 'ALTER TABLE `subnets` DROP `'. $field['name'] .'`;';
     }
     else if ($field['action'] == "edit") {
-    	$query  = 'ALTER TABLE `subnets` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
+    	$query  = 'ALTER TABLE `subnets` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(1024) CHARACTER SET utf8 DEFAULT NULL;';
     }
     else {
-    	$query  = 'ALTER TABLE `subnets` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
+    	$query  = 'ALTER TABLE `subnets` ADD COLUMN `'. $field['name'] .'` VARCHAR(1024) CHARACTER SET utf8 DEFAULT NULL;';
     }
     
     /* prepare log */ 

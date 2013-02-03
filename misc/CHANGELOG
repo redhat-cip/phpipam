@@ -7,6 +7,7 @@
 	+ Added free space display for nested subnets;
 	+ Added visual display of subnet usage per IP address;
 	+ Added truncate network option that deletes all IP addresses in subnet;
+	+ Added button the updates subnet with RIPE information;
 	
 	Enhancements:
 	----------------------------

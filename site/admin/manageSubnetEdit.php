@@ -80,7 +80,7 @@ else															{ $readonly = false; }
     <tr>
         <td class="middle">Description</td>
         <td>
-            <input type="text" id="field-descr" name="description"  placeholder="subnet description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
+            <input type="text" id="field-description" name="description"  placeholder="subnet description" value="<?php if(isset($subnetDataOld['description'])) {print $subnetDataOld['description'];} ?>">
         </td>
         <td class="info">Enter subnet description</td>
     </tr>  
@@ -284,13 +284,14 @@ else															{ $readonly = false; }
 		    foreach($customSubnetFields as $field) {
 		    	# replace spaces
 		    	$field['nameNew'] = str_replace(" ", "___", $field['name']);
+		    	# retain newlines
+		    	$subnetDataOld[$field['name']] = str_replace("\n", "\\n", $subnetDataOld[$field['name']]);
 		    	
 			    print "<tr>";
 			    print "	<td class='middle'>$field[name]</td>";
-			    print "	<td>";
-			    print "	<input type='text' id='field-$field[nameNew]' name='$field[nameNew]' value='".$subnetDataOld[$field['name']]."' placeholder='".$subnetDataOld[$field['name']]."'>";
+			    print "	<td colspan='2'>";
+			    print "	<input type='text' class='input-xxlarge' id='field-$field[nameNew]' name='$field[nameNew]' value='".$subnetDataOld[$field['name']]."' placeholder='".$subnetDataOld[$field['name']]."'>";
 			    print " </td>";
-			    print " <td></td>";
 			    print "</tr>";
 		    }
 	    }

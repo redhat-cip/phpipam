@@ -599,6 +599,8 @@ ul#subnets li.leaf.active i {
 	padding-right: 15px;
 	
 /* 	background: white !important; */
+
+	vertical-align: top;
 	
 	border-bottom: none;
 	border-right: 1px solid #dddddd;

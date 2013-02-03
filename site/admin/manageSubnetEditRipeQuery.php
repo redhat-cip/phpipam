@@ -1,7 +1,5 @@
 <?php
 
-header("Content-type: text/javascript");
-
 /** 
  * Function to get RIPe info for network
  ********************************************/
@@ -48,12 +46,18 @@ foreach($xml->objects->object[0]->attributes->children() as $m=>$subtag) {
     $b = (string) $subtag->attributes()->value;
     
     # replace - with _
-    $a = str_replace("-", "___", $a);
+    $a = str_replace("-", "_", $a);
     
-    $out["$a"] .= $b;
+    $out["$a"] .= $b.'\n';
+}
+
+# replace last newlines
+foreach($out as $key=>$val) {
+	$out[$key] = rtrim($val, "\\n");
 }
 
 /* save to json and return */
+header("Content-type: text/javascript");
 echo json_encode($out);
 
 ?>
