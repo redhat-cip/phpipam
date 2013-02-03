@@ -359,9 +359,11 @@ if($sizeIP  > $pageLimit) { ?>
 
 <?php
 # visual display of used IP addresses
-if($settings['visualLimit'] > 0) {
-	if($settings['visualLimit'] <= $SubnetDetails['mask']) {
-		include_once('ipAddressPrintVisual.php');
+if($type == "IPv4") {
+	if($settings['visualLimit'] > 0) {
+		if($settings['visualLimit'] <= $SubnetDetails['mask']) {
+			include_once('ipAddressPrintVisual.php');
+		}
 	}
 }
 ?>

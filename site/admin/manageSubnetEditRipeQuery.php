@@ -12,33 +12,16 @@ checkAdmin();
 CheckReferrer();
 
 /* http://apps.db.ripe.net/whois/lookup/ripe/inetnum/212.58.224.0-212.58.255.255.html.xml */
+/* http://apps.db.ripe.net/whois/lookup/ripe/inet6num/2102:840::/32.xml */
 
 
-# identify address
+# identify address and set proper url
 $type = IdentifyAddress($_REQUEST['subnet']);
 	
-# IPv4
-if ($type == "IPv4") {
-    # IPv4 functions */
-    require_once('../../functions/PEAR/Net/IPv4.php'); 
-    $Net_IPv4 = new Net_IPv4();
-       
-    # parse subnet
-    $net = $Net_IPv4->parseAddress($_REQUEST['subnet']);
-}
-# IPv6
-else {
-    # IPv6 functions */
-    require_once('../../functions/PEAR/Net/IPv6.php');
-    $Net_IPv6 = new Net_IPv6();
-    	
-    /* remove netmask from subnet1 */
-    $net = $Net_IPv6->removeNetmaskSpec ($_REQUEST['subnet']);
-}
-
+if ($type == "IPv4") 	{ $url = "http://apps.db.ripe.net/whois/lookup/ripe/inetnum/$_REQUEST[subnet].xml"; }
+else 					{ $url = "http://apps.db.ripe.net/whois/lookup/ripe/inet6num/$_REQUEST[subnet].xml"; }
 
 /* querry ripe db and parse result */
-$url = "http://apps.db.ripe.net/whois/lookup/ripe/inetnum/$net->network-$net->broadcast.xml";
 $xml = simplexml_load_file($url);
 
 foreach($xml->objects->object[0]->attributes->children() as $m=>$subtag) {
