@@ -27,6 +27,7 @@
 	+ Fixed dates in logging appearing in 12h format;
 	+ Fixed broken subnets link in tools > subnets if installation is not at document root;
 	+ Fixed error when adding new subnet if checkboxes are not selected in newser MySQL servers;
+	+ Fixed bad display of multilined navigation bar;
 
 == 0.7
 

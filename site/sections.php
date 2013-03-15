@@ -39,11 +39,14 @@ $setFields = explode(";", $setFieldsTemp);
 
 ?>
 
-
 <!-- Section nabvigation -->
 <div class="navbar">
 <div class="navbar-inner">
 
+
+	<table class="nav">
+	<tr>
+		<td>
 		
 		<!-- hide when too small -->
 		<div class="nav-collapse">
@@ -67,14 +70,55 @@ $setFields = explode(";", $setFieldsTemp);
 			?>
 		</ul>		
 		</div>
+	</td>
 
+	<!-- instructions -->	
+	<td class="fixed instr">	
+		<ul class="nav nav-tabs">
+			<li>
+				<a href="tools/instructions/" rel='tooltip' data-placement='bottom' title="Show IP addressing Guide"><img src="css/images/info.png" style="width:20px;"></a>
+			</li>
+		</ul>
+	</td>
+
+	<!-- Tools -->
+	<td class="fixed">
+	    <ul class="nav nav-tabs pull-right">
+	    	<li class="dropdown">
+	    		<a class="dropdown-toggle topmenulink" data-toggle="dropdown" href="" rel='tooltip' data-placement='bottom' title='Show tools menu'><i class="icon-wrench icon-white"></i> Tools <b class="caret"></b></a>
+	    		<ul class="dropdown-menu tools">
+	    			<!-- public -->
+	    			<li class="nav-header">Available IPAM tools</li>
+	    			<!-- private -->
+	    			<?php
+	    				# if adminId is not set
+	    				if(!isset($_REQUEST['toolsId'])) { $_REQUEST['toolsId'] = ""; }
+			    		
+			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>IP calculator</a></li>"; 
+				    	print "	<li "; if($_REQUEST['toolsId'] == "devices") 	print "class='active'"; print "><a href='tools/devices/'>Devices</a></li>";
+				    	if($settings['enableVRF'] == 1) {									# print VRFs if enabled
+				    	print "	<li "; if($_REQUEST['toolsId'] == "vrf") 		print "class='active'"; print "><a href='tools/vrf/'>VRFs</a></li>"; 
+					    }
+				    	print "	<li "; if($_REQUEST['toolsId'] == "vlan") 		print "class='active'"; print "><a href='tools/vlan/'>VLANs</a></li>"; 	
+				    	print "	<li "; if($_REQUEST['toolsId'] == "subnets") 	print "class='active'"; print "><a href='tools/subnets/'>Subnets</a></li>"; 
+				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>Search</a></li>"; 
+				    	print "	<li class='divider'></li>";
+				    	print "	<li><a href='tools/'>Show all tools</a></li>";	
+	
+	    			?>
+	    		</ul>
+	    	</li>
+	    </ul>
+	</td>
+	
 	    <?php
 	    # print admin menu if admin user and don't die!
 		if(checkAdmin(false)) {
 			# if adminId is not set
 			if(!isset($_REQUEST['adminId'])) { $_REQUEST['adminId'] = ""; }
 		
-			print "<ul class='nav nav-tabs pull-right'>";
+			print '<td class="fixed">';
+			print "<ul class='nav nav-tabs' style='margin-right:0px;'>";
 			print "	<li class='dropdown'>";
 			# title
 			print "	<a class='dropdown-toggle btn-danger' data-toggle='dropdown' href='administration/' id='admin' rel='tooltip' data-placement='bottom' title='Show Administration menu'><i class='icon-cog icon-white'></i> Administration <b class='caret'></b></a>";
@@ -112,45 +156,13 @@ $setFields = explode(";", $setFieldsTemp);
 			
 			print "	</li>";
 			print "</ul>";
+			print "</td>";
 		}
 	    
 	    ?>
 
-	    <!-- Tools -->
-	    <ul class="nav nav-tabs pull-right">
-	    	<li class="dropdown">
-	    		<a class="dropdown-toggle topmenulink" data-toggle="dropdown" href="" rel='tooltip' data-placement='bottom' title='Show tools menu'><i class="icon-wrench icon-white"></i> Tools <b class="caret"></b></a>
-	    		<ul class="dropdown-menu">
-	    			<!-- public -->
-	    			<li class="nav-header">Available IPAM tools</li>
-	    			<!-- private -->
-	    			<?php
-	    				# if adminId is not set
-	    				if(!isset($_REQUEST['toolsId'])) { $_REQUEST['toolsId'] = ""; }
-			    		
-			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>IP calculator</a></li>"; 
-				    	print "	<li "; if($_REQUEST['toolsId'] == "devices") 	print "class='active'"; print "><a href='tools/devices/'>Devices</a></li>";
-				    	if($settings['enableVRF'] == 1) {									# print VRFs if enabled
-				    	print "	<li "; if($_REQUEST['toolsId'] == "vrf") 		print "class='active'"; print "><a href='tools/vrf/'>VRFs</a></li>"; 
-					    }
-				    	print "	<li "; if($_REQUEST['toolsId'] == "vlan") 		print "class='active'"; print "><a href='tools/vlan/'>VLANs</a></li>"; 	
-				    	print "	<li "; if($_REQUEST['toolsId'] == "subnets") 	print "class='active'"; print "><a href='tools/subnets/'>Subnets</a></li>"; 
-				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>Search</a></li>"; 
-				    	print "	<li class='divider'></li>";
-				    	print "	<li><a href='tools/'>Show all tools</a></li>";	
-	
-	    			?>
-	    		</ul>
-	    	</li>
-	    </ul>
-
-		
-		<!-- instructions -->
-		<ul class="nav nav-tabs pull-right">
-			<li>
-				<a href="tools/instructions/" rel='tooltip' data-placement='bottom' title="Show IP addressing Guide"><img src="css/images/info.png" style="width:20px;"></a>
-			</li>
-		</ul>
+	</tr>
+	</table>
 				    
 </div>
 </div>

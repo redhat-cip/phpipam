@@ -122,16 +122,16 @@ td.actions {
  
 /* @header ---------- */
 #header {
-	position: fixed;
+/* 	position: fixed; */
 	top: 0px;
 	left: 0px;
 	width: 100%;
-	height: 100px;
+	height: 110px;
 	
 	z-index: 97;
 }
 .sections_overlay {
-	position: fixed;
+/* 	position: fixed; */
 	top: 100px;
 	width: 100%;
 	
@@ -192,6 +192,10 @@ td.actions {
 
 	padding-top: 8px;
 	padding-bottom: 0px;
+	
+	padding-right: 0px;
+	padding: 0px;
+	padding-left: 8px;
 
 	background: #40464a;								/* old gray */	
 	
@@ -203,13 +207,7 @@ td.actions {
 	background-image: -o-linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
 	background-image: -ms-linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
 	background-image: linear-gradient(top, #696969 0%,#363636 95%,#313131 97%,#252525 100%);
-}
 
-	box-shadow: 		0px 3px 3px silver;
-	-webkit-box-shadow: 0px 3px 3px silver;
-	-moz-box-shadow: 	0px 3px 3px silver;
-	
-		padding-right: 0px;
 }
 .navbar-inner ul li {									/* general ul li menu borders */
 	border: none;
@@ -360,6 +358,29 @@ ul.admin li.active a {
 	background: #F1FAFE !important;
 }
 
+/* multiple line sections fix */
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+	border: none;
+}
+
+/* top nav table overlay */
+table.nav {
+	width: 100%;
+}
+table.nav td {
+	width: auto;
+	width: 100%;
+}
+table.nav td.fixed {
+	width: 10px;
+	white-space: nowrap;
+	vertical-align: bottom;
+}
+table.nav td.instr {
+	border-left: 1px solid #666;
+}
+
+
 
 
 
@@ -367,7 +388,7 @@ ul.admin li.active a {
 
 /* @content structure ---------- */
 .content_overlay {
-	padding-top: 150px;
+/* 	padding-top: 150px; */
 }
 .container-fluid {
 	padding-left: 0px;
@@ -1238,7 +1259,7 @@ body {
 }
 div.wrapper,
 div.footer {
-	min-width: 1024px;
+/* 	min-width: 1024px; */
 }
 div.wrapper {
 /* 	min-height: 100%; */
@@ -1301,7 +1322,7 @@ div.user_menu {
 	
 	text-align: right;
 	
-	position: fixed;
+/* 	position: fixed; */
 	z-index: 98;
 }
 #userNav input {
