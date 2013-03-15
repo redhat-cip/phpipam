@@ -567,8 +567,8 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= ' "'. $subnetDetails['vlanId'] 			 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['vrfId'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['masterSubnetId'] .'", ' . "\n"; 
-        $query .= ' "'. $subnetDetails['allowRequests']  .'", ' . "\n";
-        $query .= ' "'. $subnetDetails['showName']  .'" ' . "\n";  
+        $query .= ''. isCheckbox($subnetDetails['allowRequests']) .','."\n";
+        $query .= ''. isCheckbox($subnetDetails['showName']) ."\n";  
         $query .= $myFieldsInsert['values'];
         $query .= ' );';
     }
