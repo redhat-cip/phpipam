@@ -36,7 +36,8 @@ $settings = getallSettings();
     <th>E-mail</th>
     <th>Role</th>
     <th>Type</th>
-    <th colspan="2"></th>
+    <th>Groups</th>
+    <th></th>
 </tr>
 
 <?php
@@ -60,12 +61,31 @@ foreach ($users as $user)
 		if($settings['domainAuth'] == "2") 	{ print '	<td>LDAP user</td>'. "\n"; }
 		else 								{ print '	<td>Domain user</td>'. "\n"; }
 	}
+
+	# groups
+	if($user['role'] == "Administrator") {
+	print '	<td>All groups</td>'. "\n";		
+	}
+	else {
+		$groups = json_decode($user['groups'], true);
+		$gr = parseUserGroups($groups);
+	
+		print '	<td>';
+		if(sizeof($gr)>0) {
+			foreach($gr as $group) {
+				print $group['g_name']."<br>";
+			}
+		}
+		print '	</td>'. "\n";
+	}
 	
 	# edit, delete
-	print "	<td>";
-	print "		<button class='btn btn-small editUser' data-userid='$user[id]' data-action='edit'  ><i class='icon-gray icon-pencil'></i> Edit</button>";
-	print "		<button class='btn btn-small editUser' data-userid='$user[id]' data-action='delete'><i class='icon-gray icon-remove'></i> Delete</button>";
-	print "	<td>";
+	print "	<td class='actions'>";
+	print "	<div class='btn-group'>";
+	print "		<button class='btn btn-small editUser' data-userid='$user[id]' data-action='edit'  ><i class='icon-gray icon-pencil'></i></button>";
+	print "		<button class='btn btn-small editUser' data-userid='$user[id]' data-action='delete'><i class='icon-gray icon-remove'></i></button>";
+	print "	</div>";
+	print "	</td>";
 	
 	print '</tr>' . "\n";
 }
@@ -73,3 +93,8 @@ foreach ($users as $user)
 ?>
 
 </table>
+
+<div class="alert alert-info alert-absolute">
+Adminstrator users will be able to view and edit all all sections and subnets<br>
+Normal users will have premissions set based on group access to sections and subnets
+</div>

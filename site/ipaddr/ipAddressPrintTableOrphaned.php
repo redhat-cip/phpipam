@@ -167,19 +167,15 @@ foreach($ipaddresses as $ipaddress)
 			}
 		
 			# print action links if user can edit 
-			if(!$viewer) {		
-				print "<td class='btn-actions'>";
-				print "	<div class='btn-toolbar'>";
-				print "	<div class='btn-group'>";
-				print "		<a class='move_ipaddress   btn btn-mini moveIPaddr' data-action='move'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='Move to different subnet'>				<i class='icon-gray icon-edit'>  </i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini modIPaddr'  data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";
-				print "	</div>";
-				print "	</div>";
-				print "</td>";		
-			}
-			else {
-				print '<td></td>';
-			}
+			print "<td class='btn-actions'>";
+			print "	<div class='btn-toolbar'>";
+			print "	<div class='btn-group'>";
+			print "		<a class='move_ipaddress   btn btn-mini moveIPaddr' data-action='move'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='Move to different subnet'>				<i class='icon-gray icon-edit'>  </i></a>";
+			print "		<a class='delete_ipaddress btn btn-mini modIPaddr'  data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";
+			print "	</div>";
+			print "	</div>";
+			print "</td>";		
+
 		
 			print '</tr>'. "\n";
 	   

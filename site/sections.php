@@ -54,14 +54,15 @@ $setFields = explode(";", $setFieldsTemp);
 			if(!isset($_REQUEST['section'])) { $_REQUEST['section'] = ""; }
 			
 			foreach($sections as $section) {
-				if( ($section['name'] == $_REQUEST['section']) || ($section['id'] == $_REQUEST['section']) ) {
-					print "<li class='active'>";
+				# check permissions for user
+				$perm = checkSectionPermission ($section['id']);
+				if($perm == "1" || $perm == "2") {
+					if( ($section['name'] == $_REQUEST['section']) || ($section['id'] == $_REQUEST['section']) ) 	{ print "<li class='active'>"; }
+					else 																							{ print "<li>"; }
+				
+					print "	<a href='subnets/$section[id]/' rel='tooltip' data-placement='bottom' title='Show all subnets in $section[name] section'>$section[name]</a>";
+					print "</li>";
 				}
-				else {
-					print "<li>";
-				}
-				print "	<a href='subnets/$section[id]/' rel='tooltip' data-placement='bottom' title='Show all subnets in $section[name] section'>$section[name]</a>";
-				print "</li>";
 			}
 			?>
 		</ul>		
@@ -91,7 +92,8 @@ $setFields = explode(";", $setFieldsTemp);
 			}
 			print "		<li class='nav-header'>Server management</li>";
 			print "		<li "; if($_REQUEST['adminId'] == "manageRequests") print "class='active'"; print "><a href='administration/settings/'>IPAM settings</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "userMod") 		print "class='active'"; print "><a href='administration/userMod/'>Users</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "users") 			print "class='active'"; print "><a href='administration/users/'>Users</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "groups") 		print "class='active'"; print "><a href='administration/groups/'>Groups</a></li>";
 			print "		<li "; if($_REQUEST['adminId'] == "logs") 			print "class='active'"; print "><a href='administration/logs/'>Log files</a></li>";
 
 			print "		<li class='divider'></li>";
@@ -125,14 +127,9 @@ $setFields = explode(";", $setFieldsTemp);
 	    			<?php
 	    				# if adminId is not set
 	    				if(!isset($_REQUEST['toolsId'])) { $_REQUEST['toolsId'] = ""; }
-		    			
-		    			/* tools for admins and operators */
-		    			if(!isUserViewer()) {
 			    		
 			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>IP calculator</a></li>"; 
-			    		if(in_array('switch', $setFields)) {								# print Switches if visible
-				    	print "	<li "; if($_REQUEST['toolsId'] == "switches") 	print "class='active'"; print "><a href='tools/switches/'>Devices</a></li>";
-				    	}
+				    	print "	<li "; if($_REQUEST['toolsId'] == "devices") 	print "class='active'"; print "><a href='tools/devices/'>Devices</a></li>";
 				    	if($settings['enableVRF'] == 1) {									# print VRFs if enabled
 				    	print "	<li "; if($_REQUEST['toolsId'] == "vrf") 		print "class='active'"; print "><a href='tools/vrf/'>VRFs</a></li>"; 
 					    }
@@ -140,12 +137,8 @@ $setFields = explode(";", $setFieldsTemp);
 				    	print "	<li "; if($_REQUEST['toolsId'] == "subnets") 	print "class='active'"; print "><a href='tools/subnets/'>Subnets</a></li>"; 
 				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>Search</a></li>"; 
 				    	print "	<li class='divider'></li>";
-				    	print "	<li><a href='tools/'>Show all tools</a></li>";		
-						}
-						else {
-			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>IP calculator</a></li>"; 							
-				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>Search</a></li>"; 
-						}
+				    	print "	<li><a href='tools/'>Show all tools</a></li>";	
+	
 	    			?>
 	    		</ul>
 	    	</li>

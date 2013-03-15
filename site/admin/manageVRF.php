@@ -46,9 +46,11 @@ else {
 	print '	<td class="rd">'. $vrf['rd'] .'</td>'. "\n";
 	print '	<td class="description">'. $vrf['description'] .'</td>'. "\n";
 
-	print "	<td>";
-	print "		<button class='btn btn-small vrfManagement' data-action='edit'   data-vrfid='$vrf[vrfId]'><i class='icon-gray icon-edit'></i> Edit</button>";
-	print "		<button class='btn btn-small vrfManagement' data-action='delete' data-vrfid='$vrf[vrfId]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print "	<td class='actions'>";
+	print "	<div class='btn-group'>";
+	print "		<button class='btn btn-small vrfManagement' data-action='edit'   data-vrfid='$vrf[vrfId]'><i class='icon-gray icon-pencil'></i></button>";
+	print "		<button class='btn btn-small vrfManagement' data-action='delete' data-vrfid='$vrf[vrfId]'><i class='icon-gray icon-remove'></i></button>";
+	print "	</div>";
 	print "	</td>";	
 	print '</tr>'. "\n";
 

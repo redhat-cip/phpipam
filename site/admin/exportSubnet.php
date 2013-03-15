@@ -13,10 +13,6 @@ ini_set('display_errors', 0);
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
-/* verify that user is not viewer */
-/* user details */
-if(isUserViewer()) {	die();	}
-
 require_once '../../functions/PEAR/Spreadsheet/Excel/Writer.php';
 
 // Create a workbook

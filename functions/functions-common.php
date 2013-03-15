@@ -119,42 +119,6 @@ function checkAdmin ($die = true, $startSession = true)
 
 
 /**
- * Check if user is admin or operator
- */
-function isUserViewer () 
-{
-    global $db;                                                                      # get variables from config file
-    
-    /* first get active username */
-	if (!isset($_SESSION)) { 
-		session_start();
-	}
-	
-    $ipamusername = $_SESSION['ipamusername'];
-    session_write_close();
-    
-    /* set check query and get result */
-    $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
-    $query = 'select role from users where username = "'. $ipamusername .'";';
-    
-    /* fetch role */
-    $role = $database->getRow($query);
-
-    /* close database connection */
-    $database->close();
-    
-    /* return true if viewer, else false */
-    if ( ($role[0] == "Administrator") || ($role[0] == "Operator") ) {
-        return false;
-    }
-    else {
-        return true;
-    }
-         
-}
-
-
-/**
  * Get active users username - from session!
  */
 function getActiveUserDetails ()
@@ -178,7 +142,7 @@ function getAllUsers ()
 {
     global $db;                                                                      # get variables from config file
     /* set query, open db connection and fetch results */
-    $query    = 'select * from users order by id desc;';
+    $query    = 'select * from users order by `role` asc, `real_name` asc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
     $details  = $database->getArray($query); 
 	   
@@ -256,6 +220,121 @@ function getUserDetailsByName ($username)
     return($details);
 }
 
+
+
+
+
+
+
+
+
+/* @permission functions ---------- */
+
+/**
+ *	Check section permissions
+ */
+function checkSectionPermission ($sectionId)
+{
+    # open session and get username / pass
+	if (!isset($_SESSION)) {  session_start(); }
+    # redirect if not authenticated */
+    if (empty($_SESSION['ipamusername'])) 	{ return "0"; }
+    else									{ $username = $_SESSION['ipamusername']; }
+    
+	# get all user groups
+	$user = getUserDetailsByName ($username);
+	$groups = json_decode($user['groups']);
+	
+	# if user is admin then return 2, otherwise check
+	if($user['role'] == "Administrator")	{ return "2"; }
+	
+	# get section permissions
+	$section  = getSectionDetailsById($sectionId);
+	$sectionP = json_decode($section['permissions']);
+	
+	# default permission
+	$out = 0;
+	
+	# for each group check permissions, save highest to $out
+	foreach($sectionP as $sk=>$sp) {
+		# check each group if user is in it and if so check for permissions for that group
+		foreach($groups as $uk=>$up) {
+			if($uk == $sk) {
+				if($sp > $out) { $out = $sp; }
+			}
+		}
+	}
+	# return permission level
+	return $out;
+}
+
+
+/**
+ *	Check subnet permissions
+ */
+function checkSubnetPermission ($subnetId)
+{
+    # open session and get username / pass
+	if (!isset($_SESSION)) {  session_start(); }
+    # redirect if not authenticated */
+    if (empty($_SESSION['ipamusername'])) 	{ return "0"; }
+    else									{ $username = $_SESSION['ipamusername']; }
+    
+	# get all user groups
+	$user = getUserDetailsByName ($username);
+	$groups = json_decode($user['groups']);
+	
+	# if user is admin then return 2, otherwise check
+	if($user['role'] == "Administrator")	{ return "2"; }
+
+	# get subnet permissions
+	$subnet  = getSubnetDetailsById($subnetId);
+	$subnetP = json_decode($subnet['permissions']);
+	
+	# get section permissions
+	$section  = getSectionDetailsById($subnet['sectionId']);
+	$sectionP = json_decode($section['permissions']);
+	
+	# default permission
+	$out = 0;
+	
+	# for each group check permissions, save highest to $out
+	if(sizeof($sectionP) > 0) {
+		foreach($sectionP as $sk=>$sp) {
+			# check each group if user is in it and if so check for permissions for that group
+			foreach($groups as $uk=>$up) {
+				if($uk == $sk) {
+					if($sp > $out) { $out = $sp; }
+				}
+			}
+		}
+	}
+	else {
+		$out = "0";
+	}
+	
+	# if section permission == 0 then return 0
+	if($out == "0") {
+		return "0";
+	}
+	else {
+		$out = "0";
+		# ok, user has section access, check also for any higher access from subnet
+		if(sizeof($subnetP) > 0) {
+			foreach($subnetP as $sk=>$sp) {
+				# check each group if user is in it and if so check for permissions for that group
+				foreach($groups as $uk=>$up) {
+					if($uk == $sk) {
+						if($sp > $out) { $out = $sp; }
+					}
+				}
+			}
+		}
+	}
+	
+	# return result
+	return $out;
+}
 
 
 
@@ -389,6 +468,21 @@ function ShortenText($text, $chars = 25) {
 } 
 
 
+/**
+ * Parse section/subnet permissions
+ */
+function parsePermissions($perm)
+{
+	switch($perm) {
+		case "0": $r = "No access";		break;
+		case "1": $r = "Read";			break;
+		case "2": $r = "Read / Write";	break;
+		default:  $r = "error";
+	}
+	return $r;
+}
+
+
 
 
 
@@ -447,6 +541,10 @@ function get_menu_html( $subnets, $rootId = 0 )
 			if(isset($_REQUEST['subnetId']) && ($option['value']['id'] == $_REQUEST['subnetId']))	{ $active = "active";	$leafClass=""; }
 			else 																					{ $active = ""; 		$leafClass="icon-gray" ;}
 			
+			# check for permissions if id is provided
+			if($option['value']['id'] != "") {
+				$sp = checkSubnetPermission ($option['value']['id']);
+			}
 			
 			if ( $option === false )
 			{
@@ -458,37 +556,41 @@ function get_menu_html( $subnets, $rootId = 0 )
 			}
 			# Has children
 			elseif ( !empty( $children[$option['value']['id']] ) )
-			{	
-				# print name
-				if($option['value']['showName'] == 1) {
-					$html[] = '<li class="folder folder-'.$open.' '.$active.'"><i class="icon-gray icon-folder-'.$open.'" rel="tooltip" data-placement="right" title="Subnet contains more subnets.<br>Click on folder to open/close."></i>';
-					$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'">'.$option['value']['description'].'</a>'; 				
-				}
-				# print subnet
-				else {
-					$html[] = '<li class="folder folder-'.$open.' '.$active.'""><i class="icon-gray icon-folder-'.$open.'" rel="tooltip" data-placement="right" title="Subnet contains more subnets.<br>Click on folder to open/close."></i>';
-					$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.$option['value']['description'].'">'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'</a>'; 										
-				}
+			{
+				# if user has access permission
+				if($sp != 0) {	
+					# print name
+					if($option['value']['showName'] == 1) {
+						$html[] = '<li class="folder folder-'.$open.' '.$active.'"><i class="icon-gray icon-folder-'.$open.'" rel="tooltip" data-placement="right" title="Subnet contains more subnets.<br>Click on folder to open/close."></i>';
+						$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'">'.$option['value']['description'].'</a>'; 				
+					}
+					# print subnet
+					else {
+						$html[] = '<li class="folder folder-'.$open.' '.$active.'""><i class="icon-gray icon-folder-'.$open.'" rel="tooltip" data-placement="right" title="Subnet contains more subnets.<br>Click on folder to open/close."></i>';
+						$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.$option['value']['description'].'">'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'</a>'; 										
+					}
 
-				# print submenu
-				if($open == "open") { $html[] = '<ul class="submenu submenu-'.$open.'">'; }							# show if opened
-				else 				{ $html[] = '<ul class="submenu submenu-'.$open.'" style="display:none">'; }	# hide - prevent flickering
-									
+					# print submenu
+					if($open == "open") { $html[] = '<ul class="submenu submenu-'.$open.'">'; }							# show if opened
+					else 				{ $html[] = '<ul class="submenu submenu-'.$open.'" style="display:none">'; }	# hide - prevent flickering			
 								
-				array_push( $parent_stack, $option['value']['masterSubnetId'] );
-				$parent = $option['value']['id'];
+					array_push( $parent_stack, $option['value']['masterSubnetId'] );
+					$parent = $option['value']['id'];
+				}
 			}
 			# Leaf items (last)
 			else
-				# print name
-				if($option['value']['showName'] == 1) {				
-				$html[] = '<li class="leaf '.$active.'""><i class="'.$leafClass.' icon-chevron-right"></i>';
-				$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'">'.$option['value']['description'].'</a></li>';
-				}
-				# print subnet
-				else {
-				$html[] = '<li class="leaf '.$active.'""><i class="'.$leafClass.' icon-chevron-right"></i>';
-				$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.$option['value']['description'].'">'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'</a></li>';					
+				if($sp != 0) {
+					# print name
+					if($option['value']['showName'] == 1) {				
+						$html[] = '<li class="leaf '.$active.'""><i class="'.$leafClass.' icon-chevron-right"></i>';
+						$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'">'.$option['value']['description'].'</a></li>';
+					}
+					# print subnet
+					else {
+						$html[] = '<li class="leaf '.$active.'""><i class="'.$leafClass.' icon-chevron-right"></i>';
+						$html[] = '<a href="subnets/'.$option['value']['sectionId'].'/'.$option['value']['id'].'/" rel="tooltip" data-placement="right" title="'.$option['value']['description'].'">'.Transform2long($option['value']['subnet']).'/'.$option['value']['mask'].'</a></li>';					
+					}
 				}
 		}
 		
@@ -584,11 +686,11 @@ function printBreadcrumbs ($req)
 			if(is_numeric($req['section']))	{ $section = getSectionDetailsById($req['section']); }					# if id is provided
 			else							{ $section = getSectionDetailsByName($req['section']); }				# if name is provided
 			
-			print "	<li><a href='subnets/$section[name]/'>$section[name]</a> <span class='divider'>/</span></li>";	# section name
+			print "	<li><a href='subnets/$section[id]/'>$section[name]</a> <span class='divider'>/</span></li>";	# section name
 			
 			foreach($parents as $parent) {
 			$subnet = getSubnetDetailsById($parent);
-			print "	<li><a href='subnets/$section[name]/$parent/'>$subnet[description] (".Transform2long($subnet['subnet']).'/'.$subnet['mask'].")</a> <span class='divider'>/</span></li>";								# subnets in between
+			print "	<li><a href='subnets/$section[id]/$parent/'>$subnet[description] (".Transform2long($subnet['subnet']).'/'.$subnet['mask'].")</a> <span class='divider'>/</span></li>";								# subnets in between
 			}
 			$subnet = getSubnetDetailsById($req['subnetId']);
 			print "	<li class='active'>$subnet[description] (".Transform2long($subnet['subnet']).'/'.$subnet['mask'].")</li>";																# active subnet

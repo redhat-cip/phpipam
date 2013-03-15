@@ -14,7 +14,7 @@
 
 
 /* Required extensions */
-$requiredExt  = array("session", "mysqli", "gmp");
+$requiredExt  = array("session", "mysqli", "gmp", "SimpleXML", "json");
 
 /* Available extensions */
 $availableExt = get_loaded_extensions();

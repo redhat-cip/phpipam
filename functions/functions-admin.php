@@ -78,11 +78,14 @@ function updateUserById ($userModDetails) {
     global $db;                                                                      # get variables from config file
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);    # open db connection
 
+    # replace special chars
+    $userModDetails['groups'] = mysqli_real_escape_string($database, $userModDetails['groups']);
+
     # set query - add or edit user
     if (empty($userModDetails['userId'])) {
         $query  = "insert into users ";
-        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`) values "; 
-        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]');";
+        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`,`groups`) values "; 
+        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]','".$userModDetails['groups']."');";
     }
     else {
         $query  = "update users set "; 
@@ -90,7 +93,7 @@ function updateUserById ($userModDetails) {
         if (strlen($userModDetails['password1']) != 0) {
         $query .= "`password` = '$userModDetails[password1]', "; 
         }
-        $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]' "; 
+        $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]', `groups`='".$userModDetails['groups']."' "; 
         $query .= "where `id` = '$userModDetails[userId]';";
     }
     
@@ -159,6 +162,342 @@ function selfUpdateUser ($userModDetails)
 
 
 
+/* @group functions ---------------- */
+
+
+/**
+ *	getall groups
+ */
+function getAllGroups() 
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* execute query */
+	$query = "select * from `userGroups` order by `g_name` asc;";
+    
+  	/* update database */
+   	$groups = $database->getArray($query);
+   	
+   	/* return false if none, else list */
+	if(sizeof($groups) == 0) { return false; }
+	else					 { return $groups; }
+}
+
+
+/**
+ *	Group details by ID
+ */
+function getGroupById($id) 
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
+
+	/* execute query */
+	$query = "select * from `userGroups` where `g_id`= '$id';";
+    
+  	/* update database */
+   	$group = $database->getArray($query);
+   	
+   	/* return false if none, else list */
+	if(sizeof($group) == 0) { return false; }
+	else					{ return $group[0]; }
+}
+ 
+
+/**
+ * Parse all user groups
+ */
+function parseUserGroups($groups)
+{
+	if(sizeof($groups)>0) {
+    	foreach($groups as $g) {
+    		$tmp = getGroupById($g);
+    		$out[$tmp['g_id']] = $tmp;
+    	}
+    }
+    /* return array of groups */
+    return $out;
+}
+
+
+/**
+ * Parse all user groups - get only Id's
+ */
+function parseUserGroupsIds($groups)
+{
+	if(sizeof($groups) >0) {
+	    foreach($groups as $g) {
+    		$tmp = getGroupById($g);
+    		$out[$tmp['g_id']] = $tmp['g_id'];
+    	}
+    }
+    /* return array of groups */
+    return $out;
+}
+
+
+
+/**
+ *	Get users in group
+ */
+function getUsersInGroup($gid)
+{
+	# get all users
+	$users = getAllUsers();
+	
+	# check if $gid in array
+	foreach($users as $u) {
+		$g = json_decode($u['groups'], true);
+		$g = parseUserGroups($g);
+		
+		if(sizeof($g)>0) {
+			foreach($g as $gr) {
+				if(in_array($gid, $gr)) {
+					$out[] = $u['id'];
+				}	
+			}
+		}
+	}
+	# return
+	return $out;
+}
+
+
+/**
+ *	Get users not in group
+ */
+function getUsersNotInGroup($gid)
+{
+	# get all users
+	$users = getAllUsers();
+	
+	# check if $gid in array
+	foreach($users as $u) {
+		if($u['role'] != "Administrator") {
+			$g = json_decode($u['groups'], true);		
+			if(!in_array($gid, $g)) { $out[] = $u['id']; }
+		}
+	}
+	# return
+	return $out;
+}
+
+
+/**
+ *	Function that returns all sections with selected group partitions
+ */
+function getSectionPermissionsByGroup ($gid, $name = true)
+{
+	# get all users
+	$sec = fetchSections();
+	
+	# check if $gid in array
+	foreach($sec as $s) {
+		$p = json_decode($s['permissions'], true);	
+		if($name) {
+			if(array_key_exists($gid, $p)) { $out[$s['name']] = $p[$gid]; }
+		}
+		else {
+			if(array_key_exists($gid, $p)) { $out[$s['id']] = $p[$gid]; }
+		}
+	}
+	# return
+	return $out;
+}
+
+
+
+/**
+ *	Modify group
+ */
+function modifyGroup($g)
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);    
+    
+    # set query
+    if($g['action'] == "add") 			{ $query = "insert into `userGroups` (`g_name`,`g_desc`) values ('$g[g_name]','$g[g_desc]'); "; }
+    else if($g['action'] == "edit")		{ $query = "update `userGroups` set `g_name`='$g[g_name]', `g_desc`='$g[g_desc]' where `g_id` = '$g[g_id]';"; }
+    else if($g['action'] == "delete")	{ $query = "delete from `userGroups` where `g_id` = '$g[g_id]';"; }
+    else								{ return false; }
+
+	# execute
+    try { $database->executeQuery( $query ); }
+    catch (Exception $e) { $error =  $e->getMessage(); }
+
+    # set log file
+    $log = prepareLogFromArray ($g);													# prepare log 
+	
+	# ok
+	if(!isset($error)) {
+        updateLogTable ("Group $g[action] success", $log, 0);	# write success log
+        return true;		
+	}
+	# problem
+	else {
+		print "<div class='alert alert-error'>Cannot ".$userModDetails['action']." user!<br><strong>Error</strong>: $error</div>";
+		updateLogTable ("Group $g[action] error", $log, 2);	# write error log
+		return false;
+	}    
+    
+}
+
+
+/**
+ *	Delete all users from group
+ */
+function deleteUsersFromGroup($gid)
+{
+	# get all users
+	$users = getAllUsers();
+	
+	# check if $gid in array
+	foreach($users as $u) {
+		$g = json_decode($u['groups'], true);
+		$go = $g;
+		$g = parseUserGroups($g);
+		
+		if(sizeof($g)>0) {
+			foreach($g as $gr) {
+				if(in_array($gid, $gr)) {
+					unset($go[$gid]);
+					$ng = json_encode($go);
+					updateUserGroups($u['id'],$ng);
+				}	
+			}
+		}
+	}
+	# return
+	return $out;
+
+}
+
+
+/**
+ *	Delete all users from group
+ */
+function deleteGroupFromSections($gid)
+{
+	# get all users
+	$sections = fetchSections();
+	
+	# check if $gid in array
+	foreach($sections as $s) {
+		$g = json_decode($s['permissions'], true);
+		
+		if(sizeof($g)>0) {
+			if(array_key_exists($gid, $g)) {
+				unset($g[$gid]);
+				$ng = json_encode($g);
+				updateSectionGroups($s['id'],$ng);
+			}	
+		}
+	}
+	# return
+	return $out;
+
+}
+
+
+
+/**
+ *	Add user to group
+ */
+function addUserToGroup($gid, $uid)
+{
+	# get old groups
+	$user = getUserDetailsById($uid);
+	
+	# append new group
+	$g = json_decode($user['groups'], true);
+	$g[$gid] = $gid;
+	$g = json_encode($g);
+	
+	# update
+	if(!updateUserGroups($uid, $g)) { return false; }
+	else							{ return true; }
+}
+
+
+/**
+ *	Remove user from group
+ */
+function removeUserFromGroup($gid, $uid)
+{
+	# get old groups
+	$user = getUserDetailsById($uid);
+	
+	# append new group
+	$g = json_decode($user['groups'], true);
+	unset($g[$gid]);
+	$g = json_encode($g);
+	
+	# update
+	if(!updateUserGroups($uid, $g)) { return false; }
+	else							{ return true; }
+}
+
+
+/**
+ *	Update users's group
+ */
+function updateUserGroups($uid, $groups)
+{
+    global $db;                                                                     # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
+
+    # replace special chars
+    $groups = mysqli_real_escape_string($database, $groups);
+
+    # set query
+    $query = "update `users` set `groups` = '$groups' where `id` = $uid; ";
+
+	# update
+    try { $database->executeQuery($query); }
+    catch (Exception $e) { 
+    	print "<div class='alert alert-error'>$e</div>";
+    	return false; 
+    }
+    
+    # ok
+    return true;
+}
+
+
+/**
+ *	Update section permissions
+ */
+function updateSectionGroups($sid, $groups)
+{
+    global $db;                                                                     # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
+
+    # replace special chars
+   	$groups = mysqli_real_escape_string($database, $groups);
+
+    # set query
+    $query = "update `sections` set `permissions` = '$groups' where `id` = $sid; ";
+
+	# update
+    try { $database->executeQuery($query); }
+    catch (Exception $e) { 
+    	print "<div class='alert alert-error'>$e</div>";
+    	return false; 
+    }
+    
+    # ok
+    return true;
+}
+
+
+
+
+
+
+
+
+
 
 /* @subnet functions ---------------- */
 
@@ -170,6 +509,9 @@ function modifySubnetDetails ($subnetDetails, $lastId = false)
 {
     global $db;                                                                     # get variables from config file
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
+
+    # replace special chars
+    $subnetDetails['permissions'] = mysqli_real_escape_string($database, $subnetDetails['permissions']);
 
     # set modify subnet details query
     $query = setModifySubnetDetailsQuery ($subnetDetails, $sectionChange);
@@ -216,7 +558,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
 		}
         
         $query  = 'insert into subnets '. "\n";
-        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName`, `adminLock` '.$myFieldsInsert['query'].') ' . "\n";
+        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName` '.$myFieldsInsert['query'].') ' . "\n";
         $query .= 'values (' . "\n";
         $query .= ' "'. $subnetDetails['subnet'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['mask'] 			 .'", ' . "\n"; 
@@ -226,8 +568,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= ' "'. $subnetDetails['vrfId'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['masterSubnetId'] .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['allowRequests']  .'", ' . "\n";
-        $query .= ' "'. $subnetDetails['showName']  .'", ' . "\n";
-        $query .= ' "'. $subnetDetails['adminLock']  	 .'" ' . "\n";  
+        $query .= ' "'. $subnetDetails['showName']  .'" ' . "\n";  
         $query .= $myFieldsInsert['values'];
         $query .= ' );';
     }
@@ -269,8 +610,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= '`vrfId`        	= "'. $subnetDetails['vrfId'] 			.'", '. "\n";
         $query .= '`masterSubnetId` = "'. $subnetDetails['masterSubnetId'] 	.'", '. "\n";
         $query .= '`allowRequests`  = "'. $subnetDetails['allowRequests'] 	.'", '. "\n";
-        $query .= '`showName`   	= "'. $subnetDetails['showName'] 		.'", '. "\n";
-        $query .= '`adminLock` 		= "'. $subnetDetails['adminLock'] 		.'"  '. "\n";
+        $query .= '`showName`   	= "'. $subnetDetails['showName'] 		.'" '. "\n";
         $query .= $myFieldsInsert['query'];
         $query .= 'where id      	= "'. $subnetDetails['subnetId'] .'"; '."\n";
     
@@ -310,7 +650,7 @@ function deleteSubnet ($subnetId)
 
     # execute query
     if (!$database->executeQuery($query)) {
-        updateLogTable ('Subnet delete from split failed', "id:$ subnetId", 2);	# write error log
+        updateLogTable ('Subnet delete from split failed', "id:$subnetId", 2);	# write error log
         return false;
     }
     else {
@@ -440,9 +780,12 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				$html[] = "	<td>$requests</td>";
 				$html[] = "	<td>$locked</td>";
 				if($actions) {
-				$html[] = "	<td>";
-				$html[] = "		<button class='btn btn-small editSubnet' data-action='edit'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-edit'></i> Edit</button>";
-				$html[] = "		<button class='btn btn-small editSubnet' data-action='delete' data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-remove'></i> Delete</button>";
+				$html[] = "	<td class='actions'>";
+				$html[] = "	<div class='btn-group'>";
+				$html[] = "		<button class='btn btn-small editSubnet'     data-action='edit'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-pencil'></i></button>";
+				$html[] = "		<button class='btn btn-small showSubnetPerm' data-action='show'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-tasks'></i></button>";
+				$html[] = "		<button class='btn btn-small editSubnet'     data-action='delete' data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-remove'></i></button>";
+				$html[] = "	</div>";
 				$html[] = "	</td>";
 				}
 				$html[] = "</tr>";
@@ -458,6 +801,35 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 			else { }
 		}
 		return implode( "\n", $html );
+}
+
+
+/**
+ *	Update subnet permissions
+ */
+function updateSubnetPermissions ($subnet)
+{
+    global $db;                                                                     # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection   
+
+    # replace special chars
+    $subnet['permissions'] = mysqli_real_escape_string($database, $subnet['permissions']);
+
+    # set querries for subnet and each slave
+    foreach($subnet['slaves'] as $slave) {
+    	$query .= "update `subnets` set `permissions` = '$subnet[permissions]' where `id` = $slave;";	    
+    }
+    
+	# execute
+    try { $database->executeMultipleQuerries($query); }
+    catch (Exception $e) { 
+    	$error =  $e->getMessage(); 
+    	print('<div class="alert alert-error">'.$error.'</div>');
+    	return false;
+    }
+  
+	/* return true if passed */
+	return true;	
 }
 
 
@@ -480,6 +852,9 @@ function UpdateSection ($update)
 {
     global $db;                                                                     # get variables from config file
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection  
+    
+     # replace special chars for permissions
+    $update['permissions'] = mysqli_real_escape_string($database, $update['permissions']);   
     
     if (!$update['name']) 	{ die('<div class="alert alert-error">Name is mandatory!</div>'); }	# section name is mandatory
 
@@ -522,14 +897,19 @@ function setUpdateSectionQuery ($update)
 	# add section
     if ($update['action'] == "add") 
     {
-        $query = 'Insert into sections (`name`,`description`) values ("'. $update['name'] .'", "'. $update['description'] .'");';
+        $query = 'Insert into sections (`name`,`description`,`permissions`) values ("'. $update['name'] .'", "'. $update['description'] .'", "'. $update['permissions'] .'");';
     }
     # edit section
     else if ($update['action'] == "edit") 
     {
         $section_old = getSectionDetailsById ( $update['id'] );												# Get old section name for update
         # Update section name
-        $query   = "update `sections` set `name` = '$update[name]', `description` = '$update[description]' where `id` = '$update[id]';";			
+        $query   = "update `sections` set `name` = '$update[name]', `description` = '$update[description]', `permissions` = '$update[permissions]' where `id` = '$update[id]';";	
+        
+        # delegate permissions if set
+        if($update['delegate'] == 1) {
+	        $query .= "update `subnets` set `permissions` = '$update[permissions]' where `sectionId` = '$update[id]';";
+        }		
     }
 	# delete section
 	else if( $update['action'] == "delete" ) 
@@ -555,6 +935,24 @@ function setUpdateSectionQuery ($update)
     return $query;
 }
 
+
+/**
+ * Parse section permissions
+ */
+function parseSectionPermissions($permissions)
+{
+	# save to array
+	$permissions = json_decode($permissions, true);
+	
+	if(sizeof($permissions)>0) {
+    	foreach($permissions as $key=>$p) {
+    		$tmp = getGroupById($key);
+    		$out[$tmp['g_id']] = $p;
+    	}
+    }
+    /* return array of groups */
+    return $out;
+}
 
 
 
@@ -1355,7 +1753,7 @@ function getCustomSubnetFields()
 	
 	/* unset standard fields */
 	unset($res['id'], $res['subnet'], $res['mask'], $res['sectionId'], $res['description'], $res['masterSubnetId']);
-	unset($res['vrfId'], $res['allowRequests'], $res['adminLock'], $res['vlanId'], $res['showName']);
+	unset($res['vrfId'], $res['allowRequests'], $res['adminLock'], $res['vlanId'], $res['showName'],$res['permissions']);
 	
 	return $res;
 }
@@ -1381,7 +1779,7 @@ function getCustomSubnetsFieldsNumArr()
 	
 	/* unset standard fields */
 	unset($res['id'], $res['subnet'], $res['mask'], $res['sectionId'], $res['description'], $res['masterSubnetId']);
-	unset($res['vrfId'], $res['allowRequests'], $res['adminLock'], $res['vlanId'], $res['showName']);
+	unset($res['vrfId'], $res['allowRequests'], $res['adminLock'], $res['vlanId'], $res['showName'],$res['permissions']);
 	
 	/* reindex */
 	foreach($res as $line) {

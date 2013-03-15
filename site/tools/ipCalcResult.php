@@ -47,16 +47,12 @@ $ipCalcResults = calculateIpCalcResult ($cidr);
     ?>
     
     <!-- add subnet button -->
-    <?php
-    # disable for viewers
-    if(!isUserViewer()) { ?>
     <tr>
     	<td></td>
     	<td style="padding-top:10px">
     		<button id="createSubnetFromCalc" class="btn btn-small"><i class="icon-plus"></i> Create subnet from result</button>
     	</td>
     </tr>
-    <?php  } ?>
     
     <!-- select section -->
 	<tr id="selectSection" style="display:none">

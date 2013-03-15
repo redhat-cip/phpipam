@@ -15,8 +15,6 @@ $settings = getAllSettings();
 $setFieldsTemp = getSelectedIPaddrFields();
 /* format them to array! */
 $setFields = explode(";", $setFieldsTemp);
-/* viewer check */
-$viewer = isUserViewer();
 ?>
 
 
@@ -34,16 +32,11 @@ $viewer = isUserViewer();
 	</li>
 </ul>
 
-<?php # for non-viewers only
-if(!$viewer)  {  ?>
 <h4>Devices</h4>
-<ul class="nav nav-tabs nav-stacked nav-tools">
-    <?php # if switch enabled
-    if(in_array("switch", $setFields)) {?>    
-	<li <?php if($_REQUEST['toolsId'] == "switches") print "class='active'"; ?>>
-		<a href="tools/switches/"><i class="icon-chevron-right pull-right icon-gray <?php if($_REQUEST['toolsId'] != "switches") print "icon-white"; ?>"></i> Devices</a>
+<ul class="nav nav-tabs nav-stacked nav-tools">    
+	<li <?php if($_REQUEST['toolsId'] == "devices") print "class='active'"; ?>>
+		<a href="tools/devices/"><i class="icon-chevron-right pull-right icon-gray "></i> Devices</a>
 	</li>
-    <?php } ?>
     <?php # if vrf enabled
     if($settings['enableVRF'] == 1) { ?>
 	<li <?php if($_REQUEST['toolsId'] == "vrf") print "class='active'"; ?>>
@@ -57,7 +50,6 @@ if(!$viewer)  {  ?>
 		<a href="tools/subnets/"><i class="icon-chevron-right pull-right icon-gray"></i> Subnets</a>
 	</li>  
 </ul>
-<?php } ?>
 
 
 

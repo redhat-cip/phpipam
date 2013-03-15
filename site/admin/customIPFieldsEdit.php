@@ -22,7 +22,7 @@ else 							{ $_POST['oldname'] = $_POST['fieldName'];}
 <div class="pContent">
 
 	<form id="editCustomIPFields">
-	<table id="editCustomIPFields" class="table table-condensed">
+	<table id="editCustomIPFields" class="table table-noborder table-condensed">
 
 	<!-- name -->
 	<tr>

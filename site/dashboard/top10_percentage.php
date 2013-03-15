@@ -59,18 +59,24 @@ $(function () {
 	if(sizeof($subnetHost) > 0) {
 		$m=0;
 		foreach ($subnetHost as $subnet) {
-			$subnet['subnet'] = long2ip($subnet['subnet']);
-			$subnet['descriptionLong'] = $subnet['description'];
+			if($m < 10) {
+				# verify user access
+				$sp = checkSubnetPermission ($subnet['id']);
+				if($sp != "0") {
+					$subnet['subnet'] = long2ip($subnet['subnet']);
+					$subnet['descriptionLong'] = $subnet['description'];
 			
-			# odd/even if more than 5 items
-			if(sizeof($subnetHost) > 5) {
-				if ($m&1) 	{ print "['|<br>$subnet[description]', $subnet[percentage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}
-				else		{ print "['$subnet[description]', $subnet[percentage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}
+					# odd/even if more than 5 items
+					if(sizeof($subnetHost) > 5) {
+						if ($m&1) 	{ print "['|<br>$subnet[description]', $subnet[percentage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}
+						else		{ print "['$subnet[description]', $subnet[percentage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}
+					}
+					else {
+									{ print "['$subnet[description]', $subnet[percentage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}			
+					}	
+					$m++;
+				}
 			}
-			else {
-							{ print "['$subnet[description]', $subnet[percentage], '$subnet[descriptionLong] ($subnet[subnet]/$subnet[mask])'],";	}			
-			}	
-			$m++;
 		}
 	}
 	?>

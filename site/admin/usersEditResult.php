@@ -48,6 +48,23 @@ else if ($userModDetails['action'] == "delete") {
 
 
 /**
+ *	Create array of permitted networks
+ */
+if($userModDetails['role'] == "Administrator") {
+	$userModDetails['groups'] = "";
+}
+else {
+	foreach($userModDetails as $key=>$post) {
+		if(substr($key, 0,5) == "group") {
+			unset($userModDetails[$key]);
+			$group[substr($key, 5)] = substr($key, 5);
+		}
+	}
+	$userModDetails['groups'] = json_encode($group);
+}
+
+
+/**
  * If no errors are present add / edit user
  */
 if (sizeof($errors) != 0) {
@@ -67,7 +84,7 @@ else
         print '<div class="alert alert-success">User '. $userModDetails['action'] .' successfull!</div>';
         //send notification mail if checked
         if ($userModDetails['notifyUser']) {
-        	include('userModEmailNotif.php');
+        	include('usersEditEmailNotif.php');
         }
     }
 

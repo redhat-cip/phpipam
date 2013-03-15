@@ -14,10 +14,13 @@ $settings = getAllSettings();
 <h4>Server management</h4>
 <ul class="nav nav-tabs nav-stacked nav-admin">
 	<li <?php if($_REQUEST['adminId'] == "settings") print "class='active'"; ?>>
-		<a href="administration/settings/"><i class="icon-chevron-right pull-right icon-gray"></i> Server management</a>
+		<a href="administration/settings/"><i class="icon-chevron-right pull-right icon-gray"></i> IPAM settings</a>
 	</li>
-	<li <?php if($_REQUEST['adminId'] == "userMod") print "class='active'"; ?>>
-		<a href="administration/userMod/"><i class="icon-chevron-right pull-right icon-gray"></i> User management</a>
+	<li <?php if($_REQUEST['adminId'] == "users") print "class='active'"; ?>>
+		<a href="administration/users/"><i class="icon-chevron-right pull-right icon-gray"></i> User management</a>
+	</li>
+	<li <?php if($_REQUEST['adminId'] == "groups") print "class='active'"; ?>>
+		<a href="administration/groups/"><i class="icon-chevron-right pull-right icon-gray"></i> Group management</a>
 	</li>
     <?php # show AD conection settings if enabled in config!
     if($settings['domainAuth'] == 1) { ?>

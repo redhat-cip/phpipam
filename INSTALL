@@ -12,6 +12,8 @@ phpipam has the following requirements to run:
         + + session             : Adds persistent session support
         + + gmp                 : Adds support for dev-libs/gmp (GNU MP library) -> to calculate IPv6 networks
         + + ldap                : Adds LDAP support (Lightweight Directory Access Protocol)
+        + + json				: Adds supports for JSON data-interexchange format
+        + + SimpleXML			: Adds SimpleXML support for parsin XML files
 	- PHP PEAR support (dev-php/pear)
     
 

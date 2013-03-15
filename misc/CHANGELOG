@@ -2,6 +2,7 @@
 
 	New features:
 	----------------------------	
+	+ New group and permission management;
 	+ Subnet resizing;
 	+ Subnet splitting into smaller subnets;
 	+ Added free space display for nested subnets;
@@ -15,6 +16,7 @@
 	+ Added edit subnet link from search results;
 	+ Added reverse IPv6 DNS entries to IPCalc (Vincent Boisard);
 	+ Added option for plain-text emails;
+	+ Added ckEditor to write instructions;
 
 	Bugfixes:
 	------------------------
@@ -22,6 +24,8 @@
 	+ Fixed IE search bug;
 	+ Fixed support for non-standard ports;
 	+ Fixed permitting overlapping subnets if vrfs are different;
+	+ Fixed dates in logging appearing in 12h format;
+	+ Fixed broken subnets link in tools > subnets if installation is not at document root;
 
 == 0.7
 

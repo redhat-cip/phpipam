@@ -9,9 +9,6 @@
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
-/* die if viewer */
-if(isUserViewer()) { die('<div class="alert alert-error">You do not have permissions to access this page!</div>'); }
-
 /* get all VLANs and subnet descriptions */
 $vrfs = getAllVRFs ();
 
@@ -49,65 +46,66 @@ else {
 	print "	<th>Used</td>";
 	print "	<th>free [%]</td>";
 	print "	<th>Requests</td>";
-	print "	<th><i class='icon-gray icon-lock' rel='tooltip' title='Subnet lock for non-admins'></i></td>";
 	print "</tr>";	
 
 	# subnets
 	if($subnets) {
 		foreach ($subnets as $subnet) {
 	
-		# check if it is master
-		if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) 	{ $masterSubnet = true; }
-		else 																			{ $masterSubnet = false; }
-	
-		print "<tr>";
-	
-		# get VLAN details
-		$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
-		$subnet['VLAN'] = $subnet['VLAN']['number'];
-	
-		# reformat empty VLAN
-		if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
+			# check permission
+			$permission = checkSubnetPermission ($subnet['id']);
 		
-		# get section name
-		$section = getSectionDetailsById($subnet['sectionId']);
+			if($permission != "0") {
 	
-	    print "	<td>$subnet[VLAN]</td>";
-	    print "	<td>$subnet[description]</td>";
-	    print "	<td><a href='/subnets/$section[id]/$subnet[id]/'>".transform2long($subnet['subnet'])."/$subnet[mask]</a></td>";    
+				# check if it is master
+				if( ($subnet['masterSubnetId'] == 0) || (empty($subnet['masterSubnetId'])) ) 	{ $masterSubnet = true; }
+				else 																			{ $masterSubnet = false; }
+	
+				print "<tr>";
+	
+				# get VLAN details
+				$subnet['VLAN'] = subnetGetVLANdetailsById($subnet['vlanId']);
+				$subnet['VLAN'] = $subnet['VLAN']['number'];
+	
+				# reformat empty VLAN
+				if(empty($subnet['VLAN']) || $subnet['VLAN'] == 0) { $subnet['VLAN'] = ""; }
+				
+				# get section name
+				$section = getSectionDetailsById($subnet['sectionId']);
+	
+				print "	<td>$subnet[VLAN]</td>";
+				print "	<td>$subnet[description]</td>";
+				print "	<td><a href='/subnets/$section[id]/$subnet[id]/'>".transform2long($subnet['subnet'])."/$subnet[mask]</a></td>";    
 	    
-	    if($masterSubnet) { 
-	    	print '	<td>/</td>' . "\n"; 
-	    }
-		else {
-			$master = getSubnetDetailsById ($subnet['masterSubnetId']);
-			# orphaned
-			if(strlen($master['subnet']) == 0)	{ print "	<td><div class='alert alert-warn'>Master subnet does not exist!</div></td>";}
-			else 								{ print "	<td><a href='/subnets/$subnet[sectionId]/$subnet[masterSubnetId]/'>".transform2long($master['subnet'])."/$master[mask] ($master[description])</a></td>"; }
-		}
+				if($masterSubnet) { 
+					print '	<td>/</td>' . "\n"; 
+				}
+				else {
+					$master = getSubnetDetailsById ($subnet['masterSubnetId']);
+					# orphaned
+					if(strlen($master['subnet']) == 0)	{ print "	<td><div class='alert alert-warn'>Master subnet does not exist!</div></td>";}
+					else 								{ print "	<td><a href='/subnets/$subnet[sectionId]/$subnet[masterSubnetId]/'>".transform2long($master['subnet'])."/$master[mask] ($master[description])</a></td>"; }
+				}
 	
-		# details
-		if( (!$masterSubnet) || (!subnetContainsSlaves($subnet['id']))) {
-		    $ipCount = countIpAddressesBySubnetId ($subnet['id']);
-			$calculate = calculateSubnetDetails ( gmp_strval($ipCount), $subnet['mask'], $subnet['subnet'] );
+				# details
+				if( (!$masterSubnet) || (!subnetContainsSlaves($subnet['id']))) {
+					$ipCount = countIpAddressesBySubnetId ($subnet['id']);
+					$calculate = calculateSubnetDetails ( gmp_strval($ipCount), $subnet['mask'], $subnet['subnet'] );
 
-	    	print ' <td class="used">'. reformatNumber($calculate['used']) .'/'. reformatNumber($calculate['maxhosts']) .'</td>'. "\n";
-	    	print '	<td class="free">'. reformatNumber($calculate['freehosts_percent']) .' %</td>';
-		}
-		else {
-			print '<td></td>'. "\n";
-			print '<td></td>'. "\n";
-		}
+					print ' <td class="used">'. reformatNumber($calculate['used']) .'/'. reformatNumber($calculate['maxhosts']) .'</td>'. "\n";
+					print '	<td class="free">'. reformatNumber($calculate['freehosts_percent']) .' %</td>';
+				}
+				else {
+					print '<td></td>'. "\n";
+					print '<td></td>'. "\n";
+				}
 	
-		# allow requests
-		if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>'; }
-		else 								{ print '<td class="allowRequests"></td>'; }
-	
-		# check if it is locked for writing
-		if($subnet['adminLock'] == 1) 		{ print "<td><i class='icon-gray icon-lock' rel='tooltip' title='Subnet lock for non-admins'></i></td>"; } 
-		else 								{ print "<td></td>";}
+				# allow requests
+				if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>'; }
+				else 								{ print '<td class="allowRequests"></td>'; }
     
-		print '</tr>' . "\n";
+				print '</tr>' . "\n";
+			}
 		}
 	}
 	# no subnets!

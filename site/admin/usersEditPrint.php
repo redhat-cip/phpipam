@@ -47,8 +47,8 @@ else {
 <!-- content -->
 <div class="pContent">
 
-	<form id="userMod" name="userMod">
-	<table class="userMod table table-noborder table-condensed">
+	<form id="usersEdit" name="usersEdit">
+	<table class="usersEdit table table-noborder table-condensed">
 
 	<!-- real name -->
 	<tr>
@@ -132,10 +132,10 @@ else {
     	<td>User role</td> 
     	<td>
         <select name="role">
-            <option name="admin"    <?php if ($user['role'] == "Administrator") print "selected"; ?>>Administrator</option>
-            <option name="operator" <?php if ($user['role'] == "Operator")      print "selected"; ?>>Operator</option>      
-            <option name="viewer" 	<?php if ($user['role'] == "Viewer")      	print "selected"; ?>>Viewer</option> 
+            <option value="Administrator"   <?php if ($user['role'] == "Administrator") print "selected"; ?>>Administrator</option>
+            <option value="User" 			<?php if ($user['role'] == "User" || $_POST['action'] == "add") print "selected"; ?>>Normal User</option>
         </select>
+        
         
         <input type="hidden" name="userId" value="<?php if(isset($user['id'])) { print $user['id']; } ?>">
         <input type="hidden" name="action" value="<?php print $action; ?>">
@@ -144,12 +144,41 @@ else {
         <td class="info">Select user role
 	    	<ul>
 		    	<li>Administrator is almighty</li>
-		    	<li>Operator can view/edit IP addresses (cannot add section, subnets, modify server settings etc)</li>
-		    	<li>Viewer can only view IP addresses</li>
+		    	<li>Users have access defined based on groups</li>
 		    </ul>
 		</td>  
 	</tr>
-
+	
+	<!-- groups -->
+	<tr>
+		<td>Groups</td>
+		<td class="groups">
+		<?php
+		$groups = getAllGroups();		# all groups
+		$ugroups = json_decode($user['groups'], true);
+		$ugroups = parseUserGroupsIds($ugroups);
+		
+		if(sizeof($groups) > 0) {
+			foreach($groups as $g) {
+				# empty fix
+				if(sizeof($ugroups) > 0) {	
+					if(in_array($g['g_id'], $ugroups)) 	{ print "<input type='checkbox' name='group$g[g_id]' checked>$g[g_name]<br>"; }
+					else 								{ print "<input type='checkbox' name='group$g[g_id]'>$g[g_name]<br>"; }
+				}
+				else {
+														{ print "<input type='checkbox' name='group$g[g_id]'>$g[g_name]<br>"; }
+				}
+			}
+		}
+		else {
+			print "No groups configured";
+		}
+		
+		?>
+		</td>
+		<td class="info">Select to which groups the user belongs to</td>
+	</tr>
+	
 </table>
 </form>
 
@@ -164,5 +193,5 @@ else {
 	<button class="btn btn-small" id="editUserSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> user</button>
 
 	<!-- Result -->
-	<div class="userModResult"></div>
+	<div class="usersEditResult"></div>
 </div>

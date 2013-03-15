@@ -12,11 +12,11 @@ checkAdmin();
 
 
 /* some verifications */
-if( (empty($_POST['current'])) || (empty($_POST['next'])) ) 		{ die('<div class="alert alert-error alert-absolute">Fileds cannot be empty!</div>'); }
+if( (empty($_POST['current'])) || (empty($_POST['next'])) ) 		{ die('<div class="alert alert-error">Fileds cannot be empty!</div>'); }
 
 
 /* reorder */
-if(!reorderCustomSubnetField($_POST['next'], $_POST['current'])) 	{ die('<div class="alert alert-error alert-absolute">Reordering failed!</div>');	 }
-else 																{ print '<div class="alert alert-success alert-absolute">Fields reordered successfully!</div>';}
+if(!reorderCustomSubnetField($_POST['next'], $_POST['current'])) 	{ die('<div class="alert alert-error">Reordering failed!</div>');	 }
+else 																{ print '<div class="alert alert-success">Fields reordered successfully!</div>';}
 
 ?>

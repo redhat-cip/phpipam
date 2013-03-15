@@ -9,7 +9,6 @@ $instructions = fetchInstructions();
 $instructions = $instructions[0]['instructions'];
 
 /* format line breaks */
-$instructions = str_replace("\n", "<br>", $instructions);
 $instructions = stripslashes($instructions);		//show html
 
 /* prevent <script> */

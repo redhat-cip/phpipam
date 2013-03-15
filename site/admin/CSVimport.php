@@ -7,8 +7,11 @@
 /* required functions */
 require_once('../../functions/functions.php'); 
 
-/* verify that user is admin */
-checkAdmin();
+# permissions
+$permission = checkSubnetPermission ($_POST['subnetId']);
+
+# die if write not permitted
+if($permission != "2") { die("<div class='alert alert-error'>You cannot write to this subnet!</div>"); }
 
 /* verify post */
 CheckReferrer();

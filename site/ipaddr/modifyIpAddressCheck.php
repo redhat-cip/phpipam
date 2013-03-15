@@ -14,8 +14,9 @@ CheckReferrer();
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
-/* viewers cannot edit IP address */
-if(isUserViewer()) { die('<div class="alert alert-error">Cannot edit IP address!</div>'); }
+/* verify that user has write access */
+$subnetPerm = checkSubnetPermission ($subnetId);
+if($subnetPerm != "2") 	{ die('<div class="alert alert-error">Cannot edit IP address!</div>'); }
 
 
 /* get posted values */

@@ -37,12 +37,13 @@ else
     /* get section name */
     $sectionName = getSectionDetailsById ($sectionId);
     
+    # verify permissions
+	$sectionPermission = checkSectionPermission ($sectionId);
+		
+	if($sectionPermission == "0") { die("<div class='alert alert-error'>You do not have access to this section!</div>"); }
+    
     /* die if empty! */
-    if(sizeof($sectionName) == 0) {
-    	print_r($_REQUEST);
-		die('<div class="alert alert-error">Section does not exist!</div>');
-	}
-
+    if(sizeof($sectionName) == 0) { die('<div class="alert alert-error">Section does not exist!</div>'); }
 
     # header
     if(isset($_COOKIE['expandfolders'])) {
@@ -66,7 +67,8 @@ else
 }
 
 # add new subnet
-if(checkAdmin(false, false)) {
+$sectionPermission = checkSectionPermission ($sectionId);
+if($sectionPermission == "2") {
 	print "<div class='action'>";
 	if(isset($_REQUEST['subnetId'])) {
 	print "	<button class='btn btn-mini pull-left' id='hideSubnets' rel='tooltip' title='Hide subnet list' data-placement='right'><i class='icon-gray icon-chevron-left'></i></button>";

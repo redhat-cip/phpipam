@@ -62,7 +62,7 @@ else {
 		foreach($temp as $line) {
 			$section = getSectionDetailsById($line);
 			if(!empty($section)) {
-			print '<div class="switchSections"><i class="icon-gray  icon-hand-right"></i> '. $section['name'] .'</div>'. "\n";
+			print '<div class="switchSections">'. $section['name'] .'</div>'. "\n";
 			}
 		}
 		}
@@ -70,8 +70,10 @@ else {
 	print '	</td>'. "\n";
 	
 	print '	<td class="actions">'. "\n";
-	print "		<button class='btn btn-small editSwitch' data-action='edit'   data-switchid='$switchDetails[id]'><i class='icon-gray icon-edit'></i> Edit</button>";
-	print "		<button class='btn btn-small editSwitch' data-action='delete' data-switchid='$switchDetails[id]'><i class='icon-gray icon-remove'></i> Delete</button>";
+	print "	<div class='btn-group'>";
+	print "		<button class='btn btn-small editSwitch' data-action='edit'   data-switchid='$switchDetails[id]'><i class='icon-gray icon-pencil'></i></button>";
+	print "		<button class='btn btn-small editSwitch' data-action='delete' data-switchid='$switchDetails[id]'><i class='icon-gray icon-remove'></i></button>";
+	print "	</div>";
 	print '	</td>'. "\n";
 	
 	print '</tr>'. "\n";

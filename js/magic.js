@@ -289,7 +289,8 @@ $('table.ipaddresses th a.sort').live('click', function() {
 // load CSV import form
 $('a.csvImport').click(function () {
     showSpinner();
-    $.post('site/admin/CSVimport.php', function(data) {
+    var subnetId = $(this).attr('data-subnetId');
+    $.post('site/admin/CSVimport.php', {subnetId:subnetId}, function(data) {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
@@ -333,11 +334,13 @@ $('input#csvImportYes').live('click',function () {
 //show fields
 $('a.csvExport').click(function() {
     showSpinner();
+    var subnetId = $(this).attr('data-subnetId');
     //show select fields
-    $('div.popup_w400').load('site/ipaddr/exportSelectFields.php', function() {
+    $.post('site/ipaddr/exportSelectFields.php', {subnetId:subnetId}, function(data) {
+	    $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });    
+    });   
     return false;
 });
 //export
@@ -559,7 +562,7 @@ $('.editUser').click(function () {
     var id     = $(this).attr('data-userid');
     var action = $(this).attr('data-action');
     
-    $.post('site/admin/userModPrint.php',{id:id, action:action}, function(data) {
+    $.post('site/admin/usersEditPrint.php',{id:id, action:action}, function(data) {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
@@ -569,10 +572,10 @@ $('.editUser').click(function () {
 //submit form
 $('#editUserSubmit').live('click', function () {
     showSpinner();
-    var loginData = $('form#userMod').serialize();
+    var loginData = $('form#usersEdit').serialize();
     
-    $.post('site/admin/userModResult.php', loginData, function(data) {
-        $('div.userModResult').html(data).show();
+    $.post('site/admin/usersEditResult.php', loginData, function(data) {
+        $('div.usersEditResult').html(data).show();
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
@@ -595,6 +598,92 @@ $('a#randomPass').live('click', function () {
     $(this).html( password );
     return false;
 });
+
+
+/*    Edit groups
+***************************/
+//open form
+$('.editGroup').click(function () {
+    showSpinner();
+    var id     = $(this).attr('data-groupid');
+    var action = $(this).attr('data-action');
+    
+    $.post('site/admin/groupEditPrint.php',{id:id, action:action}, function(data) {
+        $('div.popup_w700').html(data);
+        showPopup('popup_w700');
+        hideSpinner();
+    });
+    return false;
+});
+//submit form
+$('#editGroupSubmit').live('click', function () {
+    showSpinner();
+    var loginData = $('form#groupEdit').serialize();
+    
+    $.post('site/admin/groupEditResult.php', loginData, function(data) {
+        $('div.groupEditResult').html(data).show();
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             	{ hideSpinner(); }
+    });
+    
+    return false;
+});
+//add users to group - show form
+$('.addToGroup').live('click', function() {
+    showSpinner();
+	var g_id = $(this).attr('data-groupid');	
+
+    $.post('site/admin/groupAddUsers.php',{g_id:g_id}, function(data) {
+        $('div.popup_w700').html(data);
+        showPopup('popup_w700');
+        hideSpinner();
+    });
+	
+	return false;
+});
+//add users to group
+$('#groupAddUsersSubmit').live('click', function() {
+	showSpinner();
+	var users = $('#groupAddUsers').serialize();
+
+    $.post('site/admin/groupAddUsersResult.php', users, function(data) {
+        $('div.groupAddUsersResult').html(data).show();
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             	{ hideSpinner(); }
+    });
+	
+	return false;
+});
+//remove users frmo group - show form
+$('.removeFromGroup').live('click', function() {
+    showSpinner();
+	var g_id = $(this).attr('data-groupid');	
+
+    $.post('site/admin/groupRemoveUsers.php',{g_id:g_id}, function(data) {
+        $('div.popup_w700').html(data);
+        showPopup('popup_w700');
+        hideSpinner();
+    });
+	
+	return false;
+});
+//add users to group
+$('#groupRemoveUsersSubmit').live('click', function() {
+	showSpinner();
+	var users = $('#groupRemoveUsers').serialize();
+
+    $.post('site/admin/groupRemoveUsersResult.php', users, function(data) {
+        $('div.groupRemoveUsersResult').html(data).show();
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             	{ hideSpinner(); }
+    });
+	
+	return false;
+});
+
 
 
 /*    Edit AD settings
@@ -621,20 +710,23 @@ $('#checkAD').click(function() {
 
 /*    instructions
 ***********************/
-$('#instructions').submit(function () {
-    var instructions = $(this).serialize();
+$('#instructionsForm').submit(function () {
+	var instructions = CKEDITOR.instances.instructions.getData();
+	$('div.instructionsPreview').hide('fast');
+    
     showSpinner();
-    $.post('site/admin/instructionsResult.php', instructions, function(data) {
+    $.post('site/admin/instructionsResult.php', {instructions:instructions}, function(data) {
         $('div.instructionsResult').html(data).fadeIn('fast');
-        if(data.search("error") == -1)     { $('div.instructionsResult').delay(2000).fadeOut('slow'); hideSpinner(); }
-        else                             { hideSpinner(); }      
+        if(data.search("error") == -1)     	{ $('div.instructionsResult').delay(2000).fadeOut('slow'); hideSpinner(); }
+        else                             	{ hideSpinner(); }      
     });
     return false;
 });
 $('#preview').click(function () {
     showSpinner();
-    var instructions = $('form#instructions ').serialize();
-    $.post('site/admin/instructionsPreview.php', instructions, function(data) {
+    var instructions = CKEDITOR.instances.instructions.getData();
+
+    $.post('site/admin/instructionsPreview.php', {instructions:instructions}, function(data) {
         $('div.instructionsPreview').html(data).fadeIn('fast');
         hideSpinner();
     });
@@ -893,6 +985,31 @@ $('#get-ripe').live('click', function() {
 	});
 	return false;
 });
+//change subnet permissions
+$('.showSubnetPerm').live('click', function() {
+	showSpinner();
+	var subnetId  = $(this).attr('data-subnetId');
+	var sectionId = $(this).attr('data-sectionId');
+	
+	$.post("site/admin/manageSubnetShowPermissions.php", {subnetId:subnetId, sectionId:sectionId}, function(data) {
+        $('div.popup_w500').html(data);
+        showPopup('popup_w500');
+		hideSpinner();
+	});
+	return false;
+});
+//submit permission change
+$('.editSubnetPermissionsSubmit').live('click', function() {
+	showSpinner();
+	var perms = $('form#editSubnetPermissions').serialize();
+	$.post('site/admin/manageSubnetPermissionsSubmit.php', perms, function(data) {
+		$('.editSubnetPermissionsResult').html(data);
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             { hideSpinner(); hideSpinner(); }
+	});
+	return false;
+});
 
 
 /*    Add subnet from IPCalc result
@@ -1145,7 +1262,7 @@ $('button#filterIPSave').click(function() {
 /*    custom IP fields
 ************************************/
 //load edit form
-$('table.customIP button[data-direction!=down]').click(function() {
+$('table.customIP tbody#ip button[data-direction!=down]').click(function() {
     showSpinner();
     var action       = $(this).attr('data-action');
     var fieldName = $(this).attr('data-fieldname');
@@ -1171,7 +1288,7 @@ $('#editcustomSubmit').live('click', function() {
     return false;
 });
 // field ordering
-$('table.customIP button.down').click(function() {
+$('table.customIP tbody#ip button.down').click(function() {
     showSpinner();
     var current  = $(this).attr('data-fieldname');
     var next      = $(this).attr('data-nextfieldname');
@@ -1188,7 +1305,7 @@ $('table.customIP button.down').click(function() {
 /*    custom subnet fields
 ************************************/
 //load edit form
-$('table.customSubnet button[data-direction!=down]').click(function() {
+$('table.customIP tbody#subnet button[data-direction!=down]').click(function() {
     showSpinner();
     var action       = $(this).attr('data-action');
     var fieldName = $(this).attr('data-fieldname');
@@ -1214,7 +1331,7 @@ $('#editcustomSubnetSubmit').live('click', function() {
     return false;
 });
 // field ordering
-$('table.customSubnet button.down').click(function() {
+$('table.customIP tbody#subnet button.down').click(function() {
     showSpinner();
     var current  = $(this).attr('data-fieldname');
     var next      = $(this).attr('data-nextfieldname');
@@ -1231,7 +1348,7 @@ $('table.customSubnet button.down').click(function() {
 /*    custom VLAN fields
 ************************************/
 //load edit form
-$('table.customVLAN button[data-direction!=down]').click(function() {
+$('table.customIP tbody#vlan button[data-direction!=down]').click(function() {
     showSpinner();
     var action       = $(this).attr('data-action');
     var fieldName = $(this).attr('data-fieldname');
@@ -1257,7 +1374,7 @@ $('#editcustomVLANSubmit').live('click', function() {
     return false;
 });
 // field ordering
-$('table.customVLAN button.down').click(function() {
+$('table.customIP tbody#vlan button.down').click(function() {
     showSpinner();
     var current  = $(this).attr('data-fieldname');
     var next      = $(this).attr('data-nextfieldname');

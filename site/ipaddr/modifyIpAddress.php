@@ -23,15 +23,17 @@ $subnet = getSubnetDetailsById($subnetId);
 $subnet2 = $subnet;
 $subnet = transform2long($subnet['subnet']) . "/" . $subnet['mask'];
 
-/* verify that subnet is not write-protected */
-if( (isSubnetWriteProtected($subnetId)) && !checkAdmin(false)) {
-	print '<div class="pHeader">'. ucwords($action).' IP address</div>';
+/* verify that user has write access */
+$subnetPerm = checkSubnetPermission ($subnetId);
+if($subnetPerm != "2") {
+	print '<div class="pHeader">Edit IP address</div>';
 	print '<div class="pContent">';
 	print '<div class="alert alert-error">Cannot edit IP address details! <br>This subnet is locked for writing!</div>';
 	print '</div>';
 	print '<div class="pFooter"><button class="btn btn-small hidePopups">Cancel</button></div>';
 	die();
 }
+
 
 /**
  *
@@ -110,7 +112,7 @@ $myFieldsSize = sizeof($myFields);
 		</td>
 		<td>
 			<input type="text" name="ip_addr" class="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="IP address">
-    		<i class="icon-gray icon-bell" rel="tooltip" data-placement="bottom" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)"></i>
+    		<i class="icon-gray icon-bell" rel="tooltip" data-html='true' data-placement="bottom" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)"></i>
     		
    			<input type="hidden" name="action" 	 	value="<?php print $btnName; 	?>">
 			<input type="hidden" name="id" 		 	value="<?php print $id; 		?>">

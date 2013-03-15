@@ -7,8 +7,20 @@
 /* required functions */
 require_once('../../functions/functions.php'); 
 
-/* verify that user is admin */
-if (!checkAdmin()) die('');
+/* verify that user has permissions if add */
+if($_POST['action'] == "add") {
+	$sectionPerm = checkSectionPermission ($_POST['sectionId']);
+	if($sectionPerm != "2") {
+		die("<div class='alert alert-error'>You do not have permissions to add new subnet in this section!</div>");
+	}
+}
+/* otherwise check subnet permission */
+else {
+	$subnetPerm = checkSubnetPermission ($_POST['subnetId']);
+	if($subnetPerm != "2") {
+		die("<div class='alert alert-error'>You do not have permissions to add edit/delete this subnet!</div>");
+	}
+}
 
 /* verify post */
 CheckReferrer();
@@ -71,7 +83,7 @@ else															{ $readonly = false; }
             <input type="text" name="subnet"   placeholder="subnet in CIDR"   value="<?php print $cidr; ?>" <?php if ($readonly) print "readonly"; ?>>
         </td>
         <td class="info">
-        	<button class="btn btn-small"  id='get-ripe' rel='tooltip' title='Get information form RIPE database'><i class="icon-refresh icon-gray"></i></button>
+        	<button class="btn btn-small"  id='get-ripe' rel='tooltip' data-placement="bottom" title='Get information from RIPE database'><i class="icon-refresh icon-gray"></i></button>
         	Enter subnet in CIDR format (e.g. 192.168.1.1/24)
         </td>
     </tr>
@@ -176,10 +188,12 @@ else															{ $readonly = false; }
         print '<option disabled="disabled">Select VRF</option>';
         print '<option value="0">None</option>';
         
+        if(sizeof($VRFs) > 0) {
         foreach($VRFs as $vrf) {
         
         	if ($vrf['vrfId'] == $subnetDataOld['vrfId']) 	{ print '<option value="'. $vrf['vrfId'] .'" selected>'. $vrf['name'] .'</option>'; }
         	else 											{ print '<option value="'. $vrf['vrfId'] .'">'. $vrf['name'] .'</option>'; }
+        }
         }
         
         print ' </select>'. "\n";
@@ -198,16 +212,15 @@ else															{ $readonly = false; }
 	<tr>
         <td class="middle">Resize / split</td>
         <td>
-        <div class="btn-toolbar">
+        <div class="btn-toolbar" style="margin:0px;">
 	    <div class="btn-group">
         	<button class="btn btn-small" id="resize" rel="tooltip" title="Resize subnet" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-vertical"></i></button>
         	<?php
         	# check if it has slaves - if yes it cannot be splitted!
-        	$slaves = getAllSlaveSubnetsBySubnetId ($_POST['subnetId']);
-        	if(sizeof($slaves) == 0) {?>
-        	<button class="btn btn-small" id="split"    rel="tooltip" title="Split subnet"    data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-full"></i></button>
-        	<button class="btn btn-small" id="truncate" rel="tooltip" title="Truncate subnet" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-trash"></i></button>
-        	<?php } ?>
+        	$slaves = subnetContainsSlaves($_POST['subnetId']);
+        	?>
+        	<button class="btn btn-small <?php if($slaves) print "disabled"; ?>" id="split"    rel="tooltip" title="Split subnet"    data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-full"></i></button>
+        	<button class="btn btn-small <?php if($slaves) print "disabled"; ?>" id="truncate" rel="tooltip" title="Truncate subnet" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-trash"></i></button>
 	    </div>
         </div>
         </td>
@@ -234,22 +247,6 @@ else															{ $readonly = false; }
 	else {
 		print '<tr style="display:none"><td colspan="8"><input type="hidden" name="allowRequests" value="'. $subnetDataOld['allowRequests'] .'"></td></tr>'. "\n";
 	}	
-	
-	/* option to lock subnet writing only for admins */
-		print '<tr>' . "\n";
-        print '	<td>Admin lock</td>' . "\n";
-        print '	<td>' . "\n";
-        print '		<input type="checkbox" name="adminLock" value="1" ' . "\n";
-        
-        if( isset($subnetDataOld['adminLock']) && ($subnetDataOld['adminLock'] == 1)) {
-        	print 'checked';
-        }
-        
-        print ' >'. "\n";
-        print '	</td>' . "\n";
-        print '	<td class="info">Limit IP editing only to admins!</td>' . "\n";
-    	print '</tr>' . "\n";
-
 
 	/* show names instead of ip address! */
 		print '<tr>' . "\n";

@@ -28,7 +28,7 @@ else 								{ $readonly = ""; }
 <div class="pContent">
 
 	<form id="switchManagementEdit">
-	<table class="table table-striped table-condensed">
+	<table class="table table-noborder table-condensed">
 
 	<!-- hostname  -->
 	<tr>
@@ -100,6 +100,11 @@ else 								{ $readonly = ""; }
 	</tr>
 
 	<!-- Sections -->
+	<tr>
+		<td colspan="2">
+			<hr>
+		</td>
+	</tr>
 	<tr>
 		<td colspan="2">Sections to display device in:</td>
 	</tr>

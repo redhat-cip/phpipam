@@ -21,14 +21,15 @@ $fields['instructions']   = array("instructions");
 $fields['ipaddresses'] 	  = array("subnetId", "ip_addr", "description", "dns_name", "mac", "owner", "switch", "port", "owner", "state", "note");
 $fields['logs']			  = array("severity", "date", "username", "ipaddr", "command", "details");
 $fields['requests']		  = array("subnetId", "ip_addr", "description", "dns_name", "owner", "requester", "comment", "processed", "accepted", "adminComment");
-$fields['sections']		  = array("name", "description");
+$fields['sections']		  = array("name", "description", "permissions");
 $fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "siteDomain", "siteURL", "domainAuth", "showTooltips", "enableIPrequests", "enableVRF", "enableDNSresolving", "version", "donate", "IPfilter", "strictMode", "printLimit", "visualLimit", "vlanDuplicate", "htmlMail");
 $fields['settingsDomain'] = array("account_suffix", "base_dn", "domain_controllers", "use_ssl", "use_tls", "ad_port");
-$fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "adminLock", "vlanId", "showName");
+$fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "vlanId", "showName", "permissions");
 $fields['switches'] 	  = array("hostname", "ip_addr", "type", "vendor", "model", "version", "description", "sections");
-$fields['users'] 	  	  = array("username", "password", "role", "real_name", "email", "domainUser");
+$fields['users'] 	  	  = array("username", "password", "groups", "role", "real_name", "email", "domainUser");
 $fields['vrf'] 	  	  	  = array("name", "rd", "description");
 $fields['vlans']   	  	  = array("vlanId", "name", "number", "description");
+$fields['userGroups']     = array("g_id", "g_name", "g_descr");
 
 /**
  * check that each database exist - if it does check also fields

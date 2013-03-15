@@ -36,10 +36,10 @@ else 							{ $formId = "vlanManagementEdit"; }
 <div class="pContent">
 	<form id="<?php print $formId; ?>">
 	
-	<table id="vlanManagementEdit2" class="table table-striped table-condensed">
+	<table id="vlanManagementEdit2" class="table table-noborder table-condensed">
 	<!-- hostname  -->
 	<tr>
-		<td style="width:20px;">Name</td>
+		<td>Name</td>
 		<td>
 			<input type="text" class="name" name="name" placeholder="VLAN name" value="<?php if(isset($vlan['name'])) print $vlan['name']; ?>" <?php print $readonly; ?>>
 		</td>

@@ -42,6 +42,10 @@ else if($settings['version'] != VERSION) {
 	else if (!tableExists("vlans")) { $version = "0.5"; }
 	/* v0.6 check -> field strictmode does not exist yet */
 	else if (!fieldExists("settings", "strictMode")) { $version = "0.6"; }
+	/* v0.7 check -> field settings in settings exist but usergroup not yet */
+	else if (!fieldExists("settings", "htmlMail") && !tableExists("userGroups") ) { $version = "0.7"; }
+	/* v0.7.5 check -> field settings in settings exist but usergroup not yet */
+	else if (!tableExists("userGroups") ) { $version = "0.7.5"; }
 	/* ok, "latest" OLD version */
 	else { $version = "0.7"; }
 

@@ -9,8 +9,6 @@
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 
-/* die if viewer */
-if(isUserViewer()) { die('<div class="alert alert-error">You do not have permissions to access this page!</div>'); }
 
 /* get all unique switches */
 $switches = getAllUniqueSwitches();
@@ -38,7 +36,7 @@ foreach($switches as $switch) {
 	$switchDetails = getSwitchDetailsByHostname($switch['hostname']);
 	
 	if(empty($switchDetails['hostname'])) 		{ 
-		$switchDetails['hostname'] = 'Switch not specified'; 
+		$switchDetails['hostname'] = 'Device not specified'; 
 		$switchDetails['ip_addr']  = "";
 	}
 	else 										{ 
@@ -76,29 +74,34 @@ foreach($switches as $switch) {
 	# IP addresses
 	foreach ($ipaddresses as $ip) {
 	
-		# get subnet details for belonging IP
-		$subnet = getSubnetDetails ($ip['subnetId']);
-		# get section details
-		$section = getSectionDetailsById ($subnet['sectionId']);
-	
-		# print
-		print "<tr>";
-		print "	<td class='ip'>".transform2long($ip['ip_addr'])."/$subnet[mask]</td>";
-		print "	<td class='port'>$ip[port]</td>";
-		print "	<td class='subnet'><a href='/subnets/$section[id]/$subnet[id]/'>$subnet[description]</a></td>";
-		print "	<td class='description'>$ip[description]</td>";
-
-		# print info button for hover
-		print "<td class='note'>";
-		if(!empty($ip['note'])) {
-			$ip['note'] = str_replace("\n", "<br>",$ip['note']);
-			print "	<i class='icon-gray icon-comment' rel='tooltip' title='$ip[note]'></i>";
-		}
-		print "</td>";
+		# check permission
+		$permission = checkSubnetPermission ($ip['subnetId']);
 		
-		print "	<td class='dns'>$ip[dns_name]</td>";
-		print "	<td class='owner'>$ip[owner]</td>";
-		print "</tr>";
+		if($permission != "0") {
+			# get subnet details for belonging IP
+			$subnet = getSubnetDetails ($ip['subnetId']);
+			# get section details
+			$section = getSectionDetailsById ($subnet['sectionId']);
+	
+			# print
+			print "<tr>";
+			print "	<td class='ip'>".transform2long($ip['ip_addr'])."/$subnet[mask]</td>";
+			print "	<td class='port'>$ip[port]</td>";
+			print "	<td class='subnet'><a href='/subnets/$section[id]/$subnet[id]/'>$subnet[description]</a></td>";
+			print "	<td class='description'>$ip[description]</td>";
+
+			# print info button for hover
+			print "<td class='note'>";
+			if(!empty($ip['note'])) {
+				$ip['note'] = str_replace("\n", "<br>",$ip['note']);
+				print "	<i class='icon-gray icon-comment' rel='tooltip' title='$ip[note]'></i>";
+			}
+			print "</td>";
+		
+			print "	<td class='dns'>$ip[dns_name]</td>";
+			print "	<td class='owner'>$ip[owner]</td>";
+			print "</tr>";
+		}
 	
 	}
 	

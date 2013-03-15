@@ -23,13 +23,20 @@ if($rowcount < 18) { $rowcount = 18; }
 <h4>Edit user instructions</h4>
 <hr>
 
-<div class="alert alert-info"><strong>Note:</strong> You can use standard HTML formatting tags!</div>
-
 
 <!-- form -->
-<form name="instructions" id="instructions">
+<form name="instructions" id="instructionsForm">
 
 	<textarea style="width:100%;" name="instructions" id="instructions" rows="<?php print $rowcount; ?>"><?php print stripslashes($instructions[0]['instructions']); ?></textarea>
+	
+	<script src="js/ckeditor/ckeditor.js"></script>
+	<script>
+    	CKEDITOR.replace( 'instructions', {
+	    	uiColor: '#f9f9f9',
+	    	autoParagraph: false		//wrap inside p
+    	});
+    </script>
+
 	<!-- preview, submit -->
 	<br>
 	<div style="text-align:right;">

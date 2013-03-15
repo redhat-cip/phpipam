@@ -93,6 +93,9 @@ foreach ($logs as $log)
     	
     		/* format date */
 /*     		$log['date'] = date("Y/m/d H:i:s", mktime($log['date'])); */
+
+			/* reformat permissions */
+			$log['details'] = str_replace("\"", "'", $log['details']);
     
    	    	print '<tr class="'.$color.' '. $log['severityText'] .'" id="'. $log['id'] .'">'. "\n";
          	print '	<td class="date">'. $log['date']     .'</td>'. "\n";

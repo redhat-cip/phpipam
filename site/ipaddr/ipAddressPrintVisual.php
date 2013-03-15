@@ -28,8 +28,16 @@ if(sizeof($slaves) == 0 && $type == 0 && $SubnetDetails['mask']!="31" && $Subnet
     		$id = $m;
     		$action = 'all-add';
     	}
+   		# permissions
+		$permission = checkSubnetPermission ($subnetId);
+		
 		# print box
-		print "<span class='ip-$class modIPaddr'  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";		
+		if($permission == "2") {
+			print "<span class='ip-$class modIPaddr'  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";	
+		}	
+		else {
+			print "<span class='ip-$class '  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";				
+		}
 	}
 	print "</div>";
 	print "<div style='clear:both;padding-bottom:20px;'></div>";	# clear float

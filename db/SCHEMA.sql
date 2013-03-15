@@ -1,12 +1,3 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
 # Dump of table instructions
 # ------------------------------------------------------------
 
@@ -90,6 +81,19 @@ CREATE TABLE `logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+
+INSERT INTO `logs` (`id`, `severity`, `date`, `username`, `ipaddr`, `command`, `details`)
+VALUES
+	(1,1,'2013-02-22 15:05:52','','10.12.144.38','Database installed successfully!','version 0.8 installed'),
+	(2,0,'2013-02-22 15:05:57','Admin','10.12.144.38','User Admin logged in.',''),
+	(3,1,'2013-02-22 03:06:53','Admin','10.12.144.38','Section Customers edit ok',' permissions: {\"3\":\"1\",\"2\":\"2\"}<br> action: edit<br> name: Customers<br> description: Section for customers<br> id: 1<br> delegate: 1<br>'),
+	(4,1,'2013-02-22 03:07:00','Admin','10.12.144.38','Section Servers edit ok',' permissions: {\"3\":\"1\",\"2\":\"2\"}<br> action: edit<br> name: Servers<br> description: Section for servers<br> id: 2<br> delegate: 1<br>'),
+	(5,1,'2013-02-22 03:07:05','Admin','10.12.144.38','Section IPv6 edit ok',' permissions: {\"3\":\"1\",\"2\":\"2\"}<br> action: edit<br> name: IPv6<br> description: Section for IPv6 addresses<br> id: 3<br> delegate: 1<br>');
+
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table requests
@@ -123,6 +127,7 @@ CREATE TABLE `sections` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '',
   `description` text,
+  `permissions` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`name`),
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`)
@@ -131,11 +136,11 @@ CREATE TABLE `sections` (
 LOCK TABLES `sections` WRITE;
 /*!40000 ALTER TABLE `sections` DISABLE KEYS */;
 
-INSERT INTO `sections` (`id`, `name`, `description`)
+INSERT INTO `sections` (`id`, `name`, `description`, `permissions`)
 VALUES
-	(1,'Customers','Section for customers'),
-	(2,'Servers','Section for servers'),
-	(3,'IPv6','Section for IPv6 addresses');
+	(1,'Customers','Section for customers','{\"3\":\"1\",\"2\":\"2\"}'),
+	(2,'Servers','Section for servers','{\"3\":\"1\",\"2\":\"2\"}'),
+	(3,'IPv6','Section for IPv6 addresses','{\"3\":\"1\",\"2\":\"2\"}');
 
 /*!40000 ALTER TABLE `sections` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -163,19 +168,19 @@ CREATE TABLE `settings` (
   `IPfilter` varchar(128) DEFAULT NULL,
   `strictMode` tinyint(1) DEFAULT '1',
   `printLimit` int(4) unsigned DEFAULT '25',
-  `visualLimit` int(2)  NOT NULL  DEFAULT '0',
   `vlanDuplicate` int(1) DEFAULT '0',
   `subnetOrdering` varchar(16) DEFAULT 'subnet,asc',
-  `htmlMail` BINARY(1)  NOT NULL  DEFAULT '1',
+  `visualLimit` int(2) NOT NULL DEFAULT '0',
+  `htmlMail` binary(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 
-INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `strictMode`, `printLimit`, `vlanDuplicate`, `subnetOrdering`)
+INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `strictMode`, `printLimit`, `vlanDuplicate`, `subnetOrdering`, `visualLimit`, `htmlMail`)
 VALUES
-	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,1,0,'0.8',0,'mac;owner;state;switch;note',1,25,0,'subnet,asc');
+	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,1,0,'0.8',0,'mac;owner;state;switch;note',1,25,0,'subnet,asc',0,X'31');
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -217,30 +222,30 @@ CREATE TABLE `subnets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subnet` varchar(255) NOT NULL,
   `mask` varchar(255) NOT NULL,
-  `sectionId` varchar(20) DEFAULT NULL,
+  `sectionId` int(12) DEFAULT NULL,
   `description` text NOT NULL,
   `vrfId` int(3) DEFAULT NULL,
-  `masterSubnetId` varchar(32) DEFAULT NULL,
+  `masterSubnetId` int(12) DEFAULT 0,
   `allowRequests` tinyint(1) DEFAULT '0',
-  `adminLock` binary(1) DEFAULT '0',
   `vlanId` int(11) DEFAULT NULL,
   `showName` tinyint(1) DEFAULT '0',
+  `permissions` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `subnets` WRITE;
 /*!40000 ALTER TABLE `subnets` DISABLE KEYS */;
 
-INSERT INTO `subnets` (`id`, `subnet`, `mask`, `sectionId`, `description`, `vrfId`, `masterSubnetId`, `allowRequests`, `adminLock`, `vlanId`, `showName`)
+INSERT INTO `subnets` (`id`, `subnet`, `mask`, `sectionId`, `description`, `vrfId`, `masterSubnetId`, `allowRequests`, `vlanId`, `showName`, `permissions`)
 VALUES
-	(1,'336395549904799703390415618052362076160','64','3','Private subnet 1',0,'0',1,X'30',1,1),
-	(2,'168427520','16','1','Business customers',0,'0',1,X'33',0,1),
-	(3,'168427776','24','1','Customer 1',0,'2',1,X'30',0,1),
-	(4,'168428032','24','1','Customer 2',0,'2',1,X'30',0,1),
-	(5,'168460288','17','2','DMZ zone',0,'0',1,X'30',0,1),
-	(6,'1507077120','24','2','Public translations for DMZ',0,'0',1,X'30',0,1),
-	(7,'168460288','23','2','DMZ production',0,'5',1,X'00',0,1),
-	(8,'168460800','23','2','DMZ testing',0,'5',1,X'00',0,1);
+	(1,'336395549904799703390415618052362076160','64','3','Private subnet 1',0,'0',1,1,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(2,'168427520','16','1','Business customers',0,'0',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(3,'168427776','24','1','Customer 1',0,'2',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(4,'168428032','24','1','Customer 2',0,'2',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(5,'168460288','17','2','DMZ zone',0,'0',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(6,'1507077120','24','2','Public translations for DMZ',0,'0',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(7,'168460288','23','2','DMZ production',0,'5',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}'),
+	(8,'168460800','23','2','DMZ testing',0,'5',1,0,1,'{\"3\":\"1\",\"2\":\"2\"}');
 
 /*!40000 ALTER TABLE `subnets` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -277,6 +282,30 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table userGroups
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `userGroups`;
+
+CREATE TABLE `userGroups` (
+  `g_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `g_name` varchar(32) DEFAULT NULL,
+  `g_desc` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`g_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+LOCK TABLES `userGroups` WRITE;
+/*!40000 ALTER TABLE `userGroups` DISABLE KEYS */;
+
+INSERT INTO `userGroups` (`g_id`, `g_name`, `g_desc`)
+VALUES
+	(2,'Operators','default Operator group'),
+	(3,'Guests','default Guest group (viewers)');
+
+/*!40000 ALTER TABLE `userGroups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table users
 # ------------------------------------------------------------
 
@@ -286,6 +315,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `password` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+  `groups` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   `role` text CHARACTER SET utf8,
   `real_name` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
@@ -298,9 +328,9 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `real_name`, `email`, `domainUser`)
+INSERT INTO `users` (`id`, `username`, `password`, `groups`, `role`, `real_name`, `email`, `domainUser`)
 VALUES
-	(1,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965','Administrator','phpIPAM Admin','admin@domain.local',X'30');
+	(1,'Admin',X'6431306262383036653937643335333866623133623535383164623131653965',X'','Administrator','phpIPAM Admin','admin@domain.local',X'30');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -343,13 +373,3 @@ CREATE TABLE `vrf` (
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`vrfId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

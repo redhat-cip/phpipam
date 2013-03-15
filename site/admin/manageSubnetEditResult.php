@@ -5,10 +5,22 @@
  ********************************************/
 
 /* required functions */
-require_once('../../functions/functions.php'); 
+require_once('../../functions/functions.php');
 
-/* verify that user is admin */
-checkAdmin();
+/* verify that user has permissions if add */
+if($_POST['action'] == "add") {
+	$sectionPerm = checkSectionPermission ($_POST['sectionId']);
+	if($sectionPerm != "2") {
+		die("<div class='alert alert-error'>You do not have permissions to add new subnet in this section!</div>");
+	}
+}
+/* otherwise check subnet permission */
+else {
+	$subnetPerm = checkSubnetPermission ($_POST['subnetId']);
+	if($subnetPerm != "2") {
+		die("<div class='alert alert-error'>You do not have permissions to add edit/delete this subnet!</div>");
+	}	
+}
 
 /* verify post */
 CheckReferrer();
@@ -46,7 +58,6 @@ if ( ($_POST['sectionId'] != $_POST['sectionIdNew']) && $_POST['action'] == "edi
  * Execute checks on add only and when root subnet is being added
  */
 else if (($_POST['action'] == "add") && ($_POST['masterSubnetId'] == 0)) {
-
     /* first verify user input */
     $errors   	= verifyCidr ($_POST['subnet']);
 
@@ -64,7 +75,6 @@ else if (($_POST['action'] == "add") && ($_POST['masterSubnetId'] == 0)) {
  * Execute different checks on add only and when subnet is nested
  */
 else if ($_POST['action'] == "add") {
-
     /* first verify user input */
     $errors   	= verifyCidr ($_POST['subnet']);
 
@@ -75,9 +85,11 @@ else if ($_POST['action'] == "add") {
 	    }
     }
     /* verify that no overlapping occurs if we are adding nested subnet */
-    if ( $overlap = verifyNestedSubnetOverlapping ($_POST['sectionId'], $_POST['subnet'], $_POST['vrfId']) ) {
-    	$errors[] = $overlap;
-    }    
+    if($settings['strictMode'] == 1) {
+   		if ( $overlap = verifyNestedSubnetOverlapping ($_POST['sectionId'], $_POST['subnet'], $_POST['vrfId'], $_POST['masterSubnetId']) ) {
+    		$errors[] = $overlap;
+    	}
+    }
 } 
 /**
  * Check if slave is under master

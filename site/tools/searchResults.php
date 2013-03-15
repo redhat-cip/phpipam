@@ -88,13 +88,9 @@ $myFields = getCustomIPaddrFields();
 $fieldSize 	= sizeof($setFields);
 $mySize 	= sizeof($myFields);
 $colSpan 	= $fieldSize + $mySize + 4;
-
-# disable export for viewers
-if(checkAdmin(false) == false) 	{ $uClass = "disabled"; }
-else 							{ $uClass = ""; }
 ?>
 
-<h4> Search results (IP address list): <?php if(sizeof($result) != 0) { print('<a href="" id="exportSearch" class="'.$uClass.'" rel="tooltip" title="Export All results to XLS"><button class="btn btn-small '.$uClass.'"><i class="icon-download"></i></button></a>');} ?></h4>
+<h4> Search results (IP address list): <?php if(sizeof($result) != 0) { print('<a href="" id="exportSearch" rel="tooltip" title="Export All results to XLS"><button class="btn btn-small"><i class="icon-download"></i></button></a>');} ?></h4>
 <hr>
 
 <!-- export holder -->
@@ -138,112 +134,111 @@ else 							{ $uClass = ""; }
 
 /* if no result print nothing found */
 if(sizeof($result) == 0) {
-	print('<tr><td colspan="'.$colSpan.'"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in ip address list!</div></td><tr>');
+/* 	print('<tr><td colspan="'.$colSpan.'"></td><tr>'); */
 }
 else {
 	$m = 0;		//for section change
 	/* print content */
 	foreach ($result as $line) {
+	
+		# check permission
+		$permission = checkSubnetPermission ($line['subnetId']);
+		if($permission != "0") {
 
-		//get the Subnet details
-		$subnet = getSubnetDetailsById ($line['subnetId']);
-		//get vlan number
-		$vlan   = subnetGetVLANDetailsById($subnet['vlanId']);
-		//get section
-		$section = getSectionDetailsById ($subnet['sectionId']);
+			//get the Subnet details
+			$subnet = getSubnetDetailsById ($line['subnetId']);
+			//get vlan number
+			$vlan   = subnetGetVLANDetailsById($subnet['vlanId']);
+			//get section
+			$section = getSectionDetailsById ($subnet['sectionId']);
 	
-		//detect section change and print headers
-		if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
-			print '<tr>' . "\n";
-			print '	<th colspan="'. $colSpan .'">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
-			print '</tr>';
-		}
-		$m++;
-		
-		$stateClass = "";
-	    if(in_array('state', $setFields)) {
-		    if ($line['state'] == "0") 	 	{ $stateClass = "offline"; }
-		    else if ($line['state'] == "2") { $stateClass = "reserved"; }
-		    else if ($line['state'] == "3") { $stateClass = "DHCP"; }
-		}
-	
-		//print table
-		print '<tr class="ipSearch '.$stateClass.'" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
-	
-		print ' <td>'. transform2long($line['ip_addr']);
-		if(in_array('state', $setFields)) 				{ print reformatIPState($line['state']); }	
-		print ' </td>' . "\n";
-		print ' <td>'. $vlan['number']  .'</td>' . "\n";
-		print ' <td>'. ShortenText($line['description'], $chars = 50) .'</td>' . "\n";
-	
-		print ' <td>'. $line['dns_name']  .'</td>' . "\n";
-		
-		# mac
-		if(in_array('mac', $setFields)) {
-			print '	<td>'. "\n";
-			if(strlen($line['mac']) > 0) {
-				print '<i class="icon-mac" rel="tooltip" title=""MAC: '. $line['mac'] .'"></i>'. "\n";
+			//detect section change and print headers
+			if ($result[$m]['subnetId'] != $result[$m-1]['subnetId']) {
+				print '<tr>' . "\n";
+				print '	<th colspan="'. $colSpan .'">'. $section['name'] . ' :: ' . $subnet['description'] .' ('. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .')</th>' . "\n";
+				print '</tr>';
 			}
-		print '	</td>'. "\n";
-		}
+			$m++;
 		
-		# switch
-		if(in_array('switch', $setFields)) 										{ print ' <td>'. $line['switch']  .'</td>' . "\n"; }
-		# port
-		if(in_array('port', $setFields)) 										{ print ' <td>'. $line['port']  .'</td>' . "\n"; }
-		# owner and note
-		if((in_array('owner', $setFields)) && (in_array('note', $setFields)) ) {
-			print ' <td>'. $line['owner']  .'</td>' . "\n";
-			print ' <td class="note">' . "\n";
-			if(!empty($line['note'])) {
-				$line['note'] = str_replace("\n", "<br>",$line['note']);
-				print '<i class="icon-gray icon-comment" rel="tooltip" title="'. $line['note']. '"></i>' . "\n";
+			$stateClass = "";
+			if(in_array('state', $setFields)) {
+			    if ($line['state'] == "0") 	 	{ $stateClass = "offline"; }
+			    else if ($line['state'] == "2") { $stateClass = "reserved"; }
+			    else if ($line['state'] == "3") { $stateClass = "DHCP"; }
 			}
-			print '</td>'. "\n";
-		}
-		# owner only
-		else if (in_array('owner', $setFields)) 								{ print ' <td>'. $line['owner']  .'</td>' . "\n";	}
-		# note only
-		else if (in_array('note', $setFields)) {
-			print '<td class="note">' . "\n";
-			if(!empty($line['note'])) {
-				$line['note'] = str_replace("\n", "<br>",$line['note']);
-				print '	<i class="icon-gray icon-comment" rel="tooltip" title="'. $line['note']. '"></i>' . "\n";
-			}
-			print '</td>'. "\n";
-		}
-		# custom
-		if(sizeof($myFields) > 0) {
-			foreach($myFields as $myField) 										{ print '<td class="customField">'. $line[$myField['name']] .'</td>'. "\n"; }
-		}
+	
+			//print table
+			print '<tr class="ipSearch '.$stateClass.'" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
+	
+			print ' <td>'. transform2long($line['ip_addr']);
+			if(in_array('state', $setFields)) 				{ print reformatIPState($line['state']); }	
+			print ' </td>' . "\n";
+			print ' <td>'. $vlan['number']  .'</td>' . "\n";
+			print ' <td>'. ShortenText($line['description'], $chars = 50) .'</td>' . "\n";
+	
+			print ' <td>'. $line['dns_name']  .'</td>' . "\n";
 		
-		# print action links if user can edit 
-		if(!$viewer = isUserViewer()) {		
+			# mac
+			if(in_array('mac', $setFields)) {
+				print '	<td>'. "\n";
+				if(strlen($line['mac']) > 0) {
+					print '<i class="icon-mac" rel="tooltip" title=""MAC: '. $line['mac'] .'"></i>'. "\n";
+				}
+				print '	</td>'. "\n";
+			}
+		
+			# switch
+			if(in_array('switch', $setFields)) 										{ print ' <td>'. $line['switch']  .'</td>' . "\n"; }
+			# port
+			if(in_array('port', $setFields)) 										{ print ' <td>'. $line['port']  .'</td>' . "\n"; }
+			# owner and note
+			if((in_array('owner', $setFields)) && (in_array('note', $setFields)) ) {
+				print ' <td>'. $line['owner']  .'</td>' . "\n";
+				print ' <td class="note">' . "\n";
+				if(!empty($line['note'])) {
+					$line['note'] = str_replace("\n", "<br>",$line['note']);
+					print '<i class="icon-gray icon-comment" rel="tooltip" title="'. $line['note']. '"></i>' . "\n";
+				}
+				print '</td>'. "\n";
+			}
+			# owner only
+			else if (in_array('owner', $setFields)) 								{ print ' <td>'. $line['owner']  .'</td>' . "\n";	}
+			# note only
+			else if (in_array('note', $setFields)) {
+				print '<td class="note">' . "\n";
+				if(!empty($line['note'])) {
+					$line['note'] = str_replace("\n", "<br>",$line['note']);
+					print '	<i class="icon-gray icon-comment" rel="tooltip" title="'. $line['note']. '"></i>' . "\n";
+				}
+				print '</td>'. "\n";
+			}
+			# custom
+			if(sizeof($myFields) > 0) {
+				foreach($myFields as $myField) 										{ print '<td class="customField">'. $line[$myField['name']] .'</td>'. "\n"; }
+			}
+		
+			# print action links if user can edit 	
 			print "<td class='btn-actions'>";
 			print "	<div class='btn-toolbar'>";
 			print "	<div class='btn-group'>";
 
-			#locked for writing
-			if( (isSubnetWriteProtected($subnet['id'])) && !checkAdmin(false)) {
-				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='Edit IP address details (disabled)'>		<i class='icon-gray icon-pencil'>  </i></a>";
-				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='Delete IP address (disabled)'>			<i class='icon-gray icon-remove'>  </i></a>";
-			}
-			# unlocked
-			else {
+			if($permission == "2") {
 				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#' 	rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
 				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
 				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#'  rel='tooltip' title='Delete IP address'>			<i class='icon-gray icon-remove'>  </i></a>";
 			}
+			# unlocked
+			else {
+				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='Edit IP address details (disabled)'>		<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='Delete IP address (disabled)'>			<i class='icon-gray icon-remove'>  </i></a>";
+			}
 			print "	</div>";
 			print "	</div>";
-			print "</td>";		
-		}
-		else {
-			print '<td></td>';
-		}
+			print "</td>";	
 		
 		print '</tr>' . "\n";
+	}
 	}
 }
 ?>
@@ -274,55 +269,56 @@ else {
 
 <?php
 if(sizeof($subnets) == 0) {
-	print '<tr class="th"><td colspan="9"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in subnets!</div></td><tr>'. "\n";
+/* 	print '<tr class="th"><td colspan="9"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in subnets!</div></td><tr>'. "\n"; */
 }
 else {
 
 	foreach($subnets as $line) {
 
-		//get section details 
-		$section = getSectionDetailsById ($line['sectionId']);
-		//get vlan number
-		$vlan   = subnetGetVLANDetailsById($line['vlanId']);
-	
-		//format requests
-		if($line['allowRequests'] == 1) { $line['allowRequests'] = "enabled"; }
-		else 							{ $line['allowRequests'] = "disabled"; }
-	
-		//format lock
-		if($line['adminLock'] == 1) 	{ $img = '<i class="icon-gray icon-lock" rel="tooltip" title="Subnet is locked for writing for non-admins!"></i>'; }
-		else 							{ $img = ""; }
-	
-		//format master subnet
-		if($line['masterSubnetId'] == 0) { $line['masterSubnetId'] = "/"; }
-		else {
-			$line['masterSubnetId'] = getSubnetDetailsById ($line['masterSubnetId']);
-			$line['masterSubnetId'] = transform2long($line['masterSubnetId']['subnet']) .'/'. $line['masterSubnetId']['mask'];
-		}
+		# check permission
+		$permission = checkSubnetPermission ($line['id']);
+		if($permission != "0") {
 		
-/* 		print '<tr class="subnetSearch" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n"; */
-		print '<tr class="subnetSearch" subnetId="'. $line['id'] .'" sectionName="'. $section['name'] .'" sectionId="'. $section['id'] .'" link="'. $section['name'] .'|'. $line['id'] .'">'. "\n";
-
-		print '	<td>'. $section['name'] . '</td>'. "\n"; 
-		print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 
-		print ' <td>'. $line['mask'] .'</td>' . "\n";
-		print ' <td><a href="subnets/'.$line['sectionId'].'/'.$line['id'].'/">'. $line['description'] .'</a></td>' . "\n";
-		print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
-		print ' <td>'. $vlan['number'] .'</td>' . "\n";
-		print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
-		print ' <td>'. $img .'</td>' . "\n";
-		
-		#locked for writing
-		if( (isSubnetWriteProtected($line['id'])) && !checkAdmin(false)) {
-			print "	<td><button class='btn btn-mini disabled' rel='tooltip' title='Edit subnet (disabled)'>	<i class='icon-gray icon-pencil'>  </i></button>";
-		}
-		# unlocked
-		else {
-			print "	<td><button class='btn btn-mini edit_subnet' data-action='edit'   data-subnetId='$line[id]' data-sectionId='$line[sectionId]' href='#' rel='tooltip' title='Edit subnet details'>		<i class='icon-gray icon-pencil'>  </i></a>";
-		}
-
+			//get section details 
+			$section = getSectionDetailsById ($line['sectionId']);
+			//get vlan number
+			$vlan   = subnetGetVLANDetailsById($line['vlanId']);
 	
-		print '</tr>'. "\n";
+			//format requests
+			if($line['allowRequests'] == 1) { $line['allowRequests'] = "enabled"; }
+			else 							{ $line['allowRequests'] = "disabled"; }
+	
+			//format lock
+			if($line['adminLock'] == 1) 	{ $img = '<i class="icon-gray icon-lock" rel="tooltip" title="Subnet is locked for writing for non-admins!"></i>'; }
+			else 							{ $img = ""; }
+	
+			//format master subnet
+			if($line['masterSubnetId'] == 0) { $line['masterSubnetId'] = "/"; }
+			else {
+				$line['masterSubnetId'] = getSubnetDetailsById ($line['masterSubnetId']);
+				$line['masterSubnetId'] = transform2long($line['masterSubnetId']['subnet']) .'/'. $line['masterSubnetId']['mask'];
+			}
+		
+			print '<tr class="subnetSearch" subnetId="'. $line['id'] .'" sectionName="'. $section['name'] .'" sectionId="'. $section['id'] .'" link="'. $section['name'] .'|'. $line['id'] .'">'. "\n";
+
+			print '	<td>'. $section['name'] . '</td>'. "\n"; 
+			print '	<td>'. transform2long($line['subnet']) . '</td>'. "\n"; 
+			print ' <td>'. $line['mask'] .'</td>' . "\n";
+			print ' <td><a href="subnets/'.$line['sectionId'].'/'.$line['id'].'/">'. $line['description'] .'</a></td>' . "\n";
+			print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
+			print ' <td>'. $vlan['number'] .'</td>' . "\n";
+			print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
+			print ' <td>'. $img .'</td>' . "\n";
+		
+			#locked for writing
+			if($permission == "2") {
+				print "	<td><button class='btn btn-mini edit_subnet' data-action='edit'   data-subnetId='$line[id]' data-sectionId='$line[sectionId]' href='#' rel='tooltip' title='Edit subnet details'>		<i class='icon-gray icon-pencil'>  </i></a>";
+			}
+			else {
+				print "	<td><button class='btn btn-mini disabled' rel='tooltip' title='Edit subnet (disabled)'>	<i class='icon-gray icon-pencil'>  </i></button>";
+			}
+			print '</tr>'. "\n";
+		}
 	}
 }
 ?>
@@ -351,7 +347,6 @@ else {
 
 <?php
 if(sizeof($vlans) == 0) {
-	print '<tr class="th"><td colspan="6"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in VLANs!</div></td><tr>'. "\n";
 }
 else {
 
@@ -374,41 +369,44 @@ else {
 		/* for each subnet print tr */
 		foreach($subnets as $subnet)
 		{
-			/* get section details */
-			$section = getSectionDetailsById ($subnet['sectionId']);	
+			# check permission
+			$permission = checkSubnetPermission ($subnet['id']);
+			if($permission != "0") {
+			
+				/* get section details */
+				$section = getSectionDetailsById ($subnet['sectionId']);	
 
-			# detect change
-			$vlanNew = $subnet['vlanId'];
-			if($vlanNew == $vlanOld) { $change = ''; }
-			else 					 { $change = 'style="border-top:1px dashed white"'; $vlanOld = $vlanNew; }
+				# detect change
+				$vlanNew = $subnet['vlanId'];
+				if($vlanNew == $vlanOld) { $change = ''; }
+				else 					 { $change = 'style="border-top:1px dashed white"'; $vlanOld = $vlanNew; }
 
-			print '<tr class="link vlanSearch" '. $change .' sectionId="'. $section['id'] .'" subnetId="'. $subnet['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">' . "\n";
+				print '<tr class="link vlanSearch" '. $change .' sectionId="'. $section['id'] .'" subnetId="'. $subnet['id'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">' . "\n";
 
-			/* print first 3 only if change happened! */
-			if(strlen($change) > 0) {
-				print ' <td><dd>'. $vlan['name']         .'</dd></td>' . "\n";
-				print ' <td><dd>'. $vlan['number']           .'</dd></td>' . "\n";
-				print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";			
-			}
-			else {
-				print '<td></td>';
-				print '<td></td>';
-				print '<td></td>';	
-			} 
+				/* print first 3 only if change happened! */
+				if(strlen($change) > 0) {
+					print ' <td><dd>'. $vlan['name']         .'</dd></td>' . "\n";
+					print ' <td><dd>'. $vlan['number']           .'</dd></td>' . "\n";
+					print ' <td><dd>'. $vlan['description'] .'</dd></td>' . "\n";			
+				}
+				else {
+					print '<td></td>';
+					print '<td></td>';
+					print '<td></td>';	
+				} 
 
-			if ($subnet['id'] != null) {
-				# subnet
-				print ' <td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
-
-				# section
-				print ' <td>'. $section['name'] .'</td>'. "\n";
-			}
-			else {
-    		    print '<td>---</td>'. "\n";
-    		    print '<td>---</td>'. "\n";
+				if ($subnet['id'] != null) {
+					# subnet
+					print ' <td>'. transform2long($subnet['subnet']) .'/'. $subnet['mask'] .'</td>' . "\n";
+					# section
+					print ' <td>'. $section['name'] .'</td>'. "\n";
+				}
+				else {
+    		    	print '<td>---</td>'. "\n";
+    		    	print '<td>---</td>'. "\n";
+    		    }
+    		    print '</tr>' . "\n";
     		}
-    		
-    		print '</tr>' . "\n";
     	}
 
     }

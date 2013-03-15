@@ -29,7 +29,7 @@ else 								{ $readonly = ""; }
 <div class="pContent">
 
 	<form id="vrfManagementEdit">
-	<table id="vrfManagementEdit2" class="table table-striped table-hover table-condensed">
+	<table id="vrfManagementEdit2" class="table table-noborder table-condensed">
 
 	<!-- hostname  -->
 	<tr>
