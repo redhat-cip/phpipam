@@ -36,16 +36,17 @@ if(sizeof($custom) > 0) {
 }
 print '</tr>' . "\n";
 
-# change detection
-$vlanOld = 0;
 
+$m = 0;
 foreach ($vlans as $vlan) {
-
-	# detect change
-	$vlanNew = $vlan['number'];
-
-	if($vlanNew == $vlanOld) { $change = 'nochange'; }
-	else 					 { $change = 'change'; $vlanOld = $vlanNew; }
+	
+	# new change detection
+	if($m>0) {
+		if($vlans[$m]['number']==$vlans[$m-1]['number'] &&  $vlans[$m]['name']==$vlans[$m-1]['name'] && $vlans[$m]['description']==$vlans[$m-1]['description'])	{ $change = 'nochange'; }
+		else																																					{ $change = 'change'; }
+	}
+	# first
+	else 																																						{ $change = 'change';	 }
 
 	/* get section details */
 	$section = getSectionDetailsById($vlan['sectionId']);
@@ -115,6 +116,9 @@ foreach ($vlans as $vlan) {
 	    }    
 	    print '</tr>' . "\n";
 	}
+
+	# next VLAN
+	$m++;
 }
 
 

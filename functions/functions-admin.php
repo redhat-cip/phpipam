@@ -615,8 +615,8 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= '`vlanId`        	= "'. $subnetDetails['vlanId'] 			.'", '. "\n";
         $query .= '`vrfId`        	= "'. $subnetDetails['vrfId'] 			.'", '. "\n";
         $query .= '`masterSubnetId` = "'. $subnetDetails['masterSubnetId'] 	.'", '. "\n";
-        $query .= '`allowRequests`  = "'. $subnetDetails['allowRequests'] 	.'", '. "\n";
-        $query .= '`showName`   	= "'. $subnetDetails['showName'] 		.'" '. "\n";
+        $query .= '`allowRequests`  = "'. isCheckbox($subnetDetails['allowRequests']) 	.'", '. "\n";
+        $query .= '`showName`   	= "'. isCheckbox($subnetDetails['showName']) 		.'" '. "\n";
         $query .= $myFieldsInsert['query'];
         $query .= 'where id      	= "'. $subnetDetails['subnetId'] .'"; '."\n";
     
@@ -1364,9 +1364,9 @@ function updateSettings($settings)
 	$query   .= '`htmlMail` 		  = "'. isCheckbox($settings['htmlMail']) .'", ' . "\n";  
     $query   .= '`printLimit` 	      = "'. $settings['printLimit'] .'", ' . "\n"; 
     $query   .= '`visualLimit` 	      = "'. $settings['visualLimit'] .'", ' . "\n"; 
-    $query   .= '`vlanDuplicate` 	  = "'. $settings['vlanDuplicate'] .'", ' . "\n"; 
+    $query   .= '`vlanDuplicate` 	  = "'. isCheckbox($settings['vlanDuplicate']) .'", ' . "\n"; 
     $query   .= '`subnetOrdering` 	  = "'. $settings['subnetOrdering'] .'" ' . "\n"; 
-	$query   .= 'where id = 1;' . "\n";   
+	$query   .= 'where id = 1;' . "\n"; 
 
 	/* set log file */
 	foreach($settings as $key=>$setting) {
