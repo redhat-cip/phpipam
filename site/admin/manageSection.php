@@ -26,7 +26,7 @@ $sections = fetchSections ();
 <tr>
     <th>Name</th>
     <th>Description</th>
-    <th>Permissions</th>
+    <th>Group Permissions</th>
     <th></th>
 </tr>
 
@@ -42,15 +42,20 @@ foreach ($sections as $section)
     # permissions
     if(strlen($section['permissions'])>1) {
     	$permissions = parseSectionPermissions($section['permissions']);
-    	# print for each
-    	foreach($permissions as $key=>$p) {
-	    	# get subnet name
-	    	$group = getGroupById($key);
-	    	# parse permissions
-	    	$perm   = parsePermissions($p);
+    	# print for each if they exist
+    	if(sizeof($permissions) > 0) {
+    		foreach($permissions as $key=>$p) {
+	    		# get subnet name
+	    		$group = getGroupById($key);
+	    		# parse permissions
+	    		$perm   = parsePermissions($p);
 	    	
-	    	print $group['g_name']." : ".$perm."<br>"; 
-    	}   
+	    		print $group['g_name']." : ".$perm."<br>"; 
+	    	}   
+    	}
+    	else {
+	    	print "All groups: No access";
+    	}
     }
 	print "</td>";
     

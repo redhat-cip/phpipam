@@ -265,6 +265,8 @@ td.actions {
 */
 
 }
+#leftMenu ul.nav li.active {
+}
 .navbar.navtop .nav > .active > a, 
 .navbar.navtop .nav > .active > a:hover, 
 .navbar.navtop .nav > .active > a:focus {
@@ -359,7 +361,7 @@ ul.admin li.active a {
 }
 
 /* multiple line sections fix */
-.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+.sections .nav-tabs > .active > a, .sections .nav-tabs > .active > a:hover {
 	border: none;
 }
 

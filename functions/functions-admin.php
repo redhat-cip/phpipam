@@ -295,11 +295,17 @@ function getSectionPermissionsByGroup ($gid, $name = true)
 	# check if $gid in array
 	foreach($sec as $s) {
 		$p = json_decode($s['permissions'], true);	
-		if($name) {
-			if(array_key_exists($gid, $p)) { $out[$s['name']] = $p[$gid]; }
+		if(sizeof($p)>0) {
+			if($name) {
+				if(array_key_exists($gid, $p)) { $out[$s['name']] = $p[$gid]; }
+			}
+			else {
+				if(array_key_exists($gid, $p)) { $out[$s['id']] = $p[$gid]; }
+			}
 		}
+		# no permissions
 		else {
-			if(array_key_exists($gid, $p)) { $out[$s['id']] = $p[$gid]; }
+			$out[$s['name']] = 0;
 		}
 	}
 	# return
