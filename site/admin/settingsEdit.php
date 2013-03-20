@@ -8,7 +8,7 @@
 require_once('../../functions/functions.php'); 
 
 /* verify that user is admin */
-checkAdmin();
+checkAdmin(false);
 
 /* fetch all settings */
 $settings = $_POST;

@@ -1372,16 +1372,22 @@ function updateSettings($settings)
 	foreach($settings as $key=>$setting) {
 		$log .= " ". $key . ": " . $setting . "<br>";
 	}
-    
-    # execute query
-    if (!$database->executeQuery($query)) {
-        return false;
-        updateLogTable ('Failed to update settings', $log, 2);
+ 
+ 	/* execute */
+    try {
+    	$database->executeQuery( $query );
     }
-    else { 
+    catch (Exception $e) {
+    	$error =  $e->getMessage();
+    	print '<div class="alert alert-error">Update settings error:<hr>'. $error .'</div>';
+    	updateLogTable ('Failed to update settings', $log, 2);
+    	return false;
+	}
+	
+	if(!isset($e)) {
     	updateLogTable ('Settings updated', $log, 1);
-        return true;  
-    }
+        return true;
+	}
 }
 
 
