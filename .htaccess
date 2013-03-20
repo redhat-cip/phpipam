@@ -8,6 +8,7 @@ RewriteRule ^index.php$ - [L]
 # pass-through
 RewriteRule ^(css|js|site)/.*$ - [L]
 
+
 # redirect errors
 ErrorDocument 400 /error/400/
 ErrorDocument 401 /error/401/

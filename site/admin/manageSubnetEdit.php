@@ -304,7 +304,7 @@ else															{ $readonly = false; }
     
     <?php
     # warning if delete
-    if($_POST['action'] == "delete" || $_POST['location'] == "IPaddresses") {
+    if($_POST['action'] == "delete" || ($_POST['location'] == "IPaddresses" && $_POST['action'] != "add"  )) {
 	    print "<div class='alert alert-warn' style='margin-top:0px;'><strong>Warning</strong><br>Removing subnets will delete ALL underlaying subnets and belonging IP addresses!</div>";
     }
     ?>
