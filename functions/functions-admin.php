@@ -903,14 +903,14 @@ function setUpdateSectionQuery ($update)
 	# add section
     if ($update['action'] == "add") 
     {
-        $query = 'Insert into sections (`name`,`description`,`permissions`) values ("'. $update['name'] .'", "'. $update['description'] .'", "'. $update['permissions'] .'");';
+        $query = 'Insert into sections (`name`,`description`,`permissions`,`strictMode`) values ("'.$update['name'].'", "'.$update['description'].'", "'.$update['permissions'].'", "'.$update['strictMode'].'");';
     }
     # edit section
     else if ($update['action'] == "edit") 
     {
         $section_old = getSectionDetailsById ( $update['id'] );												# Get old section name for update
         # Update section name
-        $query   = "update `sections` set `name` = '$update[name]', `description` = '$update[description]', `permissions` = '$update[permissions]' where `id` = '$update[id]';";	
+        $query   = "update `sections` set `name` = '$update[name]', `description` = '$update[description]', `permissions` = '$update[permissions]', `strictMode`='$update[strictMode]' where `id` = '$update[id]';";	
         
         # delegate permissions if set
         if($update['delegate'] == 1) {
@@ -1359,7 +1359,6 @@ function updateSettings($settings)
 	$query   .= '`enableIPrequests`   = "'. isCheckbox($settings['enableIPrequests']) .'", ' . "\n";
 	$query   .= '`enableVRF`   		  = "'. isCheckbox($settings['enableVRF']) .'", ' . "\n";
 	$query   .= '`donate`   		  = "'. isCheckbox($settings['donate']) .'", ' . "\n";
-	$query   .= '`strictMode`   	  = "'. isCheckbox($settings['strictMode']) .'", ' . "\n";
 	$query   .= '`enableDNSresolving` = "'. isCheckbox($settings['enableDNSresolving']) .'", ' . "\n";  
 	$query   .= '`htmlMail` 		  = "'. isCheckbox($settings['htmlMail']) .'", ' . "\n";  
     $query   .= '`printLimit` 	      = "'. $settings['printLimit'] .'", ' . "\n"; 

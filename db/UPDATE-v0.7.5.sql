@@ -49,3 +49,10 @@ update `subnets` set `permissions` = '{"2":"1","3":"1"}' where `adminLock` = 1;
 update `subnets` set `permissions` = '{"2":"2","3":"1"}' where `adminLock` != 1;
 /* remove lock */
 ALTER TABLE `subnets` DROP `adminLock`;
+
+
+/* Add strictMode per section */
+ALTER TABLE `sections` ADD `strictMode` INT(1)  NOT NULL  DEFAULT '1';
+
+/* remove strictMode form settings */
+ALTER TABLE `settings` DROP `strictMode`;

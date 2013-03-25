@@ -144,18 +144,6 @@ $settings = getAllSettings();
 	</td>
 </tr>
 
-
-<!-- Strict mode -->
-<tr>
-	<td class="title">Strict mode</td>
-	<td>
-		<input type="checkbox" value="1" name="strictMode" <?php if($settings['strictMode'] == 0) print ''; else print 'checked'; ?>>
-	</td>
-	<td class="info">
-	If strict mode is disabled then no more overlapping subnet checks will be made. Subnets can be nested/created randomly. Anarchy.
-	</td>
-</tr>
-
 <!-- duplicate VLANs -->
 <tr>
 	<td class="title">Duplicate VLANs</td>

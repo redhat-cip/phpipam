@@ -19,6 +19,9 @@ $subnetOld = getSubnetDetailsById ($_POST['subnetId']);
 # get all site settings
 $settings = getAllSettings();
 
+/* get section details */
+$section = getSectionDetailsById($subnetOld['sectionId']);
+
 /* 
  * now we need to check each host against new subnet
  */
@@ -42,7 +45,7 @@ if($_POST['newMask'] < 8) {
 /* 
  * if strict mode is enabled check that is is still inside master subnet!
  */
-if($settings['strictMode'] == 1) {
+if($section['strictMode'] == 1) {
     if ( (!$overlap = verifySubnetNesting($subnetOld['masterSubnetId'], transform2long($subnetOld['subnet'])."/".$_POST['newMask'])) && $subnetOld['masterSubnetId']!=0) {
     	# get master details
     	$master = getSubnetDetailsById($subnetOld['masterSubnetId']);
@@ -55,7 +58,7 @@ if($settings['strictMode'] == 1) {
 /*
  * If subnet has slaves make sure all slaves are still inside!
  */
-if($settings['strictMode'] == 1) {
+if($section['strictMode'] == 1) {
 	$slaves = getAllSlaveSubnetsBySubnetId ($_POST['subnetId']);
 	if(sizeof($slaves) > 0) {
 		foreach($slaves as $slave) {

@@ -128,6 +128,7 @@ CREATE TABLE `sections` (
   `name` varchar(20) NOT NULL DEFAULT '',
   `description` text,
   `permissions` varchar(1024) DEFAULT NULL,
+  `strictMode` INT(1)  NOT NULL  DEFAULT '1',
   PRIMARY KEY (`name`),
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`)
@@ -166,7 +167,6 @@ CREATE TABLE `settings` (
   `version` varchar(4) DEFAULT NULL,
   `donate` tinyint(1) DEFAULT '0',
   `IPfilter` varchar(128) DEFAULT NULL,
-  `strictMode` tinyint(1) DEFAULT '1',
   `printLimit` int(4) unsigned DEFAULT '25',
   `vlanDuplicate` int(1) DEFAULT '0',
   `subnetOrdering` varchar(16) DEFAULT 'subnet,asc',

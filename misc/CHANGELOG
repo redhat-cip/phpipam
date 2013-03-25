@@ -17,6 +17,7 @@
 	+ Added reverse IPv6 DNS entries to IPCalc (Vincent Boisard);
 	+ Added option for plain-text emails;
 	+ Added ckEditor to write instructions;
+	+ StrictMode is not set globally anymore but set per section;
 
 	Bugfixes:
 	------------------------

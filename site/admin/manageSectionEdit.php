@@ -54,6 +54,18 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 			</td>
 		</tr>
 
+		<!-- Strict Mode -->
+		<tr>
+			<td>Strict Mode</td>
+			<td colspan="2">
+				<select name="strictMode" class="input-small">
+					<option value="1">Yes</option>
+					<option value="0" <?php if($section['strictMode'] == "0") print "selected='selected'"; ?>>No</option>
+				</select>
+				<span class="help-inline">No disables overlapping subnet checks. Subnets can be nested/created randomly. Anarchy.</span>
+			</td>
+		</tr>
+
 		<tr>
 			<td colspan="3">
 				<hr>

@@ -26,6 +26,7 @@ $sections = fetchSections ();
 <tr>
     <th>Name</th>
     <th>Description</th>
+    <th>Strict mode</th>
     <th>Group Permissions</th>
     <th></th>
 </tr>
@@ -38,8 +39,14 @@ foreach ($sections as $section)
     print '	<td>'. str_replace("_", " ", $section['name']).'</td>'. "\n";
     print '	<td>'. $section['description'] .'</td>'. "\n";
 
-	print "<td>";    
+    # strictMode
+    if($section['strictMode'] == 0)	{ $mode = "no"; }
+    else							{ $mode = "yes"; }
+  
+    print '	<td>'. $mode .'</td>'. "\n";
+
     # permissions
+	print "<td>";    
     if(strlen($section['permissions'])>1) {
     	$permissions = parseSectionPermissions($section['permissions']);
     	# print for each if they exist
