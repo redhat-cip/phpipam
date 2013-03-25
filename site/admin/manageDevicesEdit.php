@@ -133,7 +133,7 @@ else 								{ $readonly = ""; }
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small" id="editSwitchsubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> Device</button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") print "btn-danger" ?>" id="editSwitchsubmit"><i class="icon-gray <?php if($_POST['action']=="delete") print "icon-white" ?> icon-ok"></i> <?php print ucwords($_POST['action']); ?> Device</button>
 
 	<!-- result -->
 	<div class="switchManagementEditResult"></div>

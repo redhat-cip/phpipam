@@ -319,10 +319,10 @@ else															{ $readonly = false; }
 	<?php
 	//if action == edit and location = IPaddresses print also delete form
 	if(($_POST['action'] == "edit") && ($_POST['location'] == "IPaddresses") ) {
-		print "<button class='btn btn-small editSubnetSubmitDelete editSubnetSubmit'><i class='icon-gray icon-remove'></i> Delete subnet</button>";
+		print "<button class='btn btn-small btn-danger editSubnetSubmitDelete editSubnetSubmit'><i class='icon-white icon-remove'></i> Delete subnet</button>";
 	}
 	?>
-	<button class="btn btn-small editSubnetSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> subnet</button>
+	<button class="btn btn-small editSubnetSubmit <?php if($_POST['action']=="delete") print "btn-danger" ?>"><i class="icon-gray <?php if($_POST['action']=="delete") print "icon-white" ?> icon-ok"></i> <?php print ucwords($_POST['action']); ?> subnet</button>
 
 	<div class="manageSubnetEditResult"></div>
 	<!-- vlan add holder from subnets -->

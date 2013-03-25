@@ -142,7 +142,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small" id="editSectionSubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> section</button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") print "btn-danger" ?>" id="editSectionSubmit"><i class="icon-gray <?php if($_POST['action']=="delete") print "icon-white" ?> icon-ok"></i> <?php print ucwords($_POST['action']); ?> section</button>
 
 	<!-- result holder -->
 	<div class="sectionEditResult"></div>

@@ -93,6 +93,10 @@ td.actions {
   margin-left: -1px;
 }
 
+.icon-gray.icon-white {
+  background-image: url("../img/glyphicons-halflings-white.png");
+}
+
 
 /* @icons green ---------- */
 

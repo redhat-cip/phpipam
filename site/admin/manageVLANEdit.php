@@ -97,7 +97,7 @@ else 							{ $formId = "vlanManagementEdit"; }
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small vlanManagementEditFromSubnetButton" id="editVLANsubmit"><i class="icon-gray icon-ok"></i> <?php print ucwords($_POST['action']); ?> VLAN</button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") print "btn-danger" ?> vlanManagementEditFromSubnetButton" id="editVLANsubmit"><i class="icon-gray <?php if($_POST['action']=="delete") print "icon-white" ?> icon-ok"></i> <?php print ucwords($_POST['action']); ?> VLAN</button>
 
 	<!-- result -->
 	<div class="<?php print $formId; ?>Result"></div>
