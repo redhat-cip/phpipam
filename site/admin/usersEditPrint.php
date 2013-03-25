@@ -12,6 +12,9 @@ checkAdmin();
 
 /* get all settings */
 $settings = getAllSettings();
+
+/* get custom fields */
+$custom = getCustomUserFields();
 ?>
 
 
@@ -178,6 +181,30 @@ else {
 		</td>
 		<td class="info">Select to which groups the user belongs to</td>
 	</tr>
+
+	<!-- Custom -->
+	<?php
+	if(sizeof($custom) > 0) {
+		print '<tr>';
+		print '	<td colspan="3"><hr></td>';
+		print '</tr>';
+		
+		foreach($custom as $field) {
+		
+			# replace spaces
+		    $field['nameNew'] = str_replace(" ", "___", $field['name']);
+			
+			print "<tr>";
+			print "	<td>$field[name]</td>";
+			print "	<td colspan='2'>";
+			print "		<input type='text' class='input-xlarge' name='$field[nameNew]' value='".$user[$field['name']]."' $readonly>";
+			print "	</td>";
+			print "</tr>";
+		}
+	}
+	
+	?>
+
 	
 </table>
 </form>

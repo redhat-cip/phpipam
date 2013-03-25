@@ -83,17 +83,44 @@ function updateUserById ($userModDetails) {
 
     # set query - add or edit user
     if (empty($userModDetails['userId'])) {
+    
+         # custom fields
+        $myFields = getCustomUserFields();
+        $myFieldsInsert['query']  = '';
+        $myFieldsInsert['values'] = '';
+	
+        if(sizeof($myFields) > 0) {
+			/* set inserts for custom */
+			foreach($myFields as $myField) {			
+				$myFieldsInsert['query']  .= ', `'. $myField['name'] .'`';
+				$myFieldsInsert['values'] .= ", '". $userModDetails[$myField['name']] . "'";
+			}
+		}
+    
         $query  = "insert into users ";
-        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`,`groups`) values "; 
-        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]','".$userModDetails['groups']."');";
+        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`,`groups` $myFieldsInsert[query]) values "; 
+        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]','".$userModDetails['groups']."' $myFieldsInsert[values]);";
     }
     else {
+
+        # custom fields
+        $myFields = getCustomUserFields();
+        $myFieldsInsert['query']  = '';
+	
+        if(sizeof($myFields) > 0) {
+			/* set inserts for custom */
+			foreach($myFields as $myField) {			
+				$myFieldsInsert['query']  .= ', `'. $myField['name'] .'` = \''.$userModDetails[$myField['name']].'\' ';
+			}
+		}
+
         $query  = "update users set "; 
         $query .= "`username` = '$userModDetails[username]', "; 
         if (strlen($userModDetails['password1']) != 0) {
         $query .= "`password` = '$userModDetails[password1]', "; 
         }
         $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]', `groups`='".$userModDetails['groups']."' "; 
+    	$query .= $myFieldsInsert['query'];  
         $query .= "where `id` = '$userModDetails[userId]';";
     }
     
@@ -1976,6 +2003,125 @@ function reorderCustomVLANField($next, $current)
         return true;
     }
 }
+
+
+
+
+
+
+
+/* @custom USer fields */
+
+
+/**
+ * Get all custom User fields
+ */
+function getCustomUserFields()
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'describe `users`;';
+    $fields	  = $database->getArray($query); 
+  
+	/* return Field values only */
+	foreach($fields as $field) {
+		$res[$field['Field']]['name'] = $field['Field'];
+		$res[$field['Field']]['type'] = $field['Type'];
+	}
+	
+	/* unset standard fields */
+	unset($res['id'], $res['username'], $res['password'], $res['groups'], $res['role'], $res['real_name'], $res['email'], $res['domainUser']);
+	
+	return $res;
+}
+
+
+/**
+ * Get all custom User fields in number array
+ */
+function getCustomUserFieldsNumArr()
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* first update request */
+    $query    = 'describe `users`;';
+    $fields	  = $database->getArray($query); 
+  
+	/* return Field values only */
+	foreach($fields as $field) {
+		$res[$field['Field']]['name'] = $field['Field'];
+		$res[$field['Field']]['type'] = $field['Type'];
+	}
+	
+	/* unset standard fields */
+	unset($res['id'], $res['username'], $res['password'], $res['groups'], $res['role'], $res['real_name'], $res['email'], $res['domainUser']);
+	
+	/* reindex */
+	foreach($res as $line) {
+		$out[] = $line['name'];
+	}
+	
+	return $out;
+}
+
+
+/**
+ * Update custom user field
+ */
+function updateCustomUserField($field)
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* update request */
+    if($field['action'] == "delete") {
+    	$query  = 'ALTER TABLE `users` DROP `'. $field['name'] .'`;';
+    }
+    else if ($field['action'] == "edit") {
+    	$query  = 'ALTER TABLE `users` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
+    }
+    else {
+    	$query  = 'ALTER TABLE `users` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
+    }
+    
+    /* prepare log */ 
+    $log = prepareLogFromArray ($field);
+    
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('Custom User Field ' . $field['action'] .' failed ('. $field['name'] . ')', $log, 2);
+        return false;
+    }
+    else {
+        updateLogTable ('Custom User Field ' . $field['action'] .' success ('. $field['name'] . ')', $log, 0);
+        return true;
+    }
+}
+
+
+/**
+ * reorder custom VLAN field
+ */
+function reorderCustomUserField($next, $current)
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* update request */
+    $query  = 'ALTER TABLE `users` MODIFY COLUMN `'. $current .'` VARCHAR(256) AFTER `'. $next .'`;';
+    
+    if (!$database->executeQuery($query)) {
+        updateLogTable ('Custom User Field reordering failed ('. $next .' was not put before '. $current .')', $log, 2);
+        return false;
+    }
+    else {
+	    updateLogTable ('Custom User Field reordering success ('. $next .' put before '. $current .')', $log, 0);
+        return true;
+    }
+}
+
 
 
 

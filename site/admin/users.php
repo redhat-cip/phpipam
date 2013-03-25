@@ -15,6 +15,9 @@ $users = getAllUsers();
 
 /* get all settings */
 $settings = getallSettings();
+
+/* get custom fields */
+$custom = getCustomUserFields();
 ?>
 
 <!-- display existing users -->
@@ -37,6 +40,13 @@ $settings = getallSettings();
     <th>Role</th>
     <th>Type</th>
     <th>Groups</th>
+	<?php
+	if(sizeof($custom) > 0) {
+		foreach($custom as $field) {
+			print "<th>$field[name]</th>";
+		}
+	}
+	?>
     <th></th>
 </tr>
 
@@ -77,6 +87,13 @@ foreach ($users as $user)
 			}
 		}
 		print '	</td>'. "\n";
+	}
+
+	# custom
+	if(sizeof($custom) > 0) {
+		foreach($custom as $field) {
+			print "<td>".$user[$field['name']]."</td>";
+		}
 	}
 	
 	# edit, delete

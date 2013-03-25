@@ -68,6 +68,11 @@ else 							{ $formId = "vlanManagementEdit"; }
 	<!-- Custom -->
 	<?php
 	if(sizeof($custom) > 0) {
+
+		print '<tr>';
+		print '	<td colspan="2"><hr></td>';
+		print '</tr>';
+
 		foreach($custom as $field) {
 		
 			# replace spaces

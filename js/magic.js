@@ -1388,6 +1388,50 @@ $('table.customIP tbody#vlan button.down').click(function() {
 });
 
 
+/*    custom user fields
+************************************/
+//load edit form
+$('table.customIP tbody#customUser button[data-direction!=down]').click(function() {
+    showSpinner();
+    var action       = $(this).attr('data-action');
+    var fieldName = $(this).attr('data-fieldname');
+    $.post('site/admin/customUserFieldsEdit.php',  {action:action, fieldName: fieldName}, function(data) {
+        $('div.popup_w400').html(data);
+        showPopup('popup_w400');
+        hideSpinner();
+    });
+    return false;
+});
+//custom IP field edit submit form
+$('#editcustomUserSubmit').live('click', function() {
+    showSpinner();
+    var field = $('form#editCustomUserFields').serialize();
+    $.post('site/admin/customUserFieldsEditResult.php', field, function(data) {
+        $('div.customUserEditResult').html(data).slideDown('fast');
+        
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
+        else                             { hideSpinner(); }
+    });
+
+    return false;
+});
+// field ordering
+$('table.customIP tbody#customUser button.down').click(function() {
+    showSpinner();
+    var current  = $(this).attr('data-fieldname');
+    var next      = $(this).attr('data-nextfieldname');
+    $.post('site/admin/customUserFieldsOrder.php', {current:current, next:next}, function(data) {
+        $('div.customUserResult').html(data).slideDown('fast');
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1000); }
+        else                             { hideSpinner(); }
+    });
+    return false;
+});
+
+
+
 
 
 /*    Search and replace

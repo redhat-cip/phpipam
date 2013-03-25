@@ -47,6 +47,19 @@ else if ($userModDetails['action'] == "delete") {
 }
 
 
+
+//custom
+$myFields = getCustomUserFields();
+if(sizeof($myFields) > 0) {
+	foreach($myFields as $myField) {
+		# replace possible ___ back to spaces!
+		$myField['nameTest']      = str_replace(" ", "___", $myField['name']);
+		
+		if(isset($_POST[$myField['nameTest']])) { $userModDetails[$myField['name']] = $userModDetails[$myField['nameTest']];}
+	}
+}
+
+
 /**
  *	Create array of permitted networks
  */
