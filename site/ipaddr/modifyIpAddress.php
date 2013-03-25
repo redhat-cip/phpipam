@@ -272,6 +272,20 @@ $myFieldsSize = sizeof($myFields);
 		}
 	}
 	?>	
+
+
+	 <tr>
+		<td colspan="2"><hr></td>
+	 </tr>
+	 
+	 <tr>
+	 	<td>Unique</td>
+	 	<td>
+		 	<input type="checkbox" name="unique" value="1">
+		 	<div class="help-inline">Unique hostname</div>
+	 	</td>
+	 </tr>
+
 	<?php 
 	#get type
 	 $type = IdentifyAddress( $subnet2['subnet'] );
@@ -279,13 +293,10 @@ $myFieldsSize = sizeof($myFields);
 	 if($subnet2['mask'] < 31 && $action=='add' && $type == "IPv4" ) { ?>
 	 <!-- ignore NW /BC checks -->
 	 <tr>
-		<td colspan="2"><hr></td>
-	 </tr>
-	 <tr>
 		<td>Not strict</td>
 		<td>
 			<input type="checkbox" name="nostrict" value="yes" style="margin-top:0px;"> 
-			<i class="icon-gray icon-info-sign" rel="tooltip" title="Permit adding network and broadcast as IP<br>For /31, /32 and range networks"></i>
+			<span class="help-inline">Permit adding network/broadcast as IP</span>
 		</td>
 	</tr>
 	<?php } ?>
@@ -294,16 +305,14 @@ $myFieldsSize = sizeof($myFields);
 	 if($subnet2['mask'] < 127 && $action=='add' && $type == "IPv6" ) { ?>
 	 <!-- ignore NW /BC checks -->
 	 <tr>
-		<td colspan="2"><hr></td>
-	 </tr>
-	 <tr>
 		<td>Not strict</td>
 		<td>
-			<input type="checkbox" name="nostrict" value="yes" style="margin-top:0px;"> 
-			<i class="icon-gray icon-info-sign" rel="tooltip" data-html="true" title="Permit adding network and broadcast as IP<br>For /31, /32 and range networks"></i>
+			<input type="checkbox" name="nostrict" value="yes" style="margin-top:0px;">
+			<span class="help-inline">Permit adding network/broadcast as IP</span>
 		</td>
 	</tr>
 	<?php } ?>
+
 
 </table>	<!-- end edit ip address table -->
 </form>		<!-- end IP address edit form -->

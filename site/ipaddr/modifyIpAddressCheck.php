@@ -149,6 +149,16 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 /* no range, single IP address */
 else {
 
+	/* unique */
+	if(isset($_POST['unique'])) {
+		if($_POST['unique'] == "1" && strlen($_POST['dns_name'])>0) {
+			# check if unique
+			if(!isHostUnique($_POST['dns_name'])) {
+				die('<div class="alert alert-error">Hostname is not unique!</div>');
+			}
+		}
+	}
+
 	/* verify ip address */
 	if($ip['action'] == "move")	{ 
 		$subnet = getSubnetDetailsById($_REQUEST['newSubnet']);

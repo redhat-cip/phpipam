@@ -759,6 +759,9 @@ table.slaves tr.success td {
 .editIPAddress select {
 	padding: 1px 6px;
 }
+.editIPAddress input[type=checkbox] {
+	margin-top: 0px;
+}
 
 .state {
 	margin-left: 7px;

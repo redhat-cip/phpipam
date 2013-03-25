@@ -19,6 +19,7 @@
 	+ Added ckEditor to write instructions;
 	+ StrictMode is not set globally anymore but set per section;
 	+ Added custom user fields;
+	+ Added option to verify that hostname is unique;
 
 	Bugfixes:
 	------------------------

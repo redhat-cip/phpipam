@@ -2046,6 +2046,25 @@ function getFirstAvailableIPAddress ($subnetId)
 
 
 /**
+ * Check if hostname is unique
+ */
+function isHostUnique($host)
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+    
+    $query    = 'select count(*) as cnt from `ipaddresses` where `dns_name` = "'. $host .'";';           
+	   
+	/* execute */
+    $res = $database->getArray( $query );
+    
+    if($res[0]['cnt'] == '0')	{ return true; }
+    else						{ return false; }
+}
+
+
+/**
  * Functions to transform IPv6 to decimal and back
  *
  */
