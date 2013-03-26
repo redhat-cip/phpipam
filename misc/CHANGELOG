@@ -21,6 +21,7 @@
 	+ Added custom user fields;
 	+ Added option to verify that hostname is unique;
 	+ Improved MySQL exception handling;
+	+ Added mod_rewrite error detection on installation and upgrade;
 
 	Bugfixes:
 	------------------------
