@@ -22,6 +22,7 @@
 	+ Added option to verify that hostname is unique;
 	+ Improved MySQL exception handling;
 	+ Added mod_rewrite error detection on installation and upgrade;
+	+ Added hostname validation;
 
 	Bugfixes:
 	------------------------
@@ -33,7 +34,7 @@
 	+ Fixed broken subnets link in tools > subnets if installation is not at document root;
 	+ Fixed error when adding new subnet if checkboxes are not selected in newer MySQL servers;
 	+ Fixed bad display of multilined navigation bar;
-	+ Fixed Wrong output of tools > VLAN list when using Duplicate VLANs;
+	+ Fixed wrong output of tools > VLAN list when using Duplicate VLANs;
 	+ Fixed wrong link for upgrade script;
 
 == 0.7

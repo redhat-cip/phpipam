@@ -493,6 +493,17 @@ function checkEmail($email) {
 
 
 /**
+ * validate hostname
+ */
+function validateHostname($hostname)
+{
+    return (preg_match("/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $hostname) 	//valid chars check
+            && preg_match("/^.{1,253}$/", $hostname) 										//overall length check
+            && preg_match("/^[^\.]{1,63}(\.[^\.]{1,63})*$/", $hostname)   ); 				//length of each label
+}
+
+
+/**
  * Shorten text
  */
 function ShortenText($text, $chars = 25) {  
