@@ -77,7 +77,14 @@ function getUserDetailsByName ($username)
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where username LIKE BINARY "'. $username .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     //we only need 1st field
     $details = $details[0];
@@ -118,7 +125,14 @@ function getAllSettings()
 	
     /* first check if table settings exists */
     $query    = 'SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = "'. $db['name'] .'" AND table_name = "settings";';
-    $count	  = $database->getArray($query); 
+
+    /* execute */
+    try { $count = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return true if it exists */
 	if($count[0]['count'] == 1) {
@@ -128,8 +142,14 @@ function getAllSettings()
 	
 	    /* first update request */
 	    $query    = 'select * from settings where id = 1';
-	    $settings = $database->getArray($query); 
-  
+
+	    /* execute */
+	    try { $settings = $database->getArray( $query ); }
+	    catch (Exception $e) { 
+        	$error =  $e->getMessage(); 
+        	print ("<div class='alert alert-error'>Error: $error</div>");
+        	return false;
+        }   
 		/* return settings */
 		return($settings[0]);
 	}
@@ -154,7 +174,14 @@ function getADSettings()
 	
     /* first check if table settings exists */
     $query    = 'SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = "'. $db['name'] .'" AND table_name = "settingsDomain";';
-    $count	  = $database->getArray($query); 
+
+    /* execute */
+    try { $count = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }  
   
 	/* return true if it exists */
 	if($count[0]['count'] == 1) {
@@ -164,7 +191,14 @@ function getADSettings()
 	
 	    /* first update request */
 	    $query    = 'select * from `settingsDomain` limit 1;';
-	    $settings = $database->getArray($query); 
+
+	    /* execute */
+	    try { $settings = $database->getArray( $query ); }
+	    catch (Exception $e) { 
+        	$error =  $e->getMessage(); 
+        	print ("<div class='alert alert-error'>Error: $error</div>");
+        	return false;
+        } 
 	    
 	    /* reformat DC */
   		$dc = str_replace(" ", "", $settings[0]['domain_controllers']);
@@ -194,9 +228,14 @@ function checkLogin ($username, $md5password, $rawpassword)
     /* check if user exists in local database */
     $database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $query 		= 'select * from `users` where `username` = binary "'. $username .'" and `password` = BINARY "'. $md5password .'" and `domainUser` = "0" limit 1;';
-    
-    /* fetch results */
-    $result  	= $database->getArray($query); 
+
+    /* execute */
+    try { $result = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
 
     /* close database connection */
     $database->close();
@@ -226,8 +265,14 @@ function checkLogin ($username, $md5password, $rawpassword)
     		$database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
     		$query 		= 'select count(*) as count from `users` where `username` = binary "'. $username .'" and `domainUser` = "1" limit 1;';
     		
-    		/* fetch results */
-    		$result  	= $database->getArray($query); 
+    		/* execute */
+    		try { $result = $database->getArray( $query ); }
+    		catch (Exception $e) { 
+	    		$error =  $e->getMessage(); 
+	    		print ("<div class='alert alert-error'>Error: $error</div>");
+	    		return false;
+	    	} 
+    		
     		/* close database connection */
     		$database->close();
     		
@@ -327,8 +372,13 @@ function checkADLogin ($username, $password)
     $database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
     $query 		= 'select count(*) as count from users where `username` = binary "'. $username .'" and `domainUser` = "1";';
     
-    /* fetch results */
-    $result  	= $database->getArray($query); 
+    /* execute */
+    try { $result = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
 
     /* close database connection */
     $database->close();
@@ -396,8 +446,13 @@ function checkAdmin ($die = true)
     $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
     $query = 'select role from users where username = "'. $ipamusername .'";';
     
-    /* fetch role */
-    $role = $database->getRow($query);
+    /* execute */
+    try { $role = $database->getRow( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
 
     /* close database connection */
     $database->close();
@@ -432,7 +487,14 @@ function getAllTables()
     
     /* first update request */
     $query    = 'show tables;';
-    $tables	  = $database->getArray($query); 
+
+    /* execute */
+    try { $tables = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return all tables */
 	return $tables;
@@ -454,7 +516,14 @@ function tableExists($table)
     
     /* first update request */
     $query    = 'SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = "'. $db['name'] .'" AND table_name = "'. $table .'";';
-    $count	  = $database->getArray($query); 
+
+    /* execute */
+    try { $count = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return true if it exists */
 	if($count[0]['count'] == 1)	{ return true; }
@@ -472,7 +541,14 @@ function fieldExists($table, $fieldName)
     
     /* first update request */
     $query    = 'describe `'. $table .'` `'. $fieldName .'`;';
-    $count	  = $database->getArray($query); 
+
+    /* execute */
+    try { $count = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return true if it exists */
 	if(sizeof($count) == 0) { return false; }
@@ -492,7 +568,14 @@ function updateSwitchFromOldVersions()
     
     /* get all existing switches */
     $query 	  = 'select distinct(`switch`) from `ipaddresses` where `switch` not like "";';
-    $switches = $database->getArray($query); 
+
+    /* execute */
+    try { $switches = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
         
     /* import each to database */
     foreach($switches as $switch) {

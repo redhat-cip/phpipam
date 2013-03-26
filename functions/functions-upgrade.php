@@ -17,7 +17,14 @@ function updateSwitchFromOldVersions()
     
     /* get all existing switches */
     $query 	  = 'select distinct(`switch`) from `ipaddresses` where `switch` not like "";';
-    $switches = $database->getArray($query); 
+
+    /* execute */
+    try { $switches = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* get all sectionsIds */
     $sections = fetchSections();
@@ -29,7 +36,13 @@ function updateSwitchFromOldVersions()
     /* import each to database */
     foreach($switches as $switch) {
     	$query 	  = 'insert into `switches` (`hostname`,`sections`) values ("'. $switch['switch'] .'", "'. $id .'");';
-    	$database->executeQuery($query);
+    	
+    	/* execute */
+    	try { $database->executeQuery( $query ); }
+    	catch (Exception $e) { 
+        	$error =  $e->getMessage(); 
+        	print ("<div class='alert alert-error'>Error: $error</div>");
+        } 
     }
     
     return true;
@@ -47,12 +60,26 @@ function updateVLANsFromOldVersions()
     
     /* get all existing switches */
     $query 	 = 'select distinct(`VLAN`) from `subnets` where `VLAN` not like "0";';
-    $vlans   = $database->getArray($query); 
+
+    /* execute */
+    try { $vlans = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
         
     /* import each to database */
     foreach($vlans as $vlan) {
     	$query 	  = 'insert into `vlans` (`number`,`description`) values ("'. $vlan['VLAN'] .'", "Imported VLAN from upgrade to 0.6");';
     	$database->executeQuery($query);
+
+    	/* execute */
+    	try { $database->executeQuery( $query ); }
+    	catch (Exception $e) { 
+    	    $error =  $e->getMessage(); 
+    	    print ("<div class='alert alert-error'>Error: $error</div>");
+    	 } 
     }
     
     /* link back from subnets to vlanid */
@@ -62,12 +89,22 @@ function updateVLANsFromOldVersions()
     foreach($vlans as $vlan) {
     	# update subnet vlanId
     	$query = 'update `subnets` set `vlanId` = "'. $vlan['vlanId'] .'" where `VLAN` = "'. $vlan['number'] .'" ;';
-    	$database->executeQuery($query);
+    	/* execute */
+    	try { $database->executeQuery( $query ); }
+    	catch (Exception $e) { 
+    	    $error =  $e->getMessage(); 
+    	    print ("<div class='alert alert-error'>Error: $error</div>");
+    	 }
     }    
     
     /* remove VLAN field */
     $query = "Alter table `subnets` drop column `VLAN`;";
-    $database->executeQuery($query);
+    /* execute */
+    try { $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+    }
     
     return true;
 }
@@ -83,7 +120,14 @@ function updateSwitchFromOldVersionsToId()
     
     /* get all existing switches */
     $query 	  = 'select `id`,`hostname` from `switches`;';
-    $switches = $database->getArray($query); 
+
+    /* execute */
+    try { $switches = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
         
     /* change name to id to database */
     foreach($switches as $switch) {
@@ -139,7 +183,14 @@ function getAllTables()
     
     /* first update request */
     $query    = 'show tables;';
-    $tables	  = $database->getArray($query); 
+
+    /* execute */
+    try { $tables = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return all tables */
 	return $tables;
@@ -187,15 +238,18 @@ function fieldExists($table, $fieldName)
     
     /* first update request */
     $query    = 'describe `'. $table .'` `'. $fieldName .'`;';
-    $count	  = $database->getArray($query); 
+
+    /* execute */
+    try { $count = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return true if it exists */
-	if(sizeof($count) == 0) {
-		return false;
-	}
-	else {
-		return true;
-	}
+	if(sizeof($count) == 0) { return false; }
+	else 					{ return true; }
 }
 
 

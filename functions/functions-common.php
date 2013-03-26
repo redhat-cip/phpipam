@@ -99,7 +99,11 @@ function checkAdmin ($die = true, $startSession = true)
     $query = 'select role from users where username = "'. $ipamusername .'";';
     
     /* fetch role */
-    $role = $database->getRow($query);
+    try { $role = $database->getRow( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        die ("<div class='alert alert-error'>Error: $error</div>");
+    } 
 
     /* close database connection */
     $database->close();
@@ -124,9 +128,7 @@ function checkAdmin ($die = true, $startSession = true)
 function getActiveUserDetails ()
 {
 /*     session_start(); */
-	if (!isset($_SESSION)) { 
-		session_start();
-	}
+	if (!isset($_SESSION)) { session_start(); }
 
 	if(isset($_SESSION['ipamusername'])) {
     	return getUserDetailsByName ($_SESSION['ipamusername']);
@@ -144,7 +146,14 @@ function getAllUsers ()
     /* set query, open db connection and fetch results */
     $query    = 'select * from users order by `role` asc, `real_name` asc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
 	   
     /* return results */
     return($details);
@@ -160,7 +169,14 @@ function getNumberOfUsers ()
     /* set query, open db connection and fetch results */
     $query    = 'select count(*) as count from users order by id desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }  
 	   
     /* return results */
     return($details[0]['count']);
@@ -176,7 +192,14 @@ function getAllAdminUsers ()
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where `role` = "Administrator" order by id desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }  
 	   
     /* return results */
     return($details);
@@ -192,13 +215,17 @@ function getUserDetailsById ($id)
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where id = "'. $id .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
-    
-    //we only need 1st field
-    $details = $details[0];
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return results */
-    return($details);
+    return($details[0]);
 }
 
 
@@ -211,13 +238,17 @@ function getUserDetailsByName ($username)
     /* set query, open db connection and fetch results */
     $query    = 'select * from users where username LIKE BINARY "'. $username .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
-    
-    //we only need 1st field
-    $details = $details[0];
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return results */
-    return($details);
+    return($details[0]);
 }
 
 
@@ -357,9 +388,14 @@ function getUniqueUsers ()
 
 	/* execute query */
     $query    	= 'select distinct owner from ipaddresses;';  
-
-	/* execute query */
-    $users       = $database->getArray($query);  
+ 
+    /* execute */
+    try { $users = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return result */
     return $users;
@@ -377,8 +413,13 @@ function getUniqueHosts ()
 	/* execute query */
     $query    	= 'select distinct dns_name from `ipaddresses` order by `dns_name` desc;';  
 
-	/* execute query */
-    $hosts       = $database->getArray($query);  
+    /* execute */
+    try { $hosts = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }  
     
     /* return result */
     return $hosts;
@@ -404,7 +445,14 @@ function getAllSettings()
 
     /* first check if table settings exists */
     $query    = 'SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_schema = "'. $db['name'] .'" AND table_name = "settings";';
-    $count	  = $database->getArray($query); 
+
+    /* execute */
+    try { $count = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return true if it exists */
 	if($count[0]['count'] == 1) {
@@ -439,12 +487,8 @@ function getSVNversion() {
  * validate email
  */
 function checkEmail($email) {
-	if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) {
-		return false;
-    }
-    else {
-    	return true;
-    }
+	if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$email)) 	{ return false; }
+    else 														{ return true; }
 }
 
 
@@ -649,7 +693,12 @@ function getAllSlaves ($subnetId, $multi = false)
 		/* get all immediate slaves */
 		$query = "select * from `subnets` where `masterSubnetId` = '$subnetId' order by `id` asc; ";    
 		/* execute query */
-		$slaves2 = $database->getArray($query); 
+		try { $slaves2 = $database->getArray( $query ); }
+		catch (Exception $e) { 
+        	$error =  $e->getMessage(); 
+        	print ("<div class='alert alert-error'>Error: $error</div>");
+        	return false;
+        }
 		
 		# we have more slaves
 		if(sizeof($slaves2) != 0) {

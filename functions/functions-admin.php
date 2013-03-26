@@ -33,7 +33,14 @@ function verifyUserModInput ($userModDetails)
         $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 				# open db connection
         
         $query    = 'select * from users where username = "'. $userModDetails['username'] .'";'; 	# set query and fetch results
-        $details  = $database->getArray($query); 
+
+        /* execute */
+        try { $details = $database->getArray( $query ); }
+        catch (Exception $e) { 
+        	$error =  $e->getMessage(); 
+        	die("<div class='alert alert-error'>Error: $error</div>");
+        }
+
         # user already exists
         if (sizeof($details) != 0) 																		{ $errors[] = "User $userModDetails[username] already exists!"; }
     }
@@ -203,8 +210,12 @@ function getAllGroups()
 	/* execute query */
 	$query = "select * from `userGroups` order by `g_name` asc;";
     
-  	/* update database */
-   	$groups = $database->getArray($query);
+  	/* get groups */
+    try { $groups = $database->getArray( $query ); }
+    catch (Exception $e) { 
+     	$error =  $e->getMessage(); 
+        die("<div class='alert alert-error'>Error: $error</div>");
+    }
    	
    	/* return false if none, else list */
 	if(sizeof($groups) == 0) { return false; }
@@ -223,8 +234,12 @@ function getGroupById($id)
 	/* execute query */
 	$query = "select * from `userGroups` where `g_id`= '$id';";
     
-  	/* update database */
-   	$group = $database->getArray($query);
+   	/* get group */
+    try { $group = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        die("<div class='alert alert-error'>Error: $error</div>");
+    }
    	
    	/* return false if none, else list */
 	if(sizeof($group) == 0) { return false; }
@@ -552,15 +567,17 @@ function modifySubnetDetails ($subnetDetails, $lastId = false)
 	$log = prepareLogFromArray ($subnetDetails);																				# prepare log 
 
     # execute query
-    if (!$updateId=$database->executeMultipleQuerries($query, $lastId)) {
+    try { $updateId=$database->executeMultipleQuerries($query, $lastId); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
         updateLogTable ('Subnet ('. $subnetDetails['description'] .') '. $subnetDetails['action'] .' failed', $log, 2);	# write error log
         return false;
     }
-    else {
-        updateLogTable ('Subnet ('. $subnetDetails['description'] .') '. $subnetDetails['action'] .' ok', $log, 1);		# write success log
-        if(!$lastId) { return true; }
-        else		 { return $updateId; }
-    }
+    
+    # success
+    updateLogTable ('Subnet ('. $subnetDetails['description'] .') '. $subnetDetails['action'] .' ok', $log, 1);		# write success log
+    if(!$lastId) { return true; }
+    else		 { return $updateId; }
 }
 
 
@@ -1023,22 +1040,21 @@ function updateSwitchDetails($switch)
     else if($switch['action'] == "delete") {
     	$query  = 'delete from `switches` where id = "'. $switch['switchId'] .'";'. "\n";
     }
-    
-    # execute query
-    $res    = $database->executeQuery($query);  
 
     /* prepare log */ 
     $log = prepareLogFromArray ($switch);
     
-    /* return details */
-    if($res) {
-        updateLogTable ('Switch ' . $switch['action'] .' success ('. $switch['hostname'] . ')', $log, 0);
-    	return true;
-    }
-    else {
-       	updateLogTable ('Switch ' . $switch['action'] .' failed ('. $switch['hostname'] . ')', $log, 2);
+    /* execute */
+    try { $res = $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+       	updateLogTable ('Switch ' . $switch['action'] .' failed ('. $switch['hostname'] . ')'.$error, $log, 2);
     	return false;
-    }
+    } 
+    
+    /* success */
+    updateLogTable ('Switch ' . $switch['action'] .' success ('. $switch['hostname'] . ')', $log, 0);
+    return true;
 }
 
 
@@ -1083,17 +1099,17 @@ function updateIPaddressesOnSwitchChange($old, $new)
     
     /* get all vlans, descriptions and subnets */
     $query = 'update `ipaddresses` set `switch` = "'. $new .'" where `switch` = "'. $old .'";';
-    
-    /* update */
-    $switch    = $database->executeQuery($query);  
-    
-    /* return details */
-    if($switch) {
-    	return true;
+     
+    /* execute */
+    try { $switch = $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
     }
-    else {
-    	return false;
-    }
+    
+    /* return success */
+    return true;
 }
 
 
@@ -1162,14 +1178,17 @@ function getADSettings()
 	/* first update request */
 	$query    = 'select * from `settingsDomain` limit 1;';
 	$settings = $database->getArray($query); 
+ 
+    /* execute */
+    try { $settings = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }
   		  
 	/* return settings */
-	if($settings) {
-		return($settings[0]);
-	}
-	else {
-		return false;
-	}
+	return($settings[0]);
 }
 
 
@@ -1193,13 +1212,17 @@ function updateADsettings($ad)
     $query    = 'update `settingsDomain` set '. "\n";
     $query   .= '`domain_controllers` = "'. $ad['domain_controllers'] .'", `base_dn` = "'. $ad['base_dn'] .'", `account_suffix` = "'. $ad['account_suffix'] .'", '. "\n";
     $query   .= '`use_ssl` = "'. $ad['use_ssl'] .'", `use_tls` = "'. $ad['use_tls'] .'", `ad_port` = "'. $ad['ad_port'] .'"; '. "\n";
+
+    /* execute */
+    try { $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }
     
-    if(!$database->executeQuery($query)) {
-    	return false;
-    }
-    else {
-    	return true;
-    }
+    # success
+    return true;
 }
 
 
@@ -1234,9 +1257,15 @@ function updateVRFDetails($vrf)
     else if($vrf['action'] == "delete") {
     	$query  = 'delete from `vrf` where `vrfId` = "'. $vrf['vrfId'] .'";'. "\n";
     }
-    
-    # execute query
-    $res    = $database->executeQuery($query); 
+
+    /* execute */
+    try { $res = $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+   		updateLogTable ('VRF ' . $vrf['action'] .' failed ('. $vrf['name'] . ')'.$error, $log, 2);
+    	return false;
+    }
 
     # if delete also NULL all subnets!
     if($vrf['action'] == 'delete') {
@@ -1253,14 +1282,8 @@ function updateVRFDetails($vrf)
     $log = prepareLogFromArray ($vrf);
         
     /* return details */
-    if($res) {
-    	updateLogTable ('VRF ' . $vrf['action'] .' success ('. $vrf['name'] . ')', $log, 0);
-    	return true;
-    }
-    else {
-   		updateLogTable ('VRF ' . $vrf['action'] .' failed ('. $vrf['name'] . ')', $log, 2);
-    	return false;
-    }
+    updateLogTable ('VRF ' . $vrf['action'] .' success ('. $vrf['name'] . ')', $log, 0);
+    return true;
 }
 
 
@@ -1326,8 +1349,14 @@ function updateVLANDetails($vlan)
     	$query  = 'delete from `vlans` where `vlanId` = "'. $vlan['vlanId'] .'";'. "\n";
     }
     
-    # execute query
-    $res    = $database->executeQuery($query); 
+    /* execute */
+    try { $res = $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+   		updateLogTable ('VLAN ' . $vlan['action'] .' failed ('. $vlan['name'] . ')'.$error, $log, 2);
+    	return false;
+    }
     
     # if delete also NULL all subnets!
     if($vlan['action'] == 'delete') {
@@ -1343,15 +1372,9 @@ function updateVLANDetails($vlan)
     /* prepare log */ 
     $log = prepareLogFromArray ($vlan);
     
-    /* return details */
-    if($res) {
-    	updateLogTable ('VLAN ' . $vlan['action'] .' success ('. $vlan['name'] . ')', $log, 0);
-    	return true;
-    }
-    else {
-   		updateLogTable ('VLAN ' . $vlan['action'] .' failed ('. $vlan['name'] . ')', $log, 2);
-    	return false;
-    }
+    /* return success */
+    updateLogTable ('VLAN ' . $vlan['action'] .' success ('. $vlan['name'] . ')', $log, 0);
+    return true;
 }
 
 
@@ -1422,12 +1445,8 @@ function updateSettings($settings)
  */
 function isCheckbox($checkbox)
 {
-	if($checkbox == "") {
-		$chkbox = "0";
-	}
-	else {
-		$chkbox = $checkbox;
-	}
+	if($checkbox == "") { $chkbox = "0"; }
+	else 				{ $chkbox = $checkbox; }
 	
 	/* return 0 if not checkbos and same result if checkbox */
 	return $chkbox;
@@ -1588,7 +1607,14 @@ function getIPaddrFields()
     
     /* first update request */
     $query    = 'describe `ipaddresses`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1609,7 +1635,14 @@ function getSelectedIPaddrFields()
     
     /* first update request */
     $query    = 'select IPfilter from `settings`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
 	
 	return $fields[0]['IPfilter'];
 }
@@ -1658,7 +1691,14 @@ function getCustomIPaddrFields()
     
     /* first update request */
     $query    = 'describe `ipaddresses`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1684,7 +1724,14 @@ function getCustomIPaddrFieldsNumArr()
     
     /* first update request */
     $query    = 'describe `ipaddresses`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1714,15 +1761,9 @@ function updateCustomIPField($field)
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* update request */
-    if($field['action'] == "delete") {
-    	$query  = 'ALTER TABLE `ipaddresses` DROP `'. $field['name'] .'`;';
-    }
-    else if ($field['action'] == "edit") {
-    	$query  = 'ALTER TABLE `ipaddresses` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
-    }
-    else {
-    	$query  = 'ALTER TABLE `ipaddresses` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
-    }
+    if($field['action'] == "delete") 		{ $query  = 'ALTER TABLE `ipaddresses` DROP `'. $field['name'] .'`;'; }
+    else if ($field['action'] == "edit") 	{ $query  = 'ALTER TABLE `ipaddresses` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;'; }
+    else 									{ $query  = 'ALTER TABLE `ipaddresses` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;'; }
     
     /* prepare log */ 
     $log = prepareLogFromArray ($field);
@@ -1781,7 +1822,14 @@ function getCustomSubnetFields()
     
     /* first update request */
     $query    = 'describe `subnets`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1807,7 +1855,14 @@ function getCustomSubnetsFieldsNumArr()
     
     /* first update request */
     $query    = 'describe `subnets`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1837,15 +1892,9 @@ function updateCustomSubnetField($field)
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* update request */
-    if($field['action'] == "delete") {
-    	$query  = 'ALTER TABLE `subnets` DROP `'. $field['name'] .'`;';
-    }
-    else if ($field['action'] == "edit") {
-    	$query  = 'ALTER TABLE `subnets` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(1024) CHARACTER SET utf8 DEFAULT NULL;';
-    }
-    else {
-    	$query  = 'ALTER TABLE `subnets` ADD COLUMN `'. $field['name'] .'` VARCHAR(1024) CHARACTER SET utf8 DEFAULT NULL;';
-    }
+    if($field['action'] == "delete") 		{ $query  = 'ALTER TABLE `subnets` DROP `'. $field['name'] .'`;'; }
+    else if ($field['action'] == "edit") 	{ $query  = 'ALTER TABLE `subnets` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(1024) CHARACTER SET utf8 DEFAULT NULL;'; }
+    else 									{ $query  = 'ALTER TABLE `subnets` ADD COLUMN `'. $field['name'] .'` VARCHAR(1024) CHARACTER SET utf8 DEFAULT NULL;'; }
     
     /* prepare log */ 
     $log = prepareLogFromArray ($field);
@@ -1905,7 +1954,14 @@ function getCustomVLANFields()
     
     /* first update request */
     $query    = 'describe `vlans`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1930,7 +1986,14 @@ function getCustomVLANFieldsNumArr()
     
     /* first update request */
     $query    = 'describe `vlans`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -1959,15 +2022,9 @@ function updateCustomVLANField($field)
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* update request */
-    if($field['action'] == "delete") {
-    	$query  = 'ALTER TABLE `vlans` DROP `'. $field['name'] .'`;';
-    }
-    else if ($field['action'] == "edit") {
-    	$query  = 'ALTER TABLE `vlans` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
-    }
-    else {
-    	$query  = 'ALTER TABLE `vlans` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
-    }
+    if($field['action'] == "delete") 		{ $query  = 'ALTER TABLE `vlans` DROP `'. $field['name'] .'`;'; }
+    else if ($field['action'] == "edit") 	{ $query  = 'ALTER TABLE `vlans` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;'; }
+    else 									{ $query  = 'ALTER TABLE `vlans` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;'; }
     
     /* prepare log */ 
     $log = prepareLogFromArray ($field);
@@ -2023,7 +2080,14 @@ function getCustomUserFields()
     
     /* first update request */
     $query    = 'describe `users`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -2048,7 +2112,14 @@ function getCustomUserFieldsNumArr()
     
     /* first update request */
     $query    = 'describe `users`;';
-    $fields	  = $database->getArray($query); 
+
+    /* execute */
+    try { $fields = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
   
 	/* return Field values only */
 	foreach($fields as $field) {
@@ -2077,15 +2148,9 @@ function updateCustomUserField($field)
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* update request */
-    if($field['action'] == "delete") {
-    	$query  = 'ALTER TABLE `users` DROP `'. $field['name'] .'`;';
-    }
-    else if ($field['action'] == "edit") {
-    	$query  = 'ALTER TABLE `users` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
-    }
-    else {
-    	$query  = 'ALTER TABLE `users` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;';
-    }
+    if($field['action'] == "delete") 		{ $query  = 'ALTER TABLE `users` DROP `'. $field['name'] .'`;'; }
+    else if ($field['action'] == "edit") 	{ $query  = 'ALTER TABLE `users` CHANGE COLUMN `'. $field['oldname'] .'` `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;'; }
+    else 									{ $query  = 'ALTER TABLE `users` ADD COLUMN `'. $field['name'] .'` VARCHAR(256) CHARACTER SET utf8 DEFAULT NULL;'; }
     
     /* prepare log */ 
     $log = prepareLogFromArray ($field);

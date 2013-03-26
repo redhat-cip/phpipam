@@ -235,9 +235,7 @@ function getLogByID ($logId)
     $query  = "select * from `logs` where `id` = '$logId';";
     
     /* execute */
-    try {
-    	$logs = $database->getArray($query);
-    }
+    try { $logs = $database->getArray($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
     	die('<div class="alert alert-error">'. $error .'</div>');
@@ -280,9 +278,7 @@ function getAllLogs($logCount, $direction = NULL, $lastId = NULL, $highestId = N
 	$query .= 'order by `id` desc limit '. $logCount .';'. "\n";
 
     /* execute */
-    try {
-    	$logs = $database->getArray($query);
-    }
+    try { $logs = $database->getArray($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
     	die('<div class="alert alert-error">'. $error .'</div>');
@@ -309,9 +305,7 @@ function getAllLogsForExport()
 	$query = 'select * from `logs` order by `id` desc;'. "\n";
 
     /* execute */
-    try {
-    	$logs = $database->getArray($query);
-    }
+    try { $logs = $database->getArray($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
     	die('<div class="alert alert-error">'. $error .'</div>');
@@ -333,9 +327,7 @@ function clearLogs()
 	$query  = 'truncate table logs;'. "\n";
 
     /* execute */
-    try {
-    	$logs = $database->executeQuery($query);
-    }
+    try { $logs = $database->executeQuery($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
     	die('<div class="alert alert-error">'. $error .'</div>');
@@ -356,7 +348,13 @@ function countAllLogs ()
 
     /* set query */
     $query = 'select count(*) from logs;';   
-    $logs       = $database->getArray($query);  
+    /* execute */
+    try { $logs = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return vlans */
     return $logs[0]['count(*)'];
@@ -372,13 +370,9 @@ function prepareLogFromArray ($logs)
 	
 	/* reformat */
     foreach($logs as $key=>$req) {
-    
     	//ignore __ and PHPSESSID
-    	if( (substr($key,0,2) == '__') || (substr($key,0,9) == 'PHPSESSID') ) {
-		}
-    	else {
-    		$result .= " ". $key . ": " . $req . "<br>";
-    	}
+    	if( (substr($key,0,2) == '__') || (substr($key,0,9) == 'PHPSESSID') ) {}
+    	else 																  { $result .= " ". $key . ": " . $req . "<br>"; }
 	}
 	
 	/* return result */
@@ -396,7 +390,14 @@ function getHighestLogId()
 
     /* set query */
     $query = 'select id from logs order by id desc limit 1;';   
-    $logs       = $database->getArray($query);  
+
+    /* execute */
+    try { $logs = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return vlans */
     return $logs[0]['id'];
@@ -421,8 +422,13 @@ function searchAddresses ($query)
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);     
 
-	/* execute query */
-    $logs       = $database->getArray($query);  
+    /* execute */
+    try { $logs = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }  
     
     /* return result */
     return $logs;
@@ -434,15 +440,19 @@ function searchAddresses ($query)
  */
 function searchSubnets ($searchterm, $searchTermEdited = "")
 {
-	
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set query */    
 	$query = 'select * from `subnets` where `description` like "%'. $searchterm .'%" or `subnet` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'";';
 
-	/* execute query */
-    $search = $database->getArray($query); 
+    /* execute */
+    try { $search = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return result */
     return $search;
@@ -455,15 +465,19 @@ function searchSubnets ($searchterm, $searchTermEdited = "")
  */
 function searchVLANs ($searchterm)
 {
-	
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set query */    
 	$query = 'select * from `vlans` where `name` like "%'. $searchterm .'%" or `description` like "%'. $searchterm .'%" or `number` like "%'. $searchterm .'%";';
 
-	/* execute query */
-    $search = $database->getArray($query); 
+    /* execute */
+    try { $search = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return result */
     return $search;
@@ -598,15 +612,18 @@ function isIPalreadyRequested($ip)
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests where `ip_addr` = "'. $ip .'" and `processed` = 0;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return true is IP already in procedure */
-    if(sizeof($details) != 0) {
-    	return true;
-    }
-    else {
-    	return false;
-    }
+    if(sizeof($details) != 0) 	{ return true; }
+    else 						{ return false; }
 }
 
 
@@ -619,7 +636,14 @@ function countRequestedIPaddresses()
     /* set query, open db connection and fetch results */
     $query    = 'select count(*) from requests where `processed` = 0;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $details  = $database->getArray($query); 
+ 
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     return $details[0]['count(*)'];
 }
@@ -634,7 +658,14 @@ function getAllActiveIPrequests()
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests where `processed` = 0 order by `id` desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $activeRequests  = $database->getArray($query); 
+
+    /* execute */
+    try { $activeRequests = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     return $activeRequests;
 }
@@ -649,7 +680,14 @@ function getAllIPrequests($limit = 20)
     /* set query, open db connection and fetch results */
     $query    = 'select * from requests order by `id` desc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-    $activeRequests  = $database->getArray($query); 
+
+    /* execute */
+    try { $activeRequests = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     return $activeRequests;
 }
@@ -665,6 +703,14 @@ function getIPrequestById ($id)
     $query    = 'select * from requests where `id` = "'. $id .'";';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
     $activeRequests  = $database->getArray($query); 
+
+    /* execute */
+    try { $activeRequests = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     return $activeRequests[0];
 }
@@ -686,16 +732,19 @@ function addNewRequest ($request)
 
 	/* set log file */
 	$log = prepareLogFromArray ($request);
-
-    /* execute query */
-    if (!$database->executeQuery($query)) {
-    	updateLogTable ('Failed to add new IP request', $log, 2);
+	
+    /* execute */
+    try { $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+    	updateLogTable ('Failed to add new IP request', $log."\n".$error, 2);
         return false;
-    }
-    else {
-    	updateLogTable ('New IP request added', $log, 1);
-        return true;  
-    }
+    } 
+
+    /* return success */
+    updateLogTable ('New IP request added', $log, 1);
+    return true;  
 }
 
 
@@ -709,16 +758,18 @@ function rejectIPrequest($id, $comment)
     
     /* set query */
     $query  = 'update requests set `processed` = "1", `accepted` = "0", `adminComment` = "'. $comment .'" where `id` = "'. $id .'";' . "\n";
-	
-    /* execute query */
-    if (!$database->executeQuery($query)) {
-    	updateLogTable ('Failed to reject IP address id '. $id, 'Failed to reject IP address id '. $id, 2);
+
+    /* execute */
+    try { $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+    	updateLogTable ('Failed to reject IP address id '. $id, 'Failed to reject IP address id '. $id . " - error:".$error, 2);
         return false;
-    }
-    else {
-    	updateLogTable ('IP address id '. $id .' rejected', 'IP address id '. $id . " rejected with comment". $comment, 1);
-        return true;  
-    }
+    } 	
+    /* execute query */
+    updateLogTable ('IP address id '. $id .' rejected', 'IP address id '. $id . " rejected with comment". $comment, 1);
+    return true;  
 }
 
 
@@ -758,16 +809,19 @@ function acceptIPrequest($request)
     foreach($request as $key=>$req) {
 		$log .= " ". $key . ": " . $req . "<br>";
 	}
-    
-    /* execute query */
-    if (!$database->executeMultipleQuerries($query)) {
-        updateLogTable ('Failed to accept IP request', $log, 2);
+
+    /* execute */
+    try { $database->executeMultipleQuerries( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        updateLogTable ('Failed to accept IP request', $log . "\n".$error, 2);
         return false;
-    }
-    else {
-    	updateLogTable ('IP request accepted', $log, 1);
-        return true; 
     } 
+    
+    /* return success */
+    updateLogTable ('IP request accepted', $log, 1);
+    return true;  
 }
 
 
@@ -794,7 +848,14 @@ function getAllUniqueSwitches ()
     
     /* get all vlans, descriptions and subnets */
     $query   = 'SELECT `hostname`,`id`,`sections` FROM `switches` order by `hostname` ASC;';
-    $devices = $database->getArray($query);  
+
+    /* execute */
+    try { $devices = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return unique devices */
     return $devices;
@@ -811,15 +872,18 @@ function getSwitchDetailsByHostname($hostname)
     
     /* get all vlans, descriptions and subnets */
     $query = 'SELECT * FROM `switches` where `hostname` = "'. $hostname .'" limit 1;';
-    $ip    = $database->getArray($query);  
+
+    /* execute */
+    try { $ip = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return details */
-    if($ip) {
-    	return $ip[0];
-    }
-    else {
-    	return false;
-    }
+    if($ip) { return $ip[0]; }
+    else 	{ return false; }
 }
 
 
@@ -833,15 +897,18 @@ function getSwitchDetailsById($id)
     
     /* get all vlans, descriptions and subnets */
     $query = 'SELECT * FROM `switches` where `id` = "'. $id .'";';
-    $switch    = $database->getArray($query);  
+
+    /* execute */
+    try { $switch = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    }  
     
     /* return details */
-    if($switch) {
-    	return $switch[0];
-    }
-    else {
-    	return false;
-    }
+    if($switch) { return $switch[0]; }
+    else 		{ return false; }
 }
 
 
@@ -866,7 +933,14 @@ function fetchInstructions ()
 
 	/* execute query */
 	$query 			= "select * from instructions;";
-    $instructions   = $database->getArray($query);  
+
+    /* execute */
+    try { $instructions = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>Error: $error</div>");
+        return false;
+    } 
     
     /* return result */
     return $instructions;
@@ -886,12 +960,8 @@ function getLatestPHPIPAMversion()
 	fclose($handle);
 	
 	/* return version */
-	if(is_numeric($version)) {
-		return $version;
-	}
-	else {
-		return false;
-	}
+	if(is_numeric($version)) 	{ return $version; }
+	else 						{ return false; }
 }
 
 

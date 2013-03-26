@@ -20,6 +20,7 @@
 	+ StrictMode is not set globally anymore but set per section;
 	+ Added custom user fields;
 	+ Added option to verify that hostname is unique;
+	+ Improved MySQL exception handling;
 
 	Bugfixes:
 	------------------------
