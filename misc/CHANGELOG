@@ -34,6 +34,7 @@
 	+ Fixed error when adding new subnet if checkboxes are not selected in newer MySQL servers;
 	+ Fixed bad display of multilined navigation bar;
 	+ Fixed Wrong output of tools > VLAN list when using Duplicate VLANs;
+	+ Fixed wrong link for upgrade script;
 
 == 0.7
 
