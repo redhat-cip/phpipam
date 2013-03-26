@@ -18,6 +18,10 @@ if(sizeof($slaves) == 0 && $type == 0 && $SubnetDetails['mask']!="31" && $Subnet
 	for($m=$SubnetDetails['subnet']+1; $m<=$max; $m++) {
 		# already exists
 		if (array_key_exists($m, $ipVisual)) {
+		
+			# fix for empty states - if state is disabled, set to active
+			if(strlen($ipVisual[$m]['state'])==0) { $ipVisual[$m]['state'] = 1; }
+		
 			$class = $ipVisual[$m]['state'];
 			$id = $ipVisual[$m]['id'];
 			$action = 'all-edit';
