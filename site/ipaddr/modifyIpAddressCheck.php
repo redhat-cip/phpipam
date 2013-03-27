@@ -15,9 +15,8 @@ CheckReferrer();
 isUserAuthenticated ();
 
 /* verify that user has write access */
-$subnetPerm = checkSubnetPermission ($subnetId);
+$subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
 if($subnetPerm != "2") 	{ die('<div class="alert alert-error">Cannot edit IP address!</div>'); }
-
 
 /* get posted values */
 if ( !empty($_REQUEST['ip_addr']) ) 	{ $ip['ip_addr'] = $_REQUEST['ip_addr']; }
