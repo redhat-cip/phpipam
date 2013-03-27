@@ -82,7 +82,7 @@ $subnet = getSubnetDetailsById($_POST['subnetId']);
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small editSubnetPermissionsSubmit"><i class="icon-gray icon-ok"></i> Set permissions</button>
+	<button class="btn btn-small btn-success editSubnetPermissionsSubmit"><i class="icon-white icon-ok"></i> Set permissions</button>
 
 	<div class="editSubnetPermissionsResult"></div>
 </div>

@@ -7,8 +7,10 @@
 /* required functions */
 require_once('../../functions/functions.php'); 
 
-/* verify that user is admin */
-if (!checkAdmin()) die('');
+/* verify that user has write permissions for subnet */
+$subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
+if($subnetPerm != "2") 	{ die('<div class="alert alert-error">You do not have permissions to resize subnet!</div>'); }
+
 
 /* verify post */
 CheckReferrer();
@@ -55,7 +57,7 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopup2">Cancel</button>
-	<button class="btn btn-small" id="subnetTruncateSubmit" data-subnetId='<?php print $_POST['subnetId']; ?>'><i class="icon-gray icon-trash"></i> Truncate subnet</button>
+	<button class="btn btn-small btn-danger" id="subnetTruncateSubmit" data-subnetId='<?php print $_POST['subnetId']; ?>'><i class="icon-white icon-trash"></i> Truncate subnet</button>
 
 	<div class="subnetTruncateResult"></div>
 </div>

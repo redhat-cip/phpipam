@@ -36,6 +36,7 @@
 	+ Fixed bad display of multilined navigation bar;
 	+ Fixed wrong output of tools > VLAN list when using Duplicate VLANs;
 	+ Fixed wrong link for upgrade script;
+	+ On VRF change all child subnets are updated also;
 
 == 0.7
 

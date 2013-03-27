@@ -118,7 +118,7 @@ for($mask=($subnet['mask']+1); $mask<=$maxMask; $mask++) {
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopup2">Cancel</button>
-	<button class="btn btn-small" id="subnetSplitSubmit"><i class="icon-gray icon-ok"></i> Split subnet</button>
+	<button class="btn btn-small btn-success" id="subnetSplitSubmit"><i class="icon-white icon-ok"></i> Split subnet</button>
 
 	<div class="subnetSplitResult"></div>
 </div>

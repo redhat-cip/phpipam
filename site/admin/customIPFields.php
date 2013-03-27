@@ -33,12 +33,14 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 <h4>Custom fields</h4>
 <hr>
 
-<table class="customIP table table-striped table-auto table-top">
+<table class="customIP table table-striped table-auto table-top" style="min-width:400px;">
 
 	<tbody id="ip">
 	<!-- Custom IP address fields -->
 	<tr>
-		<th colspan="4">Custom IP address fields</th>
+		<th colspan="4">
+			<h5>Custom IP address fields</h5>
+		</th>
 	</tr>
 	<?php
 	/* no results */
@@ -58,8 +60,8 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print "<tr>";
 
 			# ordering
-			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNum[$m]' data-nextfieldname='".$myFieldsNum[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
-			else 						{ print "<td></td>";}
+			if (( ($m+1) != $size) ) 	{ print "<td style='width:10px;'><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNum[$m]' data-nextfieldname='".$myFieldsNum[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+			else 						{ print "<td style='width:10px;'></td>";}
 	
 			print "<td class='name'>$field[name]</td>";
 
@@ -83,13 +85,13 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	?>
 	<!-- add -->
 	<tr>
-		<td colspan="4">
-			<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom IP address field'><i class='icon-gray icon-plus'></i>
+		<td colspan="4" style='padding-right:0px;'>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom IP address field'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>	
 	<!-- result -->
 	<tr>
-		<td colspan="4">
+		<td colspan="4" class="result">
 			<div class="customIPResult"></div>
 		</td>
 	</tr>
@@ -102,7 +104,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<tbody id="subnet">
 	<tr>
 		<th colspan="4">
-			<h4>Custom subnet fields</h4>
+			<h5>Custom subnet fields</h5>
 		</th>
 	</tr>
 	<?php
@@ -150,14 +152,14 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 
 	<!-- add -->
 	<tr>
-		<td colspan="4">
-			<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom subnet field'><i class='icon-gray icon-plus'></i>
+		<td colspan="4" style='padding-right:0px;'>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom subnet field'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>
 
 	<!-- result -->
 	<tr>
-		<td colspan="4">
+		<td colspan="4" class="result">
 			<div class="customSubnetResult"></div>
 		</td>
 	</tr>
@@ -171,7 +173,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<tbody id="vlan">
 	<tr>
 		<th colspan="4">
-			<h4>Custom VLAN fields</h4>
+			<h5>Custom VLAN fields</h5>
 		</th>
 	</tr>
 	<?php
@@ -218,13 +220,13 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	?>
 	<!-- add -->
 	<tr>
-		<td colspan="4">
-			<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom VLAN field'><i class='icon-gray icon-plus'></i>
+		<td colspan="4" style='padding-right:0px;'>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom VLAN field'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>
 	<!-- result -->
 	<tr>
-		<td colspan="4">
+		<td colspan="4" class="result">
 			<div class="customVLANResult"></div>
 		</td>
 	</tr>
@@ -236,7 +238,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<tbody id="customUser">
 	<tr>
 		<th colspan="4">
-			<h4>Custom User fields</h4>
+			<h5>Custom User fields</h5>
 		</th>
 	</tr>
 	<?php
@@ -283,13 +285,13 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	?>
 	<!-- add -->
 	<tr>
-		<td colspan="4">
-			<button class='btn btn-small' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom User field'><i class='icon-gray icon-plus'></i>
+		<td colspan="4" style='padding-right:0px;'>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom User field'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>
 	<!-- result -->
 	<tr>
-		<td colspan="4">
+		<td colspan="4" class="result">
 			<div class="customUserResult"></div>
 		</td>
 	</tr>

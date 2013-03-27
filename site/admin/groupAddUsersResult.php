@@ -22,18 +22,23 @@ foreach($_POST as $k=>$p) {
 if(strlen($_POST['gid'] == 0))	{ die("<div class='alert alert-error'>Error - no group ID</div>"); }
 
 /* add each user to group */
-foreach($users as $key=>$u) {
-	if(!addUserToGroup($_POST['gid'], $u)) {
-		# get user details
-		$user = getUserDetailsById($u);
-		$errors[] = $user['real_name'];
+if(sizeof($users)>0) {
+	foreach($users as $key=>$u) {
+		if(!addUserToGroup($_POST['gid'], $u)) {
+			# get user details
+			$user = getUserDetailsById($u);
+			$errors[] = $user['real_name'];
+		}
 	}
+}
+else {
+	$errors[] = "Please select user(s) to add to selected group!";
 }
 
 /* print result */
 if(isset($errors)) {
 	print "<div class='alert alert-error'>";
-	print "Failed to add users:";
+	print "Failed to add users:<hr>";
 	print "<ul>";
 	foreach($errors as $e) {
 		print "<li>$e</li>";

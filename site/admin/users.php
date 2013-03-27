@@ -112,6 +112,8 @@ foreach ($users as $user)
 </table>
 
 <div class="alert alert-info alert-absolute">
-Adminstrator users will be able to view and edit all all sections and subnets<br>
-Normal users will have premissions set based on group access to sections and subnets
+<ul>
+	<li>Adminstrator users will be able to view and edit all all sections and subnets</li>
+	<li>Normal users will have premissions set based on group access to sections and subnets</li>
+</ul>
 </div>

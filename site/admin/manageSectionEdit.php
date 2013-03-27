@@ -50,7 +50,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 		<tr>
 			<td>Description</td>
 			<td colspan="2">
-				<input type="text" class='input-xlarge' name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($_POST['action'] == "delete") {print " readonly ";}?> placeholder="Section description">
+				<input type="text" class='input-xlarge' name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($_POST['action'] == "delete") { print " readonly ";}?> placeholder="Section description">
 			</td>
 		</tr>
 
@@ -58,7 +58,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 		<tr>
 			<td>Strict Mode</td>
 			<td colspan="2">
-				<select name="strictMode" class="input-small">
+				<select name="strictMode" class="input-small" <?php if($_POST['action']=="delete") print 'disabled="disabled"'; ?>>
 					<option value="1">Yes</option>
 					<option value="0" <?php if($section['strictMode'] == "0") print "selected='selected'"; ?>>No</option>
 				</select>
@@ -142,7 +142,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 <!-- footer -->
 <div class="pFooter">
 	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small <?php if($_POST['action']=="delete") print "btn-danger" ?>" id="editSectionSubmit"><i class="icon-gray <?php if($_POST['action']=="delete") print "icon-white" ?> icon-ok"></i> <?php print ucwords($_POST['action']); ?> section</button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger";} else { print "btn-success"; } ?>" id="editSectionSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($_POST['action']); ?> section</button>
 
 	<!-- result holder -->
 	<div class="sectionEditResult"></div>

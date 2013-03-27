@@ -67,6 +67,21 @@ td.actions {
 	padding-right: 0px !important;
 }
 
+table.customIP tbody {
+	border-top:none;
+	border-bottom: none;
+}
+table.customIP th {
+	border-top: none;
+}
+table.customIP td.result {
+	background: transparent !important;
+}
+table.customIP h5 {
+	border: none;
+	margin: 0px;
+	margin-top: 5px;
+}
 
 
 

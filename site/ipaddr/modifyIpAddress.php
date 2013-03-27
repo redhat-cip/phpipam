@@ -328,10 +328,10 @@ $myFieldsSize = sizeof($myFields);
 	<?php
 	# add delete if it came from visual edit!
 	if($action == 'all-edit') {
-	print "<button class='btn btn-small btn-danger' id='editIPAddressSubmit' data-action='all-delete'>Delete IP</button>";		
+	print "<button class='btn btn-small btn-danger' id='editIPAddressSubmit' data-action='all-delete'><i class='icon-white icon-trash'></i> Delete IP</button>";		
 	}
 	?>
-	<button class="btn btn-small <?php if($action=="delete") print "btn-danger" ?>" id="editIPAddressSubmit" data-action='<?php print $action; ?>'><?php print ucwords($btnName); ?> IP</button>
+	<button class="btn btn-small <?php if($action=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editIPAddressSubmit" data-action='<?php print $action; ?>'><i class="icon-white <?php if($btnName=="add") { print "icon-plus"; } else if ($btnName=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($btnName); ?> IP</button>
 
 	<!-- holder for result -->
 	<div class="addnew_check"></div>

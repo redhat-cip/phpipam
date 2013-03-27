@@ -11,7 +11,7 @@ require_once('../../functions/functions.php');
 checkAdmin();
 
 /* verify that description is present if action != delete */
-if($_POST['action' != "delete"] && strlen($_POST['g_name'] < 6))	{ die("<div class='alert alert-error'>Name must be at least 6 characters long!</div>"); }
+if($_POST['action'] != "delete" && strlen($_POST['g_name']) < 4)	{ die("<div class='alert alert-error'>Name must be at least 4 characters long!</div>"); }
 
 /* remove users from this group if delete */
 if($_POST['action'] == "delete") { deleteUsersFromGroup($_POST['g_id']); }

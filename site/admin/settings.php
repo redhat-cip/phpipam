@@ -265,7 +265,7 @@ $settings = getAllSettings();
 <tr class="th">
 	<td class="title"></td>
 	<td class="submit">
-		<input type="submit" class="btn btn-small pull-right" value="Save changes">
+		<input type="submit" class="btn btn-small btn-success pull-right" value="Save changes">
 	</td>
 	<td></td>
 </tr>

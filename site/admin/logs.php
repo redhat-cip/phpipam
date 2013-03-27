@@ -21,7 +21,7 @@ checkAdmin();
 	<button id="downloadLogs" class="btn btn-small" style="margin-left:20px">Download logs</button>
 
 	<!-- download log files -->
-	<button id="clearLogs" class="btn btn-small">Clear logs</button>
+	<button id="clearLogs" class="btn btn-small"><i class="icon-gray icon-trash"></i> Clear logs</button>
    
 	<span class="pull-right" id="logDirection">
 		<button class="btn btn-small" data-direction="prev" name="next" rel="tooltip" title="Previous page"><i class="icon-chevron-left"></i></button>

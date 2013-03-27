@@ -20,19 +20,24 @@ foreach($_POST as $k=>$p) {
 /* verify that description is present if action != delete */
 if(strlen($_POST['gid'] == 0))	{ die("<div class='alert alert-error'>Error - no group ID</div>"); }
 
-/* add each user to group */
-foreach($users as $key=>$u) {
-	if(!removeUserFromGroup($_POST['gid'], $u)) {
-		# get user details
-		$user = getUserDetailsById($u);
-		$errors[] = $user['real_name'];
+/* remove each user from group */
+if(sizeof($users)>0) {
+	foreach($users as $key=>$u) {
+		if(!removeUserFromGroup($_POST['gid'], $u)) {
+			# get user details
+			$user = getUserDetailsById($u);
+			$errors[] = $user['real_name'];
+		}
 	}
+}
+else {
+	$errors[] = "Please select user(s) to remove from group!";
 }
 
 /* print result */
 if(isset($errors)) {
 	print "<div class='alert alert-error'>";
-	print "Failed to remove users:";
+	print "Failed to remove users:<hr>";
 	print "<ul>";
 	foreach($errors as $e) {
 		print "<li>$e</li>";
