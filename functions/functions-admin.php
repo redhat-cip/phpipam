@@ -571,6 +571,7 @@ function modifySubnetDetails ($subnetDetails, $lastId = false)
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
         updateLogTable ('Subnet ('. $subnetDetails['description'] .') '. $subnetDetails['action'] .' failed', $log, 2);	# write error log
+        print "<div class='alert alert-error'>$error</div>";
         return false;
     }
     
@@ -608,7 +609,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
 		}
         
         $query  = 'insert into subnets '. "\n";
-        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName` '.$myFieldsInsert['query'].') ' . "\n";
+        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName`, `permissions` '.$myFieldsInsert['query'].') ' . "\n";
         $query .= 'values (' . "\n";
         $query .= ' "'. $subnetDetails['subnet'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['mask'] 			 .'", ' . "\n"; 
@@ -618,7 +619,8 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= ' "'. $subnetDetails['vrfId'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['masterSubnetId'] .'", ' . "\n"; 
         $query .= ''. isCheckbox($subnetDetails['allowRequests']) .','."\n";
-        $query .= ''. isCheckbox($subnetDetails['showName']) ."\n";  
+        $query .= ''. isCheckbox($subnetDetails['showName']) .','."\n";  
+        $query .= ' "'. $subnetDetails['permissions'] .'"'."\n"; 
         $query .= $myFieldsInsert['values'];
         $query .= ' );';
     }

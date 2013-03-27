@@ -136,6 +136,21 @@ if(sizeof($myFields) > 0) {
 $_POST['description'] = htmlentities($_POST['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	//prevent XSS
 
 
+/* Set permissions for add! */
+if($_POST['action'] == "add") {
+	# root
+	if($_POST['masterSubnetId'] == 0) {
+		$_POST['permissions'] = $section['permissions'];
+	}
+	# nested - inherit parent permissions
+	else {
+		# get parent
+		$parent = getSubnetDetailsById($_POST['masterSubnetId']);
+		$_POST['permissions'] = $parent['permissions'];
+	}
+}
+
+
 /* If no errors are present execute request */
 if (sizeof($errors) != 0) 
 {
