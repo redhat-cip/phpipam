@@ -22,3 +22,7 @@ checkAdmin();
 <!-- XLS dump -->
 <h4>Create XLS file of IP addresses</h4>
 <button class="btn btn-small" id="XLSdump"><i class="icon-gray icon-download"></i> Prepare XLS dump</button>
+
+<!-- XLS dump -->
+<h4>Create hostfile dump</h4>
+<button class="btn btn-small" id="hostfileDump"><i class="icon-gray icon-download"></i> Prepare hostfile dump</button>

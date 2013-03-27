@@ -1460,7 +1460,14 @@ $('button#XLSdump').click(function () {
 $('button#MySQLdump').click(function () {
     showSpinner();
     $("div.dl").remove();    //remove old innerDiv
-    $('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateMySQL.php' ></iframe></div>");
+    $('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateMySQL.php'></iframe></div>");
+    hideSpinner();
+});
+// Hostfile export
+$('button#hostfileDump').click(function () {
+    showSpinner();
+    $("div.dl").remove();    //remove old innerDiv
+    $('div.exportDIV').append("<div style='display:none' class='dl'><iframe src='site/admin/exportGenerateHostDump.php'></iframe></div>");
     hideSpinner();
 });
 

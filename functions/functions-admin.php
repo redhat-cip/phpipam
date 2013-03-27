@@ -1139,7 +1139,8 @@ function getSwitchTypes()
 	$res[4] = "Wireless";
 	$res[5] = "Database";
 	$res[6] = "Workstation";
-	$res[7] = "Other";
+	$res[7] = "Laptop";
+	$res[8] = "Other";
 
 	return $res;
 }

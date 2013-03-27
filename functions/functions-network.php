@@ -1146,6 +1146,27 @@ function truncateSubnet($subnetId)
 }
 
 
+/**
+ * get all Subnets - for hosts export
+ */
+function getAllSubnetsForExport() 
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    /* first update request */
+    $query    = 'select `s`.`id`,`subnet`,`mask`,`name`,`se`.`description` as `se_description`,`s`.`description` as `s_description` from `subnets` as `s`,`sections` as `se` where `se`.`id`=`s`.`sectionId` order by `se`.`id` asc;'; 
+
+	/* execute */
+    try { $subnets = $database->getArray($query); }
+    catch (Exception $e) { 
+    	return false;
+    }
+  
+	/* return true if locked */
+	return $subnets;	
+}
+
+
 
 /**
  *	Print dropdown menu for subnets in section!

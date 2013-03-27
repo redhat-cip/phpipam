@@ -23,6 +23,7 @@
 	+ Improved MySQL exception handling;
 	+ Added mod_rewrite error detection on installation and upgrade;
 	+ Added hostname validation;
+	+ Added Hostfile dump of IP addresses;
 
 	Bugfixes:
 	------------------------
