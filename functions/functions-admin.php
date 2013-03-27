@@ -679,6 +679,18 @@ function setModifySubnetDetailsQuery ($subnetDetails)
 	    		}
 	    	}
         }
+        
+        # if vrf changes
+        if($subnetDetails['vrfId'] != $subnetDetails['vrfIdOld']) {
+	        # add querry to change vrfId!
+	        global $removeSlaves;
+	        getAllSlaves ($subnetDetails['subnetId']);
+	        $removeSlaves = array_unique($removeSlaves);
+    	    		
+	        foreach($removeSlaves as $slave) {
+	    		$query .= 'update `subnets` set `vrfId` = "'. $subnetDetails['vrfId'] .'" where `id` = "'.$slave.'"; '."\n";
+	    	}
+        }        
     }
     # Something is not right!
     else {

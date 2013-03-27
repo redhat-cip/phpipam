@@ -267,6 +267,8 @@ else															{ $readonly = false; }
             <input type="hidden" name="subnetId"        value="<?php print $_POST['subnetId'];     ?>">       
             <input type="hidden" name="action"    		value="<?php print $_POST['action']; ?>">
             <input type="hidden" name="location"    	value="<?php print $_POST['location']; ?>">        
+            <input type="hidden" name="vrfIdOld"        value="<?php print $subnetDataOld['vrfId'];    ?>">
+
         <?php
         print '	</td>' . "\n";
         print '	<td class="info">Show Subnet name instead of subnet IP address</td>' . "\n";
