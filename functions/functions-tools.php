@@ -722,6 +722,9 @@ function addNewRequest ($request)
 {
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+
+    # replace special chars for description
+    $request['description'] = mysqli_real_escape_string($database, $request['description']);
     
     /* set query */
     $query  = 'insert into requests ' . "\n"; 

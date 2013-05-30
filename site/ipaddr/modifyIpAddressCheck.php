@@ -69,7 +69,7 @@ if(isset($_REQUEST['action-visual'])) {
 }
 
 //detect proper hostname
-if(strlen($_POST['dns_name']>0) && !validateHostname($_REQUEST['dns_name'])) {
+if(strlen($_POST['dns_name'])>0 && !validateHostname($_REQUEST['dns_name'])) {
 	die('<div class="alert alert-error">'._('Invalid hostname').'!</div>');
 }
 

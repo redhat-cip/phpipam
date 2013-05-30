@@ -1523,7 +1523,7 @@ msgstr "Ni log datotek"
 
 #: site/dashboard/index.php:27
 msgid "welcome to your IPAM dashboard"
-msgstr "pozdravljen na svojo IPAM vstopno stran"
+msgstr "pozdravljen na svoji IPAM vstopni strani"
 
 #: site/dashboard/index.php:34
 msgid "There are"

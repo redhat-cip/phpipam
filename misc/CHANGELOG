@@ -38,6 +38,7 @@
 	+ Fixed wrong output of tools > VLAN list when using Duplicate VLANs;
 	+ Fixed wrong link for upgrade script;
 	+ On VRF change all child subnets are updated also;
+	+ Fixed wrong maximum on dashboard top10 percentage;
 
 == 0.7
 

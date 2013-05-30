@@ -367,11 +367,13 @@ function checkSectionPermission ($sectionId)
 	$out = 0;
 	
 	# for each group check permissions, save highest to $out
-	foreach($sectionP as $sk=>$sp) {
-		# check each group if user is in it and if so check for permissions for that group
-		foreach($groups as $uk=>$up) {
-			if($uk == $sk) {
-				if($sp > $out) { $out = $sp; }
+	if(sizeof($sectionP)>0) {
+		foreach($sectionP as $sk=>$sp) {
+			# check each group if user is in it and if so check for permissions for that group
+			foreach($groups as $uk=>$up) {
+				if($uk == $sk) {
+					if($sp > $out) { $out = $sp; }
+				}
 			}
 		}
 	}

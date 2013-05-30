@@ -20,14 +20,6 @@ if(sizeof($subnetHost) != 0) {
 		$subnetHost[$i]['percentage'] = 100 - $temp['freehosts_percent'];
 		
 		$i++;
-		
-		# set max
-		if($i==0) { $max = $subnetHost[$i]['percentage']; }
-		else {
-			if($subnetHost[$i]['percentage'] > $subnetHost[$i-1]['percentage']) {
-				$max = $subnetHost[$i]['percentage'];
-			}
-		}
 	}
 	
 	/* sort by percentage - keys change! */
@@ -40,13 +32,16 @@ if(sizeof($subnetHost) != 0) {
 
 
 /* remove all but top 10 */
-$max = sizeof($subnetHost);
+$maxSubs = sizeof($subnetHost);
 
-for ($m = 0; $m <= $max; $m++) {
+for ($m = 0; $m <= $maxSubs; $m++) {
 	if ($m > 10) {
 		unset($subnetHost[$m]);
 	}
 }
+
+# set maximum for graph
+$max = $subnetHost[0]['percentage'];
 
 ?>
 
