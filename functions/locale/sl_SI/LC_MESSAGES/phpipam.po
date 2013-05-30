@@ -3623,3 +3623,91 @@ msgstr "Jezik"
 #: site/tools/userMenu.php:83
 msgid "Select language"
 msgstr "Izbira jezika"
+
+#: site/admin/adminMenu.php
+msgid "Languages"
+msgstr "Jeziki"
+
+#: site/admin/languages
+msgid "Manage translations"
+msgstr "Upravljanje s prevodi"
+
+#: site/admin/languages
+msgid "Language code"
+msgstr "Koda jezika"
+
+#: site/admin/languages
+msgid "Language name"
+msgstr "Ime jezika"
+
+#: site/admin/languages
+msgid "Validity"
+msgstr "Veljavnost"
+
+#: site/admin/languages
+msgid "Valid"
+msgstr "Veljavno"
+
+#: site/admin/languages
+msgid "Invalid"
+msgstr "Neveljavno"
+
+#: site/admin/languages
+msgid "Create new language"
+msgstr "Dodaj nov jezik"
+
+#: site/admin/languages
+msgid "You can edit different language translations here"
+msgstr "Tukaj lahko urejate različne prevode"
+
+#: site/admin/languages
+msgid "Add translation file to directory functions/locale/ in phpipam"
+msgstr "Datoteko s prevodom dodajte v direktorij functions/locale/"
+
+#: site/admin/languages
+msgid "Create new language with same code as translation file"
+msgstr "Kreirajte nov jezik z enako kodo kot datoteka za prevajanje"
+
+#: site/admin/lanuguageEdit.php
+msgid "Add new language"
+msgstr "Dodaj nov jezik"
+
+#: site/admin/lanuguageEdit.php
+msgid "Edit language"
+msgstr "Uredi jezik"
+
+#: site/admin/lanuguageEdit.php
+msgid "Delete language"
+msgstr "Izbriši jezik"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Code must be at least 2 characters long"
+msgstr "Koda mora biti dolga vsaj 2 znaka"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Name must be at least 2 characters long"
+msgstr "Ime mora biti dolgo vsaj 2 znaka"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language edit error"
+msgstr "Napaka pri urejanju jezika"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language edit success"
+msgstr "Jezik urejen"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language add error"
+msgstr "Napaka pri dodajanju jezika"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language add success"
+msgstr "Jezik dodan"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language delete error"
+msgstr "Napaka pri izbrisu jezika"
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language delete success"
+msgstr "Jezik izbrisan"

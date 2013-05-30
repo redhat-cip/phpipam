@@ -87,8 +87,8 @@ CREATE TABLE `lang` (
 INSERT INTO `lang` (`l_id`, `l_code`, `l_name`)
 VALUES
 	(1, 'en', 'English'),
-	(2, 'sl_SI', 'Slovene');
+	(2, 'sl_SI', 'Slovenščina');
 
 
 /* add language to user table */
-ALTER TABLE `users` ADD `Slovenščina` INT(2)  NULL  DEFAULT '1';
+ALTER TABLE `users` ADD `lang` INT(2)  NULL  DEFAULT '1';

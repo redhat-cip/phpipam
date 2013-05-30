@@ -320,6 +320,18 @@ function getLangById ($id)
 }
 
 
+/**
+ * Verify translation
+ */
+function verifyTranslation ($code)
+{
+	//verify that proper files exist
+	if(!file_exists("functions/locale/$code/LC_MESSAGES/phpipam.mo"))	{ return false; }
+	else																{ return true; }
+}
+
+
+
 
 
 

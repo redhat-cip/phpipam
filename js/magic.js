@@ -1410,7 +1410,7 @@ $('#editcustomUserSubmit').live('click', function() {
         $('div.customUserEditResult').html(data).slideDown('fast');
         
         //reload after 2 seconds if succeeded!
-        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
     });
 
@@ -1424,11 +1424,41 @@ $('table.customIP tbody#customUser button.down').click(function() {
     $.post('site/admin/customUserFieldsOrder.php', {current:current, next:next}, function(data) {
         $('div.customUserResult').html(data).slideDown('fast');
         //reload after 2 seconds if succeeded!
-        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1000); }
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1000); }
         else                             { hideSpinner(); }
     });
     return false;
 });
+
+
+
+/* Languages
+*********/
+//Load edit lang form
+$('button.lang').click(function() {
+    showSpinner();
+    var langid    = $(this).attr('data-langid');
+    var action   = $(this).attr('data-action');
+    $.post('site/admin/languageEdit.php', {langid:langid, action:action}, function(data) {
+        $('div.popup_w400').html(data);
+        showPopup('popup_w400');
+        hideSpinner();
+    });
+    return false;    
+});
+//Edit VRF details
+$('#langEditSubmit').live('click', function() {
+    showSpinner();
+    var ldata = $('form#langEdit').serialize();
+    $.post('site/admin/languageEditResult.php', ldata, function(data) {
+        $('div.langEditResult').html(data).slideDown('fast');
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else                             	{ hideSpinner(); }
+    });
+    return false;
+});
+
 
 
 

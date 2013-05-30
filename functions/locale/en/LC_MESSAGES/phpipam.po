@@ -869,7 +869,7 @@ msgid "IPv6 search tips"
 msgstr ""
 
 #: site/tools/searchTips.php:37
-"You can search through ranges by specifying whole subnet (e.g. "
+msgid "You can search through ranges by specifying whole subnet (e.g. "
 "2002:8a10::/32)"
 msgstr ""
 
@@ -878,7 +878,7 @@ msgid "Hostname search tips"
 msgstr ""
 
 #: site/tools/searchTips.php:46
-"You can get all IP addresses some host uses and all ports it is connected to "
+msgid "You can get all IP addresses some host uses and all ports it is connected to "
 "by entering hostname in search field"
 msgstr ""
 
@@ -887,7 +887,7 @@ msgid "Device search tips"
 msgstr ""
 
 #: site/tools/searchTips.php:55
-"You can get all used / available ports and connected IP's / hostnames in "
+msgid "You can get all used / available ports and connected IP's / hostnames in "
 "some device by entering device name in search field"
 msgstr ""
 
@@ -896,7 +896,7 @@ msgid "MAC search tips"
 msgstr ""
 
 #: site/tools/searchTips.php:64
-"You can search by MAC address list entering MAC in 00:1cd:d4:78:ec:46 or "
+msgid "You can search by MAC address list entering MAC in 00:1cd:d4:78:ec:46 or "
 "001dd478ec46 format, or search multiple with 00:1c:c4:"
 msgstr ""
 
@@ -1138,7 +1138,7 @@ msgid "Orphaned IP addresses for subnet"
 msgstr ""
 
 #: site/ipaddr/ipAddressPrintTableOrphaned.php:69
-"This happens if subnet had IP addresses<br>when new nested subnet was added"
+msgid "This happens if subnet had IP addresses<br>when new nested subnet was added"
 msgstr ""
 
 #: site/ipaddr/ipAddressPrintTableOrphaned.php:171
@@ -1305,7 +1305,7 @@ msgid "delete"
 msgstr ""
 
 #: site/ipaddr/modifyIpAddress.php:115
-"You can add,edit or delete multiple IP addresses<br>by specifying IP range "
+msgid "You can add,edit or delete multiple IP addresses<br>by specifying IP range "
 "(e.g. 10.10.0.0-10.10.0.25)"
 msgstr ""
 
@@ -1438,7 +1438,7 @@ msgid "phpIPAM is free, open-source project"
 msgstr ""
 
 #: site/footer.php:26
-"If you like the software you can donate by clicking this button to support "
+msgid "If you like the software you can donate by clicking this button to support "
 "further development"
 msgstr ""
 
@@ -1575,7 +1575,7 @@ msgid "Import subnets from RIPE"
 msgstr ""
 
 #: site/admin/ripeImport.php:15
-"This script imports subnets from RIPE database for specific AS. Enter "
+msgid "This script imports subnets from RIPE database for specific AS. Enter "
 "desired AS to search for subnets"
 msgstr ""
 
@@ -1646,12 +1646,12 @@ msgid "Active Directory connection settings"
 msgstr ""
 
 #: site/admin/manageAD_AD.php:17
-msgid Here you can set parameters for connecting to AD for authenticating users. "
+msgid "Here you can set parameters for connecting to AD for authenticating users. "
 "phpIPAM uses"
 msgstr ""
 
 #: site/admin/manageAD_AD.php:17 site/admin/manageAD_LDAP.php:17
-msgid to authenticate users. If you need additional settings please take a look at "
+msgid "to authenticate users. If you need additional settings please take a look at "
 "functions/adLDAP or check online documentation!"
 msgstr ""
 
@@ -3195,16 +3195,16 @@ msgid "New mask"
 msgstr ""
 
 #: site/admin/manageSubnetresize.php:59
-"You can change subnet size by specifying new mask (bigger or smaller). "
+msgid "You can change subnet size by specifying new mask (bigger or smaller). "
 "Please note"
 msgstr ""
 
 #: site/admin/manageSubnetresize.php:61
-"If subnet has hosts outside of resized subnet resizing will not be possible"
+msgid "If subnet has hosts outside of resized subnet resizing will not be possible"
 msgstr ""
 
 #: site/admin/manageSubnetresize.php:62
-"If strict mode is enabled check will be made to ensure it is still inside "
+msgid "If strict mode is enabled check will be made to ensure it is still inside "
 "master subnet"
 msgstr ""
 
@@ -3243,7 +3243,7 @@ msgid "Number of IP addresses"
 msgstr ""
 
 #: site/admin/manageSubnettruncate.php:51
-"Truncating network will remove all IP addresses, that belong to selected "
+msgid "Truncating network will remove all IP addresses, that belong to selected "
 "subnet!"
 msgstr ""
 
@@ -3413,7 +3413,7 @@ msgid "Your email address"
 msgstr ""
 
 #: site/login/requestIPform.php:128
-"If there is anything else you want to say about request write it in this box"
+msgid "If there is anything else you want to say about request write it in this box"
 msgstr ""
 
 #: site/login/requestIPform.php:136
@@ -3586,4 +3586,92 @@ msgstr ""
 
 #: site/tools/userMenu.php:83
 msgid "Select language"
+msgstr ""
+
+#: site/admin/adminMenu.php
+msgid "Languages"
+msgstr ""
+
+#: site/admin/languages.php
+msgid "Manage translations"
+msgstr ""
+
+#: site/admin/languages
+msgid "Language code"
+msgstr ""
+
+#: site/admin/languages
+msgid "Language name"
+msgstr ""
+
+#: site/admin/languages
+msgid "Validity"
+msgstr ""
+
+#: site/admin/languages
+msgid "Valid"
+msgstr ""
+
+#: site/admin/languages
+msgid "Invalid"
+msgstr ""
+
+#: site/admin/languages
+msgid "Create new language"
+msgstr ""
+
+#: site/admin/languages
+msgid "You can edit different language translations here"
+msgstr ""
+
+#: site/admin/languages
+msgid "Add translation file to directory functions/locale/ in phpipam"
+msgstr ""
+
+#: site/admin/languages
+msgid "Create new language with same code as translation file"
+msgstr ""
+
+#: site/admin/lanuguageEdit.php
+msgid "Add new language"
+msgstr ""
+
+#: site/admin/lanuguageEdit.php
+msgid "Edit language"
+msgstr ""
+
+#: site/admin/lanuguageEdit.php
+msgid "Delete language"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Code must be at least 2 characters long"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Name must be at least 2 characters long"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language edit error"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language edit success"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language add error"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language add success"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language delete error"
+msgstr ""
+
+#: site/admin/lanuguageEditResult.php
+msgid "Language delete success"
 msgstr ""

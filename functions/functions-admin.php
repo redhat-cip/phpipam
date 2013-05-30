@@ -190,6 +190,33 @@ function selfUpdateUser ($userModDetails)
 }
 
 
+/**
+ * Modify lang
+ */
+function modifyLang ($lang)
+{
+    global $db;                                                                      # get variables from config file
+    
+    /* set query based on action */
+    if($lang['action'] == "add")		{ $query = "insert into `lang` (`l_code`,`l_name`) values ('$lang[l_code]','$lang[l_name]');"; }
+    elseif($lang['action'] == "edit")	{ $query = "update `lang` set `l_code`='$lang[l_code]',`l_name`='$lang[l_name]' where `l_id`='$lang[l_id]'; "; }
+    elseif($lang['action'] == "delete")	{ $query = "delete from `lang` where `l_id`='$lang[l_id]'; "; }    
+    else								{ return 'false'; }
+    
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    /* execute */
+    try { $details = $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;
+    } 
+    
+    return true;
+}
+
+
 
 
 
