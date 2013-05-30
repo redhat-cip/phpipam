@@ -18,14 +18,17 @@ $settings = getallSettings();
 
 /* get custom fields */
 $custom = getCustomUserFields();
+
+/* get languages */
+$langs = getLanguages ();
 ?>
 
 <!-- display existing users -->
-<h4>User management</h4>
+<h4><?php print _('User management'); ?></h4>
 <hr><br>
 
 <!-- Add new -->
-<button class='btn btn-small editUser' style="margin-bottom:10px;" data-action='add'><i class='icon-gray icon-plus'></i> Create new user</button>
+<button class='btn btn-small editUser' style="margin-bottom:10px;" data-action='add'><i class='icon-gray icon-plus'></i> <?php print _('Create user'); ?></button>
 
 
 <!-- table -->
@@ -34,12 +37,13 @@ $custom = getCustomUserFields();
 <!-- Headers -->
 <tr>
 	<th></th>
-    <th>Real Name</th>
-    <th>Username</th>
-    <th>E-mail</th>
-    <th>Role</th>
-    <th>Type</th>
-    <th>Groups</th>
+    <th><?php print _('Real Name'); ?></th>
+    <th><?php print _('Username'); ?></th>
+    <th><?php print _('E-mail'); ?></th>
+    <th><?php print _('Role'); ?></th>
+    <th><?php print _('Language'); ?></th>
+    <th><?php print _('Type'); ?></th>
+    <th><?php print _('Groups'); ?></th>
 	<?php
 	if(sizeof($custom) > 0) {
 		foreach($custom as $field) {
@@ -57,24 +61,34 @@ foreach ($users as $user)
 	print '<tr>' . "\n";
 	
 	# set icon based on normal user or admin
-	if($user['role'] == "Administrator") 	{ print '	<td><img src="css/images/userVader.png" rel="tooltip" title="Administrator"></td>'. "\n"; }
-	else 									{ print '	<td><img src="css/images/userTrooper.png" rel="tooltip" title="'. $user['role'] .'"></td>'. "\n";	}
+	if($user['role'] == "Administrator") 	{ print '	<td><img src="css/images/userVader.png" rel="tooltip" title="'._('Administrator').'"></td>'. "\n"; }
+	else 									{ print '	<td><img src="css/images/userTrooper.png" rel="tooltip" title="'. _($user['role']) .'"></td>'. "\n";	}
 	
 	print '	<td>' . $user['real_name'] . '</td>'. "\n";
 	print '	<td>' . $user['username']  . '</td>'. "\n";
 	print '	<td>' . $user['email']     . '</td>'. "\n";
 	print '	<td>' . $user['role']      . '</td>'. "\n";
 	
+	# language
+	if(strlen($user['lang'])>0) {
+		# get lang name
+		$lname = getLangById($user['lang']);
+		print "<td>$lname[l_name]</td>";
+	}
+	else {
+		print "<td>English (default)</td>";
+	}
+	
 	# local or ldap?
-	if($user['domainUser'] == "0") 			{ print '	<td>Local user</td>'. "\n"; }
+	if($user['domainUser'] == "0") 			{ print '	<td>'._('Local user').'</td>'. "\n"; }
 	else 									{
-		if($settings['domainAuth'] == "2") 	{ print '	<td>LDAP user</td>'. "\n"; }
-		else 								{ print '	<td>Domain user</td>'. "\n"; }
+		if($settings['domainAuth'] == "2") 	{ print '	<td>'._('LDAP user').'</td>'. "\n"; }
+		else 								{ print '	<td>'._('Domain user').'</td>'. "\n"; }
 	}
 
 	# groups
 	if($user['role'] == "Administrator") {
-	print '	<td>All groups</td>'. "\n";		
+	print '	<td>'._('All groups').'</td>'. "\n";		
 	}
 	else {
 		$groups = json_decode($user['groups'], true);
@@ -113,7 +127,7 @@ foreach ($users as $user)
 
 <div class="alert alert-info alert-absolute">
 <ul>
-	<li>Adminstrator users will be able to view and edit all all sections and subnets</li>
-	<li>Normal users will have premissions set based on group access to sections and subnets</li>
+	<li><?php print _('Adminstrator users will be able to view and edit all all sections and subnets'); ?></li>
+	<li><?php print _('Normal users will have premissions set based on group access to sections and subnets'); ?></li>
 </ul>
 </div>

@@ -92,39 +92,39 @@ $rowCount = 0;
 
 //write headers
 	if( (isset($_GET['ip_addr'])) && ($_GET['ip_addr'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'ip address' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('ip address') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['state'])) && ($_GET['state'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'ip state' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('ip state') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['description'])) && ($_GET['description'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'description' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('description') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['dns_name'])) && ($_GET['dns_name'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'hostname' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('hostname') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['mac'])) && ($_GET['mac'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'mac' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('mac') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['owner'])) && ($_GET['owner'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'owner' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('owner') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['switch'])) && ($_GET['switch'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'switch' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('switch') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['port'])) && ($_GET['port'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'port' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('port') ,$format_title);
 		$rowCount++;
 	}
 	if( (isset($_GET['note'])) && ($_GET['note'] == "on") ) {
-		$worksheet->write($lineCount, $rowCount, 'note' ,$format_title);
+		$worksheet->write($lineCount, $rowCount, _('note') ,$format_title);
 		$rowCount++;
 	}
 	
@@ -149,9 +149,9 @@ foreach ($ipaddresses as $ip) {
 		
 	//we need to reformat state!
 	switch($ip['state']) {
-		case 0: $ip['state'] = "Offline";	break;
-		case 1: $ip['state'] = "Active";	break;
-		case 2: $ip['state'] = "Reserved";	break;
+		case 0: $ip['state'] = _("Offline");	break;
+		case 1: $ip['state'] = _("Active");		break;
+		case 2: $ip['state'] = _("Reserved");	break;
 	}
 	
 	if( (isset($_GET['ip_addr'])) && ($_GET['ip_addr'] == "on") ) {

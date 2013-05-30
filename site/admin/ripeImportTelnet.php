@@ -45,7 +45,7 @@ $sections = fetchSections();
 
 
 if(sizeof($subnet) == 0) {
-	print '<div class="alert alert-error alert-absolute">No subnets found!</div></td>'. "\n";
+	print '<div class="alert alert-error alert-absolute">'._('No subnets found').'!</div></td>'. "\n";
 }
 else {
 
@@ -53,27 +53,30 @@ else {
 	print '<table class="asImport table table-striped table-condensed table-top table-auto">';
 
 	print '<tr>';
-	print '	<th colspan="5">I found the following routes belonging to AS <?php print $as; ?>:</th>';
+	print '	<th colspan="5">'._('I found the following routes belonging to AS').' '.$as.':</th>';
 	print '</tr> ';
 
 	$m = 0;
 	foreach ($subnet as $route) {
+	
+		# only not empty
+		if(strlen($route)>2) {
 
 		print '<tr>'. "\n";
 
 		//delete
 		print '<td class="removeSubnet">'. "\n";
-		print '	<button class="btn btn-small btn-danger" rel="tooltip" title="Remove this subnet"><i class="icon-white icon-remove"></i></button>'. "\n";
+		print '	<button class="btn btn-small btn-danger" rel="tooltip" title="'._('Remove this subnet').'"><i class="icon-white icon-remove"></i></button>'. "\n";
 		print '</td>'. "\n";
 
 		//subnet
 		print '<td>'. "\n";
-		print 'Subnet: <input type="text" name="subnet-'. $m .'" value="'. $route .'">'. "\n";
+		print _('Subnet').': <input type="text" name="subnet-'. $m .'" value="'. $route .'">'. "\n";
 		print '</td>'. "\n";
 
 		//section
 		print '<td>'. "\n";
-		print 'select section: <select name="section-'. $m .'">'. "\n";
+		print _('select section').': <select name="section-'. $m .'">'. "\n";
 	
 		foreach($sections as $section) {
 			print '<option value="'. $section['id'] .'">'. $section['name'] .'</option>';
@@ -84,15 +87,17 @@ else {
 	
 		//description
 		print '<td>'. "\n";
-		print 'Description: <input type="text" name="description-'. $m .'">'. "\n";
+		print _('Description').': <input type="text" name="description-'. $m .'">'. "\n";
 		print '</td>'. "\n";
 
 		//VLAN
 		print '<td>'. "\n";
-		print 'VLAN: <input type="text" class="vlan" name="vlan-'. $m .'">'. "\n";
+		print _('VLAN').': <input type="text" class="vlan" name="vlan-'. $m .'">'. "\n";
 		print '</td>'. "\n";
 		
 		print '</tr>'. "\n";
+		
+		}
 
 		$m++;	
 	}
@@ -100,7 +105,7 @@ else {
 	//submit
 	print '<tr style="border-top:1px solid white" class="th">'. "\n";
 	print '<td colspan="5" style="text-align:right">'. "\n";
-	print '	<input type="submit" class="btn btn-small" value="Import to database">'. "\n";
+	print '	<input type="submit" class="btn btn-small" value="'._('Import to database').'">'. "\n";
 	print '</td>'. "\n";
 	print '</tr>'. "\n";
 

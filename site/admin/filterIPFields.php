@@ -30,10 +30,10 @@ if(sizeof($custom) > 0) {
 ?>
 
 
-<h4>Filter which fields to display in IP list</h4>
+<h4><?php print _('Filter which fields to display in IP list'); ?></h4>
 <hr>
 
-<div class="alert alert-info">You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory.</div>
+<div class="alert alert-info"><?php print _('You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory'); ?>.</div>
 
 
 <form id="filterIP">
@@ -41,7 +41,7 @@ if(sizeof($custom) > 0) {
 
 <!-- headers -->
 <tr>
-	<th colspan="2">Check which fields to use for IP addresses:</th>
+	<th colspan="2"><?php print _('Check which fields to use for IP addresses'); ?>:</th>
 </tr>
 
 <!-- fields -->
@@ -67,7 +67,7 @@ foreach($fields as $field)
 <tr>
 	<td></td>
 	<td>
-		<button class="btn btn-small" id="filterIPSave"><i class="icon-gray icon-ok"></i> Set fields</button>
+		<button class="btn btn-small" id="filterIPSave"><i class="icon-gray icon-ok"></i> <?php print _('Save'); ?></button>
 	</td>
 </tr>
 

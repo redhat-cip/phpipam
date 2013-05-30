@@ -21,7 +21,7 @@ else 								{ $readonly = ""; }
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> device</div>
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('device'); ?></div>
 
 
 <!-- content -->
@@ -32,23 +32,23 @@ else 								{ $readonly = ""; }
 
 	<!-- hostname  -->
 	<tr>
-		<td>Hostname</td>
+		<td><?php print _('Hostname'); ?></td>
 		<td>
-			<input type="text" name="hostname" placeholder="Hostname" value="<?php if(isset($switch['hostname'])) print $switch['hostname']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="hostname" placeholder="<?php print _('Hostname'); ?>" value="<?php if(isset($switch['hostname'])) print $switch['hostname']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
 	<!-- IP address -->
 	<tr>
-		<td>IP address</td>
+		<td><?php print _('IP address'); ?></td>
 		<td>
-			<input type="text" name="ip_addr" placeholder="IP address" value="<?php if(isset($switch['ip_addr'])) print $switch['ip_addr']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="ip_addr" placeholder="<?php print _('IP address'); ?>" value="<?php if(isset($switch['ip_addr'])) print $switch['ip_addr']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
 	<!-- Type -->
 	<tr>
-		<td>Device type</td>
+		<td><?php print _('Device type'); ?></td>
 		<td>
 			<select name="type">
 			<?php
@@ -64,33 +64,33 @@ else 								{ $readonly = ""; }
 
 	<!-- Vendor -->
 	<tr>
-		<td>Vendor</td>
+		<td><?php print _('Vendor'); ?></td>
 		<td>
-			<input type="text" name="vendor" placeholder="Vendor" value="<?php if(isset($switch['vendor'])) print $switch['vendor']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="vendor" placeholder="<?php print _('Vendor'); ?>" value="<?php if(isset($switch['vendor'])) print $switch['vendor']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
 	<!-- Model -->
 	<tr>
-		<td>Model</td>
+		<td><?php print _('Model'); ?></td>
 		<td>
-			<input type="text" name="model" placeholder="Model" value="<?php if(isset($switch['model'])) print $switch['model']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="model" placeholder="<?php print _('Model'); ?>" value="<?php if(isset($switch['model'])) print $switch['model']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
 	<!-- Version -->
 	<tr>
-		<td>SW version</td>
+		<td><?php print _('SW version'); ?></td>
 		<td>
-			<input type="text" name="version" placeholder="Software version" value="<?php if(isset($switch['version'])) print $switch['version']; ?>" <?php print $readonly; ?>>
+			<input type="text" name="version" placeholder="<?php print _('Software version'); ?>" value="<?php if(isset($switch['version'])) print $switch['version']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
 	<!-- Description -->
 	<tr>
-		<td>Description</td>
+		<td><?php print _('Description'); ?></td>
 		<td>
-			<textarea name="description" placeholder="Description" <?php print $readonly; ?>><?php if(isset($switch['description'])) print $switch['description']; ?></textarea>
+			<textarea name="description" placeholder="<?php print _('Description'); ?>" <?php print $readonly; ?>><?php if(isset($switch['description'])) print $switch['description']; ?></textarea>
 			<?php
 			if( ($_POST['action'] == "edit") || ($_POST['action'] == "delete") ) {
 				print '<input type="hidden" name="switchId" value="'. $_POST['switchId'] .'">'. "\n";
@@ -106,7 +106,7 @@ else 								{ $readonly = ""; }
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">Sections to display device in:</td>
+		<td colspan="2"><?php print _('Sections to display device in'); ?>:</td>
 	</tr>
 	<tr>
 		<td></td>
@@ -132,8 +132,8 @@ else 								{ $readonly = ""; }
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editSwitchsubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($_POST['action']); ?> Device</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editSwitchsubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords(_($_POST['action'])); ?></button>
 
 	<!-- result -->
 	<div class="switchManagementEditResult"></div>

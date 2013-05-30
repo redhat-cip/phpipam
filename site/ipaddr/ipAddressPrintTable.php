@@ -51,15 +51,13 @@ $setFields = explode(";", $setFieldsTemp);
 /**
  * Get all ip addresses in subnet and subnet details!
  */
-$title = "IP addresses in subnet ";	# prefix for multiple subnets
+$title = _("IP addresses in subnet ");	# prefix for multiple subnets
 if(sizeof($slaves) == 0) { $ipaddresses   = getIpAddressesBySubnetIdSort ($subnetId, $sort['field'], $sort['direction']);  }
-else					 { $ipaddresses   = getIpAddressesBySubnetIdSlavesSort ($subnetId, $sort['field'], $sort['direction']);	$title = "All IP addresses belonging to ALL nested subnets "; }
+else					 { $ipaddresses   = getIpAddressesBySubnetIdSlavesSort ($subnetId, $sort['field'], $sort['direction']);	$title = _("All IP addresses belonging to ALL nested subnets"); }
 $SubnetDetails = getSubnetDetailsById     ($subnetId);
 
 /* die if empty! */
-if(sizeof($SubnetDetails) == 0) {
-	die('<div class="alert alert-error">Subnet does not exist!</div>');
-}
+if(sizeof($SubnetDetails) == 0) { die('<div class="alert alert-error">'._('Subnet does not exist').'!</div>');}
 
 /* get all selected fields */
 $myFields = getCustomIPaddrFields();
@@ -105,15 +103,15 @@ $repeats   = ceil($sizeIP / $pageLimit); # times to repeat body
 ?>
 <br>
 <h4><?php print $title; ?>
-<?php if($sizeIP  > $pageLimit) { print "(<span class='stran'>Page 1/$repeats</span>)"; }  ?>
+<?php if($sizeIP  > $pageLimit) { print "(<span class='stran'>"._('Page')." 1/$repeats</span>)"; }  ?>
 <?php
 # next / previous
 $colspanStran['unused'] = $colspan['unused']+1;
 if($sizeIP  > $pageLimit) { ?>
 <div class='btn-toolbar pull-right'>
 	<div class="btn-group">
-		<a href="" class="btn btn-mini" id="prevItem" rel="tooltip" title="Previous page"><i class="icon-gray icon-chevron-left"></i></a>
-		<a href="" class="btn btn-mini" id="nextItem" rel="tooltip" title="Next page"><i class="icon-gray icon-chevron-right"></i></a>
+		<a href="" class="btn btn-mini" id="prevItem" rel="tooltip" title="<?php print _('Previous page'); ?>"><i class="icon-gray icon-chevron-left"></i></a>
+		<a href="" class="btn btn-mini" id="nextItem" rel="tooltip" title="<?php print _('Next page'); ?>">    <i class="icon-gray icon-chevron-right"></i></a>
 	</div>
 </div>
 <?php } ?>
@@ -125,7 +123,7 @@ if($sizeIP  > $pageLimit) {
 	print "<select name='jumptoPage' class='jumptoPage' style='width:auto;'>";
 	for($m=0; $m<$repeats; $m++) {
 		$p = $m+1;
-		print "<option value='page-$m'>Page $p</option>";
+		print "<option value='page-$m'>"._('Page')." $p</option>";
 	}
 	print "</select>";
 	print "</div>";
@@ -139,33 +137,33 @@ if($sizeIP  > $pageLimit) {
 <tbody>
 <tr class="th">
 
-<?php
+	<?php
 	# set sort icon!
 	if($sort['direction'] == 'asc') 	{ $icon = "<i class='icon-gray icon-chevron-down'></i> "; }
 	else								{ $icon = "<i class='icon-gray icon-chevron-up'></i> "; }
 
 	# IP address - mandatory
-										  print "<th class='s_ipaddr'><a href='' data-id='ip_addr|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip' title='Sort by IP address'>IP address "; 	if($sort['field'] == "ip_addr") 	print $icon;  print "</a></th>";
+										  print "<th class='s_ipaddr'><a href='' data-id='ip_addr|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip' title='"._('Sort by IP address')."'>"._('IP address')." "; if($sort['field'] == "ip_addr") 	print $icon;  print "</a></th>";
 	# hostname - mandatory
-										  print "<th><a href='' data-id='dns_name|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by hostname'					>Hostname "; 	if($sort['field'] == "dns_name") 	print $icon;  print "</a></th>";
+										  print "<th><a href='' data-id='dns_name|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='"._('Sort by hostname')."'				>"._('Hostname')." "; 	if($sort['field'] == "dns_name") 	print $icon;  print "</a></th>";
 	# MAC address	
 	if(in_array('mac', $setFields)) 	{ print "<th></th>"; }
 	# Description - mandatory
-										  print "<th><a href='' data-id='description|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by description'			>Description "; if($sort['field'] == "description") print $icon;  print "</a></th>";
+										  print "<th><a href='' data-id='description|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='"._('Sort by description')."'			>"._('Description')." "; if($sort['field'] == "description") print $icon;  print "</a></th>";
 	# note
 	if(in_array('note', $setFields)) 	{ print "<th></th>"; }	
 	# switch
-	if(in_array('switch', $setFields)) 	{ print "<th><a href='' data-id='switch|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by switch'						>Device "; 		if($sort['field'] == "switch") 		print $icon;  print "</a></th>"; }	
+	if(in_array('switch', $setFields)) 	{ print "<th><a href='' data-id='switch|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='"._('Sort by device')."'					>"._('Device')." "; 	if($sort['field'] == "switch") 		print $icon;  print "</a></th>"; }	
 	# port
-	if(in_array('port', $setFields)) 	{ print "<th><a href='' data-id='port|$sort[directionNext]'   class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by port'  						>Port "; 		if($sort['field'] == "port") 		print $icon;  print "</a></th>"; }
+	if(in_array('port', $setFields)) 	{ print "<th><a href='' data-id='port|$sort[directionNext]'   class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='"._('Sort by port')."'  					>"._('Port')." "; 		if($sort['field'] == "port") 		print $icon;  print "</a></th>"; }
 	# owner
-	if(in_array('owner', $setFields)) 	{ print "<th><a href='' data-id='owner|$sort[directionNext]'  class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='Sort by owner' 						>Owner "; 		if($sort['field'] == "owner") 		print $icon;  print "</a></th>"; }
+	if(in_array('owner', $setFields)) 	{ print "<th><a href='' data-id='owner|$sort[directionNext]'  class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip'  title='"._('Sort by owner')."' 					>"._('Owner')." "; 		if($sort['field'] == "owner") 		print $icon;  print "</a></th>"; }
 	
 	# custom fields
 	if(sizeof($myFields) > 0) {
-		foreach($myFields as $myField) 	{ print "<th><a href='' data-id='$myField[name]|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip' title='Sort by $myField[name]'	>$myField[name] ";  if($sort['field'] == $myField['name']) print $icon;  print "</a></th>"; }
+		foreach($myFields as $myField) 	{ print "<th><a href='' data-id='$myField[name]|$sort[directionNext]' class='sort' data-subnetId='$SubnetDetails[id]' rel='tooltip' title='"._('Sort by')." $myField[name]'	>$myField[name] ";  if($sort['field'] == $myField['name']) print $icon;  print "</a></th>"; }
 	}
-?>
+	?>
 
 	<!-- actions -->
 	<th class="actions" width="10px"></th>
@@ -238,9 +236,9 @@ else {
 		    ***********************************************/
 		    $stateClass = "";
 	        if(in_array('state', $setFields)) {
-		        if ($ipaddress[$n]['state'] == "0") 	 { $stateClass = "offline"; }
-		        else if ($ipaddress[$n]['state'] == "2") { $stateClass = "reserved"; }
-		        else if ($ipaddress[$n]['state'] == "3") { $stateClass = "DHCP"; }
+		        if ($ipaddress[$n]['state'] == "0") 	 { $stateClass = _("Offline"); }
+		        else if ($ipaddress[$n]['state'] == "2") { $stateClass = _("Reserved"); }
+		        else if ($ipaddress[$n]['state'] == "3") { $stateClass = _("DHCP"); }
 		    }
 
 		    # print IP address
@@ -261,7 +259,7 @@ else {
 
 			# Print mac address icon!
 			if(in_array('mac', $setFields)) {
-				if(!empty($ipaddress[$n]['mac'])) 					{ print "<td class='mac'><img class='info mac' src='css/images/lan.png' rel='tooltip' title='MAC: ".$ipaddress[$n]['mac']."'></td>"; }
+				if(!empty($ipaddress[$n]['mac'])) 					{ print "<td class='mac'><img class='info mac' src='css/images/lan.png' rel='tooltip' title='"._('MAC').": ".$ipaddress[$n]['mac']."'></td>"; }
 				else 												{ print "<td class='mac'></td>"; }
 			}
 		
@@ -271,7 +269,7 @@ else {
        		# print info button for hover
        		if(in_array('note', $setFields)) {
         		if(!empty($ipaddress[$n]['note'])) 					{ print "<td><i class='icon-gray icon-comment' rel='tooltip' data-html='true' title='".str_replace("\n", "<br>",$ipaddress[$n]['note'])."'></td>"; }
-        		else 											{ print "<td></td>"; }
+        		else 												{ print "<td></td>"; }
         	}
 	
         	# print switch
@@ -298,17 +296,17 @@ else {
 			print "	<div class='btn-group'>";
 			# write permitted
 			if( $permission == "2") {
-				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
-				print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='Search same hostnames in db'"; } print ">	<i class='icon-gray icon-search'></i></a>";
-				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='Send mail notification'>		<i class='icon-gray icon-envelope'></i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' id2='".Transform2long($ipaddress[$n]['ip_addr'])."' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";											
+				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='"._('Edit IP address details')."'>					<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0)   { print "rel='tooltip' title='"._('Search same hostnames in db')."'"; } print ">	<i class='icon-gray icon-search'></i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='"._('Send mail notification')."'>		<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' id2='".Transform2long($ipaddress[$n]['ip_addr'])."' rel='tooltip' title='"._('Delete IP address')."'>					<i class='icon-gray icon-remove'>  </i></a>";											
 			}
 			# write not permitted
 			else {
-				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='Edit IP address details (disabled)'>			<i class='icon-gray icon-pencil'>  </i></a>";
-				print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='Search same hostnames in db'"; } print ">	<i class='icon-gray icon-search'></i></a>";
-				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='Send mail notification'>		<i class='icon-gray icon-envelope'></i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='Delete IP address (disabled)'>				<i class='icon-gray icon-remove'>  </i></a>";				
+				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='"._('Edit IP address details (disabled)')."'>		<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0) { print "rel='tooltip' title='"._('Search same hostnames in db')."'"; } print ">	<i class='icon-gray icon-search'></i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='"._('Send mail notification')."'>		<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='"._('Delete IP address (disabled)')."'>				<i class='icon-gray icon-remove'>  </i></a>";				
 			}
 			print "	</div>";
 			print "	</div>";
@@ -345,8 +343,8 @@ if($sizeIP  > $pageLimit) { ?>
 <hr>
 <div class='btn-toolbar pull-right toolbar-ip'>
 	<div class="btn-group">
-		<a href="" class="btn btn-mini" id="prevItem" rel="tooltip" title="Previous page"><i class="icon-gray icon-chevron-left"></i></a>
-		<a href="" class="btn btn-mini" id="nextItem" rel="tooltip" title="Next page"><i class="icon-gray icon-chevron-right"></i></a>
+		<a href="" class="btn btn-mini" id="prevItem" rel="tooltip" title="<?php print _('Previous page'); ?>"><i class="icon-gray icon-chevron-left"></i></a>
+		<a href="" class="btn btn-mini" id="nextItem" rel="tooltip" title="<?php print _('Next page'); ?>"><i class="icon-gray icon-chevron-right"></i></a>
 	</div>
 </div>
 <?php } ?>

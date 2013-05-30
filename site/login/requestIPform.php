@@ -6,7 +6,7 @@
 
 <!-- title -->
 <tr>
-	<legend>IP request form</legend>
+	<legend><?php print _('IP request form'); ?></legend>
 </tr>
 
 <!-- die if none available! -->
@@ -31,7 +31,7 @@ foreach($subnets as $subnet) {
 if($n == 0) {
 	?>
 	<tr>
-		<td colspan="2"><div class="alert alert-warn" style="white-space:nowrap;">No subnets available for requests</div></td>
+		<td colspan="2"><div class="alert alert-warn" style="white-space:nowrap;"><?php print _('No subnets available for requests'); ?></div></td>
 	</tr>
 	</table>
 	</form>
@@ -40,7 +40,7 @@ if($n == 0) {
 	<!-- back to login page -->
 	<div class="iprequest" style="text-align:left">
 	<a href="#login" class="backToLogin">
-		<i class="icon-arrow-left icon-gray"></i> Back to login
+		<i class="icon-arrow-left icon-gray"></i> <?php print _('Back to login'); ?>
 	</a>		
 	</div>
 	<?php
@@ -50,7 +50,7 @@ if($n == 0) {
 
 <!-- select section -->
 <tr>
-	<th>Select subnet *</th>
+	<th><?php print _('Select subnet'); ?> *</th>
 	<td>
 		<select name="subnetId" id="subnetId">
 		
@@ -79,16 +79,16 @@ if($n == 0) {
 
 <!-- description -->
 <tr>
-	<th>Description</th>
+	<th><?php print _('Description'); ?></th>
 	<td>
-		<input type="text" name="description" size="30" placeholder="IP description"></td>
+		<input type="text" name="description" size="30" placeholder="<?php print _('IP description'); ?>"></td>
 </tr>
 
 <!-- DNS name -->
 <tr>
-	<th>Hostname</th>
+	<th><?php print _('Hostname'); ?></th>
 	<td>
-		<input type="text" name="dns_name" size="30" placeholder="device hostname"></td>
+		<input type="text" name="dns_name" size="30" placeholder="<?php print _('device hostname'); ?>"></td>
 </tr>
 
 <!-- owner -->
@@ -103,10 +103,10 @@ $setFields = explode(";", $setFieldsTemp);
 if(in_array('owner', $setFields)) {
 
 	print '<tr class="owner">'. "\n";
-	print '<th>Owner</th>'. "\n";
+	print '<th>'._('Owner').'</th>'. "\n";
 	print '<td>	'. "\n";
 	print '</script> '. "\n";		
-	print '<input type="text" name="owner" id="owner" size="30" placeholder="Responsible person"></td>'. "\n";
+	print '<input type="text" name="owner" id="owner" size="30" placeholder="'._('Responsible person').'"></td>'. "\n";
 	print '</tr>'. "\n";
 }
 
@@ -115,17 +115,17 @@ if(in_array('owner', $setFields)) {
 
 <!-- requester -->
 <tr>
-	<th>Requester *</th>
+	<th><?php print _('Requester'); ?> *</th>
 	<td>
-		<input type="text" name="requester" size="30" placeholder="You email address"></textarea>
+		<input type="text" name="requester" size="30" placeholder="<?php print _('Your email address'); ?>"></textarea>
 	</td>
 </tr>
 
 <!-- comment -->
 <tr>
-	<th>Additional comment</th>
+	<th><?php print _('Additional comment'); ?></th>
 	<td class="comment">
-		<textarea name="comment" rows="3" placeholder="If there is anything else you want to say write it in this box!"></textarea>
+		<textarea name="comment" rows="3" placeholder="<?php print _('If there is anything else you want to say about request write it in this box'); ?>!"></textarea>
 	</td>
 </tr>
 
@@ -133,7 +133,7 @@ if(in_array('owner', $setFields)) {
 <tr>
 	<td class="submit"></td>
 	<td class="submit">
-		<input type="submit" class="btn btn-small pull-right" value="Submit request">	</td>
+		<input type="submit" class="btn btn-small pull-right" value="<?php print _('Submit request'); ?>">	</td>
 	<td class="submit"></td>
 </tr>
 
@@ -147,7 +147,7 @@ if(in_array('owner', $setFields)) {
 <!-- back to login page -->
 <div class="iprequest" style="text-align:left">
 	<a href="login/">
-		<i class="icon-arrow-left icon-gray"></i> Back to login
+		<i class="icon-arrow-left icon-gray"></i> <?php print _('Back to login'); ?>
 	</a>		
 </div>
 

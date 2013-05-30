@@ -24,31 +24,31 @@ $userCount = getNumberOfUsers();
 
 	<!-- sections -->
 	<tr>
-		<td class="title">Number of Sections</td>
+		<td class="title"><?php print _('Number of Sections'); ?></td>
 		<td><?php print $sectionNum; ?></td>
 	</tr>
 
 	<!-- subnets -->
 	<tr>
-		<td class="title">Number of Subnets</td>
+		<td class="title"><?php print _('Number of Subnets'); ?></td>
 		<td><?php print $subnetNum; ?></td>
 	</tr>
 
 	<!-- IPv4 addresses -->
 	<tr>
-		<td class="title">Number of IPv4 addresses</td>
+		<td class="title"><?php print _('Number of IPv4 addresses'); ?></td>
 		<td><?php print $IPv4Count; ?></td>
 	</tr>
 
 	<!-- IPv6 addresses -->
 	<tr>
-		<td class="title">Number of IPv6 addresses</td>
+		<td class="title"><?php print _('Number of IPv6 addresses'); ?></td>
 		<td><?php print $IPv6Count; ?></td>
 	</tr>
 
 	<!-- All users - only for admin! -->
 	<tr>
-		<td class="title">Number of users</td>
+		<td class="title"><?php print _('Number of users'); ?></td>
 		<td><?php print $userCount; ?></td>
 	</tr>
 

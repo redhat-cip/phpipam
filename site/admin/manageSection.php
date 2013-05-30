@@ -12,11 +12,11 @@ checkAdmin();
 $sections = fetchSections ();
 ?>
 
-<h4>Section management</h4>
+<h4><?php print _('Section management'); ?></h4>
 <hr>
 
 <!-- Add new section -->
-<button class='btn btn-small editSection' data-action='add'   data-sectionid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new</button>
+<button class='btn btn-small editSection' data-action='add'   data-sectionid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> <?php print _('Add section'); ?></button>
 
 
 <!-- show sections -->
@@ -24,10 +24,10 @@ $sections = fetchSections ();
 <table id="manageSection" class="table table-striped table-condensed table-top">
 <!-- headers -->
 <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Strict mode</th>
-    <th>Group Permissions</th>
+    <th><?php print _('Name'); ?></th>
+    <th><?php print _('Description'); ?></th>
+    <th><?php print _('Strict mode'); ?></th>
+    <th><?php print _('Group Permissions'); ?></th>
     <th></th>
 </tr>
 
@@ -40,8 +40,8 @@ foreach ($sections as $section)
     print '	<td>'. $section['description'] .'</td>'. "\n";
 
     # strictMode
-    if($section['strictMode'] == 0)	{ $mode = "no"; }
-    else							{ $mode = "yes"; }
+    if($section['strictMode'] == 0)	{ $mode = _("no"); }
+    else							{ $mode = _("yes"); }
   
     print '	<td>'. $mode .'</td>'. "\n";
 
@@ -61,7 +61,7 @@ foreach ($sections as $section)
 	    	}   
     	}
     	else {
-	    	print "All groups: No access";
+	    	print _("All groups: No access");
     	}
     }
 	print "</td>";
@@ -81,18 +81,18 @@ foreach ($sections as $section)
 
 <!-- show no configured -->
 <?php } else { ?>
-<div class="alert alert-warn alert-absolute">No sections configured!</div>
+<div class="alert alert-warn alert-absolute"><?php print _('No sections configured'); ?>!</div>
 <?php } ?>
 
 
 <!-- permissions info -->
 <div class="alert alert-info alert-absolute" style="margin-top:15px;">
-Permissions info<hr>
+<?php print _('Permissions info'); ?><hr>
 <ul>
-	<li>If group is not set in permissions then it will not have access to subnet</li>
-	<li>Groups with RO permissions will not be able to create new subnets</li>
-	<li>Subnet permissions must be set separately. By default if group has access to section<br>it will have same permission on subnets</li>
-	<li>You can choose to delegate section permissions to all underlying subnets</li>
-	<li>If group does not have access to section it will not be able to access subnet, even if<br>subnet permissions are set</li>
+	<li><?php print _('If group is not set in permissions then it will not have access to subnet'); ?></li>
+	<li><?php print _('Groups with RO permissions will not be able to create new subnets'); ?></li>
+	<li><?php print _('Subnet permissions must be set separately. By default if group has access to section<br>it will have same permission on subnets'); ?></li>
+	<li><?php print _('You can choose to delegate section permissions to all underlying subnets'); ?></li>
+	<li><?php print _('If group does not have access to section it will not be able to access subnet, even if<br>subnet permissions are set'); ?></li>
 </ul>
 </div>

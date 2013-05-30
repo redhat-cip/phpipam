@@ -15,6 +15,9 @@ $settings = getAllSettings();
 
 /* get custom fields */
 $custom = getCustomUserFields();
+
+/* get languages */
+$langs = getLanguages ();
 ?>
 
 
@@ -31,8 +34,8 @@ if (!$action) {
     //fetch all requested userdetails
     $user = getUserDetailsById($id);
     
-    if(!empty($user['real_name'])) 	{ print ucwords($action) .'  user '. $user['real_name']; }
-    else 							{ print 'Add new user'; }
+    if(!empty($user['real_name'])) 	{ print ucwords($action) .' '._('user').' '. $user['real_name']; }
+    else 							{ print _('Add new user'); }
 }
 else {
 	/* Set dummy data  */
@@ -41,7 +44,7 @@ else {
 	$user['email']     = '';
 	$user['password']  = '';
 	
-	print 'Add new user';
+	print _('Add new user');
 }
 ?>
 </div>
@@ -55,23 +58,23 @@ else {
 
 	<!-- real name -->
 	<tr>
-	    <td>Real name</td> 
+	    <td><?php print _('Real name'); ?></td> 
 	    <td><input type="text" name="real_name" value="<?php print $user['real_name']; ?>"></td>
-       	<td class="info">Enter users real name</td>
+       	<td class="info"><?php print _('Enter users real name'); ?></td>
     </tr>
 
     <!-- username -->
     <tr>
-    	<td>Username</td> 
+    	<td><?php print _('Username'); ?></td> 
     	<td><input type="text" name="username" value="<?php print $user['username']; ?>" <?php if($action == "edit" || $action == "delete") print 'readonly'; ?>></td>   
-    	<td class="info">Enter username</td>
+    	<td class="info"><?php print _('Enter username'); ?></td>
     </tr>
 
     <!-- email -->
     <tr>
-    	<td>e-mail</td> 
+    	<td><?php print _('e-mail'); ?></td> 
     	<td><input type="text" name="email" value="<?php print $user['email']; ?>"></td>
-    	<td class="info">Enter users email address</td>
+    	<td class="info"><?php print _('Enter users email address'); ?></td>
     </tr>
 
 <!-- type -->
@@ -84,21 +87,21 @@ if($settings['domainAuth'] == 0) {
 else {
 
 	print '<tr>'. "\n";
-    print '	<td>User Type</td> '. "\n";
+    print '	<td>'._('User Type').'</td> '. "\n";
     print '	<td>'. "\n";
     print '	<select name="domainUser" id="domainUser">'. "\n";
     print '	<option value="0" '. "\n";
     		if ($user['domainUser'] == "0") print "selected"; 
-    print '	>Local user</option>'. "\n";
+    print '	>'._('Local user').'</option>'. "\n";
     print '	<option value="1" '. "\n"; 
     		if ($user['domainUser'] == "1") print "selected"; 
-    print '	>Domain user</option> '. "\n";
+    print '	>'._('Domain user').'</option> '. "\n";
     print '	</select>'. "\n";
     print '	</td> '. "\n";
-    print '	<td class="info">Set user type'. "\n";
+    print '	<td class="info">'._('Set user type').''. "\n";
     print '	<ul>'. "\n";
-    print '		<li>Local authenticates here</li>'. "\n";
-    print '		<li>Domain authenticates on AD, but still needs to be setup here for permissions etc.</li>'. "\n";
+    print '		<li>'._('Local authenticates here').'</li>'. "\n";
+    print '		<li>'._('Domain authenticates on AD, but still needs to be setup here for permissions etc.').'</li>'. "\n";
     print '	</ul>'. "\n";
     print '	</td>  '. "\n";
 	print '</tr>'. "\n";
@@ -108,35 +111,50 @@ else {
 	else 							{ $disabled = ""; }
 ?>
 
+	<!-- Language -->
+	<tr>
+		<td><?php print _('Language'); ?></td>
+		<td>
+			<select name="lang">
+				<?php
+				foreach($langs as $lang) {
+					if($lang['l_id']==$user['lang'])	{ print "<option value='$lang[l_id]' selected>$lang[l_name]</option>"; }
+					else								{ print "<option value='$lang[l_id]'>$lang[l_name]</option>"; }
+				}
+				?>
+			</select>
+		</td>
+		<td class="info"><?php print _('Select language'); ?></td>
+	</tr>
 
     <!-- password -->
     <tr class="password">
-    	<td>Password</td> 
+    	<td><?php print _('Password'); ?></td> 
     	<td><input type="password" class="userPass" name="password1" <?php print $disabled; ?>></td>
-    	<td class="info">Users password (<a href="#" id="randomPass">click to generate random!</a>)</td>
+    	<td class="info"><?php print _("User's password"); ?> (<a href="#" id="randomPass"><?php print _('click to generate random'); ?>!</a>)</td>
     </tr>
 
     <!-- password repeat -->
     <tr class="password">
-    	<td>Password</td> 
+    	<td><?php print _('Password'); ?></td> 
     	<td><input type="password" class="userPass" name="password2" <?php print $disabled; ?>></td>   
-    	<td class="info">Re-type password</td>
+    	<td class="info"><?php print _('Re-type password'); ?></td>
     </tr>
 
     <!-- send notification mail -->
     <tr>
-    	<td>Notification</td> 
+    	<td><?php print _('Notification'); ?></td> 
     	<td><input type="checkbox" name="notifyUser" <?php if($action == "add") { print 'checked'; } else if($action == "delete") { print 'disabled="disabled"';} ?>></td>   
-    	<td class="info">Send notification email to user with account details</td>
+    	<td class="info"><?php print _('Send notification email to user with account details'); ?></td>
     </tr>
 
     <!-- role -->
     <tr>
-    	<td>User role</td> 
+    	<td><?php print _('User role'); ?></td> 
     	<td>
         <select name="role">
-            <option value="Administrator"   <?php if ($user['role'] == "Administrator") print "selected"; ?>>Administrator</option>
-            <option value="User" 			<?php if ($user['role'] == "User" || $_POST['action'] == "add") print "selected"; ?>>Normal User</option>
+            <option value="Administrator"   <?php if ($user['role'] == "Administrator") print "selected"; ?>><?php print _('Administrator'); ?></option>
+            <option value="User" 			<?php if ($user['role'] == "User" || $_POST['action'] == "add") print "selected"; ?>><?php print _('Normal User'); ?></option>
         </select>
         
         
@@ -144,17 +162,17 @@ else {
         <input type="hidden" name="action" value="<?php print $action; ?>">
         
         </td> 
-        <td class="info">Select user role
+        <td class="info"><?php print _('Select user role'); ?>
 	    	<ul>
-		    	<li>Administrator is almighty</li>
-		    	<li>Users have access defined based on groups</li>
+		    	<li><?php print _('Administrator is almighty'); ?></li>
+		    	<li><?php print _('Users have access defined based on groups'); ?></li>
 		    </ul>
 		</td>  
 	</tr>
 	
 	<!-- groups -->
 	<tr>
-		<td>Groups</td>
+		<td><?php print _('Groups'); ?></td>
 		<td class="groups">
 		<?php
 		$groups = getAllGroups();		# all groups
@@ -174,12 +192,12 @@ else {
 			}
 		}
 		else {
-			print "No groups configured";
+			print _("No groups configured");
 		}
 		
 		?>
 		</td>
-		<td class="info">Select to which groups the user belongs to</td>
+		<td class="info"><?php print _('Select to which groups the user belongs to'); ?></td>
 	</tr>
 
 	<!-- Custom -->
@@ -216,8 +234,8 @@ else {
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editUserSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($_POST['action']); ?> user</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editUserSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords(_($_POST['action'])); ?></button>
 
 	<!-- Result -->
 	<div class="usersEditResult"></div>

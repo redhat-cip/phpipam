@@ -21,7 +21,7 @@ $ipaddresses   = getIpAddressesBySubnetId ($subnetId); 	# for stats only
 $SubnetDetails = getSubnetDetailsById     ($subnetId);
 
 # die if empty!
-if(sizeof($SubnetDetails) == 0) { die('<div class="alert alert-error">Subnet does not exist!</div>'); }
+if(sizeof($SubnetDetails) == 0) { die('<div class="alert alert-error">'._('Subnet does not exist').'!</div>'); }
 
 # reset VLAN number!
 $SubnetDetails['VLAN'] = subnetGetVLANdetailsById($SubnetDetails['vlanId']);
@@ -46,7 +46,7 @@ $permission = checkSubnetPermission ($subnetId);
 $permissionsSection = checkSectionPermission ($SubnetDetails['sectionId']);
 
 # if 0 die
-if($permission == "0")	{ die("<div class='alert alert-error'>You do not have permission to access this network!</div>"); }
+if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not have permission to access this network')."!</div>"); }
 ?>
 
 <!-- content print! -->
@@ -55,12 +55,12 @@ if($permission == "0")	{ die("<div class='alert alert-error'>You do not have per
 <div id="subnetId" style="display:none"><?php print $subnetId; ?></div>
 
 <!-- subnet details upper table -->
-<h4>Subnet details</h4>
+<h4><?php print _('Subnet details'); ?></h4>
 <hr>
 
 <table class="ipaddress_subnet table-condensed table-full">
 	<tr>
-		<th>Subnet details</th>
+		<th><?php print _('Subnet details'); ?></th>
 		<td><?php print '<b>'. transform2long($SubnetDetails['subnet']) ."/$SubnetDetails[mask]</b> ($SubnetParsed[netmask])"; ?></td>
 		<td rowspan="<?php print $rowSpan; ?>" style="vertical-align:top;align:left">
 		<!-- container -->
@@ -68,21 +68,21 @@ if($permission == "0")	{ die("<div class='alert alert-error'>You do not have per
 		</td>
 	</tr>
 	<tr>
-		<th>Hierarchy</th>
+		<th><?php print _('Hierarchy'); ?></th>
 		<td>
 			<?php printBreadCrumbs($_REQUEST); ?>
 		</td>
 	</tr>
 	<tr>
-		<th>Subnet description</th>
+		<th><?php print _('Subnet description'); ?></th>
 		<td><?php print html_entity_decode($SubnetDetails['description']); ?></td>
 	</tr>
 	<tr>
-		<th>Permission</th>
+		<th><?php print _('Permission'); ?></th>
 		<td><?php print parsePermissions($permission); ?></td>
 	</tr>
 	<tr>
-		<th>VLAN</th>
+		<th><?php print _('VLAN'); ?></th>
 		<td>
 		<?php 
 		if(empty($SubnetDetails['VLAN']['number']) || $SubnetDetails['VLAN']['number'] == 0) { $SubnetDetails['VLAN']['number'] = "/"; }	# Display fix for emprt VLAN
@@ -103,7 +103,7 @@ if($permission == "0")	{ die("<div class='alert alert-error'>You do not have per
 		if(!empty($vrf['description'])) { $vrfText .= " [$vrf[description]]";}
 	
 		print "<tr>";
-		print "	<th>VRF</th>";
+		print "	<th>"._('VRF')."</th>";
 		print "	<td>$vrfText</td>";
 		print "</tr>";
 	}
@@ -123,7 +123,7 @@ if($permission == "0")	{ die("<div class='alert alert-error'>You do not have per
 	
 	/* action button groups */
 	print "<tr>";
-	print "	<th>Actions</th>";
+	print "	<th>"._('Actions')."</th>";
 	print "	<td>";
 
 	print "	<div class='btn-toolbar'>";
@@ -131,25 +131,25 @@ if($permission == "0")	{ die("<div class='alert alert-error'>You do not have per
 	
 	# admin and operator
 	if($permission == "1") {
-		print "<button class='btn btn-small btn-inverse disabled' 	href='' rel='tooltip' title='You do not have permissions to edit subnet'>	<i class='icon-lock icon-white'></i></button> ";	# lock info
-		print "<a class='disabled btn btn-small'  	href=''>				<i class='icon-pencil'></i></a>";					# edit subnet
+		print "<button class='btn btn-small btn-inverse disabled' 	href='' rel='tooltip' title='"._('You do not have permissions to edit subnet')."'>	<i class='icon-lock icon-white'></i></button> ";	# lock info
+		print "<a class='disabled btn btn-small'  					href=''>																			<i class='icon-pencil'></i></a>";					# edit subnet
 		if($permissionsSection == "2") {
-		print "<a class='edit_subnet btn btn-small '				href='' rel='tooltip' title='Add new nested subnet' 	data-subnetId='$SubnetDetails[id]' data-action='add' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";		# add new child subnet
+		print "<a class='edit_subnet btn btn-small '				href='' rel='tooltip' title='"._('Add new nested subnet')."' 	data-subnetId='$SubnetDetails[id]' data-action='add' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";		# add new child subnet
 		}
 		else {
-		print "<a class='btn btn-small disabled' href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
+		print "<a class='btn btn-small disabled' 					href=''> 																			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
 		}
 	}
 	else if ($permission == "2") {
-		print "<a class='edit_subnet btn btn-small' href='' rel='tooltip' title='Edit subnet properties' data-action='edit' data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]'>				<i class='icon-pencil'></i></a>";		# edit subnet
+		print "<a class='edit_subnet btn btn-small' 				href='' rel='tooltip' title='"._('Edit subnet properties')."'		data-action='edit' data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]'>				<i class='icon-pencil'></i></a>";		# edit subnet
 		if(checkAdmin (false, false)) {
-		print "<a class='showSubnetPerm btn btn-small' 			href='' rel='tooltip' title='Manage subnet permissions'	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='show'>			<i class='icon-tasks'></i></a>";			# edit subnet
+		print "<a class='showSubnetPerm btn btn-small' 				href='' rel='tooltip' title='"._('Manage subnet permissions')."'	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='show'>			<i class='icon-tasks'></i></a>";			# edit subnet
 		}
 		if($permissionsSection == "2") {
-		print "<a class='edit_subnet btn btn-small '				href='' rel='tooltip' title='Add new nested subnet' 	data-subnetId='$SubnetDetails[id]' data-action='add' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";		# add new child subnet
+		print "<a class='edit_subnet btn btn-small '				href='' rel='tooltip' title='"._('Add new nested subnet')."' 		data-subnetId='$SubnetDetails[id]' data-action='add' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";		# add new child subnet
 		}
 		else {
-		print "<a class='btn btn-small disabled' href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
+		print "<a class='btn btn-small disabled' 					href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
 		}	
 	}
 

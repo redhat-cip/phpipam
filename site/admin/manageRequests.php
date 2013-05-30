@@ -12,7 +12,7 @@ $allActiveRequests = getAllActiveIPrequests();
 
 ?>
 
-<h4>List of all active IP addresses requests</h4>
+<h4><?php print _('List of all active IP addresses requests'); ?></h4>
 <hr><br>
 
 
@@ -21,11 +21,11 @@ $allActiveRequests = getAllActiveIPrequests();
 <!-- headers -->
 <tr>
 	<th></th>
-	<th>Subnet</th>
-	<th>Hostname</th>
-	<th>Description</th>
-	<th>Requested by</th>
-	<th>Comment</th>
+	<th><?php print _('Subnet'); ?></th>
+	<th><?php print _('Hostname'); ?></th>
+	<th><?php print _('Description'); ?></th>
+	<th><?php print _('Requested by'); ?></th>
+	<th><?php print _('Comment'); ?></th>
 </tr>
 
 <?php 
@@ -36,7 +36,7 @@ $allActiveRequests = getAllActiveIPrequests();
 	$subnet = getSubnetDetailsById ($request['subnetId']);
 	
 	print '<tr>'. "\n";
-	print "	<td><button class='btn btn-small' data-requestid='$request[id]'><i class='icon-gray icon-edit'></i> Edit</button></td>";
+	print "	<td><button class='btn btn-small' data-requestid='$request[id]'><i class='icon-gray icon-edit'></i> "._('Edit')."</button></td>";
 	print '	<td>'. Transform2long($subnet['subnet']) .'/'. $subnet['mask'] .' ('. $subnet['description'] .')</td>'. "\n";
 	print '	<td>'. $request['dns_name'] .'</td>'. "\n";
 	print '	<td>'. $request['description'] .'</td>'. "\n";
@@ -50,9 +50,7 @@ $allActiveRequests = getAllActiveIPrequests();
 
 <?php
 # no requests
-if(sizeof($allActiveRequests) == 0) {
-	print "<div class='alert alert-info'>No IP address requests available!</div>";
-}
+if(sizeof($allActiveRequests) == 0) { print "<div class='alert alert-info'>"._('No IP address requests available')."!</div>"; }
 ?>
 
 <!-- edit request holder -->

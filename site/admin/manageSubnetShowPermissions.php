@@ -23,12 +23,12 @@ $subnet = getSubnetDetailsById($_POST['subnetId']);
 
 
 <!-- header -->
-<div class="pHeader">Manage subnet permissions</div>
+<div class="pHeader"><?php print _('Manage subnet permissions'); ?></div>
 
 <!-- content -->
 <div class="pContent">
 
-	Manage permissions for subnet <?php print transform2long($subnet['subnet'])."/".$subnet['mask']." ($subnet[description])"; ?>
+	<?php print _('Manage permissions for subnet'); ?> <?php print transform2long($subnet['subnet'])."/".$subnet['mask']." ($subnet[description])"; ?>
 	<hr>
 
 	<form id="editSubnetPermissions">
@@ -71,9 +71,7 @@ $subnet = getSubnetDetailsById($_POST['subnetId']);
     
     <?php
     # print warning if slaves exist
-    if(subnetContainsSlaves($_POST['subnetId'])) {
-	    print "<div class='alert alert-warning'>Permissions for all nested subnets will be overridden!</div>";
-    }
+    if(subnetContainsSlaves($_POST['subnetId'])) { print "<div class='alert alert-warning'>"._('Permissions for all nested subnets will be overridden')."!</div>"; }
     ?>
     
 </div>
@@ -81,8 +79,8 @@ $subnet = getSubnetDetailsById($_POST['subnetId']);
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small btn-success editSubnetPermissionsSubmit"><i class="icon-white icon-ok"></i> Set permissions</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small btn-success editSubnetPermissionsSubmit"><i class="icon-white icon-ok"></i> <?php print _('Set permissions'); ?></button>
 
 	<div class="editSubnetPermissionsResult"></div>
 </div>

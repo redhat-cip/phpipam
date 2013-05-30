@@ -13,7 +13,7 @@ $filetype = end(explode(".", $filetype));
 /* get $outFile based on provided filetype */
 if ($filetype == "csv") {
 	/* get file to string */
-	$outFile = file_get_contents('csvupload/import.csv') or die ('Cannot open csvupload/import.csv');
+	$outFile = file_get_contents('csvupload/import.csv') or die (_('Cannot open csvupload/import.csv'));
 
 	/* format file */
 	$outFile = str_replace( array("\r\n","\r") , "\n" , $outFile);	//replace windows and Mac line break
@@ -61,15 +61,15 @@ print '<table class="table table-striped table-condensed">';
 
 /* headers */
 print '<tr>';
-print '	<th>IP</th>';
-print '	<th>Status</th>';
-print '	<th>Description</th>';
-print '	<th>Hostname</th>';
-print '	<th>MAC</th>';
-print '	<th>Owner</th>';
-print '	<th>Switch</th>';
-print '	<th>Port</th>';
-print '	<th>Note</th>';
+print '	<th>'._('IP').'</th>';
+print '	<th>'._('Status').'</th>';
+print '	<th>'._('Description').'</th>';
+print '	<th>'._('Hostname').'</th>';
+print '	<th>'._('MAC').'</th>';
+print '	<th>'._('Owner').'</th>';
+print '	<th>'._('Switch').'</th>';
+print '	<th>'._('Port').'</th>';
+print '	<th>'._('Note').'</th>';
 /* Add custom fields */
 if(sizeof($myFields) > 0) {
 	foreach($myFields as $field) {
@@ -97,10 +97,10 @@ print '</table>';
 ?>
 
 <!-- confirmation -->
-<h4>3.) Import to database</h4>
+<h4>3.) <?php print _('Import to database'); ?></h4>
 <hr>
-<br>Should I import values to database?
+<br><?php print _('Should I import values to database'); ?>?
 
 <!-- YES / NO -->
-<input type="button" value="Yes" class="btn btn-small" id="csvImportYes">
-<input type="button" value="No"  class="btn btn-small" id="csvImportNo">
+<input type="button" value="<?php print _('Yes'); ?>" class="btn btn-small" id="csvImportYes">
+<input type="button" value="<?php print _('No'); ?>"  class="btn btn-small" id="csvImportNo">

@@ -40,19 +40,19 @@ $(function () {
     var data = [
     	<?php
      	if($details['freehosts_percent']>0) 
-    	print "{ label: 'Free',     data: $details[freehosts_percent], color: '#D8D8D8' }, ";		# free hosts
+    	print "{ label: '"._('Free')."',     data: $details[freehosts_percent], color: '#D8D8D8' }, ";		# free hosts
     	
     	if($details['online_percent']>0)
-    	print "{ label: 'Active',   data: $details[online_percent],    color: '#A9C9A4' }, ";		# active hosts
+    	print "{ label: '"._('Active')."',   data: $details[online_percent],    color: '#A9C9A4' }, ";		# active hosts
     	
     	if($details['offline_percent']>0) 
-    	print "{ label: 'Offline',  data: $details[offline_percent],   color: '#F59C99'  },";		# offline hosts	    	
+    	print "{ label: '"._('Offline')."',  data: $details[offline_percent],   color: '#F59C99'  },";		# offline hosts	    	
 
     	if($details['reserved_percent']>0) 
-    	print "{ label: 'Reserved', data: $details[reserved_percent],  color: '#9AC0CD' },";			# reserved hosts	     	
+    	print "{ label: '"._('Reserved')."', data: $details[reserved_percent],  color: '#9AC0CD' },";			# reserved hosts	     	
 
     	if($details['dhcp_percent']>0) 
-    	print "{ label: 'DHCP',     data: $details[dhcp_percent],      color: '#a9a9a9' },";		# dhcp hosts	 
+    	print "{ label: '"._('DHCP')."',     data: $details[dhcp_percent],      color: '#a9a9a9' },";		# dhcp hosts	 
     	
     	?>
     

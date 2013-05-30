@@ -40,7 +40,7 @@ foreach($ad['domain_controllers'] as $line) {
 
 	$fp = fsockopen($line, $ad['ad_port'], $errno, $errstr, 3); 
 	if (!$fp) 	{ print '<div class="alert alert-error">'. $line .': '. $errstr .' ('. $errno .')</div>';}
-	else 		{ print '<div class="alert alert-success">'. $line .': AD network connection ok!</div>';}
+	else 		{ print '<div class="alert alert-success">'. $line .': '._('AD network connection ok').'!</div>';}
 
 }
 

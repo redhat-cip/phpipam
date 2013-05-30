@@ -17,7 +17,7 @@ $requestId = $_POST['requestId'];
 $request = getIPrequestById ($requestId);
 
 if(sizeof($request) == 0) {
-	die("<div class='alert alert-error'>Request does not exist!</div>");
+	die("<div class='alert alert-error'>"._('Request does not exist')."!</div>");
 }
 
 /* get all selected fields for filtering */
@@ -32,7 +32,7 @@ $myFieldsSize = sizeof($myFields);
 
 
 <!-- header -->
-<div class="pHeader">Manage IP address request</div>
+<div class="pHeader"><?php print _('Manage IP address request'); ?></div>
 
 <!-- content -->
 <div class="pContent">
@@ -40,10 +40,10 @@ $myFieldsSize = sizeof($myFields);
 	<!-- IP address request form -->
 	<form class="manageRequestEdit" name="manageRequestEdit">
 	<!-- edit IP address table -->
-	<table id="manageRequestEdit" class="table table-noborder table-condensed">
+	<table id="manageRequestEdit" class="table table-striped table-condensed">
 	<!-- Section -->
 	<tr>
-		<th>Requested subnet</th>
+		<th><?php print _('Requested subnet'); ?></th>
 		<td>
 			<select name="subnetId" id="subnetId">
 			<?php
@@ -62,39 +62,38 @@ $myFieldsSize = sizeof($myFields);
 	</tr>
 	<!-- IP address -->
 	<tr>
-		<th>IP address</th>
+		<th><?php print _('IP address'); ?></th>
 		<td>
-			<input type="text" name="ip_addr" class="ip_addr" value="<?php print transform2long(getFirstAvailableIPAddress ($request['subnetId'])); ?>" size="30"><span class="help-inline">Auto-generated first available</span>
-			
+			<input type="text" name="ip_addr" class="ip_addr" value="<?php print transform2long(getFirstAvailableIPAddress ($request['subnetId'])); ?>" size="30">			
 			<input type="hidden" name="requestId" value="<?php print $request['id']; ?>">
 			<input type="hidden" name="requester" value="<?php print $request['requester']; ?>">
     	</td>
 	</tr>
 	<!-- description -->
 	<tr>
-		<th>Description</th>
+		<th><?php print _('Description'); ?></th>
 		<td>
-			<input type="text" name="description" value="<?php if(isset($request['description'])) { print $request['description'];} ?>" size="30" placeholder="Enter IP description">
+			<input type="text" name="description" value="<?php if(isset($request['description'])) { print $request['description'];} ?>" size="30" placeholder="<?php print _('Enter IP description'); ?>">
 		</td>
 	</tr>
 	<!-- DNS name -->
 	<tr>
-		<th>Hostname</th>
+		<th><?php print _('Hostname'); ?></th>
 		<td>
-			<input type="text" name="dns_name" value="<?php if(isset($request['dns_name'])) { print $request['dns_name'];} ?>" size="30" placeholder="Enter hostname">
+			<input type="text" name="dns_name" value="<?php if(isset($request['dns_name'])) { print $request['dns_name'];} ?>" size="30" placeholder="<?php print _('Enter hostname'); ?>">
 		</td>
 	</tr>
 
 	<?php if(in_array('state', $setFields)) { ?>
 	<!-- state -->
 	<tr>
-		<th>State</th>
+		<th><?php print _('State'); ?></th>
 		<td>
 			<select name="state">
-				<option value="1" <?php if(isset($request['state'])) { if ($request['state'] == "1") { print 'selected'; }} ?>>Active</option>
-				<option value="2" <?php if(isset($request['state'])) { if ($request['state'] == "2") { print 'selected'; }} ?>>Reserved</option>
-				<option value="0" <?php if(isset($request['state'])) { if ($request['state'] == "0") { print 'selected'; }} ?>>Offline</option>
-				<option value="3" <?php if(isset($request['state'])) { if ($request['state'] == "3") { print 'selected'; }} ?>>DHCP</option>
+				<option value="1" <?php if(isset($request['state'])) { if ($request['state'] == "1") { print 'selected'; }} ?>><?php print _('Active'); ?></option>
+				<option value="2" <?php if(isset($request['state'])) { if ($request['state'] == "2") { print 'selected'; }} ?>><?php print _('Reserved'); ?></option>
+				<option value="0" <?php if(isset($request['state'])) { if ($request['state'] == "0") { print 'selected'; }} ?>><?php print _('Offline'); ?></option>
+				<option value="3" <?php if(isset($request['state'])) { if ($request['state'] == "3") { print 'selected'; }} ?>><?php print _('DHCP'); ?></option>
 			</select>
 		</td>
 	</tr>
@@ -103,9 +102,9 @@ $myFieldsSize = sizeof($myFields);
 	<?php if(in_array('owner', $setFields)) { ?>
 	<!-- owner -->
 	<tr>
-		<th>Owner</th>
+		<th>Owner'); ?></th>
 		<td>
-			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30" placeholder="Enter IP owner">
+			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30" placeholder="Enter IP owner'); ?>">
 		</td>
 	</tr>
 	<?php } ?>
@@ -113,11 +112,11 @@ $myFieldsSize = sizeof($myFields);
 	<?php if(in_array('switch', $setFields)) { ?>
 	<!-- switch / port -->
 	<tr>
-		<th>Device / port</th>		
+		<th><?php print _('Device'); ?> / <?php print _('port'); ?></th>		
 		<td>
-			<select name="switch">'. "\n";
-				<option disabled>Select device:</option>
-				<option value="" selected>None</option>
+			<select name="switch">
+				<option disabled><?php print _('Select device'); ?>:</option>
+				<option value="" selected><?php print _('None'); ?></option>
 				<?php
 				$switches = getAllUniqueSwitches();
 		
@@ -129,7 +128,7 @@ $myFieldsSize = sizeof($myFields);
 			</select>
 			<?php if(in_array('port', $setFields)) { ?>
 			/
-			<input type="text" name="port" value="<?php if(isset($request['port'])) { print $request['port']; } ?>" size="9"  placeholder="Port" 
+			<input type="text" name="port" value="<?php if(isset($request['port'])) { print $request['port']; } ?>" size="9"  placeholder="<?php print _('Port'); ?>" 
 			<?php if ( isset($btnName)) { if ( $btnName == "Delete" ) { print " readonly "; }} ?> 
 			>
 			
@@ -143,9 +142,9 @@ $myFieldsSize = sizeof($myFields);
 	<?php if(in_array('note', $setFields)) { ?>
 	<!-- note -->
 	<tr>
-		<th>Note</th>
+		<th><?php print _('Note'); ?></th>
 		<td>
-			<input type="text" name="note" id="note" placeholder="Write note" size="30">
+			<input type="text" name="note" id="note" placeholder="<?php print _('Write note'); ?>" size="30">
 		</td>
 	</tr>	
 	<?php } ?>
@@ -176,19 +175,19 @@ $myFieldsSize = sizeof($myFields);
 	
 	<!-- requested by -->
 	<tr>
-		<th>Requester email</th>
+		<th><?php print _('Requester email'); ?></th>
 		<td><?php if(isset($request['requester'])) { print $request['requester']; } ?></td>
 	</tr>
 	<!-- comment -->
 	<tr>
-		<th>Requester comment</th>
+		<th><?php print _('Requester comment'); ?></th>
 		<td><i><?php if(isset($request['comment'])) { if(!empty($request['comment'])) { print '"'. $request['comment'] .'"'; print "<input type='hidden' name='comment' value='$request[comment]'>"; }} ?></i></td>
 	</tr>
 	<!-- Admin comment -->
 	<tr>
-		<th>Comment approval/reject:</th>
+		<th><?php print _('Comment approval/reject'); ?>:</th>
 		<td>
-			<textarea name="adminComment" rows="2" cols="30" placeholder="Enter reason for reject/approval to be sent to requester"></textarea>
+			<textarea name="adminComment" rows="2" cols="30" placeholder="<?php print _('Enter reason for reject/approval to be sent to requester'); ?>"></textarea>
 		</td>
 	</tr>
 
@@ -198,9 +197,9 @@ $myFieldsSize = sizeof($myFields);
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small manageRequest" data-action='reject'><i class="icon-gray icon-remove"></i> Reject</button>
-	<button class="btn btn-small manageRequest" data-action='accept'><i class="icon-gray icon-ok"></i> Accept</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small btn-danger manageRequest" data-action='reject'><i class="icon-white icon-remove"></i> <?php print _('Reject'); ?></button>
+	<button class="btn btn-small btn-success manageRequest" data-action='accept'><i class="icon-white icon-ok"></i> <?php print _('Accept'); ?></button>
 	
 	<!-- result -->
 	<div class="manageRequestResult"></div>

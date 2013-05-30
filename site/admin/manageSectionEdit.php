@@ -23,7 +23,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> Section</div>
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('Section'); ?></div>
 
 
 <!-- content -->
@@ -37,9 +37,9 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 	
 		<!-- section name -->
 		<tr>
-			<td>Name</td>
+			<td><?php print _('Name'); ?></td>
 			<td colspan="2">
-				<input type="text" class='input-xlarge' name="name" value="<?php print $section['name']; ?>" size="30" <?php if ($_POST['action'] == "delete" ) { print ' readonly '; } ?> placeholder="Section name">
+				<input type="text" class='input-xlarge' name="name" value="<?php print $section['name']; ?>" size="30" <?php if ($_POST['action'] == "delete" ) { print ' readonly '; } ?> placeholder="<?php print _('Section name'); ?>">
 				<!-- hidden -->
 				<input type="hidden" name="action" 	value="<?php print $_POST['action']; ?>">
 				<input type="hidden" name="id" 		value="<?php print $_POST['sectionId']; ?>">
@@ -48,21 +48,21 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 
 		<!-- description -->
 		<tr>
-			<td>Description</td>
+			<td><?php print _('Description'); ?></td>
 			<td colspan="2">
-				<input type="text" class='input-xlarge' name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($_POST['action'] == "delete") { print " readonly ";}?> placeholder="Section description">
+				<input type="text" class='input-xlarge' name="description" value="<?php print $section['description']; ?>" size="30" <?php if ($_POST['action'] == "delete") { print " readonly ";}?> placeholder="<?php print _('Section description'); ?>">
 			</td>
 		</tr>
 
 		<!-- Strict Mode -->
 		<tr>
-			<td>Strict Mode</td>
+			<td><?php print _('Strict Mode'); ?></td>
 			<td colspan="2">
 				<select name="strictMode" class="input-small" <?php if($_POST['action']=="delete") print 'disabled="disabled"'; ?>>
-					<option value="1">Yes</option>
-					<option value="0" <?php if($section['strictMode'] == "0") print "selected='selected'"; ?>>No</option>
+					<option value="1"><?php print _('Yes'); ?></option>
+					<option value="0" <?php if($section['strictMode'] == "0") print "selected='selected'"; ?>><?php print _('No'); ?></option>
 				</select>
-				<span class="help-inline">No disables overlapping subnet checks. Subnets can be nested/created randomly. Anarchy.</span>
+				<span class="help-inline"><?php print _('No disables overlapping subnet checks. Subnets can be nested/created randomly. Anarchy.'); ?></span>
 			</td>
 		</tr>
 
@@ -87,7 +87,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 			# structure
 			print "<tr>";
 			# title
-			if($m == 0) { print "<td>Permissions</td>"; }
+			if($m == 0) { print "<td>"._('Permissions')."</td>"; }
 			else		{ print "<td></td>"; }			
 			
 			# name
@@ -120,9 +120,9 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 			</td>
 		</tr>
 		<tr>
-			<td>Delegate</td>
+			<td><?php print _('Delegate'); ?></td>
 			<td colspan="2">
-				<input type="checkbox" name="delegate" value="1" style="margin-top:0px;"><span class="help help-inline">Check to delegate permissions to all subnets in section</span>
+				<input type="checkbox" name="delegate" value="1" style="margin-top:0px;"><span class="help help-inline"><?php print _('Check to delegate permissions to all subnets in section'); ?></span>
 			</td>
 		</tr>
 		<?php } ?>
@@ -133,7 +133,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 	<!-- delete warning -->
 	<?php
 	if ($_POST['action'] == "delete") {
-		print '<div class="alert alert-warn"><b>Warning!</b><br>Deleting Section will delete all belonging subnets and IP addresses!</div>' . "\n";
+		print '<div class="alert alert-warn"><b>'._('Warning').'!</b><br>'._('Deleting Section will delete all belonging subnets and IP addresses').'!</div>' . "\n";
 	}
 	?>
 </div>
@@ -141,8 +141,8 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger";} else { print "btn-success"; } ?>" id="editSectionSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($_POST['action']); ?> section</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger";} else { print "btn-success"; } ?>" id="editSectionSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords(_($_POST['action'])); ?></button>
 
 	<!-- result holder -->
 	<div class="sectionEditResult"></div>

@@ -16,7 +16,7 @@ else 							{ $_POST['oldname'] = $_POST['fieldName'];}
 ?>
 
 
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> custom IP field</div>
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('custom IP field'); ?></div>
 
 
 <div class="pContent">
@@ -26,9 +26,9 @@ else 							{ $_POST['oldname'] = $_POST['fieldName'];}
 
 	<!-- name -->
 	<tr>
-		<td>Name</td>
+		<td><?php print _('Name'); ?></td>
 		<td>	
-			<input type="text" name="name" value="<?php print $_POST['fieldName']; ?>" placeholder="Select field name" <?php if($_POST['action'] == "delete") { print 'readonly'; } ?>>
+			<input type="text" name="name" value="<?php print $_POST['fieldName']; ?>" placeholder="<?php print _('Select field name'); ?>" <?php if($_POST['action'] == "delete") { print 'readonly'; } ?>>
 			
 			<input type="hidden" name="oldname" value="<?php print $_POST['oldname']; ?>">
 			<input type="hidden" name="action" value="<?php print $_POST['action']; ?>">
@@ -42,8 +42,8 @@ else 							{ $_POST['oldname'] = $_POST['fieldName'];}
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Close</button>
-	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success";} ?>" id="editcustomSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($_POST['action']); ?> field</button>
+	<button class="btn btn-small hidePopups"><?php print _('Close'); ?></button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success";} ?>" id="editcustomSubmit"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords(_($_POST['action'])); ?></button>
 
 	<!-- result -->
 	<div class="customIPEditResult"></div>

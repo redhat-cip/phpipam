@@ -43,7 +43,7 @@ if(isset($_POST['delegate'])) {
 
 /* do action! */
 if (UpdateSection ($update)) {
-    print '<div class="alert alert-success">Section '. $update['action'] .' successful!</div>';
+    print '<div class="alert alert-success">'._("Section $update[action] successful").'!</div>';
 }
 
 ?>

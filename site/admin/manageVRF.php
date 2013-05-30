@@ -12,17 +12,17 @@ checkAdmin();
 $allVRFs = getAllVRFs ();
 ?>
 
-<h4>Manage VRF</h4>
+<h4><?php print _('Manage VRF'); ?></h4>
 <hr><br>
 
-<button class='btn btn-small vrfManagement' data-action='add'   data-vrfid=''  style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new VRF</button>
+<button class='btn btn-small vrfManagement' data-action='add'   data-vrfid=''  style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> <?php print _('Add VRF'); ?></button>
 
 <!-- vrfs -->
 <?php
 
 /* first check if they exist! */
 if(!$allVRFs) {
-	print '	<div class="alert alert-warn alert-absolute">No VRFs configured!</div>'. "\n";
+	print '	<div class="alert alert-warn alert-absolute">'._('No VRFs configured').'!</div>'. "\n";
 }
 /* Print them out */
 else {
@@ -31,9 +31,9 @@ else {
 
 	# headers
 	print '<tr>'. "\n";
-	print '	<th>Name</th>'. "\n";
-	print '	<th>RD</th>'. "\n";
-	print '	<th>Description</th>'. "\n";
+	print '	<th>'._('Name').'</th>'. "\n";
+	print '	<th>'._('RD').'</th>'. "\n";
+	print '	<th>'._('Description').'</th>'. "\n";
 	print '	<th></th>'. "\n";
 	print '</tr>'. "\n";
 

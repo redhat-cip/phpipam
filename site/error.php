@@ -59,7 +59,7 @@ $http_codes = array(
 ?>
 
 <div class="alert alert-error">
-	<strong>Oops! Something went wrong!</strong><hr>
+	<strong><?php print _('Oops! Something went wrong!'); ?></strong><hr>
 	<br>
-	Provided http error code is: <strong><?php print_r($_REQUEST['eid']); ?>: <?php print $http_codes[$_REQUEST['eid']]; ?></strong>
+	<?php print _('Provided http error code is'); ?>: <strong><?php print_r($_REQUEST['eid']); ?>: <?php print $http_codes[$_REQUEST['eid']]; ?></strong>
 </div>

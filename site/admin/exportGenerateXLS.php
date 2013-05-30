@@ -88,15 +88,15 @@ foreach ($sections as $section)
 		$ipaddresses = getIpAddressesBySubnetId ($subnet['id']);
 		
 		//write headers
-			$worksheet->write($lineCount, 0, 'ip address' ,$format_title);
-			$worksheet->write($lineCount, 1, 'ip state' ,$format_title);
-			$worksheet->write($lineCount, 2, 'description' ,$format_title);
-			$worksheet->write($lineCount, 3, 'hostname' ,$format_title);
-			$worksheet->write($lineCount, 4, 'mac' ,$format_title);
-			$worksheet->write($lineCount, 5, 'owner' ,$format_title);
-			$worksheet->write($lineCount, 6, 'switch' ,$format_title);
-			$worksheet->write($lineCount, 7, 'port' ,$format_title);
-			$worksheet->write($lineCount, 8, 'note' ,$format_title);
+			$worksheet->write($lineCount, 0, _('ip address' ),$format_title);
+			$worksheet->write($lineCount, 1, _('ip state' ),$format_title);
+			$worksheet->write($lineCount, 2, _('description' ),$format_title);
+			$worksheet->write($lineCount, 3, _('hostname' ),$format_title);
+			$worksheet->write($lineCount, 4, _('mac' ),$format_title);
+			$worksheet->write($lineCount, 5, _('owner' ),$format_title);
+			$worksheet->write($lineCount, 6, _('switch' ),$format_title);
+			$worksheet->write($lineCount, 7, _('port' ),$format_title);
+			$worksheet->write($lineCount, 8, _('note' ),$format_title);
 			$m = 9;
 			//custom
 			if(sizeof($myFields) > 0) {
@@ -114,9 +114,9 @@ foreach ($sections as $section)
 		
 				//we need to reformat state!
 				switch($ip['state']) {
-					case 0: $ip['state'] = "Offline";	break;
-					case 1: $ip['state'] = "Active";	break;
-					case 2: $ip['state'] = "Reserved";	break;
+					case 0: $ip['state'] = _("Offline");	break;
+					case 1: $ip['state'] = _("Active");		break;
+					case 2: $ip['state'] = _("Reserved");	break;
 				}
 		
 				$worksheet->write($lineCount, 0, transform2long($ip['ip_addr']), $format_left);
@@ -142,7 +142,7 @@ foreach ($sections as $section)
 		
 		}
 		else {
-			$worksheet->write($lineCount, 0, 'No hosts');
+			$worksheet->write($lineCount, 0, _('No hosts'));
 			$lineCount++;
 		}
 		

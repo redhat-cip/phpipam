@@ -178,10 +178,10 @@ CREATE TABLE `settings` (
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 
-INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `strictMode`, `printLimit`, `vlanDuplicate`, `subnetOrdering`, `visualLimit`, `htmlMail`)
+INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `showTooltips`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `printLimit`, `vlanDuplicate`, `subnetOrdering`, `visualLimit`, `htmlMail`)
 VALUES
-	(1,'phpipam IP address management','Sysadmin','admin@domain.local','domain.local','yourpublicurl.com',0,1,1,1,0,'0.8',0,'mac;owner;state;switch;note',1,25,0,'subnet,asc',0,X'31');
-
+	(1, 'phpipam IP address management', 'Sysadmin', 'admin@domain.local', 'domain.local', 'http://yourpublicurl.com', 0, 1, 1, 1, 0, '0.8', 0, 'mac;owner;state;switch;note', 50, 1, 'subnet,asc', 24, X'31');
+	
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,6 +320,7 @@ CREATE TABLE `users` (
   `real_name` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `domainUser` binary(1) DEFAULT '0',
+  `lang` INT(2)  NULL  DEFAULT '1',
   PRIMARY KEY (`username`),
   UNIQUE KEY `id_2` (`id`),
   KEY `id` (`id`)
@@ -334,6 +335,29 @@ VALUES
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table lang
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `lang`;
+
+/**
+ * Languages
+ */
+CREATE TABLE `lang` (
+  `l_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `l_code` varchar(12) NOT NULL DEFAULT '',
+  `l_name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`l_id`)
+) DEFAULT CHARSET=utf8;
+
+/* insert default languages */
+INSERT INTO `lang` (`l_id`, `l_code`, `l_name`)
+VALUES
+	(1, 'en', 'English'),
+	(2, 'sl_SI', 'Slovenščina');
+
 
 
 # Dump of table vlans

@@ -22,7 +22,7 @@ $missing = getUsersNotInGroup($_POST['g_id']);
 
 
 <!-- header -->
-<div class="pHeader">Add users to group <?php print $group['g_name'] ?></div>
+<div class="pHeader"><?php print _('Add users to group'); ?> <?php print $group['g_name'] ?></div>
 
 
 <!-- content -->
@@ -37,9 +37,9 @@ $missing = getUsersNotInGroup($_POST['g_id']);
 		<th>
 			<input type="hidden" name="gid" value="<?php print $_POST['g_id']; ?>">
 		</th>
-		<th>Name</th>
-		<th>Username</th>
-		<th>Email</th>
+		<th><?php print _('Name'); ?></th>
+		<th><?php print _('Username'); ?></th>
+		<th><?php print _('Email'); ?></th>
 	</tr>
 
 	<?php
@@ -64,7 +64,7 @@ $missing = getUsersNotInGroup($_POST['g_id']);
     </table>
     </form>
     
-    <?php } else { print "<div class='alert alert-info'>No available users to add to group</div>"; } ?>
+    <?php } else { print "<div class='alert alert-info'>"._('No available users to add to group')."</div>"; } ?>
 
 
 </div>

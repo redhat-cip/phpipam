@@ -11,14 +11,14 @@ require_once('../../functions/functions.php');
 if($_POST['action'] == "add") {
 	$sectionPerm = checkSectionPermission ($_POST['sectionId']);
 	if($sectionPerm != "2") {
-		die("<div class='alert alert-error'>You do not have permissions to add new subnet in this section!</div>");
+		die("<div class='alert alert-error'>"._('You do not have permissions to add new subnet in this section')."!</div>");
 	}
 }
 /* otherwise check subnet permission */
 else {
 	$subnetPerm = checkSubnetPermission ($_POST['subnetId']);
 	if($subnetPerm != "2") {
-		die("<div class='alert alert-error'>You do not have permissions to add edit/delete this subnet!</div>");
+		die("<div class='alert alert-error'>"._('You do not have permissions to add edit/delete this subnet')."!</div>");
 	}	
 }
 
@@ -84,7 +84,7 @@ else if ($_POST['action'] == "add") {
     /* verify that nested subnet is inside root subnet */
     if($section['strictMode'] == 1) {
 	    if ( !$overlap = verifySubnetNesting ($_POST['masterSubnetId'], $_POST['subnet']) ) {
-	    	$errors[] = 'Nested subnet not in root subnet!';
+	    	$errors[] = _('Nested subnet not in root subnet!');
 	    }
     }
     /* verify that no overlapping occurs if we are adding nested subnet */
@@ -101,12 +101,12 @@ else if ($_POST['action'] == "edit") {
     if($section['strictMode'] == 1) {
     	/* verify that nested subnet is inside root subnet */
     	if ( (!$overlap = verifySubnetNesting($_POST['masterSubnetId'], $_POST['subnet'])) && $_POST['masterSubnetId']!=0) {
-    		$errors[] = 'Nested subnet not in root subnet!';
+    		$errors[] = _('Nested subnet not in root subnet!');
     	}   
     }
     /* for nesting - MasterId cannot be the same as subnetId! */
     if ( $_POST['masterSubnetId'] == $_POST['subnetId'] ) {
-    	$errors[] = 'Subnet cannot nest behind itself!';
+    	$errors[] = _('Subnet cannot nest behind itself!');
     }    
 }
 else {}
@@ -154,7 +154,7 @@ if($_POST['action'] == "add") {
 /* If no errors are present execute request */
 if (sizeof($errors) != 0) 
 {
-    print '<div class="alert alert-error"><strong>Please fix following problems</strong>:';
+    print '<div class="alert alert-error"><strong>'._('Please fix following problems').'</strong>:';
     foreach ($errors as $error) { print "<br>".$error; }
     print '</div>';
     die();
@@ -162,11 +162,11 @@ if (sizeof($errors) != 0)
 else
 {
 	# failed
-    if (!modifySubnetDetails ($_POST)) 		{ print '<div class="alert alert-error">Error adding new subnet!</div>'; }
+    if (!modifySubnetDetails ($_POST)) 		{ print '<div class="alert alert-error">'._('Error adding new subnet').'!</div>'; }
     # all good
     else {
-    	if($_POST['action'] == "delete") 	{ print '<div class="alert alert-success">Subnet, IP addresses and all belonging subnets deleted successfully!</div>'; } 
-    	else 								{ print '<div class="alert alert-success">Subnet '. $_POST['action'] .' successfully!</div>';  }
+    	if($_POST['action'] == "delete") 	{ print '<div class="alert alert-success">'._('Subnet, IP addresses and all belonging subnets deleted successfully').'!</div>'; } 
+    	else 								{ print '<div class="alert alert-success">'._('Subnet').' '._($_POST['action']) .' '._('successfull').'!</div>';  }
     }
 }
 

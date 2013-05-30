@@ -22,20 +22,19 @@ $section = getSectionDetailsById($master['sectionId']);
 
 /* print title */
 $slaveNum = sizeof($slaves);
-print "<h4>$master[description] (".transform2long($master['subnet'])."/$master[mask]) has $slaveNum directly nested subnets:</h4><hr><br>";
+print "<h4>$master[description] (".transform2long($master['subnet'])."/$master[mask]) "._('has')." $slaveNum "._('directly nested subnets').":</h4><hr><br>";
 
 /* print HTML table */
 print '<table class="slaves table table-striped table-condensed table-hover table-full table-top">'. "\n";
 
 /* headers */
 print "<tr>";
-print "	<th class='small'>VLAN</th>";
-print "	<th class='small description'>Subnet description</th>";
-print "	<th>Subnet</th>";
-print "	<th class='small'>Used</th>";
-print "	<th class='small'>% free</th>";
-print "	<th class='small'>Requests</th>";
-print "	<th class='small'>Locked</th>";
+print "	<th class='small'>"._('VLAN')."</th>";
+print "	<th class='small description'>"._('Subnet description')."</th>";
+print "	<th>"._('Subnet')."</th>";
+print "	<th class='small'>"._('Used')."</th>";
+print "	<th class='small'>% "._('Free')."</th>";
+print "	<th class='small'>"._('Requests')."</th>";
 print "</tr>";
 
 /* print each slave */
@@ -57,7 +56,7 @@ foreach ($slaves as $slave) {
 			
 			print "<tr class='success'>";
 			print "	<td></td>";
-			print "	<td class='small description'>Free space</td>";
+			print "	<td class='small description'>"._('Free space')."</td>";
 			print "	<td colspan='5'>". transform2long($master['subnet']) ." - ". transform2long(gmp_strval(gmp_add($master['subnet'], gmp_sub($diff,1)))) ." ( ".$diff." )</td>";
 			print "</tr>";
 		}
@@ -91,10 +90,6 @@ foreach ($slaves as $slave) {
 	# allow requests
 	if($slave['allowRequests'] == 1) 			{ print '<td class="allowRequests small">enabled</td>'; }
 	else 										{ print '<td class="allowRequests small"></td>'; }
-	
-	# check if it is locked for writing
-	if(isSubnetWriteProtected($slave['id'])) 	{ print '<td class="lock small"><i class="icon-gray icon-lock" rel="tooltip" title="Subnet is locked for writing for non-admins!"></i></td>'; } 
-	else 										{ print '<td class="nolock small"></td>'; }
 
 	print '</tr>' . "\n";
 	
@@ -113,7 +108,7 @@ foreach ($slaves as $slave) {
 		if($diff > 0) {
 			print "<tr class='success'>";
 			print "	<td></td>";
-			print "	<td class='small description'>Free space</td>";
+			print "	<td class='small description'>"._('Free space')."</td>";
 			print "	<td colspan='5'>". transform2long(gmp_strval(gmp_add($slave['maxip'], $slave['subnet']))) ." - ". transform2long(gmp_strval(gmp_add(gmp_add($slave['maxip'], $slave['subnet']), gmp_sub($diff,1)))) ." ( ".$diff." )</td>";
 			print "</tr>";			
 		}		
@@ -141,7 +136,7 @@ foreach ($slaves as $slave) {
 		if($max_m > $max_s) {			
 			print "<tr class='success'>";
 			print "	<td></td>";
-			print "	<td class='small description'>Free space</td>";
+			print "	<td class='small description'>"._('Free space')."</td>";
 			print "	<td colspan='5'>". transform2long(gmp_strval(gmp_sub($max_m, $diff))) ." - ". transform2long(gmp_strval(gmp_sub($max_m, 1))) ." ( $diff )</td>";
 			print "</tr>";
 		}	

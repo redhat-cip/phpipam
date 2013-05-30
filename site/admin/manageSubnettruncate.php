@@ -9,7 +9,7 @@ require_once('../../functions/functions.php');
 
 /* verify that user has write permissions for subnet */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
-if($subnetPerm != "2") 	{ die('<div class="alert alert-error">You do not have permissions to resize subnet!</div>'); }
+if($subnetPerm != "2") 	{ die('<div class="alert alert-error">'._('You do not have permissions to resize subnet').'!</div>'); }
 
 
 /* verify post */
@@ -24,7 +24,7 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
 
 
 <!-- header -->
-<div class="pHeader">Truncate subnet</div>
+<div class="pHeader"><?php print _('Truncate subnet'); ?></div>
 
 
 <!-- content -->
@@ -34,13 +34,13 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
 
     <!-- subnet -->
     <tr>
-        <td class="middle">Subnet</td>
+        <td class="middle"><?php print _('Subnet'); ?></td>
         <td><?php print transform2long($subnet['subnet'])."/$subnet[mask] ($subnet[description])"; ?></td>
     </tr>
 
     <!-- Mask -->
     <tr>
-        <td class="middle">Number of IP addresses</td>
+        <td class="middle"><?php print _('Number of IP addresses'); ?></td>
         <td><?php print sizeof($ip_addr); ?></td>
     </tr>
         
@@ -48,7 +48,7 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
 
     <!-- warning -->
     <div class="alert alert-warn">
-    Truncating network will remove all IP addresses, that belong to selected subnet!
+    <?php print _('Truncating network will remove all IP addresses, that belong to selected subnet!'); ?>
     </div>
 
 </div>
@@ -56,8 +56,8 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopup2">Cancel</button>
-	<button class="btn btn-small btn-danger" id="subnetTruncateSubmit" data-subnetId='<?php print $_POST['subnetId']; ?>'><i class="icon-white icon-trash"></i> Truncate subnet</button>
+	<button class="btn btn-small hidePopup2"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small btn-danger" id="subnetTruncateSubmit" data-subnetId='<?php print $_POST['subnetId']; ?>'><i class="icon-white icon-trash"></i> <?php print _('Truncate subnet'); ?></button>
 
 	<div class="subnetTruncateResult"></div>
 </div>

@@ -20,7 +20,7 @@ $switches[] = array("id"=>"","hostname"=>"");
 $m = 0;
 
 # title
-print "<h4>List of network devices</h4>";
+print "<h4>"._('List of network devices')."</h4>";
 print "<hr>";
 
 # main table frame
@@ -36,7 +36,7 @@ foreach($switches as $switch) {
 	$switchDetails = getSwitchDetailsByHostname($switch['hostname']);
 	
 	if(empty($switchDetails['hostname'])) 		{ 
-		$switchDetails['hostname'] = 'Device not specified'; 
+		$switchDetails['hostname'] = _('Device not specified'); 
 		$switchDetails['ip_addr']  = "";
 	}
 	else 										{ 
@@ -53,7 +53,7 @@ foreach($switches as $switch) {
 	print "<tbody id='switch-$m'>";
 	print "<tr class='switch-title'>";
 	print "	<th colspan='7'>";
-	print "		<h4><button class='btn btn-small' id='switch-$m' rel='tooltip' title='click to show/hide belonging IP addresses'><i class='icon-gray icon-chevron-right'></i></button> $switchDetails[hostname] $switchDetails[ip_addr]</h4>";
+	print "		<h4><button class='btn btn-small' id='switch-$m' rel='tooltip' title='"._('click to show/hide belonging IP addresses')."'><i class='icon-gray icon-chevron-right'></i></button> $switchDetails[hostname] $switchDetails[ip_addr]</h4>";
 	print "	</th>";
 	print "</tr>";
 	print "</tbody>";
@@ -63,12 +63,12 @@ foreach($switches as $switch) {
 		
 	# headers
 	print "<tr>";
-	print "	<th>IP address</th>";
-	print "	<th>Port</th>";
-	print "	<th>Subnet</th>";
-	print "	<th colspan='2'>Description</th>";
-	print "	<th>Hostname</th>";
-	print "	<th>Owner</th>";
+	print "	<th>"._('IP address')."</th>";
+	print "	<th>"._('Port')."</th>";
+	print "	<th>"._('Subnet')."</th>";
+	print "	<th colspan='2'>"._('Description')."</th>";
+	print "	<th>"._('Hostname')."</th>";
+	print "	<th>"._('Owner')."</th>";
 	print "</tr>";
 	
 	# IP addresses

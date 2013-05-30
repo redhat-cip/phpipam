@@ -23,7 +23,7 @@ if( !empty($_POST['ipamusername']) && !empty($_POST['ipampassword']) )  {
 }
 //Username / pass not provided
 else {
-	die('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>Please enter your username and password!</div>');
+	die('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Please enter your username and password').'!</div>');
 }
 
 ?>

@@ -17,7 +17,7 @@ $instructions = str_replace("</script>", "</script></xmp></div>", $instructions)
 
 ?>
 
-<h4>Instructions for managing IP addresses</h4>
+<h4><?php print _('Instructions for managing IP addresses');?></h4>
 <hr>
 
 <div class="instructions well">

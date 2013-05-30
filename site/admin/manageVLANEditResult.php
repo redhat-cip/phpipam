@@ -20,7 +20,7 @@ $settings = getAllSettings ();
 if($settings['vlanDuplicate'] == "0") {
 if($vlan['action'] == "add") {
 	if(!getVLANbyNumber($vlan['number'])) 	{ }
-	else 									{ die('<div class="alert alert-error">VLAN already exists!</div>'); }	
+	else 									{ die('<div class="alert alert-error">'._('VLAN already exists').'!</div>'); }	
 }
 }
 
@@ -36,15 +36,15 @@ if(sizeof($myFields) > 0) {
 }
 
 /* sanitize post! */
-$vlan['name'] 		 = htmlentities($vlan['name'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
-$vlan['number'] 	 = htmlentities($vlan['number'], ENT_COMPAT | ENT_HTML401, "UTF-8");			# prevent XSS
+$vlan['name'] 		 = htmlentities($vlan['name'], ENT_COMPAT | ENT_HTML401, "UTF-8");			# prevent XSS
+$vlan['number'] 	 = htmlentities($vlan['number'], ENT_COMPAT | ENT_HTML401, "UTF-8");		# prevent XSS
 $vlan['description'] = htmlentities($vlan['description'], ENT_COMPAT | ENT_HTML401, "UTF-8");	# prevent XSS
 
 /* Hostname must be present! */
-if($vlan['number'] == "") 					{ die('<div class="alert alert-error">Number is mandatory!</div>'); }
+if($vlan['number'] == "") 					{ die('<div class="alert alert-error">'._('Number is mandatory').'!</div>'); }
 
 /* update details */
-if(!updateVLANDetails($vlan)) 				{ print('<div class="alert alert-error">Failed to '. $vlan['action'] .' VLAN!</div>'); }
-else 										{ print('<div class="alert alert-success">VLAN '. $vlan['action'] .' successfull!</div>'); }
+if(!updateVLANDetails($vlan)) 				{ print('<div class="alert alert-error"  >'._('Failed to').' '. _($vlan['action']) .' '._('VLAN').'!</div>'); }
+else 										{ print('<div class="alert alert-success">'._('VLAN').' '.      _($vlan['action']) .' '._('successfull').'!</div>'); }
 
 ?>

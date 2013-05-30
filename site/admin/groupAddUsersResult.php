@@ -19,7 +19,7 @@ foreach($_POST as $k=>$p) {
 
 
 /* verify that description is present if action != delete */
-if(strlen($_POST['gid'] == 0))	{ die("<div class='alert alert-error'>Error - no group ID</div>"); }
+if(strlen($_POST['gid'] == 0))	{ die("<div class='alert alert-error'>"._('Error - no group ID')."</div>"); }
 
 /* add each user to group */
 if(sizeof($users)>0) {
@@ -32,13 +32,13 @@ if(sizeof($users)>0) {
 	}
 }
 else {
-	$errors[] = "Please select user(s) to add to selected group!";
+	$errors[] = _("Please select user(s) to add to selected group!");
 }
 
 /* print result */
 if(isset($errors)) {
 	print "<div class='alert alert-error'>";
-	print "Failed to add users:<hr>";
+	print _("Failed to add users").":<hr>";
 	print "<ul>";
 	foreach($errors as $e) {
 		print "<li>$e</li>";
@@ -47,7 +47,7 @@ if(isset($errors)) {
 	print "</div>";
 }
 else {
-	print "<div class='alert alert-success'>Users added to group</div>";
+	print "<div class='alert alert-success'>"._('Users added to group')."</div>";
 }
 
 ?>

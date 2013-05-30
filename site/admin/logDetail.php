@@ -20,15 +20,15 @@ $log = getLogById ($_POST['id']);
 
 
 if ($log['severity'] == 0) {
-	$log['severityText'] = "Informational";
+	$log['severityText'] = _("Informational");
 	$color = "success";
 }
 else if ($log['severity'] == 1) {
-	$log['severityText'] = "Notice";
+	$log['severityText'] = _("Notice");
 	$color = "warning";
 }
 else {
-	$log['severityText'] = "Warning";
+	$log['severityText'] = _("Warning");
 	$color = "error";
 }
 
@@ -41,7 +41,7 @@ $user = getUserDetailsByName($log['username']);
 
 
 <!-- header -->
-<div class="pHeader">Log details</div>
+<div class="pHeader"><?php print _('Log details'); ?></div>
 
 
 <!-- content -->
@@ -50,31 +50,31 @@ $user = getUserDetailsByName($log['username']);
 	<table class="table table-striped table-condensed">
 
 	<tr>
-		<th>Log ID</th>
+		<th><?php print _('Log ID'); ?></th>
 		<td><?php print $log['id']; ?></td>
 	</tr>	
 	<tr>
-		<th>Event</th>
+		<th><?php print _('Event'); ?></th>
 		<td><?php print $log['command']; ?></td>
 	</tr>
 	<tr class="<?php print $color; ?>">
-		<td><strong>Severity</strong></td>
+		<td><strong><?php print _('Severity'); ?></strong></td>
 		<td><?php print $log['severityText'] .' ('. $log['severity'] .")"; ?></td>
 	</tr>
 	<tr>
-		<th>Date</th>
+		<th><?php print _('Date'); ?></th>
 		<td><?php print $log['date']; ?></td>
 	</tr>
 	<tr>
-		<th>User details</th>
+		<th><?php print _('User details'); ?></th>
 		<td><?php print "$user[real_name] ($user[username])"; ?></td>
 	</tr>
 	<tr>
-		<th>IP address</th>
+		<th><?php print _('IP address'); ?></th>
 		<td><?php print $log['ipaddr']; ?></td>
 	</tr>
 	<tr>
-		<th>Details</th>
+		<th><?php print _('Details'); ?></th>
 		<td><?php print $log['details']; ?></td>
 	</tr>
 	
@@ -85,7 +85,7 @@ $user = getUserDetailsByName($log['username']);
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Close window</button>
+	<button class="btn btn-small hidePopups"><?php print _('Close window'); ?></button>
 
 	<!-- result holder -->
 	<div class="sectionEditResult"></div>

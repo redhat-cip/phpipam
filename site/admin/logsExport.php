@@ -55,12 +55,12 @@ $lineCount = 0;
 //Write titles
 	
 //write headers
-$worksheet->write($lineCount, 0, 'id' ,$format_title);
-$worksheet->write($lineCount, 1, 'Severity' ,$format_title);
-$worksheet->write($lineCount, 2, 'Date' ,$format_title);
-$worksheet->write($lineCount, 3, 'Username' ,$format_title);
-$worksheet->write($lineCount, 4, 'Command' ,$format_title);
-$worksheet->write($lineCount, 5, 'Details' ,$format_title);
+$worksheet->write($lineCount, 0, _('id'),$format_title);
+$worksheet->write($lineCount, 1, _('Severity'),$format_title);
+$worksheet->write($lineCount, 2, _('Date'),$format_title);
+$worksheet->write($lineCount, 3, _('Username'),$format_title);
+$worksheet->write($lineCount, 4, _('Command'),$format_title);
+$worksheet->write($lineCount, 5, _('Details'),$format_title);
 			
 $lineCount++;
 
@@ -69,9 +69,9 @@ foreach ($logs as $log)
 		
 	//we need to reformat severity!
 	switch($log['severity']) {
-		case 0: $log['severity'] = "Informational";	break;
-		case 1: $log['severity'] = "Warning";		break;
-		case 2: $log['severity'] = "Critical";		break;
+		case 0: $log['severity'] = _("Informational");	break;
+		case 1: $log['severity'] = _("Warning");		break;
+		case 2: $log['severity'] = _("Critical");		break;
 	}
 	
 	//remove breaks in details

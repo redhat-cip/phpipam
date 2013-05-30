@@ -70,3 +70,25 @@ ALTER TABLE `sections` ADD `strictMode` INT(1)  NOT NULL  DEFAULT '1';
 
 /* remove strictMode form settings */
 ALTER TABLE `settings` DROP `strictMode`;
+
+
+
+/**
+ * Languages
+ */
+CREATE TABLE `lang` (
+  `l_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `l_code` varchar(12) NOT NULL DEFAULT '',
+  `l_name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`l_id`)
+) DEFAULT CHARSET=utf8;
+
+/* insert default languages */
+INSERT INTO `lang` (`l_id`, `l_code`, `l_name`)
+VALUES
+	(1, 'en', 'English'),
+	(2, 'sl_SI', 'Slovene');
+
+
+/* add language to user table */
+ALTER TABLE `users` ADD `Slovenščina` INT(2)  NULL  DEFAULT '1';

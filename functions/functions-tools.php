@@ -28,7 +28,7 @@ function calculateReverseDNS6 ($ipv6, $pflen=128)
     }
     $res = implode('.', str_split(strrev(substr($res, 0, $len)))) . '.ip6.arpa';
     if ($pflen % 4 != 0) {
-        $res .= " (closest parent)";
+        $res .= " "._("(closest parent)");
     }
     return $res;
 }
@@ -217,7 +217,7 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="alert alert-error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'._('Error').': '. $error .'</div>');
 	}
 	
     return true;
@@ -238,7 +238,7 @@ function getLogByID ($logId)
     try { $logs = $database->getArray($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="alert alert-error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'._('Error').': '. $error .'</div>');
 	}
 	
     return $logs[0];
@@ -281,7 +281,7 @@ function getAllLogs($logCount, $direction = NULL, $lastId = NULL, $highestId = N
     try { $logs = $database->getArray($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="alert alert-error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'._('Error').': '. $error .'</div>');
 	}
 
     
@@ -308,7 +308,7 @@ function getAllLogsForExport()
     try { $logs = $database->getArray($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="alert alert-error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'._('Error').': '. $error .'</div>');
 	}
     /* return vlans */
     return $logs;
@@ -330,7 +330,7 @@ function clearLogs()
     try { $logs = $database->executeQuery($query); }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="alert alert-error">'. $error .'</div>');
+    	die('<div class="alert alert-error">'._('Error').': '. $error .'</div>');
 	}
 
     /* return result */
@@ -352,7 +352,7 @@ function countAllLogs ()
     try { $logs = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -395,7 +395,7 @@ function getHighestLogId()
     try { $logs = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -426,7 +426,7 @@ function searchAddresses ($query)
     try { $logs = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }  
     
@@ -450,7 +450,7 @@ function searchSubnets ($searchterm, $searchTermEdited = "")
     try { $search = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -475,7 +475,7 @@ function searchVLANs ($searchterm)
     try { $search = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -617,7 +617,7 @@ function isIPalreadyRequested($ip)
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -641,7 +641,7 @@ function countRequestedIPaddresses()
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -663,7 +663,7 @@ function getAllActiveIPrequests()
     try { $activeRequests = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -685,7 +685,7 @@ function getAllIPrequests($limit = 20)
     try { $activeRequests = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -708,7 +708,7 @@ function getIPrequestById ($id)
     try { $activeRequests = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -737,7 +737,7 @@ function addNewRequest ($request)
     try { $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
     	updateLogTable ('Failed to add new IP request', $log."\n".$error, 2);
         return false;
     } 
@@ -763,7 +763,7 @@ function rejectIPrequest($id, $comment)
     try { $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
     	updateLogTable ('Failed to reject IP address id '. $id, 'Failed to reject IP address id '. $id . " - error:".$error, 2);
         return false;
     } 	
@@ -814,7 +814,7 @@ function acceptIPrequest($request)
     try { $database->executeMultipleQuerries( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         updateLogTable ('Failed to accept IP request', $log . "\n".$error, 2);
         return false;
     } 
@@ -853,7 +853,7 @@ function getAllUniqueSwitches ()
     try { $devices = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -877,7 +877,7 @@ function getSwitchDetailsByHostname($hostname)
     try { $ip = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -902,7 +902,7 @@ function getSwitchDetailsById($id)
     try { $switch = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }  
     
@@ -938,7 +938,7 @@ function fetchInstructions ()
     try { $instructions = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     

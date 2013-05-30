@@ -11,11 +11,7 @@ require_once('../../functions/functions.php');
 checkAdmin();
 
 /* clear logs */
-if(!clearLogs()) {
-	print '<div class="alert alert-error alert-absolute">Error clearing logs!</div>';
-}
-else {
-	print '<div class="alert alert-success alert-absolute">Logs cleared successfully!</div>';
-}
+if(!clearLogs()) 	{ print '<div class="alert alert-error alert-absolute">'._('Error clearing logs').'!</div>'; }
+else 				{ print '<div class="alert alert-success alert-absolute">'._('Logs cleared successfully').'!</div>'; }
 
 ?>

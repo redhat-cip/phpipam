@@ -14,16 +14,16 @@ $vlans = getAllVlans ();
 $custom = getCustomVLANFields();
 ?>
 
-<h4>Manage VLANs</h4>
+<h4><?php print _('Manage VLANs'); ?></h4>
 <hr><br>
 
 <!-- add new -->
-<button class="btn btn-small editVLAN" data-action="add" data-vlanid="" style="margin-bottom:10px;"><i class="icon-gray icon-plus"></i> Add VLAN</button>
+<button class="btn btn-small editVLAN" data-action="add" data-vlanid="" style="margin-bottom:10px;"><i class="icon-gray icon-plus"></i> <?php print _('Add VLAN'); ?></button>
 
 <?php
 /* first check if they exist! */
 if(!$vlans) {
-	print '	<div class="alert alert-info alert-absolute">No VLANs configured!</div>'. "\n";
+	print '	<div class="alert alert-info alert-absolute">'._('No VLANs configured').'!</div>'. "\n";
 }
 else {
 ?>
@@ -31,9 +31,9 @@ else {
 <table id="vlanManagement" class="table table-striped table-top table-auto">
 	<!-- headers -->
 	<tr>
-		<th>Name</th>	
-		<th>Number</th>
-		<th>Description</th>
+		<th><?php print _('Name'); ?></th>	
+		<th><?php print _('Number'); ?></th>
+		<th><?php print _('Description'); ?></th>
 		<?php
 		if(sizeof($custom) > 0) {
 			foreach($custom as $field) {

@@ -186,5 +186,5 @@ $(function () {
 
 <!-- graph holder -->
 <div id="<?php print $type; ?>top10" class="top10"  style="height:200px;width:95%;margin-left:3%;">
-	<div class="alert alert-warn"><strong>Info:</strong> No <?php print $type; ?> host configured!</div>
+	<div class="alert alert-warn"><strong><?php print _('Info'); ?>:</strong> <?php print _("No $type host configured"); ?>!</div>
 </div>

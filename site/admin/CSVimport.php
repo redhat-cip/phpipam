@@ -11,14 +11,14 @@ require_once('../../functions/functions.php');
 $permission = checkSubnetPermission ($_POST['subnetId']);
 
 # die if write not permitted
-if($permission != "2") { die("<div class='alert alert-error'>You cannot write to this subnet!</div>"); }
+if($permission != "2") { die("<div class='alert alert-error'>"._('You cannot write to this subnet')."!</div>"); }
 
 /* verify post */
 CheckReferrer();
 ?>
 
 <!-- header -->
-<div class="pHeader">XLS / CSV subnet import</div>
+<div class="pHeader"><?php print _('XLS / CSV subnet import'); ?></div>
 
 
 <!-- content -->
@@ -39,20 +39,20 @@ CheckReferrer();
 	?>
 
 	<!-- notes -->
-	To successfully import data please use the following XLS/CSV structure:<br>( ip | State | Description | hostname | MAC | Owner | Switch | Port | Note <?php print $custFields; ?> )
+	<?php print _('To successfully import data please use the following XLS/CSV structure:<br>( ip | State | Description | hostname | MAC | Owner | Device | Port | Note '); ?> <?php print $custFields; ?> )
 	<br>
 	<img src="css/images/csvuploadexample.jpg" style="border:1px solid #999999">
 	<br><br>
 
 	<!-- Upload file form -->
-	<h4>1.) Upload file:</h4>
+	<h4>1.) <?php print _('Upload file'); ?>:</h4>
 	<hr>
 	<form name="csvimport" id="csvimport" enctype="multipart/form-data" action="site/admin/CSVimportVerify.php">
 		<!-- file -->
-		Select CSV file: <input type="file" name="file" id="csvfile">
+		<?php print _('Select CSV file'); ?>: <input type="file" name="file" id="csvfile">
 		<!-- submit -->
-		<input type="button" class="btn btn-small" value="Clear" id="csvclear"> 
-		<input type="submit" class="btn btn-small" value="Upload" id="csvsubmit">
+		<input type="button" class="btn btn-small" value="<?php print _('Clear'); ?>" id="csvclear"> 
+		<input type="submit" class="btn btn-small" value="<?php print _('Upload'); ?>" id="csvsubmit">
 	</form>
 
 	<!-- jQuery uploader -->
@@ -66,8 +66,8 @@ CheckReferrer();
 			imageLoader: '',
 			buttonUpload: '#csvsubmit',
 			buttonClear: '#csvclear',
-			successOutput: 'File Uploaded to csvupload',
-			errorOutput: 'Failed',
+			successOutput: _('File Uploaded to csvupload'),
+			errorOutput: _('Failed'),
 			inputName: 'userfile',
 			inputSize: 30,
 			allowedExtension: 'csv|xls',
@@ -78,11 +78,11 @@ CheckReferrer();
 	</script>
 
 	<!-- Import file -->
-	<h4>2.) Import file:</h4>
+	<h4>2.) <?php print _('Import file'); ?>:</h4>
 	<hr>
 
 	<!-- import button -->
-	<input type="button" class="btn btn-small" value="Show uploaded subnets" id="csvimportcheck">
+	<input type="button" class="btn btn-small" value="<?php print _('Show uploaded subnets'); ?>" id="csvimportcheck">
 
 	<!-- verification holder -->
 	<div class="csvimportverify"></div>
@@ -91,7 +91,7 @@ CheckReferrer();
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Close window</button>
+	<button class="btn btn-small hidePopups"><?php print _('Close window'); ?></button>
 	<!-- result -->
 	<div class="csvImportResult"></div>
 </div>

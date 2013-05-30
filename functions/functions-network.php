@@ -64,10 +64,10 @@ function reformatIPState ($state)
 	*/
 	switch ($state)
 	{
-		case "0": return "<i class='icon-red   icon-tag state' rel='tooltip' title='Not in use (Offline)'></i>"; break;
+		case "0": return "<i class='icon-red   icon-tag state' rel='tooltip' title='"._("Not in use (Offline)")."'></i>"; break;
 		case "1": return " "; 		break;
-		case "2": return "<i class='icon-blue  icon-tag state' rel='tooltip' title='Reserved'></i>"; break;
-		case "3": return "<i class='icon-gray icon-tag state' rel='tooltip' title='DHCP'></i>"; break;
+		case "2": return "<i class='icon-blue  icon-tag state' rel='tooltip' title='"._("Reserved")."'></i>"; break;
+		case "3": return "<i class='icon-gray icon-tag state' rel='tooltip'  title='"._("DHCP")."'></i>"; break;
 		default: return $state;
 	}	
 }
@@ -87,7 +87,7 @@ function verifySwitchByName ($hostname)
     try { $role = $database->getRow( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
 
@@ -113,7 +113,7 @@ function verifySwitchById ($id)
     try { $role = $database->getRow( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
 
@@ -139,7 +139,7 @@ function getSwitchById ($switchId)
     try { $switch = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
 
@@ -174,8 +174,8 @@ function validateVlan ($vlan)
 		not higher that 4094
 	*/
 	if(empty($vlan)) 			{ return 'ok'; }
-	else if(!is_numeric($vlan)) { return 'VLAN must be numeric value!'; }
-	else if ($vlan > 4094) 		{ return 'Vlan number can be max 4094'; }
+	else if(!is_numeric($vlan)) { return _('VLAN must be numeric value!'); }
+	else if ($vlan > 4094) 		{ return _('Vlan number can be max 4094'); }
 	else 						{ return 'ok'; }
 }
 
@@ -194,7 +194,7 @@ function getVLANbyNumber ($number)
     try { $vlan = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
    	
@@ -228,7 +228,7 @@ function getAllVRFs ()
     try { $vrfs = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
    	
@@ -252,7 +252,7 @@ function getVRFDetailsById ($vrfId)
     try { $vrf = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
    	
@@ -286,7 +286,7 @@ function fetchSections ()
     try { $sections = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -310,7 +310,7 @@ function getNumberOfSections ()
     try { $sections = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -334,7 +334,7 @@ function getSectionDetailsById ($id)
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -358,7 +358,7 @@ function getSectionDetailsByName ($name)
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -393,7 +393,7 @@ function fetchAllSubnets ()
     try { $sections = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }  
     $database->close();
@@ -417,7 +417,7 @@ function getNumberOfSubnets ()
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -451,7 +451,7 @@ function fetchSubnets ($sectionId, $orderType = "subnet", $orderBy = "asc" )
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -475,7 +475,7 @@ function fetchMasterSubnets ($sectionId)
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -499,7 +499,7 @@ function getAllSlaveSubnetsBySubnetId ($subnetId)
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -523,7 +523,7 @@ function getIpAddressesBySubnetId ($subnetId)
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -547,7 +547,7 @@ function getIpAddressesBySubnetIdSort ($subnetId, $fieldName, $direction)
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -583,7 +583,7 @@ function getIpAddressesBySubnetIdslavesSort ($subnetId, $fieldName = "subnetId",
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -607,7 +607,7 @@ function getIpAddressesForVisual ($subnetId)
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -638,7 +638,7 @@ function countIpAddressesBySubnetId ($subnetId)
     try { $count = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -667,7 +667,7 @@ function getSubnetDetails ($subnetId)
     try { $SubnetDetails = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -691,7 +691,7 @@ function getSubnetDetailsById ($id)
     try { $SubnetDetails = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -799,7 +799,7 @@ function verifySubnetOverlapping ($sectionId, $subnetNew, $vrfId = 0)
     try { $allSubnets = $database->getArray( $querySubnets ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }   
 
@@ -822,7 +822,7 @@ function verifySubnetOverlapping ($sectionId, $subnetNew, $vrfId = 0)
                 /* only check if vrfId's match */
                 if($existingSubnet['vrfId'] == $vrfId) {
 	                if ( verifyIPv4SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-	                    return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+	                    return _('Subnet overlapps with').' '. $existingSubnet['subnet']." ($existingSubnet[description])";
 	                }
 	            }
 	        }
@@ -839,7 +839,7 @@ function verifySubnetOverlapping ($sectionId, $subnetNew, $vrfId = 0)
             /* only check if vrfId's match */
             if($existingSubnet['vrfId'] == $vrfId) {            
         	    if ( verifyIPv6SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-            	    return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+            	    return _('Subnet overlapps with').' '. $existingSubnet['subnet']." ($existingSubnet[description])";
             	}
             }
         }
@@ -870,7 +870,7 @@ function verifyNestedSubnetOverlapping ($sectionId, $subnetNew, $vrfId, $masterS
     try { $allSubnets = $database->getArray( $querySubnets ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }      
 
@@ -901,7 +901,7 @@ function verifyNestedSubnetOverlapping ($sectionId, $subnetNew, $vrfId, $masterS
                 	}
                 	if($ignore == false)  {                      
                 		if ( verifyIPv4SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-                    		return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+                    		return _('Subnet overlapps with').' '. $existingSubnet['subnet']." ($existingSubnet[description])";
                     	}
                     }
                 }
@@ -927,7 +927,7 @@ function verifyNestedSubnetOverlapping ($sectionId, $subnetNew, $vrfId, $masterS
                 }
                 if($ignore == false)  {                           
         	    	if ( verifyIPv6SubnetOverlapping ($subnetNew, $existingSubnet['subnet']) ) {
-            	    	return 'Subnet overlapps with '. $existingSubnet['subnet']." ($existingSubnet[description])";
+            	    	return _('Subnet overlapps with').' '. $existingSubnet['subnet']." ($existingSubnet[description])";
             	    }
             	}
             }
@@ -953,7 +953,7 @@ function subnetContainsSlaves($subnetId)
     try { $slaveSubnets = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }    
 	
@@ -1196,8 +1196,8 @@ function printDropdownMenuBySection($sectionId, $subnetMasterId = "0")
 		# structure
 		$html[] = "<select name='masterSubnetId'>";
 		# root
-		$html[] = "<option disabled>Select Master subnet</option>";
-		$html[] = "<option value='0'>Root subnet</option>";
+		$html[] = "<option disabled>"._("Select Master subnet")."</option>";
+		$html[] = "<option value='0'>"._("Root subnet")."</option>";
 		
 		# return table content (tr and td's)
 		while ( $loop && ( ( $option = each( $children[$parent] ) ) || ( $parent > $rootId ) ) )
@@ -1249,7 +1249,7 @@ function subnetGetVLANdetailsById($vlanId)
     try { $vlan = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }   
   
@@ -1279,18 +1279,14 @@ function getAllVlans($tools = false)
 	}
 		
     /* check if it came from tools and use different query! */
-    if($tools) {
- 		$query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id'.$myFieldsInsert['id'].' AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;';
-    }
-    else {
-        $query = 'select * from `vlans` order by `number` asc;';
-    }
+    if($tools) 	{ $query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id'.$myFieldsInsert['id'].' AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;'; }
+    else 		{ $query = 'select * from `vlans` order by `number` asc;'; }
 
     /* execute */
     try { $vlan = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }  
   
@@ -1314,7 +1310,7 @@ function getSubnetsByVLANid ($id)
     try { $SubnetDetails = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }  
     $database->close();
@@ -1367,7 +1363,7 @@ function getAllSubnetsInVRF($vrfId)
     try { $vrf = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }  
    	
@@ -1418,7 +1414,7 @@ function getSubnetStatsDashboard($type, $limit = "10")
     try { $stats = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
    	
@@ -1461,7 +1457,7 @@ function fetchAllIPAddresses ($hostnameSort = false)
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
 
@@ -1488,7 +1484,7 @@ function getNuberOfIPv4Addresses ()
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -1513,7 +1509,7 @@ function getNuberOfIPv6Addresses ()
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -1537,7 +1533,7 @@ function fetchAllIPAddressesByName ($hostname)
     try { $ipaddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
 
@@ -1563,7 +1559,7 @@ function getSectionIdFromSectionName ($sectionName)
     try { $SubnetDetails = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }     
     $database->close();
@@ -1591,7 +1587,7 @@ function checkDuplicate ($ip, $subnetId)
     try { $unique = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     $database->close();
@@ -1608,15 +1604,20 @@ function checkDuplicate ($ip, $subnetId)
 function modifyIpAddress ($ip) 
 {
     global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+
+    /* escape special characters */
+    $ip['description'] 	= mysqli_real_escape_string($database, $ip['description']); 
+    $ip['note'] 		= mysqli_real_escape_string($database, $ip['note']); 
+
     /* set query, open db connection and fetch results */
     $query    = SetInsertQuery($ip);
-    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
 
     /* execute */
     try { $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
 
@@ -1725,6 +1726,7 @@ function moveIPAddress ($id, $subnetId)
 	# ok
 	if(!isset($error)) {
         updateLogTable ('IP address move ok', "id: $id\nsubnetId: $subnetId", 0);			# write success log
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return true;		
 	}
 	# problem
@@ -1749,7 +1751,7 @@ function getIpAddrDetailsById ($id)
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     
@@ -1784,27 +1786,17 @@ function VerifyIpAddress( $ip , $subnet , $noStrict = false )
         $Net_IPv4 = new Net_IPv4();
         
 		// is it valid?
-		if (!$Net_IPv4->validateIP($ip)) {
-			$error = "IP address not valid! ($ip)";
-		}
+		if (!$Net_IPv4->validateIP($ip)) 										{ $error = _("IP address not valid")."! ($ip)"; }
 		// it must be in provided subnet
-		else if (!$Net_IPv4->ipInNetwork($ip, $subnet)) {
-			$error = "IP address not in selected subnet! ($ip)";
-		}
+		else if (!$Net_IPv4->ipInNetwork($ip, $subnet)) 						{ $error = _("IP address not in selected subnet")."! ($ip)"; }
 		//ignore  /31 and /32 subnet broadcast and subnet checks!
-		else if ($mask[1] == "31" || $mask[1] == "32" || $noStrict == true) {
-			# skip
-		}
+		else if ($mask[1] == "31" || $mask[1] == "32" || $noStrict == true) 	{ }
 		// It cannot be subnet or broadcast
 		else {
             $net = $Net_IPv4->parseAddress($subnet);
-            
-            if ($net->network == $ip) {
-                $error = "Cannot add subnet as IP address!";
-            }
-            else if ($net->broadcast == $ip) {
-                $error = "Cannot add broadcast as IP address!";
-            }
+          
+            if ($net->network == $ip) 											{ $error = _("Cannot add subnet as IP address!"); }
+            else if ($net->broadcast == $ip) 									{ $error = _("Cannot add broadcast as IP address!"); }
 		}
 	}
 	
@@ -1818,21 +1810,13 @@ function VerifyIpAddress( $ip , $subnet , $noStrict = false )
         $subnet_short = $Net_IPv6->removeNetmaskSpec($subnet);
 		
 		// is it valid?
-		if (!$Net_IPv6->checkIPv6($ip)) {
-			$error = "IP address not valid! ($ip)";
-		}
+		if (!$Net_IPv6->checkIPv6($ip)) 										{ $error = _("IP address not valid")."! ($ip)"; }
 		// it must be in provided subnet
-		else if (!$Net_IPv6->isInNetmask($ip, $subnet)) {
-			$error = "IP address not in selected subnet! ($ip)";
-		}
+		else if (!$Net_IPv6->isInNetmask($ip, $subnet)) 						{ $error = _("IP address not in selected subnet")."! ($ip)";}
 		//ignore  /127 and /128 subnet broadcast and subnet checks!
-		else if ($mask[1] == "127" || $mask[1] == "128" || $noStrict == true) {
-			# skip
-		}
+		else if ($mask[1] == "127" || $mask[1] == "128" || $noStrict == true) 	{ }
 		//it cannot be subnet
-		else if ($ip == $subnet_short) {
-		      $error = "Cannot add subnet as IP address!";  
-		}
+		else if ($ip == $subnet_short) 											{ $error = _("Cannot add subnet as IP address!");   }
 	}
 	
 	/* return results */
@@ -1856,7 +1840,7 @@ function verifyCidr( $cidr , $subnet = 1 )
     
     //if one part is missing die
     if (empty($network) || empty($netmask)) {
-        $errors[] = "Invalid CIDR format!";
+        $errors[] = _("Invalid CIDR format!");
     }
 
 	/* Identify address type */
@@ -1870,21 +1854,13 @@ function verifyCidr( $cidr , $subnet = 1 )
 
         if ($net = $Net_IPv4->parseAddress ($cidr)) {
             //validate IP
-            if (!$Net_IPv4->validateIP ($net->ip)) {
-                $errors[] = "Invalid IP address!";
-            }
+            if (!$Net_IPv4->validateIP ($net->ip)) 					{ $errors[] = _("Invalid IP address!"); }
             //network must be same as provided IP address
-            else if (($net->network != $net->ip) && ($subnet == 1)) {
-                $errors[] = "IP address cannot be subnet! (Consider using ". $net->network .")";
-            }
+            else if (($net->network != $net->ip) && ($subnet == 1)) { $errors[] = _("IP address cannot be subnet! (Consider using")." ". $net->network .")"; }
             //validate netmask
-            else if (!$Net_IPv4->validateNetmask ($net->netmask)) {
-                $errors[] = 'Invalid netmask ' . $net->netmask;
-            }            
+            else if (!$Net_IPv4->validateNetmask ($net->netmask)) 	{ $errors[] = _('Invalid netmask').' ' . $net->netmask; }    
         }
-        else {
-            $errors[] = 'Invalid CIDR format!';
-        }
+        else 														{ $errors[] = _('Invalid CIDR format!'); }
 	}	
 	/* IPv6 verification */
 	else 
@@ -1893,9 +1869,7 @@ function verifyCidr( $cidr , $subnet = 1 )
         $Net_IPv6 = new Net_IPv6();
 
         //validate IPv6
-        if (!$Net_IPv6->checkIPv6 ($cidr) ) {
-            $errors[] = "Invalid IPv6 address!";
-        }
+        if (!$Net_IPv6->checkIPv6 ($cidr) ) 						{ $errors[] = _("Invalid IPv6 address!"); }
         else {
             
             //validate subnet
@@ -1906,9 +1880,7 @@ function verifyCidr( $cidr , $subnet = 1 )
             $subnetMask  = $subnetParse[1];
             $subnetNet   = $subnetParse[0];
         
-            if ( ($subnetParse[0] != $subnet) && ($subnet == 1) ) {
-                $errors[] = "IP address cannot be subnet! (Consider using ". $subnet ."/". $subnetMask .")";
-            }
+            if ( ($subnetParse[0] != $subnet) && ($subnet == 1) ) 	{ $errors[] = _("IP address cannot be subnet! (Consider using")." ". $subnet ."/". $subnetMask .")"; }
 	   }
     }
     
@@ -2097,7 +2069,7 @@ function getFirstAvailableIPAddress ($subnetId)
     try { $ipAddresses = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
 
@@ -2206,7 +2178,7 @@ function isHostUnique($host)
     try { $res = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     } 
     
@@ -2276,7 +2248,7 @@ function getIPaddressesBySwitchName ( $name )
     try { $ip = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
         return false;
     }   
     

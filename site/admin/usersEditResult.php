@@ -40,8 +40,8 @@ else if ($userModDetails['action'] == "edit") {
     $errors = verifyUserModInput($userModDetails);
 }
 else if ($userModDetails['action'] == "delete") {
-    if (!deleteUserById($userModDetails['userId'], $userModDetails['username'])) { print '<div class="alert alert-error>Cannot delete user '. $userModDetails['username'] .'!</div>"'; }
-    else 																		 { print '<div class="alert alert-success">User deleted successfully!</div>'; }
+    if (!deleteUserById($userModDetails['userId'], $userModDetails['username'])) { print '<div class="alert alert-error>'._('Cannot delete user').' '. $userModDetails['username'] .'!</div>"'; }
+    else 																		 { print '<div class="alert alert-success">'._('User deleted successfully').'!</div>'; }
     //stop script execution
     die();
 }
@@ -94,7 +94,7 @@ else
     if(!updateUserById($userModDetails)) {
     }
     else {
-        print '<div class="alert alert-success">User '. $userModDetails['action'] .' successfull!</div>';
+        print '<div class="alert alert-success">'._("User $userModDetails[action] successfull").'!</div>';
         //send notification mail if checked
         if ($userModDetails['notifyUser']) {
         	include('usersEditEmailNotif.php');

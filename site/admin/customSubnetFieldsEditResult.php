@@ -19,15 +19,15 @@ else {
 	$_POST['name'] = trim($_POST['name']);
 	
 	# length > 4 and < 12
-	if( (strlen($_POST['name']) < 4) || (strlen($_POST['name']) > 24) ) 	{ $errors[] = 'Name must be between 4 and 24 characters!'; }
+	if( (strlen($_POST['name']) < 4) || (strlen($_POST['name']) > 24) ) 	{ $errors[] = _('Name must be between 4 and 24 characters'); }
 	
 	/* validate HTML */
 	
 	# must not start with number
-	if(is_numeric(substr($_POST['name'], 0, 1))) 							{ $errors[] = 'Name must not start with number'; }		
+	if(is_numeric(substr($_POST['name'], 0, 1))) 							{ $errors[] = _('Name must not start with number'); }		
 
 	# only alphanumeric and _ are allowed
-	if(!preg_match('!^[\w_ ]*$!', $_POST['name'])) 							{ $errors[] = 'Only alphanumeric, spaces and underscore characters are allowed'; }
+	if(!preg_match('!^[\w_ ]*$!', $_POST['name'])) 							{ $errors[] = _('Only alphanumeric, spaces and underscore characters are allowed'); }
 
 }
 
@@ -35,7 +35,7 @@ else {
 
 /* die if errors otherwise execute */
 if(sizeof($errors) != 0) {
-	print '<div class="alert alert-error">Please correct the following errors:'. "\n";
+	print '<div class="alert alert-error">'._('Please correct the following errors').':'. "\n";
 	print '<ul>'. "\n";
 	foreach($errors as $error) {
 		print '<li style="text-align:left">'. $error .'</li>'. "\n";
@@ -44,8 +44,8 @@ if(sizeof($errors) != 0) {
 	print '</div>'. "\n";
 }
 else {
-	if(!updateCustomSubnetField($_POST)) 	{ print '<div class="alert alert-error">Failed to '. $_POST['action'] .' field!</div>';}
-	else 									{ print '<div class="alert alert-success">Field '. $_POST['action'] .' success!</div>';}
+	if(!updateCustomSubnetField($_POST)) 	{ print '<div class="alert alert-error"  >'._('Failed to').' '. _($_POST['action']) .' '._('field').'!</div>';}
+	else 									{ print '<div class="alert alert-success">'._('Field').' '.     _($_POST['action']) .' '._('success').'!</div>';}
 }
 
 ?>

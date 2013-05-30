@@ -12,14 +12,14 @@ $switches = getAllUniqueSwitches();
 
 ?>
 
-<h4>Device management</h4>
+<h4><?php print _('Device management'); ?></h4>
 <hr>
-<button class='btn btn-small editSwitch' data-action='add'   data-switchid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> Add new</button>
+<button class='btn btn-small editSwitch' data-action='add'   data-switchid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> <?php print _('Add device'); ?></button>
 
 <?php
 /* first check if they exist! */
 if(sizeof($switches) == 0) {
-	print '	<div class="alert alert-warn alert-absolute">No switches configured!</div>'. "\n";
+	print '	<div class="alert alert-warn alert-absolute">'._('No devices configured').'!</div>'. "\n";
 }
 /* Print them out */
 else {
@@ -28,14 +28,14 @@ else {
 
 	#headers
 	print '<tr>';
-	print '	<th>Hostname</th>';
-	print '	<th>IP address</th>';
-	print '	<th>Type</th>';
-	print '	<th>Vendor</th>';
-	print '	<th>Model</th>';
-	print '	<th>SW version</th>';
-	print '	<th>Description</th>';
-	print '	<th><i class="icon-gray icon-info-sign" rel="tooltip" title="Shows in which sections device will be visible for selection"></i> Sections</th>';
+	print '	<th>'._('Hostname').'</th>';
+	print '	<th>'._('IP address').'</th>';
+	print '	<th>'._('Type').'</th>';
+	print '	<th>'._('Vendor').'</th>';
+	print '	<th>'._('Model').'</th>';
+	print '	<th>'._('SW version').'</th>';
+	print '	<th>'._('Description').'</th>';
+	print '	<th><i class="icon-gray icon-info-sign" rel="tooltip" title="'._('Shows in which sections device will be visible for selection').'"></i> '._('Sections').'</th>';
 	print '	<th></th>';
 	print '</tr>';
 

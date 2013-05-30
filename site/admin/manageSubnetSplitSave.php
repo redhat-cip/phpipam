@@ -9,7 +9,7 @@ require_once('../../functions/functions.php');
 
 /* verify that user has write permissions for subnet */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
-if($subnetPerm != "2") 	{ die('<div class="alert alert-error">You do not have permissions to resize subnet!</div>'); }
+if($subnetPerm != "2") 	{ die('<div class="alert alert-error">'._('You do not have permissions to resize subnet').'!</div>'); }
 
 
 /* verify post */
@@ -108,7 +108,7 @@ foreach($ipaddresses as $ip) {
 
 # die if errors
 if(isset($errors) || sizeof($errors) > 0) {
-	print "<div class='alert alert-error'>Wrong IP addresses (subnet or broadcast:)<ul>";
+	print "<div class='alert alert-error'>"._('Wrong IP addresses (subnet or broadcast)')."<ul>";
 	foreach($errors as $error) {
 		print "<li>$error</li>";
 	}
@@ -144,7 +144,7 @@ foreach($newsubnets as $subnet) {
 
 # if all good remove old subnet, else remove created subnets
 if(isset($errors) || sizeof($errors) > 0) {
-	print "<div class='alert alert-error'>Wrong IP addresses (subnet or broadcast:)<ul>";
+	print "<div class='alert alert-error'>"._('Wrong IP addresses (subnet or broadcast)')."<ul>";
 	foreach($errors as $error) {
 		print "<li>$error</li>";
 	}
@@ -154,12 +154,12 @@ if(isset($errors) || sizeof($errors) > 0) {
 else {
 	# if group is selected dont delete the master!
 	if($_POST['group'] == "yes") {
-		print "<div class='alert alert-success'>Subnet splitted ok!</div>";
+		print "<div class='alert alert-success'>"._('Subnet splitted ok')."!</div>";
 	}
 	else {
 		# no errors, remove old subnet!
-		if(!deleteSubnet ($subnetOld['id']))	{ print "<div class='alert alert-error'>Failed to remove old subnet!</div>"; }
-		else									{ print "<div class='alert alert-success'>Subnet splitted ok!</div>"; }
+		if(!deleteSubnet ($subnetOld['id']))	{ print "<div class='alert alert-error'>"._('Failed to remove old subnet')."!</div>"; }
+		else									{ print "<div class='alert alert-success'>"._('Subnet splitted ok')."!</div>"; }
 	}
 }
 

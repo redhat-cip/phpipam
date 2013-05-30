@@ -13,19 +13,19 @@ require_once('../../functions/functions.php');
 
 /* if nothing is provided display all! */
 if ( empty($_POST['Informational']) && empty($_POST['Notice']) && empty($_POST['Warning']) ) {
-    $_POST['Informational'] = "Informational";
-    $_POST['Notice']        = "Notice";
-    $_POST['Warning']       = "Warning";
+    $_POST['Informational'] = _("Informational");
+    $_POST['Notice']        = _("Notice");
+    $_POST['Warning']       = _("Warning");
 }
 ?>
 
 <!-- print headers -->
 <tr>
-    <th class="date" style="width:130px;white-space:nowrap">Date</th>
-    <th>Severity</th>
-    <th>Username</th>
-    <th>IP address</th>
-    <th colspan="2">Event</th>
+    <th class="date" style="width:130px;white-space:nowrap"><?php print _('Date'); ?></th>
+    <th><?php print _('Severity'); ?></th>
+    <th><?php print _('Username'); ?></th>
+    <th><?php print _('IP address'); ?></th>
+    <th colspan="2"><?php print _('Event'); ?></th>
 </tr>
 
 <!-- print logs -->
@@ -37,18 +37,18 @@ $numberOfLogs = countAllLogs();
 $logCount = 20;
 
 /* set classes based on severity */   
-if ($_POST['Informational'] == "Informational") {
+if ($_POST['Informational'] == _("Informational")) {
 	$_POST['InformationalQuery'] = "0";
 } else {
 	$_POST['InformationalQuery'] = "10";
 }
-if ($_POST['Notice'] == "Notice") {
+if ($_POST['Notice'] == _("Notice")) {
 	$_POST['NoticeQuery'] = "1";
 }
  else {
 	$_POST['NoticeQuery'] = "10";
 }
-if ($_POST['Warning'] == "Warning") {
+if ($_POST['Warning'] == _("Warning")) {
 	$_POST['WarningQuery'] = "2";
 }
  else {
@@ -58,14 +58,10 @@ if ($_POST['Warning'] == "Warning") {
 /* get highest lastId */
 $highestId = getHighestLogId();
 
-if(empty($_POST['lastId']) || ($_POST['lastId'] == "undefined")) {
-	$_POST['lastId'] = $highestId;
-}
+if(empty($_POST['lastId']) || ($_POST['lastId'] == "undefined")) 	{ $_POST['lastId'] = $highestId; }
 
 /* set empty durection */
-if(!isset($_POST['direction'])) {
-	$_POST['direction'] = "";
-}
+if(!isset($_POST['direction'])) 									{ $_POST['direction'] = ""; }
 
 /* get requested logs */
 $logs = getAllLogs($logCount, $_POST['direction'], $_POST['lastId'], $highestId, $_POST['InformationalQuery'], $_POST['NoticeQuery'], $_POST['WarningQuery']);
@@ -77,15 +73,15 @@ foreach ($logs as $log)
 
 	    /* set classes based on severity */   
 	    if ($log['severity'] == 0) {
-	        $log['severityText'] = "Informational";
+	        $log['severityText'] = _("Informational");
 	        $color = "success";
 	    }
 	    else if ($log['severity'] == 1) {
-	        $log['severityText'] = "Notice";
+	        $log['severityText'] = _("Notice");
 	        $color = "warning";
 	    }
 	    else {
-	        $log['severityText'] = "Warning";
+	        $log['severityText'] = _("Warning");
 	        $color = "error";
 	    }
     
@@ -105,7 +101,7 @@ foreach ($logs as $log)
             print '	<td class="command"><a href="" class="openLogDetail" data-logid="'.$log['id'].'">'. $log['command']  .'</a></td>'. "\n";
             print '	<td class="detailed">';
             /* details */
-            if(!empty($log['details'])) { print '	<i class="icon-comment icon-gray" rel="tooltip" data-html="true" title="<b>Event details</b>:<hr>'. $log['details'] .'"></i></td>'. "\n"; }
+            if(!empty($log['details'])) { print '	<i class="icon-comment icon-gray" rel="tooltip" data-html="true" title="<b>'._('Event details').'</b>:<hr>'. $log['details'] .'"></i></td>'. "\n"; }
             print '	</td>'. "\n";
         	print '</tr>'. "\n";
     	}    	
@@ -117,7 +113,5 @@ foreach ($logs as $log)
 </table>	<!-- end filter table -->
 
 <?php
-if(sizeof($logs)== 0) {
-	print "<div class='alert alert-info'>No logs available!</div>";
-}
+if(sizeof($logs)== 0) { print "<div class='alert alert-info'>"._('No logs available')."!</div>"; }
 ?>

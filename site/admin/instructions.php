@@ -20,7 +20,7 @@ if($rowcount < 18) { $rowcount = 18; }
 ?>
 
 <!-- title -->
-<h4>Edit user instructions</h4>
+<h4><?php print _('Edit user instructions'); ?></h4>
 <hr>
 
 
@@ -40,8 +40,8 @@ if($rowcount < 18) { $rowcount = 18; }
 	<!-- preview, submit -->
 	<br>
 	<div style="text-align:right;">
-		<input type="button" class="btn btn-small" id="preview" value="preview">
-		<input type="submit" class="btn btn-small" value="Save instructions">
+		<input type="button" class="btn btn-small" id="preview" value="<?php print _('preview'); ?>">
+		<input type="submit" class="btn btn-small" value="<?php print _('Save instructions'); ?>">
 	</div>
 </form>
 

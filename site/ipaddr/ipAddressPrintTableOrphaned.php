@@ -36,9 +36,7 @@ $ipaddresses   = getIpAddressesBySubnetIdSort ($subnetId, "ip_addr", "asc");
 $SubnetDetails = getSubnetDetailsById     ($subnetId);
 
 /* die if empty! */
-if(sizeof($SubnetDetails) == 0) {
-	die('<div class="alert alert-error">Subnet does not exist!</div>');
-}
+if(sizeof($SubnetDetails) == 0) { die('<div class="alert alert-error">'._('Subnet does not exist').'!</div>');}
 
 /* get all selected fields */
 $myFields = getCustomIPaddrFields();
@@ -68,7 +66,7 @@ foreach($myFields as $field) {
 if(sizeof($ipaddresses) > 0) {
 ?>
 <br><hr>
-<h4><div class="alert alert-warn">Orphaned IP addresses for subnet <strong><?php print $SubnetDetails['description'] ?></strong> (<?php print sizeof($ipaddresses); ?>) <i class="icon-gray icon-info-sign" rel="tooltip" data-html="true" title="This happens if subnet had IP addresses<br>when new nested subnet was added."></i></div></h4>
+<h4><div class="alert alert-warn"><?php print _('Orphaned IP addresses for subnet'); ?> <strong><?php print $SubnetDetails['description'] ?></strong> (<?php print sizeof($ipaddresses); ?>) <i class="icon-gray icon-info-sign" rel="tooltip" data-html="true" title="<?php print _('This happens if subnet had IP addresses<br>when new nested subnet was added'); ?>."></i></div></h4>
 
 <table class="ipaddresses table table-striped table-condensed table-hover table-full table-top">
 
@@ -78,21 +76,21 @@ if(sizeof($ipaddresses) > 0) {
 
 <?php
 	# IP address - mandatory
-										  print "<th class='s_ipaddr'>IP address";
+										  print "<th class='s_ipaddr'>"._('IP address')."</th>";
 	# hostname - mandatory
-										  print "<th>Hostname</th>";
+										  print "<th>"._('Hostname')."</th>";
 	# MAC address	
 	if(in_array('mac', $setFields)) 	{ print "<th></th>"; }
 	# Description - mandatory
-										  print "<th>Description</th>";
+										  print "<th>"._('Description')."</th>";
 	# note
 	if(in_array('note', $setFields)) 	{ print "<th></th>"; }	
 	# switch
-	if(in_array('switch', $setFields)) 	{ print "<th>Switch</th>"; }	
+	if(in_array('switch', $setFields)) 	{ print "<th>"._('Switch')."</th>"; }	
 	# port
-	if(in_array('port', $setFields)) 	{ print "<th>Port</th>"; }
+	if(in_array('port', $setFields)) 	{ print "<th>"._('Port')."</th>"; }
 	# owner
-	if(in_array('owner', $setFields)) 	{ print "<th>Owner</th>"; }
+	if(in_array('owner', $setFields)) 	{ print "<th>"._('Owner')."</th>"; }
 	
 	# custom fields
 	if(sizeof($myFields) > 0) {
@@ -135,7 +133,7 @@ foreach($ipaddresses as $ipaddress)
 
 			# Print mac address icon!
 			if(in_array('mac', $setFields)) {
-				if(!empty($ipaddress['mac'])) 					{ print "<td class='mac'><img class='info mac' src='/css/images/lan.png' rel='tooltip' title='MAC: ".$ipaddress['mac']."'></td>"; }
+				if(!empty($ipaddress['mac'])) 					{ print "<td class='mac'><img class='info mac' src='/css/images/lan.png' rel='tooltip' title='"._('MAC').": ".$ipaddress['mac']."'></td>"; }
 				else 												{ print "<td class='mac'></td>"; }
 			}
 		
@@ -170,8 +168,8 @@ foreach($ipaddresses as $ipaddress)
 			print "<td class='btn-actions'>";
 			print "	<div class='btn-toolbar'>";
 			print "	<div class='btn-group'>";
-			print "		<a class='move_ipaddress   btn btn-mini moveIPaddr' data-action='move'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='Move to different subnet'>				<i class='icon-gray icon-edit'>  </i></a>";
-			print "		<a class='delete_ipaddress btn btn-mini modIPaddr'  data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='Delete IP address'>				<i class='icon-gray icon-remove'>  </i></a>";
+			print "		<a class='move_ipaddress   btn btn-mini moveIPaddr' data-action='move'   data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='"._('Move to different subnet')."'>		<i class='icon-gray icon-edit'>  </i></a>";
+			print "		<a class='delete_ipaddress btn btn-mini modIPaddr'  data-action='delete' data-subnetId='$SubnetDetails[id]' data-id='".$ipaddress['id']."' href='#' rel='tooltip' title='"._('Delete IP address')."'>				<i class='icon-gray icon-remove'>  </i></a>";
 			print "	</div>";
 			print "	</div>";
 			print "</td>";		

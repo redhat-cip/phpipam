@@ -92,7 +92,7 @@ $fieldCount = sizeof($setFields) + $myFieldsSize + 3;
 require_once '../../functions/PEAR/Spreadsheet/Excel/Writer.php';
 
 // Create a workbook
-$filename = "phpipam_search_export_". $searchTerm .".xls";
+$filename = _("phpipam_search_export_"). $searchTerm .".xls";
 $workbook = new Spreadsheet_Excel_Writer();
 
 //formatting headers
@@ -124,38 +124,38 @@ $lineCount = 0;		//for line change
 $m = 0;				//for section change
 
 // Create a worksheet
-$worksheet =& $workbook->addWorksheet('IP Search results');
+$worksheet =& $workbook->addWorksheet(_('IP Search results'));
 
 //write headers
 $x = 0;
-	$worksheet->write($lineCount, $x, 'ip address' ,$format_title);		$x++;
+	$worksheet->write($lineCount, $x, _('ip address') ,$format_title);		$x++;
 
 # state
 if(in_array('state', $setFields)) {
-	$worksheet->write($lineCount, $x, 'state' ,$format_title);			$x++;
+	$worksheet->write($lineCount, $x, _('state') ,$format_title);			$x++;
 }
 # description, note
-	$worksheet->write($lineCount, $x, 'description' ,$format_title);	$x++;
-	$worksheet->write($lineCount, $x, 'hostname' ,$format_title);		$x++;
+	$worksheet->write($lineCount, $x, _('description') ,$format_title);	$x++;
+	$worksheet->write($lineCount, $x, _('hostname') ,$format_title);		$x++;
 # switch
 if(in_array('switch', $setFields)) {
-	$worksheet->write($lineCount, $x, 'switch' ,$format_title);			$x++;
+	$worksheet->write($lineCount, $x, _('switch') ,$format_title);			$x++;
 }
 # port
 if(in_array('port', $setFields)) {
-	$worksheet->write($lineCount, $x, 'port' ,$format_title);			$x++;
+	$worksheet->write($lineCount, $x, _('port') ,$format_title);			$x++;
 }
 # owner
 if(in_array('owner', $setFields)) {
-	$worksheet->write($lineCount, $x, 'owner' ,$format_title);			$x++;
+	$worksheet->write($lineCount, $x, _('owner') ,$format_title);			$x++;
 }
 # mac
 if(in_array('mac', $setFields)) {
-	$worksheet->write($lineCount, $x, 'mac' ,$format_title);			$x++;
+	$worksheet->write($lineCount, $x, _('mac') ,$format_title);				$x++;
 }
 # note
 if(in_array('note', $setFields)) {
-	$worksheet->write($lineCount, $x, 'note' ,$format_title);			$x++;
+	$worksheet->write($lineCount, $x, _('note') ,$format_title);			$x++;
 }
 //custom
 if(sizeof($myFields) > 0) {
@@ -216,7 +216,7 @@ foreach ($result as $ip) {
 	$worksheet->write($lineCount, $x, transform2long($ip['ip_addr']), $format_left);	$x++;
 	# state
 	if(in_array('state', $setFields)) {
-	$worksheet->write($lineCount, $x, $ip['state']);						$x++;
+	$worksheet->write($lineCount, $x, _($ip['state']) );					$x++;
 	}
 	$worksheet->write($lineCount, $x, $ip['description']);					$x++;
 	$worksheet->write($lineCount, $x, $ip['dns_name']);						$x++;
@@ -263,17 +263,16 @@ $allSubnets = searchSubnets ($searchTerm, $searchTermEdited);
 
 $lineCount = 0;
 
-$worksheet =& $workbook->addWorksheet('Subnet search results');
+$worksheet =& $workbook->addWorksheet(_('Subnet search results'));
 
 //write headers
-$worksheet->write($lineCount, 0, 'Section' ,$format_title);
-$worksheet->write($lineCount, 1, 'Subet' ,$format_title);
-$worksheet->write($lineCount, 2, 'Mask' ,$format_title);
-$worksheet->write($lineCount, 3, 'Description' ,$format_title);
-$worksheet->write($lineCount, 4, 'Master subnet' ,$format_title);
-$worksheet->write($lineCount, 5, 'VLAN' ,$format_title);
-$worksheet->write($lineCount, 6, 'allowRequests' ,$format_title);
-$worksheet->write($lineCount, 7, 'Admin lock' ,$format_title);
+$worksheet->write($lineCount, 0, _('Section') ,$format_title);
+$worksheet->write($lineCount, 1, _('Subet') ,$format_title);
+$worksheet->write($lineCount, 2, _('Mask') ,$format_title);
+$worksheet->write($lineCount, 3, _('Description') ,$format_title);
+$worksheet->write($lineCount, 4, _('Master subnet') ,$format_title);
+$worksheet->write($lineCount, 5, _('VLAN') ,$format_title);
+$worksheet->write($lineCount, 6, _('IP requests') ,$format_title);
 
 //new line
 $lineCount++;
@@ -304,7 +303,6 @@ foreach($allSubnets as $line) {
 	$worksheet->write($lineCount, 4, $line['masterSubnetId']);
 	$worksheet->write($lineCount, 5, $line['VLAN']);
 	$worksheet->write($lineCount, 6, $line['allowRequests']);
-	$worksheet->write($lineCount, 7, $line['adminLock'], $format_right);
 	
 	//new line
 	$lineCount++;
@@ -318,7 +316,6 @@ $worksheet->write($lineCount, 3, "", $format_top);
 $worksheet->write($lineCount, 4, "", $format_top);
 $worksheet->write($lineCount, 5, "", $format_top);
 $worksheet->write($lineCount, 6, "", $format_top);
-$worksheet->write($lineCount, 7, "", $format_top);
 
 
 // sending HTTP headers

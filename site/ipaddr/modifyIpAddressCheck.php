@@ -16,7 +16,7 @@ isUserAuthenticated ();
 
 /* verify that user has write access */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
-if($subnetPerm != "2") 	{ die('<div class="alert alert-error">Cannot edit IP address!</div>'); }
+if($subnetPerm != "2") 	{ die('<div class="alert alert-error">'._('Cannot edit IP address').'!</div>'); }
 
 /* get posted values */
 if ( !empty($_REQUEST['ip_addr']) ) 	{ $ip['ip_addr'] = $_REQUEST['ip_addr']; }
@@ -70,7 +70,7 @@ if(isset($_REQUEST['action-visual'])) {
 
 //detect proper hostname
 if(strlen($_POST['dns_name']>0) && !validateHostname($_REQUEST['dns_name'])) {
-	die('<div class="alert alert-error">Invalid hostname!</div>');
+	die('<div class="alert alert-error">'._('Invalid hostname').'!</div>');
 }
 
 
@@ -99,8 +99,8 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 	$verify2 = VerifyIpAddress( $ip['stop'] , $ip['subnet'], $nostrict );
 	
 	/* die if wrong IP or not in correct subnet */
-	if($verify1) { die('<div class="alert alert-error">Error: '. $verify1 .' ('. $ip['start'] .')</div>'); }
-	if($verify2) { die('<div class="alert alert-error">Error: '. $verify2 .' ('. $ip['stop']  .')</div>'); }
+	if($verify1) { die('<div class="alert alert-error">'._('Error').': '. $verify1 .' ('. $ip['start'] .')</div>'); }
+	if($verify2) { die('<div class="alert alert-error">'._('Error').': '. $verify2 .' ('. $ip['stop']  .')</div>'); }
 	
 	/* set update for update */
 	$ip['type'] = "series";
@@ -111,7 +111,7 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 
 	/* we can add only 200 IP's at once! */
 	$size = gmp_strval(gmp_sub($stop,$start));
-	if($size > 255) { die('<div class="alert alert-error">Only 255 IP addresses at once!</div>'); }
+	if($size > 255) { die('<div class="alert alert-error">'._('Only 255 IP addresses at once').'!</div>'); }
 	
 	/* set limits */
 	$m = gmp_strval($start);
@@ -131,7 +131,7 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 	
 		//if it fails set error log
 		if (!modifyIpAddress($ip)) {
-	        $errors[] = 'Cannot '. $ip['action']. ' IP address '. transform2long($m);
+	        $errors[] = _('Cannot').' '. $ip['action']. ' '._('IP address').' '. transform2long($m);
 	    }				
 		/* next IP */
 		$m = gmp_strval(gmp_add($m,1));
@@ -146,8 +146,8 @@ if (strlen(strstr($ip['ip_addr'],"-")) > 0) {
 		updateLogTable ('Error '. $ip['action'] .' range '. $ip['start'] .' - '. $ip['stop'], $log, 2);
 	}
 	else {
-		print '<div class="alert alert-success">Range '. $ip['start'] .' - '. $ip['stop'] .' updated successfully!</div>';
-		updateLogTable ('Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 'Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 0);
+		print '<div class="alert alert-success">'._('Range').' '. $ip['start'] .' - '. $ip['stop'] .' '._('updated successfully').'!</div>';
+		updateLogTable ('Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' successfull!', 'Range '. $ip['start'] .' - '. $ip['stop'] .' '. $ip['action'] .' '._('successfull').'!', 0);
 	}	
 }
 /* no range, single IP address */
@@ -158,7 +158,7 @@ else {
 		if($_POST['unique'] == "1" && strlen($_POST['dns_name'])>0) {
 			# check if unique
 			if(!isHostUnique($_POST['dns_name'])) {
-				die('<div class="alert alert-error">Hostname is not unique!</div>');
+				die('<div class="alert alert-error">'._('Hostname is not unique').'!</div>');
 			}
 		}
 	}
@@ -176,7 +176,7 @@ else {
 	}
 
 	/* if errors are present print them, else execute query! */
-	if($verify) 				{ die('<div class="alert alert-error">Error: '. $verify .' ('. $ip['ip_addr'] .')</div>'); }
+	if($verify) 				{ die('<div class="alert alert-error">'._('Error').': '. $verify .' ('. $ip['ip_addr'] .')</div>'); }
 	else {
 		/* set update for update */
 		$ip['type'] = "single";
@@ -184,7 +184,7 @@ else {
 		/* check for duplicate entry! needed only in case new IP address is added, otherwise the code is locked! */
 	    if ($ip['action'] == "add") {  
 	        if (checkDuplicate ($ip['ip_addr'], $ip['subnetId'])) {
-	            die ('<div class="alert alert-error">IP address '. $ip['ip_addr'] .' already existing in database!</div>');
+	            die ('<div class="alert alert-error">'._('IP address').' '. $ip['ip_addr'] .' '._('already existing in database').'!</div>');
 	        }
 	    }  
 
@@ -193,7 +193,7 @@ else {
 	    	# if IP is the same than it can already exist!
 	    	if($ip['ip_addr'] != $_REQUEST['ip_addr_old']) {
 	        	if (checkDuplicate ($ip['ip_addr'], $ip['subnetId'])) {
-	        	    die ('<div class="alert alert-error">IP address '. $ip['ip_addr'] .' already existing in database!</div>');
+	        	    die ('<div class="alert alert-error">'._('IP address').' '. $ip['ip_addr'] .' '._('already existing in database').'!</div>');
 	        	}	
 	    	}
 	    } 
@@ -201,13 +201,13 @@ else {
 	    if($ip['action'] == "move") {
 		    # check if not already used in new subnet
 	        if (checkDuplicate ($ip['ip_addr'], $ip['newSubnet'])) {
-	            die ('<div class="alert alert-error">Duplicate IP address '. $ip['ip_addr'] .' already existing in selected network!</div>');
+	            die ('<div class="alert alert-error">'._('Duplicate IP address').' '. $ip['ip_addr'] .' '._('already existing in selected network').'!</div>');
 	        }		   
 	    }
 
 	    /* execute insert / update / delete query */    
 	    if (!modifyIpAddress($ip)) {
-	        print '<div class="alert alert-error">Error inserting IP address!</div>';
+	        print '<div class="alert alert-error">'._('Error inserting IP address').'!</div>';
 	        updateLogTable ('Error '. $ip['action'] .' IP address '. $ip['ip_addr'], 'Error '. $ip['action'] .' IP address '. $ip['ip_addr'] .'<br>SubnetId: '. $ip['subnetId'], 2);
 	    }
 	    else {

@@ -14,7 +14,7 @@ $vlans = getAllVlans (true);
 $custom = getCustomVLANFields();
 
 # title
-print "<h4>Available VLANs:</h4>";
+print "<h4>"._('Available VLANs:')."</h4>";
 print "<hr><br>";
 
 # table
@@ -22,13 +22,13 @@ print "<table id='vlans' class='table table-striped table-condensed table-top'>"
 
 /* headers */
 print '<tr">' . "\n";
-print ' <th>Number</th>' . "\n";
-print ' <th>VLAN Name</th>' . "\n";
-print ' <th>VLAN Description</th>' . "\n";
-print ' <th>Belonging subnets</th>' . "\n";
-print ' <th>Section</th>' . "\n";
-print ' <th>Used</th>' . "\n";
-print ' <th>free [%]</th>' . "\n";
+print ' <th>'._('Number').'</th>' . "\n";
+print ' <th>'._('Name').'</th>' . "\n";
+print ' <th>'._('Description').'</th>' . "\n";
+print ' <th>'._('Belonging subnets').'</th>' . "\n";
+print ' <th>'._('Section').'</th>' . "\n";
+print ' <th>'._('Used').'</th>' . "\n";
+print ' <th>'._('free').' [%]</th>' . "\n";
 if(sizeof($custom) > 0) {
 	foreach($custom as $field) {
 		print "	<th>$field[name]</th>";

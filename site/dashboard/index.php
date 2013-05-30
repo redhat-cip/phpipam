@@ -24,14 +24,14 @@ $(function($) {
 
 
 <div class="welcome">
-<b><?php $user = getActiveUserDetails(); print_r($user['real_name']); ?></b>, welcome to your IPAM dashboard. <span class="jclock pull-right"></span>
+<b><?php $user = getActiveUserDetails(); print_r($user['real_name']); ?></b>, <?php print _('welcome to your IPAM dashboard'); ?>. <span class="jclock pull-right"></span>
 </div>
 
 <?php
 /* print number of requests if admin and if they exist */
 $requestNum = countRequestedIPaddresses();
 if( ($requestNum != 0) && (checkAdmin(false,false))) {
-	print '<div class="alert alert-info">There are <b><a href="/administration/manageRequests/" id="adminRequestNotif">'. $requestNum .' requests</a></b> for IP address waiting for your approval!</div>';
+	print '<div class="alert alert-info">'._('There are').' <b><a href="/administration/manageRequests/" id="adminRequestNotif">'. $requestNum .' '._('requests').'</a></b> '._('for IP address waiting for your approval').'!</div>';
 }
 ?>
 
@@ -40,7 +40,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- statistics -->
 	<div class="span6" id="homeStatistics">
 	<div class="inner">
-		<h4>Statistics</h4>
+		<h4><?php print _('Statistics'); ?></h4>
 		<div class="hContent">
 			<?php $type = "IPv4"; include('statistics.php'); ?>
 		</div>
@@ -50,7 +50,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- IPv4 percentage -->
 	<div class="span6" id="homePercentage">
 	<div class="inner">
-		<h4>Top 10 IPv4 subnets by usage percentage</h4>
+		<h4><?php print _('Top 10 IPv4 subnets by usage percentage'); ?></h4>
 		<div class="hContent">
 			<?php $type = "IPv4"; include('top10_percentage.php'); ?>
 		</div>
@@ -63,7 +63,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- IPv4 hosts -->
 	<div class="span6" id="homeIPv4Hosts">
 	<div class="inner">
-		<h4>Top 10 IPv4 subnets by number of hosts</h4>
+		<h4><?php print _('Top 10 IPv4 subnets by number of hosts'); ?></h4>
 		<div class="hContent">
 			<?php $type = "IPv4"; include('top10_hosts.php'); ?>
 		</div>
@@ -73,7 +73,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- IPv4 percentage -->
 	<div class="span6" id="homeIPv6Hosts">
 	<div class="inner">
-		<h4>Top 10 IPv6 subnets by number of hosts</h4>
+		<h4><?php print _('Top 10 IPv6 subnets by number of hosts'); ?></h4>
 		<div class="hContent">
 			<?php $type = "IPv6"; include('top10_hosts.php');?>
 		</div>
@@ -88,7 +88,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- IPv4 hosts -->
 	<div class="span6" id="homeAccessLogs">
 	<div class="inner">
-		<h4>Last 5 informational logs</h4>
+		<h4><?php print _('Last 5 informational logs'); ?></h4>
 		<div class="hContent">
 			<?php include('access_logs.php'); ?>
 		</div>
@@ -98,7 +98,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<!-- IPv4 percentage -->
 	<div class="span6" id="homeIPv6Hosts">
 	<div class="inner">
-		<h4>Last 5 warning / error logs</h4>
+		<h4><?php print _('Last 5 warning / error logs'); ?></h4>
 		<div class="hContent">
 			<?php include('error_logs.php');?>
 		</div>

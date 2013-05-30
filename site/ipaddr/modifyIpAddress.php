@@ -28,9 +28,9 @@ $subnetPerm = checkSubnetPermission ($subnetId);
 if($subnetPerm != "2") {
 	print '<div class="pHeader">Edit IP address</div>';
 	print '<div class="pContent">';
-	print '<div class="alert alert-error">Cannot edit IP address details! <br>This subnet is locked for writing!</div>';
+	print '<div class="alert alert-error">'._('Cannot edit IP address details').'! <br>'._('You do not have write access for this network').'!</div>';
 	print '</div>';
-	print '<div class="pFooter"><button class="btn btn-small hidePopups">Cancel</button></div>';
+	print '<div class="pFooter"><button class="btn btn-small hidePopups">'._('Cancel').'</button></div>';
 	die();
 }
 
@@ -76,11 +76,11 @@ else {
 
 
 /* Set title and button text */
-if ($action == "add") 			{ $btnName = "add"; }
-else if ($action == "all-add")	{ $btnName = "add"; }
-else if ($action == "edit") 	{ $btnName = "edit"; }
-else if ($action == "all-edit")	{ $btnName = "edit"; }
-else if ($action == "delete")	{ $btnName = "delete"; }
+if ($action == "add") 			{ $btnName = _("add"); }
+else if ($action == "all-add")	{ $btnName = _("add"); }
+else if ($action == "edit") 	{ $btnName = _("edit"); }
+else if ($action == "all-edit")	{ $btnName = _("edit"); }
+else if ($action == "delete")	{ $btnName = _("delete"); }
 else							{ $btnName = ""; }
 
 
@@ -96,7 +96,7 @@ $myFieldsSize = sizeof($myFields);
 ?>
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($btnName); ?> IP address</div>
+<div class="pHeader"><?php print ucwords($btnName); ?> <?php print _('IP address'); ?></div>
 
 <!-- content -->
 <div class="pContent editIPAddress">
@@ -108,11 +108,11 @@ $myFieldsSize = sizeof($myFields);
 
 	<!-- IP address -->
 	<tr>
-		<td>IP address 
+		<td><?php print _('IP address'); ?>
 		</td>
 		<td>
-			<input type="text" name="ip_addr" class="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="IP address">
-    		<i class="icon-gray icon-bell" rel="tooltip" data-html='true' data-placement="bottom" title="You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)"></i>
+			<input type="text" name="ip_addr" class="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="<?php print _('IP address'); ?>">
+    		<i class="icon-gray icon-bell" rel="tooltip" data-html='true' data-placement="bottom" title="<?php print _('You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)'); ?>"></i>
     		
    			<input type="hidden" name="action" 	 	value="<?php print $btnName; 	?>">
 			<input type="hidden" name="id" 		 	value="<?php print $id; 		?>">
@@ -128,11 +128,11 @@ $myFieldsSize = sizeof($myFields);
 
 	<!-- description -->
 	<tr>
-		<td>Description</td>
+		<td><?php print _('Description'); ?></td>
 		<td>
 			<input type="text" name="description" value="<?php if(isset($details['description'])) {print $details['description'];} ?>" size="30" 
 			<?php if ( $btnName == "Delete" ) { print " readonly";} ?> 
-			placeholder="Description">
+			placeholder="<?php print _('Description'); ?>">
 		</td>
 	</tr>
 
@@ -141,10 +141,10 @@ $myFieldsSize = sizeof($myFields);
 	<?php
 	if(!isset($details['dns_name'])) {$details['dns_name'] = "";}
 		print '<tr>'. "\n";
-		print '	<td>DNS name</td>'. "\n";
+		print '	<td>'._('DNS name').'</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="dns_name" placeholder="hostname" value="'. $details['dns_name']. '" size="30">'. "\n";
-		print "	<i class='icon-gray icon-repeat' id='refreshHostname' rel='tooltip' title='Click to check for hostname'></i>";
+		print ' <input type="text" name="dns_name" placeholder="'._('Hostname').'" value="'. $details['dns_name']. '" size="30">'. "\n";
+		print "	<i class='icon-gray icon-repeat' id='refreshHostname' rel='tooltip' title='"._('Click to check for hostname')."'></i>";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	?>
@@ -154,9 +154,9 @@ $myFieldsSize = sizeof($myFields);
 		if(!isset($details['mac'])) {$details['mac'] = "";}	
 
 		print '<tr>'. "\n";
-		print '	<td>MAC address</td>'. "\n";
+		print '	<td>'._('MAC address').'</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="mac" placeholder="MAC address" value="'. $details['mac']. '" size="30">'. "\n";
+		print ' <input type="text" name="mac" placeholder="'._('MAC address').'" value="'. $details['mac']. '" size="30">'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	}
@@ -168,9 +168,9 @@ $myFieldsSize = sizeof($myFields);
 		if(!isset($details['owner'])) {$details['owner'] = "";}	
 
 		print '<tr>'. "\n";
-		print '	<td>Owner</td>'. "\n";
+		print '	<td>'._('Owner').'</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="owner" id="owner" placeholder="IP address owner" value="'. $details['owner']. '" size="30">'. "\n";
+		print ' <input type="text" name="owner" id="owner" placeholder="'._('IP address owner').'" value="'. $details['owner']. '" size="30">'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	}
@@ -183,12 +183,12 @@ $myFieldsSize = sizeof($myFields);
 	# both are active
 	if(in_array('switch', $setFields)) {
 		print '<tr>'. "\n";
-		print '	<td>Device</td>'. "\n";
+		print '	<td>'._('Device').'</td>'. "\n";
 		print '	<td>'. "\n";
 
 		print '<select name="switch">'. "\n";
-		print '<option disabled>Select device:</option>'. "\n";
-		print '<option value="" selected>None</option>'. "\n";
+		print '<option disabled>'._('Select device').':</option>'. "\n";
+		print '<option value="" selected>'._('None').'</option>'. "\n";
 		$switches = getAllUniqueSwitches();
 		
 		foreach($switches as $switch) {
@@ -210,9 +210,9 @@ $myFieldsSize = sizeof($myFields);
 		if(!isset($details['port'])) {$details['port'] = "";}	
 
 		print '<tr>'. "\n";
-		print '	<td>Port</td>'. "\n";
+		print '	<td>'._('Port').'</td>'. "\n";
 		print '	<td>'. "\n";
-		print ' <input type="text" name="port"   id="port"   placeholder="Port"   value="'. $details['port']. '" size="30">'. "\n";
+		print ' <input type="text" name="port"   id="port"   placeholder="'._('Port').'"   value="'. $details['port']. '" size="30">'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	}
@@ -224,9 +224,9 @@ $myFieldsSize = sizeof($myFields);
 		if(!isset($details['note'])) {$details['note'] = "";}	
 
 		print '<tr>'. "\n";
-		print '	<td>Note</td>'. "\n";
+		print '	<td>'._('Note').'</td>'. "\n";
 		print '	<td class="note">'. "\n";
-		print ' <textarea name="note" cols="23" rows="2" placeholder="Additional notes about IP address">'. $details['note'] . '</textarea>'. "\n";
+		print ' <textarea name="note" cols="23" rows="2" placeholder="'._('Additional notes about IP address').'">'. $details['note'] . '</textarea>'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	}
@@ -237,15 +237,15 @@ $myFieldsSize = sizeof($myFields);
 	
 
 		print '<tr>'. "\n";
-		print '	<td>Type</td>'. "\n";
+		print '	<td>'._('Type').'</td>'. "\n";
 		print '	<td>'. "\n";
 		print '		<select name="state">'. "\n";
 		
 		#active, reserved, offline
-		print '		<option value="1" '; if(isset($details['state'])) { if ($details['state'] == "1") print 'selected'; } print '>Active</option>'. "\n";
-		print '		<option value="2" '; if(isset($details['state'])) { if ($details['state'] == "2") print 'selected'; } print '>Reserved</option>'. "\n";
-		print '		<option value="0" '; if(isset($details['state'])) { if ($details['state'] == "0") print 'selected'; } print '>Offline</option>'. "\n";
-		print '		<option value="3" '; if(isset($details['state'])) { if ($details['state'] == "3") print 'selected'; } print '>DHCP</option>'. "\n";
+		print '		<option value="1" '; if(isset($details['state'])) { if ($details['state'] == "1") print 'selected'; } print '>'._('Active').'</option>'. "\n";
+		print '		<option value="2" '; if(isset($details['state'])) { if ($details['state'] == "2") print 'selected'; } print '>'._('Reserved').'</option>'. "\n";
+		print '		<option value="0" '; if(isset($details['state'])) { if ($details['state'] == "0") print 'selected'; } print '>'._('Offline').'</option>'. "\n";
+		print '		<option value="3" '; if(isset($details['state'])) { if ($details['state'] == "3") print 'selected'; } print '>'._('DHCP').'</option>'. "\n";
 
 		print '		</select>'. "\n";
 		print '	</td>'. "\n";
@@ -279,10 +279,10 @@ $myFieldsSize = sizeof($myFields);
 	 </tr>
 	 
 	 <tr>
-	 	<td>Unique</td>
+	 	<td><?php print _('Unique'); ?></td>
 	 	<td>
 		 	<input type="checkbox" name="unique" value="1">
-		 	<div class="help-inline">Unique hostname</div>
+		 	<div class="help-inline"><?php print _('Unique hostname'); ?></div>
 	 	</td>
 	 </tr>
 
@@ -293,10 +293,10 @@ $myFieldsSize = sizeof($myFields);
 	 if($subnet2['mask'] < 31 && $action=='add' && $type == "IPv4" ) { ?>
 	 <!-- ignore NW /BC checks -->
 	 <tr>
-		<td>Not strict</td>
+		<td><?php print _('Not strict'); ?></td>
 		<td>
 			<input type="checkbox" name="nostrict" value="yes" style="margin-top:0px;"> 
-			<span class="help-inline">Permit adding network/broadcast as IP</span>
+			<span class="help-inline"><?php print _('Permit adding network/broadcast as IP'); ?></span>
 		</td>
 	</tr>
 	<?php } ?>
@@ -305,10 +305,10 @@ $myFieldsSize = sizeof($myFields);
 	 if($subnet2['mask'] < 127 && $action=='add' && $type == "IPv6" ) { ?>
 	 <!-- ignore NW /BC checks -->
 	 <tr>
-		<td>Not strict</td>
+		<td><?php print _('Not strict'); ?></td>
 		<td>
 			<input type="checkbox" name="nostrict" value="yes" style="margin-top:0px;">
-			<span class="help-inline">Permit adding network/broadcast as IP</span>
+			<span class="help-inline"><?php print _('Permit adding network/broadcast as IP'); ?></span>
 		</td>
 	</tr>
 	<?php } ?>
@@ -324,11 +324,11 @@ $myFieldsSize = sizeof($myFields);
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
 	<?php
 	# add delete if it came from visual edit!
 	if($action == 'all-edit') {
-	print "<button class='btn btn-small btn-danger' id='editIPAddressSubmit' data-action='all-delete'><i class='icon-white icon-trash'></i> Delete IP</button>";		
+	print "<button class='btn btn-small btn-danger' id='editIPAddressSubmit' data-action='all-delete'><i class='icon-white icon-trash'></i> "._('Delete IP')."</button>";		
 	}
 	?>
 	<button class="btn btn-small <?php if($action=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editIPAddressSubmit" data-action='<?php print $action; ?>'><i class="icon-white <?php if($btnName=="add") { print "icon-plus"; } else if ($btnName=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($btnName); ?> IP</button>

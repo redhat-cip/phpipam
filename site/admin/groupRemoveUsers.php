@@ -22,7 +22,7 @@ $missing = getUsersInGroup($_POST['g_id']);
 
 
 <!-- header -->
-<div class="pHeader">Remove users from group <?php print $group['g_name'] ?></div>
+<div class="pHeader"><?php print _('Remove users from group'); ?> <?php print $group['g_name'] ?></div>
 
 
 <!-- content -->
@@ -37,9 +37,9 @@ $missing = getUsersInGroup($_POST['g_id']);
 		<th>
 			<input type="hidden" name="gid" value="<?php print $_POST['g_id']; ?>">
 		</th>
-		<th>Name</th>
-		<th>Username</th>
-		<th>Email</th>
+		<th><?php print _('Name'); ?></th>
+		<th><?php print _('Username'); ?></th>
+		<th><?php print _('Email'); ?></th>
 	</tr>
 
 	<?php
@@ -64,7 +64,7 @@ $missing = getUsersInGroup($_POST['g_id']);
     </table>
     </form>
     
-    <?php } else { print "<div class='alert alert-info'>No users in this group</div>"; } ?>
+    <?php } else { print "<div class='alert alert-info'>"._('No users in this group')."</div>"; } ?>
 
 
 </div>
@@ -72,9 +72,9 @@ $missing = getUsersInGroup($_POST['g_id']);
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
 	<?php if(sizeof($missing) > 0) { ?>
-	<button class="btn btn-small btn-success" id="groupRemoveUsersSubmit"><i class="icon-white icon-ok"></i> Remove selected users</button>
+	<button class="btn btn-small btn-success" id="groupRemoveUsersSubmit"><i class="icon-white icon-ok"></i> <?php print _('Remove selected users'); ?></button>
 	<?php } ?>
 	<!-- Result -->
 	<div class="groupRemoveUsersResult"></div>

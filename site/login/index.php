@@ -17,4 +17,4 @@ else 																{ $_REQUEST['eid'] = "404"; print "<div id='error'>"; inclu
 ?>
 
 <!-- login response -->
-<div id="loginCheck"><?php if ($_REQUEST['page'] == "logout") print '<div class="alert alert-success">You have logged out</div>'; ?></div>
+<div id="loginCheck"><?php if ($_REQUEST['page'] == "logout") print '<div class="alert alert-success">'._('You have logged out').'</div>'; ?></div>

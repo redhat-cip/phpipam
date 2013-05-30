@@ -287,7 +287,7 @@ $('table.ipaddresses th a.sort').live('click', function() {
 /*    import IP addresses
 *************************/
 // load CSV import form
-$('a.csvImport').click(function () {
+$('a.csvImport').live('click', function () {
     showSpinner();
     var subnetId = $(this).attr('data-subnetId');
     $.post('site/admin/CSVimport.php', {subnetId:subnetId}, function(data) {

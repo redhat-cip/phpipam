@@ -20,6 +20,8 @@ features for next releases:
 		
 		+ VLAN header ordering;
 		
+		+ Permissions for custom fields;
+		
 		+ Prettier URLs -> subnets and sections
 		
 		Martin Komon:

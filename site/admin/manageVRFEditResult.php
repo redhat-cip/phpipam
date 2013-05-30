@@ -20,10 +20,10 @@ $vrf['description'] = htmlentities($vrf['description'], ENT_COMPAT | ENT_HTML401
 
 
 /* Hostname must be present! */
-if($vrf['name'] == "") { die('<div class="alert alert-error">Name is mandatory!</div>'); }
+if($vrf['name'] == "") { die('<div class="alert alert-error">'._('Name is mandatory').'!</div>'); }
 
 /* update details */
-if(!updateVRFDetails($vrf)) { print('<div class="alert alert-error">Failed to '. $vrf['action'] .' VRF!</div>'); }
-else 						{ print('<div class="alert alert-success">VRF '. $vrf['action'] .' successfull!</div>'); }
+if(!updateVRFDetails($vrf)) { print('<div class="alert alert-error">'._('Failed to').' '. _($vrf['action']) .' '._('VRF').'!</div>'); }
+else 						{ print('<div class="alert alert-success">'._('VRF').' '.     _($vrf['action']) .' '._('successfull').'!</div>'); }
 
 ?>

@@ -20,13 +20,13 @@ $mail['recipients'] = $userModDetails['email'];
 $mail['from']		= 'IPAM@' . $settings['siteDomain'];
 
 # set subject
-if ($action == "Add") 		{ $subject	= 'New ipam account created'; }
-else if ($action == "Edit") { $subject	= 'User ipam account updated'; }
-else 						{ $subject	= 'IPAM account details'; }
+if ($action == "Add") 		{ $subject	= _('New ipam account created'); }
+else if ($action == "Edit") { $subject	= _('User ipam account updated'); }
+else 						{ $subject	= _('IPAM account details'); }
 
 # send mail
-if(!sendUserAccDetailsEmail($userModDetails, $subject))	{ print '<div class="alert alert-error"><div class="alert alert-error">Sending notification mail for new account failed!</div></div>'; }
-else													{ print '<div class="alert alert-success">Notification mail for new account sent!</div>'; }
+if(!sendUserAccDetailsEmail($userModDetails, $subject))	{ print '<div class="alert alert-error"><div class="alert alert-error">'._('Sending notification mail for new account failed').'!</div></div>'; }
+else													{ print '<div class="alert alert-success">'._('Notification mail for new account sent').'!</div>'; }
 
 
 ?>

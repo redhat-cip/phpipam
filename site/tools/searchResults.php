@@ -90,7 +90,7 @@ $mySize 	= sizeof($myFields);
 $colSpan 	= $fieldSize + $mySize + 4;
 ?>
 
-<h4> Search results (IP address list): <?php if(sizeof($result) != 0) { print('<a href="" id="exportSearch" rel="tooltip" title="Export All results to XLS"><button class="btn btn-small"><i class="icon-download"></i></button></a>');} ?></h4>
+<h4> <?php print _('Search results (IP address list)');?>: <?php if(sizeof($result) != 0) { print('<a href="" id="exportSearch" rel="tooltip" title="'._('Export All results to XLS').'"><button class="btn btn-small"><i class="icon-download"></i></button></a>');} ?></h4>
 <hr>
 
 <!-- export holder -->
@@ -103,20 +103,20 @@ $colSpan 	= $fieldSize + $mySize + 4;
 <tr id="searchHeader">
 <?php
 
-	print '<th>IP address</th>'. "\n";
-	print '<th>VLAN</th>'. "\n";
+	print '<th>'._('IP address').'</th>'. "\n";
+	print '<th>'._('VLAN').'</th>'. "\n";
 	# description
-	print '<th>Description</th>'. "\n";
-	print '<th>Hostname</th>'. "\n";
+	print '<th>'._('Description').'</th>'. "\n";
+	print '<th>'._('Hostname').'</th>'. "\n";
 	# mac
 	if(in_array('mac', $setFields)) 										{ print '<th></th>'. "\n"; }
 	# switch
-	if(in_array('switch', $setFields))										{ print '<th>Switch</th>'. "\n"; }
+	if(in_array('switch', $setFields))										{ print '<th>'._('Switch').'</th>'. "\n"; }
 	# port
-	if(in_array('port', $setFields)) 										{ print '<th>Port</th>'. "\n"; }
+	if(in_array('port', $setFields)) 										{ print '<th>'._('Port').'</th>'. "\n"; }
 	# owner and note
-	if( (in_array('owner', $setFields)) && (in_array('note', $setFields)) ) { print '<th colspan="2">Owner</th>'. "\n"; }
-	else if (in_array('owner', $setFields)) 								{ print '<th>Owner</th>'. "\n";	}
+	if( (in_array('owner', $setFields)) && (in_array('note', $setFields)) ) { print '<th colspan="2">'._('Owner').'</th>'. "\n"; }
+	else if (in_array('owner', $setFields)) 								{ print '<th>'._('Owner').'</th>'. "\n";	}
 	else if (in_array('note', $setFields)) 									{ print '<th></th>'. "\n"; }
 	
 	# custom fields
@@ -223,15 +223,15 @@ else {
 			print "	<div class='btn-group'>";
 
 			if($permission == "2") {
-				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#' 	rel='tooltip' title='Edit IP address details'>		<i class='icon-gray icon-pencil'>  </i></a>";
-				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#'  rel='tooltip' title='Delete IP address'>			<i class='icon-gray icon-remove'>  </i></a>";
+				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#' 	rel='tooltip' title='"._('Edit IP address details')."'>		<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='"._('Send mail notification')."'>														<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#'  rel='tooltip' title='"._('Delete IP address')."'>			<i class='icon-gray icon-remove'>  </i></a>";
 			}
 			# unlocked
 			else {
-				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='Edit IP address details (disabled)'>		<i class='icon-gray icon-pencil'>  </i></a>";
-				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='Send mail notification'>															<i class='icon-gray icon-envelope'></i></a>";
-				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='Delete IP address (disabled)'>			<i class='icon-gray icon-remove'>  </i></a>";
+				print "		<a class='edit_ipaddress   btn btn-mini disabled' rel='tooltip' title='"._('Edit IP address details (disabled)')."'>										<i class='icon-gray icon-pencil'>  </i></a>";
+				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='"._('Send mail notification')."'>				<i class='icon-gray icon-envelope'></i></a>";
+				print "		<a class='delete_ipaddress btn btn-mini disabled' rel='tooltip' title='"._('Delete IP address (disabled)')."'>												<i class='icon-gray icon-remove'>  </i></a>";
 			}
 			print "	</div>";
 			print "	</div>";
@@ -248,28 +248,26 @@ else {
 
 <!-- search result table -->
 <br>
-<h4>Search results (Subnet list):</h4>
+<h4><?php print _('Search results (Subnet list)');?>:</h4>
 <hr>
 
 <table class="searchTable table table-striped table-condensed table-top">
 
 <!-- headers -->
 <tr id="searchHeader">
-	<th>Section</th>
-	<th>Subnet</th>
-	<th>Mask</th>
-	<th>Description</th>
-	<th>Master subnet</th>
-	<th>VLAN</th>
-	<th>Requests</th>
-	<th><i class="icon-gray icon-lock"></i></th>
+	<th><?php print _('Section');?></th>
+	<th><?php print _('Subnet');?></th>
+	<th><?php print _('Mask');?></th>
+	<th><?php print _('Description');?></th>
+	<th><?php print _('Master subnet');?></th>
+	<th><?php print _('VLAN');?></th>
+	<th><?php print _('Requests');?></th>
 	<th style="width:5px;"></th>
 </tr>
 
 
 <?php
 if(sizeof($subnets) == 0) {
-/* 	print '<tr class="th"><td colspan="9"><div class="alert alert-warn alert-nomargin">Nothing found for search query "'. $_REQUEST['ip'] .'" in subnets!</div></td><tr>'. "\n"; */
 }
 else {
 
@@ -288,10 +286,6 @@ else {
 			if($line['allowRequests'] == 1) { $line['allowRequests'] = "enabled"; }
 			else 							{ $line['allowRequests'] = "disabled"; }
 	
-			//format lock
-			if($line['adminLock'] == 1) 	{ $img = '<i class="icon-gray icon-lock" rel="tooltip" title="Subnet is locked for writing for non-admins!"></i>'; }
-			else 							{ $img = ""; }
-	
 			//format master subnet
 			if($line['masterSubnetId'] == 0) { $line['masterSubnetId'] = "/"; }
 			else {
@@ -307,15 +301,14 @@ else {
 			print ' <td><a href="subnets/'.$line['sectionId'].'/'.$line['id'].'/">'. $line['description'] .'</a></td>' . "\n";
 			print ' <td>'. $line['masterSubnetId'] .'</td>' . "\n";
 			print ' <td>'. $vlan['number'] .'</td>' . "\n";
-			print ' <td>'. $line['allowRequests'] .'</td>' . "\n";
-			print ' <td>'. $img .'</td>' . "\n";
+			print ' <td>'. _($line['allowRequests']) .'</td>' . "\n";
 		
 			#locked for writing
 			if($permission == "2") {
-				print "	<td><button class='btn btn-mini edit_subnet' data-action='edit'   data-subnetId='$line[id]' data-sectionId='$line[sectionId]' href='#' rel='tooltip' title='Edit subnet details'>		<i class='icon-gray icon-pencil'>  </i></a>";
+				print "	<td><button class='btn btn-mini edit_subnet' data-action='edit'   data-subnetId='$line[id]' data-sectionId='$line[sectionId]' href='#' rel='tooltip' title='"._('Edit subnet details')."'>		<i class='icon-gray icon-pencil'>  </i></a>";
 			}
 			else {
-				print "	<td><button class='btn btn-mini disabled' rel='tooltip' title='Edit subnet (disabled)'>	<i class='icon-gray icon-pencil'>  </i></button>";
+				print "	<td><button class='btn btn-mini disabled' rel='tooltip' title='"._('Edit subnet (disabled)')."'>	<i class='icon-gray icon-pencil'>  </i></button>";
 			}
 			print '</tr>'. "\n";
 		}
@@ -330,18 +323,18 @@ else {
 
 <!-- search result table -->
 <br>
-<h4>Search results (VLANs):</h4>
+<h4><?php print _('Search results (VLANs)');?>:</h4>
 <hr>
 
 <table class="vlanSearch table table-striped table-condensed table-top">
 
 <!-- headers -->
 <tr id="searchHeader">
-	<th>Name</th>
-	<th>Number</th>
-	<th>Description</th>
-	<th>Belonging subnets</th>
-	<th>Section</th>
+	<th><?php print _('Name');?></th>
+	<th><?php print _('Number');?></th>
+	<th><?php print _('Description');?></th>
+	<th><?php print _('Belonging subnets');?></th>
+	<th><?php print _('Section');?></th>
 </tr>
 
 

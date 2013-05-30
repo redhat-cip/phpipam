@@ -22,7 +22,7 @@ function CheckReferrer()
 {
     if ( ($_SERVER['HTTP_X_REQUESTED_WITH'] != "XMLHttpRequest") && ($_SERVER['HTTP_ORIGIN'] != $_SERVER['HTTP_HOST'] ) ) {
         updateLogTable ('Page not referred properly', "", 2);
-        die();
+        die(_('Page not referred properly'));
     }
 }
 
@@ -43,7 +43,7 @@ function isUserAuthenticated()
     	if($_SERVER['SERVER_PORT'] == "443") { $url = "https://".$_SERVER['SERVER_NAME'].BASE; }
     	else								 { $url = "http://".$_SERVER['SERVER_NAME'].BASE; }
     	# die
-    	die('<div class="error">Please <a href="'.$url.'login">login/</a> first!</div>');
+    	die('<div class="error"><a href="'.$url.'login/">'._('Please login first').'!</a></div>');
     }
     /* close session */
     session_write_close();
@@ -102,7 +102,7 @@ function checkAdmin ($die = true, $startSession = true)
     try { $role = $database->getRow( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        die ("<div class='alert alert-error'>Error: $error</div>");
+        die ("<div class='alert alert-error'>"._('Error').": $error</div>");
     } 
 
     /* close database connection */
@@ -114,7 +114,7 @@ function checkAdmin ($die = true, $startSession = true)
     }
     else {
     	//die
-    	if($die == true) { die('<div class="alert alert-error">Not admin!</div>'); }
+    	if($die == true) { die('<div class="alert alert-error">'._('Administrator level privileges required').'!</div>'); }
     	//return false if called
     	else 			{ return false; }
     }
@@ -151,7 +151,7 @@ function getAllUsers ()
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
 	   
@@ -174,7 +174,7 @@ function getNumberOfUsers ()
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }  
 	   
@@ -197,7 +197,7 @@ function getAllAdminUsers ()
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }  
 	   
@@ -220,7 +220,7 @@ function getUserDetailsById ($id)
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -243,7 +243,75 @@ function getUserDetailsByName ($username)
     try { $details = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;
+    } 
+    
+    /* return results */
+    return($details[0]);
+}
+
+/**
+ * Get user lang
+ */
+function getUserLang ($username)
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'select `lang`,`l_id`,`l_code`,`l_name` from `users` as `u`,`lang` as `l` where `l_id` = `lang` and `username` = "'.$username.'";;';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;
+    } 
+    
+    /* return results */
+    return($details[0]);
+}
+
+
+/**
+ * Get all lang
+ */
+function getLanguages ()
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'select * from `lang`;';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;
+    } 
+    
+    /* return results */
+    return($details);
+}
+
+
+/**
+ * Get lang by id
+ */
+function getLangById ($id)
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'select * from `lang` where `l_id` = "'.$id.'";';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -393,7 +461,7 @@ function getUniqueUsers ()
     try { $users = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
     
@@ -417,7 +485,7 @@ function getUniqueHosts ()
     try { $hosts = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }  
     
@@ -450,7 +518,7 @@ function getAllSettings()
     try { $count = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -529,10 +597,10 @@ function ShortenText($text, $chars = 25) {
 function parsePermissions($perm)
 {
 	switch($perm) {
-		case "0": $r = "No access";		break;
-		case "1": $r = "Read";			break;
-		case "2": $r = "Read / Write";	break;
-		default:  $r = "error";
+		case "0": $r = _("No access");		break;
+		case "1": $r = _("Read");			break;
+		case "2": $r = _("Read / Write");	break;
+		default:  $r = _("error");
 	}
 	return $r;
 }
@@ -706,7 +774,7 @@ function getAllSlaves ($subnetId, $multi = false)
 		try { $slaves2 = $database->getArray( $query ); }
 		catch (Exception $e) { 
         	$error =  $e->getMessage(); 
-        	print ("<div class='alert alert-error'>Error: $error</div>");
+        	print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         	return false;
         }
 		
@@ -765,7 +833,7 @@ function printBreadcrumbs ($req)
 	else if ($req['page'] == "tools") {
 		if(isset($req['tpage'])) {
 			print "<ul class='breadcrumb'>";
-			print "	<li><a href='tools/'>Tools</a> <span class='divider'>/</span></li>";
+			print "	<li><a href='tools/'>"._('Tools')."</a> <span class='divider'>/</span></li>";
 			print "	<li class='active'>$req[tpage]></li>";
 			print "</ul>";
 		}

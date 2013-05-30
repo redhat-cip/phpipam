@@ -11,7 +11,7 @@ include_once('../../functions/functions-mail.php');
 checkAdmin();
 
 # send mail
-if(!sendIPResultEmail($request))	{ print '<div class="alert alert-error">Sending mail for new IP request failed!</div>'; }
-else								{ print '<div class="alert alert-success">Sending mail for IP request succeeded!</div>'; }
+if(!sendIPResultEmail($request))	{ print '<div class="alert alert-error">'._('Sending mail for new IP request failed').'!</div>'; }
+else								{ print '<div class="alert alert-success">'._('Sending mail for IP request succeeded').'!</div>'; }
 
 ?>

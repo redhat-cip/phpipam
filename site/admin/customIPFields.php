@@ -30,7 +30,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 ?>
 
 
-<h4>Custom fields</h4>
+<h4><?php print _('Custom fields'); ?></h4>
 <hr>
 
 <table class="customIP table table-striped table-auto table-top" style="min-width:400px;">
@@ -39,14 +39,14 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<!-- Custom IP address fields -->
 	<tr>
 		<th colspan="4">
-			<h5>Custom IP address fields</h5>
+			<h5><?php print _('Custom IP address fields'); ?></h5>
 		</th>
 	</tr>
 	<?php
 	/* no results */
 	if(sizeof($myFields) == 0) { ?>
 		<tr>
-			<td colspan="4"><div class="alert alert-info alert-nomargin">No custom fields created yet</div></td>
+			<td colspan="4"><div class="alert alert-info alert-nomargin"><?php print _('No custom fields created yet'); ?></div></td>
 		</tr>
 	<?php 
 	} 
@@ -73,7 +73,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print "	</div>";
 	
 			# warning for older versions
-			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: '._('Invalid field name').'!</span>'; }
 	
 			print "</td>";
 			print "</tr>";
@@ -86,7 +86,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<!-- add -->
 	<tr>
 		<td colspan="4" style='padding-right:0px;'>
-			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom IP address field'><i class='icon-gray icon-plus'></i>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='<?php print _('Add new custom IP address field'); ?>'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>	
 	<!-- result -->
@@ -104,14 +104,14 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<tbody id="subnet">
 	<tr>
 		<th colspan="4">
-			<h5>Custom subnet fields</h5>
+			<h5><?php print _('Custom subnet fields'); ?></h5>
 		</th>
 	</tr>
 	<?php
 	/* no results */
 	if(sizeof($myFieldsSubnets) == 0) {
 		print '<tr>'. "\n";
-		print '<td colspan="4"><div class="alert alert-info alert-nomargin">No custom subnet fields created yet</div></td>'. "\n";
+		print '<td colspan="4"><div class="alert alert-info alert-nomargin">'._('No custom subnet fields created yet').'</div></td>'. "\n";
 		print '</tr>'. "\n";
 	}
 	/* already available */
@@ -125,7 +125,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print '<tr>'. "\n";
 
 			# ordering
-			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNumSubnets[$m]' data-nextfieldname='".$myFieldsNumSubnets[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='"._('Move down')."' data-fieldname='$myFieldsNumSubnets[$m]' data-nextfieldname='".$myFieldsNumSubnets[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
 			else 						{ print '<td></td>'. "\n";}
 	
 			print '<td class="name">'. $field['name'] .'</td>'. "\n";
@@ -138,7 +138,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print "	</div>";
 	
 			# warning for older versions
-			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>'._('Warning').'</strong>: '._('Invalid field name').'!</span>'; }
 	
 			print "</td>";
 
@@ -153,7 +153,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<!-- add -->
 	<tr>
 		<td colspan="4" style='padding-right:0px;'>
-			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom subnet field'><i class='icon-gray icon-plus'></i>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='<?php print _('Add new custom subnet field'); ?>'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>
 
@@ -173,14 +173,14 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<tbody id="vlan">
 	<tr>
 		<th colspan="4">
-			<h5>Custom VLAN fields</h5>
+			<h5><?php print _('Custom VLAN fields'); ?></h5>
 		</th>
 	</tr>
 	<?php
 	/* no results */
 	if(sizeof($myFieldsVLAN) == 0) {
 		print '<tr>'. "\n";
-		print '<td colspan="4"><div class="alert alert-info alert-nomargin">No custom VLAN fields created yet</div></td>'. "\n";
+		print '<td colspan="4"><div class="alert alert-info alert-nomargin">'._('No custom VLAN fields created yet').'</div></td>'. "\n";
 		print '</tr>'. "\n";
 	}
 	/* already available */
@@ -194,7 +194,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print '<tr>'. "\n";
 
 			# ordering
-			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNumVLAN[$m]' data-nextfieldname='".$myFieldsNumVLAN[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='"._('Move down')."' data-fieldname='$myFieldsNumVLAN[$m]' data-nextfieldname='".$myFieldsNumVLAN[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
 			else 						{ print '<td></td>'. "\n";}
 	
 			print '<td class="name">'. $field['name'] .'</td>'. "\n";
@@ -207,7 +207,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print "	</div>";
 
 			# warning for older versions
-			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>'._('Warning').'</strong>: '._('Invalid field name').'!</span>'; }
 
 			print "</td>";
 
@@ -221,7 +221,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<!-- add -->
 	<tr>
 		<td colspan="4" style='padding-right:0px;'>
-			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom VLAN field'><i class='icon-gray icon-plus'></i>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='<?php print _('Add new custom VLAN field'); ?>'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>
 	<!-- result -->
@@ -238,14 +238,14 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<tbody id="customUser">
 	<tr>
 		<th colspan="4">
-			<h5>Custom User fields</h5>
+			<h5><?php print _('Custom User fields'); ?></h5>
 		</th>
 	</tr>
 	<?php
 	/* no results */
 	if(sizeof($myFieldsUser) == 0) {
 		print '<tr>'. "\n";
-		print '<td colspan="4"><div class="alert alert-info alert-nomargin">No custom user fields created yet</div></td>'. "\n";
+		print '<td colspan="4"><div class="alert alert-info alert-nomargin">'._('No custom user fields created yet').'</div></td>'. "\n";
 		print '</tr>'. "\n";
 	}
 	/* already available */
@@ -259,7 +259,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print '<tr>'. "\n";
 
 			# ordering
-			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='Move down' data-fieldname='$myFieldsNumUser[$m]' data-nextfieldname='".$myFieldsNumUser[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
+			if (( ($m+1) != $size) ) 	{ print "<td><button class='btn btn-small down' data-direction='down' rel='tooltip' title='"._('Move down')."' data-fieldname='$myFieldsNumUser[$m]' data-nextfieldname='".$myFieldsNumUser[$m+1]."'><i class='icon-gray icon-chevron-down'></i></button></td>";	}
 			else 						{ print '<td></td>'. "\n";}
 	
 			print '<td class="name">'. $field['name'] .'</td>'. "\n";
@@ -272,7 +272,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 			print "	</div>";
 
 			# warning for older versions
-			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>Warning</strong>: Invalid field name!</span>'; }
+			if((is_numeric(substr($field['name'], 0, 1))) || (!preg_match('!^[\w_ ]*$!', $field['name'])) ) { print '<span class="alert alert-warning"><strong>'._('Warning').'</strong>: '._('Invalid field name').'!</span>'; }
 
 			print "</td>";
 
@@ -286,7 +286,7 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 	<!-- add -->
 	<tr>
 		<td colspan="4" style='padding-right:0px;'>
-			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='Add new custom User field'><i class='icon-gray icon-plus'></i>
+			<button class='btn btn-small pull-right' data-action='add'  data-fieldname='<?php print $field['name']; ?>' rel='tooltip' data-placement='right' title='<?php print _('Add new custom User field'); ?>'><i class='icon-gray icon-plus'></i>
 		</td>
 	</tr>
 	<!-- result -->
@@ -301,4 +301,4 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 </table>
 
 <hr>
-<div class="alert alert-info">You can add additional custom fields to IP addresses and subnets (like CustomerId, location, ...).</div>
+<div class="alert alert-info"><?php print _('You can add additional custom fields to IP addresses and subnets (like CustomerId, location, ...)'); ?>.</div>

@@ -13,7 +13,7 @@ checkAdmin();
 ?>
 
 
-<h4>Search and replace fields in IP address list</h4>
+<h4><?php print _('Search and replace fields in IP address list'); ?></h4>
 <hr><br>
 
 
@@ -21,15 +21,15 @@ checkAdmin();
 <table class="table table-striped" style="width:auto">
 
 <tr>
-	<td>Select field to replace:</td>
+	<td><?php print _('Select field to replace'); ?>:</td>
 	<td>
 	<select name="field">
-		<option value="description">Description</option>
-		<option value="dns_name">Hostname</option>
-		<option value="owner">Owner</option>
-		<option value="mac">MAC address</option>
-		<option value="switch">Switch</option>
-		<option value="port">Port</option>
+		<option value="description"><?php print _('Description'); ?></option>
+		<option value="dns_name"><?php print _('Hostname'); ?></option>
+		<option value="owner"><?php print _('Owner'); ?></option>
+		<option value="mac"><?php print _('MAC address'); ?></option>
+		<option value="switch"><?php print _('Switch'); ?></option>
+		<option value="port"><?php print _('Port'); ?></option>
 		
 		<?php
 		#get all custom fields!
@@ -46,23 +46,23 @@ checkAdmin();
 </tr>
 
 <tr>
-	<td>Select search string</td>
+	<td><?php print _('Select search string'); ?></td>
 	<td>
-		<input type="text" name="search" placeholder="search string">
+		<input type="text" name="search" placeholder="<?php print _('search string'); ?>">
 	</td>
 </tr>
 
 <tr>
-	<td>Select replace string</td>
+	<td><?php print _('Select replace string'); ?></td>
 	<td>
-		<input type="text" name="replace" placeholder="replace string">
+		<input type="text" name="replace" placeholder="<?php print _('replace string'); ?>">
 	</td>
 </tr>
 
 <tr class="th">
 	<td></td>
 	<td>
-		<button class="btn btn-small" id="searchReplaceSave"><i class="icon-gray icon-ok"></i> Replace</button>
+		<button class="btn btn-small" id="searchReplaceSave"><i class="icon-gray icon-ok"></i> <?php print _('Replace'); ?></button>
 	</td>
 </tr>
 

@@ -10,7 +10,7 @@ checkAdmin();
 
 
 /* title */
-print '<h4>Database structure verification</h4><hr>'. "\n";
+print '<h4>'._('Database structure verification').'</h4><hr>'. "\n";
 
 
 /* required tables */
@@ -26,10 +26,11 @@ $fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "s
 $fields['settingsDomain'] = array("account_suffix", "base_dn", "domain_controllers", "use_ssl", "use_tls", "ad_port");
 $fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "vlanId", "showName", "permissions");
 $fields['switches'] 	  = array("hostname", "ip_addr", "type", "vendor", "model", "version", "description", "sections");
-$fields['users'] 	  	  = array("username", "password", "groups", "role", "real_name", "email", "domainUser");
+$fields['users'] 	  	  = array("username", "password", "groups", "role", "real_name", "email", "domainUser", "lang");
 $fields['vrf'] 	  	  	  = array("name", "rd", "description");
 $fields['vlans']   	  	  = array("vlanId", "name", "number", "description");
 $fields['userGroups']     = array("g_id", "g_name", "g_descr");
+$fields['lang']     	  = array("l_id", "l_code", "l_name");
 
 /**
  * check that each database exist - if it does check also fields
@@ -56,11 +57,11 @@ foreach($reqTables as $table) {
 
 /* print result */
 if( (!isset($tableError)) && (!isset($fieldError)) ) {
-	print '<div class="alert alert-success alert-absolute">All tables and fields are installed properly!</div>'. "\n";
+	print '<div class="alert alert-success alert-absolute">'._('All tables and fields are installed properly').'!</div>'. "\n";
 }
 else if (isset($tableError)) {
 	print '<div class="alert alert-error alert-absolute" style="text-align:left;">'. "\n";
-	print '<b>Missing tables:</b>'. "\n";
+	print '<b>'._('Missing table').'s:</b>'. "\n";
 	print '<ul>'. "\n";
 	
 	foreach ($tableError as $table) {
@@ -72,7 +73,7 @@ else if (isset($tableError)) {
 }
 else if (isset($fieldError)) {
 	print '<div class="alert alert-error alert-absolute" style="text-align:left;">'. "\n";
-	print '<b>Missing fields:</b>'. "\n";
+	print '<b>'._('Missing fields').':</b>'. "\n";
 	print '<ul>'. "\n";
 	
 	foreach ($fieldError as $table=>$field) {

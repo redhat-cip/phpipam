@@ -12,7 +12,7 @@ $settings = getAllSettings();
 ?>
 
 <!-- title -->
-<h4>phpIPAM Server settings</h4>
+<h4><?php print _('phpIPAM Server settings'); ?></h4>
 <hr>
 
 <form name="settings" id="settings">
@@ -20,61 +20,61 @@ $settings = getAllSettings();
 
 <!-- site settings -->
 <tr class="settings-title">
-	<th colspan="3"><h4>Site settings</h4></th>
+	<th colspan="3"><h4><?php print _('Site settings'); ?></h4></th>
 </tr>
 
 <!-- site title -->
 <tr>
-	<td>Site title</th>
+	<td><?php print _('Site title'); ?></th>
 	<td>
 		<input type="text" name="siteTitle" value="<?php print $settings['siteTitle']; ?>">
 	</td>
-	<td class="info">Set site title</td>
+	<td class="info"><?php print _('Set site title'); ?></td>
 </tr>
 
 <!-- site domain -->
 <tr>
-	<td>Site domain</td>
+	<td><?php print _('Site domain'); ?></td>
 	<td>
-		<input type="text" size="50"name="siteDomain" value="<?php print $settings['siteDomain']; ?>">
+		<input type="text" size="50" name="siteDomain" value="<?php print $settings['siteDomain']; ?>">
 	</td>
-	<td class="info">Set domain for sending mail notifications</td>
+	<td class="info"><?php print _('Set domain for sending mail notifications'); ?></td>
 </tr>
 
 <!-- site URL -->
 <tr>
-	<td class="title">Site URL</td>
+	<td class="title"><?php print _('Site URL'); ?></td>
 	<td>
-		<input type="text" size="50"name="siteURL" value="<?php print $settings['siteURL']; ?>">
+		<input type="text" size="50" name="siteURL" value="<?php print $settings['siteURL']; ?>">
 	</td>
-	<td class="info">Set site URL</td>
+	<td class="info"><?php print _('Set site URL'); ?></td>
 </tr>
 
 
 <!-- Admin settings -->
 <tr class="settings-title">
-	<th colspan="3"><h4>Admin settings</h4></th>
+	<th colspan="3"><h4><?php print _('Admin settings'); ?></h4></th>
 </tr>
 
 <!-- Admin name -->
 <tr>
-	<td class="title">Admin name</td>
+	<td class="title"><?php print _('Admin name'); ?></td>
 	<td>
-		<input type="text" size="50"name="siteAdminName" value="<?php print $settings['siteAdminName']; ?>">
+		<input type="text" size="50" name="siteAdminName" value="<?php print $settings['siteAdminName']; ?>">
 	</td>
 	<td class="info">
-		Set administrator name to display when sending mails and for contact info.
+		<?php print _('Set administrator name to display when sending mails and for contact info'); ?>
 	</td>
 </tr>
 
 <!-- Admin mail -->
 <tr>
-	<td class="title">Admin mail</td>
+	<td class="title"><?php print _('Admin mail'); ?></td>
 	<td>
-		<input type="text" size="50"name="siteAdminMail" value="<?php print $settings['siteAdminMail']; ?>">
+		<input type="text" size="50" name="siteAdminMail" value="<?php print $settings['siteAdminMail']; ?>">
 	</td>
 	<td class="info">
-		Set administrator e-mail to display when sending mails and for contact info.
+		<?php print _('Set administrator e-mail to display when sending mails and for contact info'); ?>
 	</td>
 </tr>
 
@@ -82,109 +82,109 @@ $settings = getAllSettings();
 
 <!-- features -->
 <tr class="settings-title">
-	<th colspan="3"><h4>Feature settings</h4></th>
+	<th colspan="3"><h4><?php print _('Feature settings'); ?></h4></th>
 </tr>
 
 <!-- Domain auth -->
 <tr>
-	<td class="title">Auth type</td>
+	<td class="title"><?php print _('Auth type'); ?></td>
 	<td>
 		<select name="domainAuth">
-			<option value="0" <?php if($settings['domainAuth'] == 0) print 'selected'; ?>>Local authentication only</option>
-			<option value="1" <?php if($settings['domainAuth'] == 1) print 'selected'; ?>>AD authentication</option>
-			<option value="2" <?php if($settings['domainAuth'] == 2) print 'selected'; ?>>OpenLDAP authentication</option>
+			<option value="0" <?php if($settings['domainAuth'] == 0) print 'selected'; ?>><?php print _('Local authentication only'); ?></option>
+			<option value="1" <?php if($settings['domainAuth'] == 1) print 'selected'; ?>><?php print _('AD authentication'); ?></option>
+			<option value="2" <?php if($settings['domainAuth'] == 2) print 'selected'; ?>><?php print _('OpenLDAP authentication'); ?></option>
 		</select>
 	</td>
 	<td class="info">
-		Set authentication type for users. Requires php LDAP support. Set connection settings in admin menu.
+		<?php print _('Set authentication type for users. Requires php LDAP support. Set connection settings in admin menu'); ?>
 	</td>
 </tr>
 
 <!-- Tooltips -->
 <tr>
-	<td class="title">Tooltips</td>
+	<td class="title"><?php print _('Tooltips'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="showTooltips" <?php if($settings['showTooltips'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-		Enable or disable tooltips.
+		<?php print _('Enable or disable tooltips'); ?>
 	</td>
 </tr>
 
 <!-- IP requests -->
 <tr>
-	<td class="title">IP request module</td>
+	<td class="title"><?php print _('IP request module'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="enableIPrequests" <?php if($settings['enableIPrequests'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-		Enable or disable IP request module.
+		<?php print _('Enable or disable IP request module'); ?>
 	</td>
 </tr>
 
 <!-- VRF -->
 <tr>
-	<td class="title">Enable VRF support</td>
+	<td class="title"><?php print _('Enable VRF support'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="enableVRF" <?php if($settings['enableVRF'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-		Enable or disable VRF module.
+		<?php print _('Enable or disable VRF module'); ?>
 	</td>
 </tr>
 
 <!-- DNS resolving -->
 <tr>
-	<td class="title">Resolve DNS names</td>
+	<td class="title"><?php print _('Resolve DNS names'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="enableDNSresolving" <?php if($settings['enableDNSresolving'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-	Check reverse dns lookups for IP addresses that do not have hostname in database. (Activating this feature can significantly increase ip address pages loading time!)
+		<?php print _('Check reverse dns lookups for IP addresses that do not have hostname in database. (Activating this feature can significantly increase ip address pages loading time!)'); ?>
 	</td>
 </tr>
 
 <!-- duplicate VLANs -->
 <tr>
-	<td class="title">Duplicate VLANs</td>
+	<td class="title"><?php print _('Duplicate VLANs'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="vlanDuplicate" <?php if($settings['vlanDuplicate'] == 0) print ''; else print 'checked'; ?>>
 	</td>
 	<td class="info">
-	Allow duplicate VLAN numbers.
+		<?php print _('Allow duplicate VLAN numbers'); ?>
 	</td>
 </tr>
 
 <!-- HTML email -->
 <tr>
-	<td class="title">HTML email</td>
+	<td class="title"><?php print _('HTML email'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="htmlMail" <?php if($settings['htmlMail'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-	Send html mail instead of plain text.
+		<?php print _('Send html mail instead of plain text'); ?>
 	</td>
 </tr>
 
 <!-- Disable donation field -->
 <tr>
-	<td class="title">Hide donation button</td>
+	<td class="title"><?php print _('Hide donation button'); ?></td>
 	<td>
 		<input type="checkbox" value="1" name="donate" <?php if($settings['donate'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-	Hide donation button.
+		<?php print _('Hide donation button'); ?>
 	</td>
 </tr>
 
 <!-- Visual display limit -->
 <tr>
-	<td class="title">IP visual display limit</td>
+	<td class="title"><?php print _('IP visual display limit'); ?></td>
 	<td>
 		<select name="visualLimit" style="width:auto;">
 			<?php
 			$opts = array(
-				"0"=>"Don't show visual display",
+				"0"=>_("Don't show visual display"),
 				"19"=>"/19 (8190)",
 				"20"=>"/20 (4094)",
 				"21"=>"/21 (2046)",
@@ -202,19 +202,19 @@ $settings = getAllSettings();
 		</select>
 	</td>
 	<td class="info">
-	Select netmask limit for visual display of IP addresses (mask equal or smaller than - mode then /22 not recommended)
+		<?php print _('Select netmask limit for visual display of IP addresses (mask equal or bigger than - more then /22 not recommended)'); ?>
 	</td>
 </tr>
 
 
 <!-- Output limit -->
 <tr>
-	<td class="title">IP address print limit</td>
+	<td class="title"><?php print _('IP address print limit'); ?></td>
 	<td>
 		<select name="printLimit" style="width:auto;">
 			<?php
 			$opts = array(
-				"0"=>"Show all",
+				"0"=>_("Show all"),
 				"10"=>"10",
 				"25"=>"25",
 				"50"=>"50",
@@ -230,21 +230,21 @@ $settings = getAllSettings();
 		</select>
 	</td>
 	<td class="info">
-	Number of IP addresses per page
+		<?php print _('Number of IP addresses per page'); ?>
 	</td>
 </tr>
 
 <!-- Subnet ordering -->
 <tr>
-	<td class="title">Subnet ordering</td>
+	<td class="title"><?php print _('Subnet ordering'); ?></td>
 	<td>
 		<select name="subnetOrdering" style="width:auto;">
 			<?php
 			$opts = array(
-				"subnet,asc"		=> "Subnet, ascending",
-				"subnet,desc"		=> "Subnet, descending",
-				"description,asc"	=> "Description, ascending",
-				"description,desc"	=> "Description, descending",
+				"subnet,asc"		=> _("Subnet, ascending"),
+				"subnet,desc"		=> _("Subnet, descending"),
+				"description,asc"	=> _("Description, ascending"),
+				"description,desc"	=> _("Description, descending"),
 			);
 			
 			foreach($opts as $key=>$line) {
@@ -256,7 +256,7 @@ $settings = getAllSettings();
 		</select>
 	</td>
 	<td class="info">
-	How to order display of subnets
+		<?php print _('How to order display of subnets'); ?>
 	</td>
 </tr>
 
@@ -265,7 +265,7 @@ $settings = getAllSettings();
 <tr class="th">
 	<td class="title"></td>
 	<td class="submit">
-		<input type="submit" class="btn btn-small btn-success pull-right" value="Save changes">
+		<input type="submit" class="btn btn-small btn-success pull-right" value="<?php print _('Save changes'); ?>">
 	</td>
 	<td></td>
 </tr>

@@ -67,11 +67,14 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 		
 	<!-- js -->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<!-- 	<script type="text/javascript" src="js/jquery-migrate-1.1.1.min.js"></script> -->
+
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
 <!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
 	<script type="text/javascript" src="js/magic.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
 	<?php 
 	if ($settings['showTooltips'] == 1) { 
 	?>
@@ -107,12 +110,12 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 <div id="popup" class="popup popup_w700"></div>
 
 <!-- loader -->
-<div class="loading">Loading...<br><img src="css/images/ajax-loader.gif"></div>
+<div class="loading"><?php print _('Loading');?>...<br><img src="css/images/ajax-loader.gif"></div>
 
 <!-- page header -->
 <div id="header">
 <div class="hero-unit">
-	<a href=""><?php print $settings['siteTitle']; if($_REQUEST['page'] == "login") { print " | login"; } if($_REQUEST['page'] == "install") { print " | installation"; } ?></a>
+	<a href=""><?php print $settings['siteTitle']; if($_REQUEST['page'] == "login") { print " | "._('login'); } if($_REQUEST['page'] == "install") { print " | "._('installation'); } ?></a>
 </div>
 </div>
 
@@ -178,13 +181,13 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 			print "<div id='content' class='span10'>";
 				if( isset($_REQUEST['toolsId']) && (strlen($_REQUEST['toolsId']) == 0) )	{ unset($_REQUEST['toolsId']); }
 				# subnets
-				if($_REQUEST['page'] == "subnets" && !isset($_REQUEST['subnetId']))					{ print "<div class='alert alert-info alert-dash'><i class='icon-gray icon-chevron-left'></i> Please select subnet from left menu!</div>"; }
+				if($_REQUEST['page'] == "subnets" && !isset($_REQUEST['subnetId']))					{ print "<div class='alert alert-info alert-dash'><i class='icon-gray icon-chevron-left'></i> "._('Please select subnet from left menu')."!</div>"; }
 				else if($_REQUEST['page'] == "subnets")												{ include_once("site/ipaddr/ipAddressSwitch.php"); }
 				# tools		
-				else if ($_REQUEST['page'] == "tools" && !isset($_REQUEST['toolsId']))				{ print "<div class='alert alert-info alert-dash'><i class='icon-gray icon-chevron-left'></i> Please select tool from left menu!</div>"; }
+				else if ($_REQUEST['page'] == "tools" && !isset($_REQUEST['toolsId']))				{ print "<div class='alert alert-info alert-dash'><i class='icon-gray icon-chevron-left'></i> "._('Please select tool from left menu!')."</div>"; }
 				else if ($_REQUEST['page'] == "tools")												{ include_once("site/tools/$_REQUEST[toolsId].php"); }
 				# admin
-				else if ($_REQUEST['page'] == "administration"  && !isset($_REQUEST['adminId']))	{ print "<div class='alert alert-info alert-dash'><i class='icon-gray icon-chevron-left'></i> Please select setting from left menu!</div>"; }    	
+				else if ($_REQUEST['page'] == "administration"  && !isset($_REQUEST['adminId']))	{ print "<div class='alert alert-info alert-dash'><i class='icon-gray icon-chevron-left'></i> "._('Please select setting from left menu!')."</div>"; }    	
 				else if ($_REQUEST['page'] == "administration")										{ include_once("site/admin/$_REQUEST[adminId].php"); }    	
 			print "</div>";
     	}

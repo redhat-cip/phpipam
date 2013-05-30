@@ -14,7 +14,7 @@ $sections = fetchSections ();
 $custom = getCustomSubnetFields();
 
 # title
-print "<h4>Available subnets</h4>";
+print "<h4>"._('Available subnets')."</h4>";
 print "<hr>";
 
 # table
@@ -33,7 +33,7 @@ foreach ($sections as $section) {
 		# section names
 		print "<tbody>";
 		print "	<tr class='subnets-title'>";
-		print "		<th colspan='$colSpan'><h4>$section[name] section [$section[description]]</h4></th>";
+		print "		<th colspan='$colSpan'><h4>$section[name] [$section[description]]</h4></th>";
 		print "	</tr>";
 		print "</tbody>";	
 
@@ -42,13 +42,13 @@ foreach ($sections as $section) {
 
 		# headers
 		print "	<tr>";
-		print "	<th>Subnet</th>";
-		print "	<th>Description</th>";
-		print "	<th>VLAN</th>";	
-		print "	<th>Master Subnet</th>";
-		print "	<th>Used</th>";
-		print "	<th>free [%]</th>";
-		print "	<th>Requests</th>";
+		print "	<th>"._('Subnet')."</th>";
+		print "	<th>"._('Description')."</th>";
+		print "	<th>"._('VLAN')."</th>";	
+		print "	<th>"._('Master Subnet')."</th>";
+		print "	<th>"._('Used')."</th>";
+		print "	<th>"._('free')." [%]</th>";
+		print "	<th>"._('Requests')."</th>";
 		if(sizeof($custom) > 0) {
 			foreach($custom as $field) {
 				print "	<th>$field[name]</th>";
@@ -101,7 +101,7 @@ foreach ($sections as $section) {
 				}
 	
 				# allow requests
-				if($subnet['allowRequests'] == 1) 			{ print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>'; }
+				if($subnet['allowRequests'] == 1) 			{ print '<td class="allowRequests requests">'._('enabled').'</td>'; }
 				else 										{ print '<td class="allowRequests"></td>'; }
 
 				# custom

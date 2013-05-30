@@ -17,16 +17,16 @@
 function verifyUserModInput ($userModDetails)
 {
     # real name must be entered
-    if (!$userModDetails['real_name']) 																	{ $errors[] = 'Real name field is mandatory!'; }
+    if (!$userModDetails['real_name']) 																			{ $errors[] = _('Real name field is mandatory!'); }
     # Both passwords must be same
-    if ($userModDetails['password1'] != $userModDetails['password2']) 									{ $errors[] = "Passwords do not match!"; }
+    if ($userModDetails['password1'] != $userModDetails['password2']) 											{ $errors[] = _("Passwords do not match!"); }
     # pass must be at least 8 chars long for non-domain users
     if($userModDetails['domainUser'] != 1 ) { 
-    	if ((strlen($userModDetails['password1orig']) < 8 ) && (strlen($userModDetails['password1orig']) != 0)) { $errors[] = "Password must be at least 8 characters long!"; }
-    	else if (($userModDetails['action'] == "add") && (strlen($userModDetails['password1orig']) < 8 )) 	{ $errors[] = "Password must be at least 8 characters long!"; }
+    	if ((strlen($userModDetails['password1orig']) < 8 ) && (strlen($userModDetails['password1orig']) != 0)) { $errors[] = _("Password must be at least 8 characters long!"); }
+    	else if (($userModDetails['action'] == "add") && (strlen($userModDetails['password1orig']) < 8 )) 		{ $errors[] = _("Password must be at least 8 characters long!"); }
     }
     # email format must be valid
-    if (!checkEmail($userModDetails['email'])) 															{ $errors[] = "Invalid email address!"; }
+    if (!checkEmail($userModDetails['email'])) 																	{ $errors[] = _("Invalid email address!"); }
     # username must not already exist (if action is add)
     if ($userModDetails['action'] == "add") {
         global $db;																	 				# get variables from config file
@@ -38,11 +38,11 @@ function verifyUserModInput ($userModDetails)
         try { $details = $database->getArray( $query ); }
         catch (Exception $e) { 
         	$error =  $e->getMessage(); 
-        	die("<div class='alert alert-error'>Error: $error</div>");
+        	die("<div class='alert alert-error'>"._('Error').": $error</div>");
         }
 
         # user already exists
-        if (sizeof($details) != 0) 																		{ $errors[] = "User $userModDetails[username] already exists!"; }
+        if (sizeof($details) != 0) 																				{ $errors[] = _("User")." ".$userModDetails['username']." "._("already exists!"); }
     }
     # return errors
     return($errors);
@@ -70,7 +70,7 @@ function deleteUserById($id, $name = "")
 	}
 	# problem
 	else {
-		print "<div class='alert alert-error'>Cannot delete user!<br><strong>Error</strong>: $error</div>";
+		print "<div class='alert alert-error'>"._('Cannot delete user')."!<br><strong>"._('Error')."</strong>: $error</div>";
 		updateLogTable ('Cannot delete user '. $name, 'Cannot delete user '. $name , 2);	# write error log
 		return false;
 	}
@@ -105,8 +105,8 @@ function updateUserById ($userModDetails) {
 		}
     
         $query  = "insert into users ";
-        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`,`groups` $myFieldsInsert[query]) values "; 
-        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]','".$userModDetails['groups']."' $myFieldsInsert[values]);";
+        $query .= "(`username`, `password`, `role`, `real_name`, `email`, `domainUser`,`groups`,`lang` $myFieldsInsert[query]) values "; 
+        $query .= "('$userModDetails[username]', '$userModDetails[password1]', '$userModDetails[role]', '$userModDetails[real_name]', '$userModDetails[email]', '$userModDetails[domainUser]','$userModDetails[groups]','$userModDetails[lang]' $myFieldsInsert[values]);";
     }
     else {
 
@@ -126,7 +126,7 @@ function updateUserById ($userModDetails) {
         if (strlen($userModDetails['password1']) != 0) {
         $query .= "`password` = '$userModDetails[password1]', "; 
         }
-        $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]', `groups`='".$userModDetails['groups']."' "; 
+        $query .= "`role`     = '$userModDetails[role]', `real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', `domainUser`= '$userModDetails[domainUser]', `lang`= '$userModDetails[lang]', `groups`='".$userModDetails['groups']."' "; 
     	$query .= $myFieldsInsert['query'];  
         $query .= "where `id` = '$userModDetails[userId]';";
     }
@@ -144,7 +144,7 @@ function updateUserById ($userModDetails) {
 	}
 	# problem
 	else {
-		print "<div class='alert alert-error'>Cannot ".$userModDetails['action']." user!<br><strong>Error</strong>: $error</div>";
+		print "<div class='alert alert-error'>"._("Cannot $userModDetails[action] user")."!<br><strong>"._('Error')."</strong>: $error</div>";
 		updateLogTable ('Cannot modify user '. $userModDetails['username'], $log, 2);	# write error log
 		return false;
 	}
@@ -164,7 +164,8 @@ function selfUpdateUser ($userModDetails)
     if(strlen($userModDetails['password1']) != 0) {
     $query .= "`password` = '$userModDetails[password1]',";
     }
-    $query .= "`real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]' ";
+    $query .= "`real_name`= '$userModDetails[real_name]', `email` = '$userModDetails[email]', ";
+    $query .= "`lang`= '$userModDetails[lang]' ";
     $query .= "where `id` = '$userModDetails[userId]';";
     
     /* set log file */
@@ -182,7 +183,7 @@ function selfUpdateUser ($userModDetails)
 	}
 	# problem
 	else {
-		print "<div class='alert alert-error'>Cannot update user!<br><strong>Error</strong>: $error</div>";
+		print "<div class='alert alert-error'>"._('Cannot update user')."!<br><strong>"._('Error')."</strong>: $error</div>";
 		updateLogTable ('User '. $userModDetails['real_name'] . ' selfupdate failed', $log,  2);	# write error log
 		return false;
 	}
@@ -214,7 +215,7 @@ function getAllGroups()
     try { $groups = $database->getArray( $query ); }
     catch (Exception $e) { 
      	$error =  $e->getMessage(); 
-        die("<div class='alert alert-error'>Error: $error</div>");
+        die("<div class='alert alert-error'>"._('Error').": $error</div>");
     }
    	
    	/* return false if none, else list */
@@ -238,7 +239,7 @@ function getGroupById($id)
     try { $group = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        die("<div class='alert alert-error'>Error: $error</div>");
+        die("<div class='alert alert-error'>"._('Error').": $error</div>");
     }
    	
    	/* return false if none, else list */
@@ -384,7 +385,7 @@ function modifyGroup($g)
 	}
 	# problem
 	else {
-		print "<div class='alert alert-error'>Cannot ".$userModDetails['action']." user!<br><strong>Error</strong>: $error</div>";
+		print "<div class='alert alert-error'>"._("Cannot $userModDetails[action] user")."!<br><strong>"._('Error')."</strong>: $error</div>";
 		updateLogTable ("Group $g[action] error", $log, 2);	# write error log
 		return false;
 	}    
@@ -504,7 +505,7 @@ function updateUserGroups($uid, $groups)
 	# update
     try { $database->executeQuery($query); }
     catch (Exception $e) { 
-    	print "<div class='alert alert-error'>$e</div>";
+    	print "<div class='alert alert-error'>"._('Error').": $e</div>";
     	return false; 
     }
     
@@ -530,7 +531,7 @@ function updateSectionGroups($sid, $groups)
 	# update
     try { $database->executeQuery($query); }
     catch (Exception $e) { 
-    	print "<div class='alert alert-error'>$e</div>";
+    	print "<div class='alert alert-error'>"._('Error').": $e</div>";
     	return false; 
     }
     
@@ -560,6 +561,7 @@ function modifySubnetDetails ($subnetDetails, $lastId = false)
 
     # replace special chars
     $subnetDetails['permissions'] = mysqli_real_escape_string($database, $subnetDetails['permissions']);
+    $subnetDetails['description'] = mysqli_real_escape_string($database, $subnetDetails['description']); 
 
     # set modify subnet details query
     $query = setModifySubnetDetailsQuery ($subnetDetails, $sectionChange);
@@ -815,10 +817,6 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				if($option['value']['allowRequests'] == 1) 			{ $requests = "enabled"; }												# requests enabled
 				else 												{ $requests = ""; }														# request disabled				
 
-				# check if it is locked for writing
-				if($option['value']['adminLock'] == "1") 			{ $locked   = "<i class='icon-gray icon-lock' rel='tooltip' title='subnet is locked for writing for non-admins!'></i>"; } 	# locked
-				else 												{ $locked   = ""; }																											# unlocked
-			
 				#vrf
 				if($vrf == "1") {
 					# get VRF details
@@ -842,7 +840,6 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				$html[] = "	<td>$vrfText</td>";
 				}
 				$html[] = "	<td>$requests</td>";
-				$html[] = "	<td>$locked</td>";
 				if($actions) {
 				$html[] = "	<td class='actions'>";
 				$html[] = "	<div class='btn-group'>";
@@ -888,7 +885,7 @@ function updateSubnetPermissions ($subnet)
     try { $database->executeMultipleQuerries($query); }
     catch (Exception $e) { 
     	$error =  $e->getMessage(); 
-    	print('<div class="alert alert-error">'.$error.'</div>');
+    	print('<div class="alert alert-error">'._('Error').': '.$error.'</div>');
     	return false;
     }
   
@@ -919,8 +916,10 @@ function UpdateSection ($update)
     
      # replace special chars for permissions
     $update['permissions'] = mysqli_real_escape_string($database, $update['permissions']);   
+    $update['description'] = mysqli_real_escape_string($database, $update['description']); 
+    $update['name'] 	   = mysqli_real_escape_string($database, $update['name']); 
     
-    if (!$update['name']) 	{ die('<div class="alert alert-error">Name is mandatory!</div>'); }	# section name is mandatory
+    if (!$update['name']) 	{ die('<div class="alert alert-error">'._('Name is mandatory').'!</div>'); }	# section name is mandatory
 
     $query = setUpdateSectionQuery ($update);										# set update section query
 
@@ -929,26 +928,31 @@ function UpdateSection ($update)
     # delete and edit requires multiquery
     if ( ( $update['action'] == "delete") || ( $update['action'] == "edit") )
     {
-        if (!$result  = $database->executeMultipleQuerries($query)) {
-            updateLogTable ('Section ' . $update['action'] .' failed ('. $update['name'] . ')', $log, 2);	# write error log
-            die('<div class="alert alert-error">Cannot '. $update['action'] .' all entries!</div>');
-        }
-        else {
-            updateLogTable ('Section '. $update['name'] . ' ' . $update['action'] .' ok', $log, 1);			# write success log
-            return true;
-        }
+		# execute
+		try { $result = $database->executeMultipleQuerries($query); }
+		catch (Exception $e) { 
+    		$error =  $e->getMessage(); 
+            updateLogTable ('Section ' . $update['action'] .' failed ('. $update['name']. ') - '.$error, $log, 2);	# write error log
+            print ('<div class="alert alert-error">'.("Cannot $update[action] all entries").' - '.$error.'!</div>');
+    		return false;
+    	}
+    	# success
+        updateLogTable ('Section '. $update['name'] . ' ' . $update['action'] .' ok', $log, 1);			# write success log
+        return true;
     }
     # add is single querry
     else 
     {
-        if (!$result  = $database->executeQuery($query)) {
-            updateLogTable ('Adding section '. $update['name'] .'failed', $log, 2);							# write error log
-            die('<div class="alert alert-error">Cannot update database!</div>');
-        }
-        else {
-            updateLogTable ('Section '. $update['name'] .' added succesfully', $log, 1);					# write success log
-            return true;
-        }
+		# execute
+		try { $result = $database->executeQuery($query); }
+		catch (Exception $e) { 
+    		$error =  $e->getMessage(); 
+            updateLogTable ('Adding section '. $update['name'] .'failed - '.$error, $log, 2);							# write error log
+            die('<div class="alert alert-error">'.('Cannot update database').'!<br>'.$error.'</div>');  
+		}
+		# success
+        updateLogTable ('Section '. $update['name'] .' added succesfully', $log, 1);					# write success log
+        return true;
     }
 }
 
@@ -1118,7 +1122,7 @@ function updateIPaddressesOnSwitchChange($old, $new)
     try { $switch = $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }
     
@@ -1132,15 +1136,15 @@ function updateIPaddressesOnSwitchChange($old, $new)
  */
 function getSwitchTypes() 
 {
-	$res[0] = "Switch";
-	$res[1] = "Router";
-	$res[2] = "Firewall";
-	$res[3] = "Hub";
-	$res[4] = "Wireless";
-	$res[5] = "Database";
-	$res[6] = "Workstation";
-	$res[7] = "Laptop";
-	$res[8] = "Other";
+	$res[0] = _("Switch");
+	$res[1] = _("Router");
+	$res[2] = _("Firewall");
+	$res[3] = _("Hub");
+	$res[4] = _("Wireless");
+	$res[5] = _("Database");
+	$res[6] = _("Workstation");
+	$res[7] = _("Laptop");
+	$res[8] = _("Other");
 
 	return $res;
 }
@@ -1152,14 +1156,14 @@ function getSwitchTypes()
 function TransformSwitchType($type) 
 {
 	switch($type) {
-		case "0":	$res = "Switch";	break;
-		case "1":	$res = "Router";	break;
-		case "2":	$res = "Firewall";	break;
-		case "3":	$res = "Hub";		break;
-		case "4":	$res = "Wireless";	break;
-		case "5":	$res = "Database";	break;
-		case "6":	$res = "Workstation";	break;
-		case "7":	$res = "Other";		break;
+		case "0":	$res = _("Switch");		break;
+		case "1":	$res = _("Router");		break;
+		case "2":	$res = _("Firewall");	break;
+		case "3":	$res = _("Hub");		break;
+		case "4":	$res = _("Wireless");	break;
+		case "5":	$res = _("Database");	break;
+		case "6":	$res = _("Workstation");break;
+		case "7":	$res = _("Other");		break;
 	}	
 	return $res;
 }
@@ -1198,7 +1202,7 @@ function getADSettings()
     try { $settings = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }
   		  
@@ -1232,7 +1236,7 @@ function updateADsettings($ad)
     try { $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     }
     
@@ -1277,7 +1281,7 @@ function updateVRFDetails($vrf)
     try { $res = $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
    		updateLogTable ('VRF ' . $vrf['action'] .' failed ('. $vrf['name'] . ')'.$error, $log, 2);
     	return false;
     }
@@ -1368,7 +1372,7 @@ function updateVLANDetails($vlan)
     try { $res = $database->executeQuery( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
    		updateLogTable ('VLAN ' . $vlan['action'] .' failed ('. $vlan['name'] . ')'.$error, $log, 2);
     	return false;
     }
@@ -1443,7 +1447,7 @@ function updateSettings($settings)
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	print '<div class="alert alert-error">Update settings error:<hr>'. $error .'</div>';
+    	print '<div class="alert alert-error">'._('Update settings error').':<hr>'. $error .'</div>';
     	updateLogTable ('Failed to update settings', $log, 2);
     	return false;
 	}
@@ -1487,11 +1491,11 @@ function searchAndReplace($query, $post)
     }
     catch (Exception $e) {
     	$error =  $e->getMessage();
-    	die('<div class="alert alert-error alert-absolute">Replace error: '. $error .'</div>');
+    	die('<div class="alert alert-error alert-absolute">'._('Error').': '. $error .'</div>');
 	}
 	
 	if(!isset($e)) {
-		print '<div class="alert alert-success alert-absolute">Replaced '. $count .' items successfully!</div>';
+		print '<div class="alert alert-success alert-absolute">'._('Replaced').' '. $count .' '._('items successfully').'!</div>';
 	}
 }
 
@@ -1540,12 +1544,12 @@ function importCSVline ($line, $subnetId)
    
     /* verify! */
     if (VerifyIpAddress( $line[0] , $subnet )) {
-    	return 'Wrong IP address - '. $line[0];
+    	return _('Wrong IP address').' - '. $line[0];
     } 
     
     /* check for duplicates */
     if (checkDuplicate ($line[0], $subnetId)) {
-    	return 'IP address already exists - '. $line[0];
+    	return _('IP address already exists').' - '. $line[0];
     }
     
     /* reformat state */
@@ -1627,7 +1631,7 @@ function getIPaddrFields()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -1655,7 +1659,7 @@ function getSelectedIPaddrFields()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
 	
@@ -1711,7 +1715,7 @@ function getCustomIPaddrFields()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -1744,7 +1748,7 @@ function getCustomIPaddrFieldsNumArr()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -1842,7 +1846,7 @@ function getCustomSubnetFields()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -1875,7 +1879,7 @@ function getCustomSubnetsFieldsNumArr()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -1974,7 +1978,7 @@ function getCustomVLANFields()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -2006,7 +2010,7 @@ function getCustomVLANFieldsNumArr()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -2100,7 +2104,7 @@ function getCustomUserFields()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   
@@ -2111,7 +2115,7 @@ function getCustomUserFields()
 	}
 	
 	/* unset standard fields */
-	unset($res['id'], $res['username'], $res['password'], $res['groups'], $res['role'], $res['real_name'], $res['email'], $res['domainUser']);
+	unset($res['id'], $res['username'], $res['password'], $res['groups'], $res['role'], $res['real_name'], $res['email'], $res['domainUser'], $res['lang']);
 	
 	return $res;
 }
@@ -2132,7 +2136,7 @@ function getCustomUserFieldsNumArr()
     try { $fields = $database->getArray( $query ); }
     catch (Exception $e) { 
         $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>Error: $error</div>");
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
         return false;
     } 
   

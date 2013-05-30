@@ -37,8 +37,8 @@ $update['slaves'] = array_unique($removeSlaves);
 
 /* do action! */
 if (updateSubnetPermissions ($update)) {
-	if(sizeof($update['slaves'])>1) { print '<div class="alert alert-success">Subnet permissions set for subnet and underlying subnets!</div>'; }
-	else 							{ print '<div class="alert alert-success">Subnet permissions set!</div>'; }
+	if(sizeof($update['slaves'])>1) { print '<div class="alert alert-success">'._('Subnet permissions set for subnet and underlying subnets').'!</div>'; }
+	else 							{ print '<div class="alert alert-success">'._('Subnet permissions set').'!</div>'; }
 }
 
 ?>

@@ -19,14 +19,14 @@ $cidr = $_POST['cidr'];
 $errors = verifyCidr ($cidr,0);
 
 # die on errors
-if (sizeof($errors) != 0) { die('<div class="alert alert-error alert-absolute">Invalid input: '.  $errors[0] .'</div>'); }
+if (sizeof($errors) != 0) { die('<div class="alert alert-error alert-absolute">'._('Invalid input').': '.  $errors[0] .'</div>'); }
 
 /* calculate results */
 $ipCalcResults = calculateIpCalcResult ($cidr);
 ?>
 
 <hr>
-<h4>Subnetting details for <?php print $cidr; ?>:</h4>
+<h4><?php print _('Subnetting details for');?> <?php print $cidr; ?>:</h4>
 
 <!-- IPcalc result table -->
 <table class="ipCalcResult table table-striped table-condensed">
@@ -37,7 +37,7 @@ $ipCalcResults = calculateIpCalcResult ($cidr);
     foreach ($ipCalcResults as $key=>$line) 
     {
         print '<tr>';
-        print ' <td>'. $key .'</td>';
+        print ' <td>'._("$key").'</td>';
         print ' <td id="sub'. $m .'">'. $line .'</td>';
         print '</tr>';
         
@@ -50,17 +50,17 @@ $ipCalcResults = calculateIpCalcResult ($cidr);
     <tr>
     	<td></td>
     	<td style="padding-top:10px">
-    		<button id="createSubnetFromCalc" class="btn btn-small"><i class="icon-plus"></i> Create subnet from result</button>
+    		<button id="createSubnetFromCalc" class="btn btn-small"><i class="icon-plus"></i> <?php print _('Create subnet from result');?></button>
     	</td>
     </tr>
     
     <!-- select section -->
 	<tr id="selectSection" style="display:none">
-		<td style="text-align:right">Select Section:</td>
+		<td style="text-align:right"><?php print _('Select Section');?>:</td>
 		<td>
 		
 		<select name="selectSectionfromIPCalc" id="selectSectionfromIPCalc">
-			<option value="">Please select:</option>
+			<option value=""><?php print _('Please select');?>:</option>
 		<?php
 			//get all sections
 			$sections = fetchSections ();

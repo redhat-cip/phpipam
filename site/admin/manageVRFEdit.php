@@ -23,7 +23,7 @@ else 								{ $readonly = ""; }
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> VRF</div>
+<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('VRF'); ?></div>
 
 <!-- content -->
 <div class="pContent">
@@ -33,28 +33,28 @@ else 								{ $readonly = ""; }
 
 	<!-- hostname  -->
 	<tr>
-		<td>Name</td>
+		<td><?php print _('Name'); ?></td>
 		<td>
-			<input type="text" class="name" name="name" placeholder="VRF name" value="<?php if(isset($vrf['name'])) print $vrf['name']; ?>" <?php print $readonly; ?>>
+			<input type="text" class="name" name="name" placeholder="<?php print _('VRF name'); ?>" value="<?php if(isset($vrf['name'])) print $vrf['name']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 	<!-- IP address -->
 	<tr>
-		<td>RD</td>
+		<td><?php print _('RD'); ?></td>
 		<td>
-			<input type="text" class="rd" name="rd" placeholder="Route distinguisher" value="<?php if(isset($vrf['rd'])) print $vrf['rd']; ?>" <?php print $readonly; ?>>
+			<input type="text" class="rd" name="rd" placeholder="<?php print _('Route distinguisher'); ?>" value="<?php if(isset($vrf['rd'])) print $vrf['rd']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 
 	<!-- Vendor -->
 	<tr>
-		<td>Description</td>
+		<td><?php print _('Description'); ?></td>
 		<td>
 			<?php
 			if( ($_POST['action'] == "edit") || ($_POST['action'] == "delete") ) { print '<input type="hidden" name="vrfId" value="'. $_POST['vrfId'] .'">'. "\n";}
 			?>		
 			<input type="hidden" name="action" value="<?php print $_POST['action']; ?>">			
-			<input type="text" class="description" name="description" placeholder="Description" value="<?php if(isset($vrf['description'])) print $vrf['description']; ?>" <?php print $readonly; ?>>
+			<input type="text" class="description" name="description" placeholder="<?php print _('Description'); ?>" value="<?php if(isset($vrf['description'])) print $vrf['description']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 	
@@ -70,8 +70,8 @@ else 								{ $readonly = ""; }
 
 <!-- footer -->
 <div class="pFooter">
-	<button class="btn btn-small hidePopups">Cancel</button>
-	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editVRF"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($_POST['action']); ?> VRF</button>
+	<button class="btn btn-small hidePopups"><?php print _('Cancel'); ?></button>
+	<button class="btn btn-small <?php if($_POST['action']=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editVRF"><i class="icon-white <?php if($_POST['action']=="add") { print "icon-plus"; } else if ($_POST['action']=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords(_($_POST['action'])); ?></button>
 	<!-- result -->
 	<div class="vrfManagementEditResult"></div>
 </div>

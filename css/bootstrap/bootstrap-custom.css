@@ -774,7 +774,8 @@ table.slaves tr.success td {
 .editIPAddress select {
 	padding: 1px 6px;
 }
-.editIPAddress input[type=checkbox] {
+.editIPAddress input[type=checkbox],
+#popup.popup input[type=checkbox] {
 	margin-top: 0px;
 }
 
@@ -1379,7 +1380,7 @@ div.loading {
     display: none;
     
     left: 47%;
-    top:30%;
+    top:200px;
     
     padding: 10px;
     text-align: center;

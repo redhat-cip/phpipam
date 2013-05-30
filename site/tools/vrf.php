@@ -14,12 +14,12 @@ $vrfs = getAllVRFs ();
 
 
 /* title */
-print "<h4>Available VRFs and belonging subnets</h4>";
+print "<h4>"._('Available VRFs and belonging subnets')."</h4>";
 print "<hr>";
 
 
 /* for each VRF check which subnet has it configured */
-if(!$vrfs) { print "<div class='alert alert-warn'>No VRFs configured!</div>"; }
+if(!$vrfs) { print "<div class='alert alert-warn'>"._('No VRFs configured')."!</div>"; }
 else {
 	# print table
 	print "<table id='vrf' class='table table-striped table-condensed table-top'>";
@@ -39,13 +39,13 @@ else {
 	
 	# headers
 	print "	<tr>";
-	print "	<th>VLAN</th>";	
-	print "	<th>Description</td>";
-	print "	<th>Subnet</td>";
-	print "	<th>Master Subnet</td>";
-	print "	<th>Used</td>";
-	print "	<th>free [%]</td>";
-	print "	<th>Requests</td>";
+	print "	<th>"._('VLAN')."</th>";	
+	print "	<th>"._('Description')."</td>";
+	print "	<th>"._('Subnet')."</td>";
+	print "	<th>"._('Master Subnet')."</td>";
+	print "	<th>"._('Used')."</td>";
+	print "	<th>"._('Free')." [%]</td>";
+	print "	<th>"._('Requests')."</td>";
 	print "</tr>";	
 
 	# subnets
@@ -83,7 +83,7 @@ else {
 				else {
 					$master = getSubnetDetailsById ($subnet['masterSubnetId']);
 					# orphaned
-					if(strlen($master['subnet']) == 0)	{ print "	<td><div class='alert alert-warn'>Master subnet does not exist!</div></td>";}
+					if(strlen($master['subnet']) == 0)	{ print "	<td><div class='alert alert-warn'>"._('Master subnet does not exist')."!</div></td>";}
 					else 								{ print "	<td><a href='/subnets/$subnet[sectionId]/$subnet[masterSubnetId]/'>".transform2long($master['subnet'])."/$master[mask] ($master[description])</a></td>"; }
 				}
 	
@@ -101,7 +101,7 @@ else {
 				}
 	
 				# allow requests
-				if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests requests" title="IP requests are enabled">enabled</td>'; }
+				if($subnet['allowRequests'] == 1) 	{ print '<td class="allowRequests requests">'._('enabled').'</td>'; }
 				else 								{ print '<td class="allowRequests"></td>'; }
     
 				print '</tr>' . "\n";
@@ -111,7 +111,7 @@ else {
 	# no subnets!
 	else {
 		print '<tr>'. "\n";
-		print '<td colspan="8"><div class="alert alert-warn">No subnets belonging to this VRF!</div></td>'. "\n";
+		print '<td colspan="8"><div class="alert alert-warn">'._('No subnets belonging to this VRF').'!</div></td>'. "\n";
 		print '</tr>'. "\n";
 	}
 	

@@ -9,7 +9,7 @@ require_once('../../functions/functions.php');
 
 /* verify that user has write permissions for subnet */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
-if($subnetPerm != "2") 	{ die('<div class="alert alert-error">You do not have permissions to resize subnet!</div>'); }
+if($subnetPerm != "2") 	{ die('<div class="alert alert-error">'._('You do not have permissions to resize subnet').'!</div>'); }
 
 
 /* verify post */
@@ -40,9 +40,7 @@ foreach($ipaddresses as $ip) {
 }
 
 /* ask must be > 8 */
-if($_POST['newMask'] < 8) {
-	die('<div class="alert alert-error">New mask must be at least /8!</div>');
-}
+if($_POST['newMask'] < 8) { die('<div class="alert alert-error">'._('New mask must be at least /8').'!</div>'); }
 
 /* 
  * if strict mode is enabled check that is is still inside master subnet!
@@ -52,7 +50,7 @@ if($section['strictMode'] == 1) {
     	# get master details
     	$master = getSubnetDetailsById($subnetOld['masterSubnetId']);
 		$master = Transform2long($master['subnet']) . "/" . $master['mask']." - ".$master['description'];
-    	$errors[] = "New subnet not in master subnet!<br>($master)";
+    	$errors[] = _("New subnet not in master subnet")."!<br>($master)";
     }
 }
 
@@ -65,7 +63,7 @@ if($section['strictMode'] == 1) {
 	if(sizeof($slaves) > 0) {
 		foreach($slaves as $slave) {
 			if(!isSubnetInsideSubnet (transform2long($slave['subnet'])."/".$slave['mask'], transform2long($subnetOld['subnet'])."/".$_POST['newMask'])) {
-				$errors[] = "Nested subnet out of new subnet!<br>(".transform2long($slave['subnet'])."/$slave[mask] - $slave[description])";	
+				$errors[] = _("Nested subnet out of new subnet")."!<br>(".transform2long($slave['subnet'])."/$slave[mask] - $slave[description])";	
 			}
 		}
 	}
@@ -83,9 +81,9 @@ if(sizeof($errors) > 0) {
 # all good, edit subnet!
 else {
 	# failed
-    if (!modifySubnetMask ($_POST['subnetId'], $_POST['newMask'])) 	{ print '<div class="alert alert-error">Error resizing subnet!</div>'; }
+    if (!modifySubnetMask ($_POST['subnetId'], $_POST['newMask'])) 	{ print '<div class="alert alert-error">'._('Error resizing subnet').'!</div>'; }
     # all good
-    else 															{ print '<div class="alert alert-success">Subnet resized successfully!</div>'; } 
+    else 															{ print '<div class="alert alert-success">'._('Subnet resized successfully').'!</div>'; } 
 }
 
 ?>

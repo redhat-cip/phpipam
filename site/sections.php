@@ -63,7 +63,7 @@ $setFields = explode(";", $setFieldsTemp);
 					if( ($section['name'] == $_REQUEST['section']) || ($section['id'] == $_REQUEST['section']) ) 	{ print "<li class='active'>"; }
 					else 																							{ print "<li>"; }
 				
-					print "	<a href='subnets/$section[id]/' rel='tooltip' data-placement='bottom' title='Show all subnets in $section[name] section'>$section[name]</a>";
+					print "	<a href='subnets/$section[id]/' rel='tooltip' data-placement='bottom' title='"._('Show all subnets in section')." $section[name]'>$section[name]</a>";
 					print "</li>";
 				}
 			}
@@ -76,7 +76,7 @@ $setFields = explode(";", $setFieldsTemp);
 	<td class="fixed instr">	
 		<ul class="nav nav-tabs">
 			<li>
-				<a href="tools/instructions/" rel='tooltip' data-placement='bottom' title="Show IP addressing Guide"><img src="css/images/info.png" style="width:20px;"></a>
+				<a href="tools/instructions/" rel='tooltip' data-placement='bottom' title="<?php print _('Show IP addressing guide'); ?>"><img src="css/images/info.png" style="width:20px;"></a>
 			</li>
 		</ul>
 	</td>
@@ -85,25 +85,25 @@ $setFields = explode(";", $setFieldsTemp);
 	<td class="fixed">
 	    <ul class="nav nav-tabs pull-right">
 	    	<li class="dropdown">
-	    		<a class="dropdown-toggle topmenulink" data-toggle="dropdown" href="" rel='tooltip' data-placement='bottom' title='Show tools menu'><i class="icon-wrench icon-white"></i> Tools <b class="caret"></b></a>
+	    		<a class="dropdown-toggle topmenulink" data-toggle="dropdown" href="" rel='tooltip' data-placement='bottom' title='<?php print _('Show tools menu'); ?>'><i class="icon-wrench icon-white"></i> <?php print _('Tools'); ?> <b class="caret"></b></a>
 	    		<ul class="dropdown-menu tools">
 	    			<!-- public -->
-	    			<li class="nav-header">Available IPAM tools</li>
+	    			<li class="nav-header"><?php print _('Available IPAM tools'); ?> </li>
 	    			<!-- private -->
 	    			<?php
 	    				# if adminId is not set
 	    				if(!isset($_REQUEST['toolsId'])) { $_REQUEST['toolsId'] = ""; }
 			    		
-			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>IP calculator</a></li>"; 
-				    	print "	<li "; if($_REQUEST['toolsId'] == "devices") 	print "class='active'"; print "><a href='tools/devices/'>Devices</a></li>";
+			    		print "	<li "; if($_REQUEST['toolsId'] == "ipCalc") 	print "class='active'"; print "><a href='tools/ipCalc/'>"._('IP calculator')."</a></li>"; 
+				    	print "	<li "; if($_REQUEST['toolsId'] == "devices") 	print "class='active'"; print "><a href='tools/devices/'>"._('Devices')."</a></li>";
 				    	if($settings['enableVRF'] == 1) {									# print VRFs if enabled
-				    	print "	<li "; if($_REQUEST['toolsId'] == "vrf") 		print "class='active'"; print "><a href='tools/vrf/'>VRFs</a></li>"; 
+				    	print "	<li "; if($_REQUEST['toolsId'] == "vrf") 		print "class='active'"; print "><a href='tools/vrf/'>"._('VRFs')."</a></li>"; 
 					    }
-				    	print "	<li "; if($_REQUEST['toolsId'] == "vlan") 		print "class='active'"; print "><a href='tools/vlan/'>VLANs</a></li>"; 	
-				    	print "	<li "; if($_REQUEST['toolsId'] == "subnets") 	print "class='active'"; print "><a href='tools/subnets/'>Subnets</a></li>"; 
-				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>Search</a></li>"; 
+				    	print "	<li "; if($_REQUEST['toolsId'] == "vlan") 		print "class='active'"; print "><a href='tools/vlan/'>"._('VLANs')."</a></li>"; 	
+				    	print "	<li "; if($_REQUEST['toolsId'] == "subnets") 	print "class='active'"; print "><a href='tools/subnets/'>"._('Subnets')."</a></li>"; 
+				    	print "	<li "; if($_REQUEST['toolsId'] == "search") 	print "class='active'"; print "><a href='tools/search/'>"._('Search')."</a></li>"; 
 				    	print "	<li class='divider'></li>";
-				    	print "	<li><a href='tools/'>Show all tools</a></li>";	
+				    	print "	<li><a href='tools/'>"._('Show all tools')."</a></li>";	
 	
 	    			?>
 	    		</ul>
@@ -121,7 +121,7 @@ $setFields = explode(";", $setFieldsTemp);
 			print "<ul class='nav nav-tabs' style='margin-right:0px;'>";
 			print "	<li class='dropdown'>";
 			# title
-			print "	<a class='dropdown-toggle btn-danger' data-toggle='dropdown' href='administration/' id='admin' rel='tooltip' data-placement='bottom' title='Show Administration menu'><i class='icon-cog icon-white'></i> Administration <b class='caret'></b></a>";
+			print "	<a class='dropdown-toggle btn-danger' data-toggle='dropdown' href='administration/' id='admin' rel='tooltip' data-placement='bottom' title='"._('Show Administration menu')."'><i class='icon-cog icon-white'></i> "._('Administration')." <b class='caret'></b></a>";
 			# dropdown
 			print "		<ul class='dropdown-menu admin'>";
 			
@@ -130,28 +130,28 @@ $setFields = explode(";", $setFieldsTemp);
 				$requestNum = countRequestedIPaddresses();
 				if($requestNum != 0) {
 					print "<li class='nav-header'>IP address requests</li>";
-					print "<li "; if($_REQUEST['adminId'] == "manageRequests") print "class='active'"; print "><a href='administration/manageRequests/'>IP requests ($requestNum)</a></li>";
+					print "<li "; if($_REQUEST['adminId'] == "manageRequests") print "class='active'"; print "><a href='administration/manageRequests/'>"._('IP requests')." ($requestNum)</a></li>";
 					print "<li class='divider'></li>";
 				}
 			}
-			print "		<li class='nav-header'>Server management</li>";
-			print "		<li "; if($_REQUEST['adminId'] == "manageRequests") print "class='active'"; print "><a href='administration/settings/'>IPAM settings</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "users") 			print "class='active'"; print "><a href='administration/users/'>Users</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "groups") 		print "class='active'"; print "><a href='administration/groups/'>Groups</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "logs") 			print "class='active'"; print "><a href='administration/logs/'>Log files</a></li>";
+			print "		<li class='nav-header'>"._('Server management')."</li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageRequests") print "class='active'"; print "><a href='administration/settings/'>"._('IPAM settings')."</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "users") 			print "class='active'"; print "><a href='administration/users/'>"._('Users')."</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "groups") 		print "class='active'"; print "><a href='administration/groups/'>"._('Groups')."</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "logs") 			print "class='active'"; print "><a href='administration/logs/'>"._('Log files')."</a></li>";
 
 			print "		<li class='divider'></li>";
-			print "		<li class='nav-header'>IP related settings</li>";
-			print "		<li "; if($_REQUEST['adminId'] == "manageSection") 	print "class='active'"; print "><a href='administration/manageSection/'>Sections</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "manageSubnet") 	print "class='active'"; print "><a href='administration/manageSubnet/'>Subnets</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "manageDevices") 	print "class='active'"; print "><a href='administration/manageDevices/'>Devices</a></li>";
-			print "		<li "; if($_REQUEST['adminId'] == "manageVLANs") 	print "class='active'"; print "><a href='administration/manageVLANs/'>VLANs</a></li>";
+			print "		<li class='nav-header'>"._('IP related settings')."</li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageSection") 	print "class='active'"; print "><a href='administration/manageSection/'>"._('Sections')."</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageSubnet") 	print "class='active'"; print "><a href='administration/manageSubnet/'>"._('Subnets')."</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageDevices") 	print "class='active'"; print "><a href='administration/manageDevices/'>"._('Devices')."</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageVLANs") 	print "class='active'"; print "><a href='administration/manageVLANs/'>"._('VLANs')."</a></li>";
 			# vrf if enabled
 			if($settings['enableVRF'] == 1) { 
-			print "		<li "; if($_REQUEST['adminId'] == "manageVRF") 		print "class='active'"; print "><a href='administration/manageVRF/'>VRF</a></li>";
+			print "		<li "; if($_REQUEST['adminId'] == "manageVRF") 		print "class='active'"; print "><a href='administration/manageVRF/'>"._('VRF')."</a></li>";
 			}
 			print "		<li class='divider'></li>";
-			print "		<li><a href='administration/'>Show all settings</a></li>";		
+			print "		<li><a href='administration/'>"._('Show all settings')."</a></li>";		
 			print "		</ul>";
 			
 			print "	</li>";

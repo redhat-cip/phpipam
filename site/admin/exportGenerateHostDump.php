@@ -24,7 +24,7 @@ foreach($subnets as $s) {
 	
 	if(sizeof($ips) > 0) {
 		# create new array
-		$res[] = "# $s[s_description] (".transform2long($s['subnet'])."/$s[mask]) - Section $s[se_description]";
+		$res[] = "# $s[s_description] (".transform2long($s['subnet'])."/$s[mask]) - "._('Section')." $s[se_description]";
 		
 		foreach($ips as $ip) {
 			# get lenth
