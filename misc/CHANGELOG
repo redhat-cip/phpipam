@@ -39,6 +39,7 @@
 	+ Fixed wrong link for upgrade script;
 	+ On VRF change all child subnets are updated also;
 	+ Fixed wrong maximum on dashboard top10 percentage;
+	+ Fixed Adding a vlan while editing a subnet resets the edit subnet form;
 
 == 0.7
 

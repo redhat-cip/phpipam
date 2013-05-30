@@ -287,7 +287,7 @@ $('table.ipaddresses th a.sort').live('click', function() {
 /*    import IP addresses
 *************************/
 // load CSV import form
-$('a.csvImport').live('click', function () {
+$('a.csvImport').click(function () {
     showSpinner();
     var subnetId = $(this).attr('data-subnetId');
     $.post('site/admin/CSVimport.php', {subnetId:subnetId}, function(data) {
@@ -1078,7 +1078,8 @@ $('.vlanManagementEditFromSubnetButton').live('click', function() {
             //reload add subnet
             var sectionId = $('#editSubnetDetails input[name=sectionId]').val(); 
             var subnetId  = $('#editSubnetDetails input[name=subnetId]').val(); 
-            var postdata2 = "sectionId="+sectionId+"&subnetId="+subnetId+"&action=add";
+            var sAction   = $('#editSubnetDetails input[name=action]').val();
+            var postdata2 = "sectionId="+sectionId+"&subnetId="+subnetId+"&action="+sAction;
             $.post('site/admin/manageSubnetEdit.php', postdata2 , function(data) {
                 $('div.popup_w700').html(data);
                 //bring to front

@@ -40,12 +40,12 @@ foreach($allSubnets as $subnet) {
 		$errors[] = verifyCidr ($subnetDetails['subnet']);
 	}
 	//overlapping
-	else if (verifySubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet'])) {
-		$errors[] = verifySubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet']);
+	else if (verifySubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet'],"000")) {
+		$errors[] = verifySubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet'],"000");
 	}
 	//nested overlapping
-	else if (verifyNestedSubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet'])) {
-		$errors[] = verifyNestedSubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet']);
+	else if (verifyNestedSubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet'],"000")) {
+		$errors[] = verifyNestedSubnetOverlapping ($subnetDetails['sectionId'], $subnetDetails['subnet'],"000");
 	}	
 	//set insert
 	else {

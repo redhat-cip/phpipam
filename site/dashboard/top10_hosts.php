@@ -13,6 +13,20 @@ ini_set('display_errors', 0);
 # get subnets statistic
 $subnetHost = getSubnetStatsDashboard($type, 100);
 
+
+/* detect duplicates */
+$unique = array();	
+$numbering = array();													
+$m = 0;
+foreach($subnetHost as $line) {
+	# check if already in array
+	if(in_array($line['description'], $unique)) {
+		$numbering[$line['description']]++;
+		$subnetHost[$m]['description'] = $line['description'].' #'.$numbering[$line['description']];
+	}
+	$unique[] = $subnetHost[$m]['description'];
+	$m++;
+}
 ?>
 
 
