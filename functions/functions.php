@@ -22,6 +22,8 @@ else{
  *
  * recode .po to .mo > msgfmt env_cp.po -o env_cp.mo
  */
+
+if(!isset($_SESSION)) { session_start();}				//fix for ajax-loaded windows
  
 /* Get user lang */
 $query    = 'select `l_code` from `users` as `u`,`lang` as `l` where `l_id` = `lang` and `username` = "'.$_SESSION['ipamusername'].'";;';
@@ -37,9 +39,9 @@ $lang = $details[0]['l_code'];
 
 if(strlen($lang)>0) 	{ 
 	putenv("LC_ALL=$lang");
-	setlocale(LC_ALL, $lang);							# set language		
-	bindtextdomain("phpipam", "./functions/locale");	# Specify location of translation tables
-	textdomain("phpipam");								# Choose domain
+	setlocale(LC_ALL, $lang);							// set language		
+	bindtextdomain("phpipam", "./functions/locale");	// Specify location of translation tables
+	textdomain("phpipam");								// Choose domain
 }
 
 

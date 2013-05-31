@@ -1388,7 +1388,7 @@ function getSubnetStatsDashboard($type, $limit = "10")
 	# ipv4 stats
 	if($type == "IPv4") 
 	{
-		$query = "select * from (
+		$query = "select SQL_CACHE * from (
 				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
 					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
 				) 
@@ -1400,7 +1400,7 @@ function getSubnetStatsDashboard($type, $limit = "10")
 	# IPv6 stats
 	else 
 	{
-		$query = "select * from (
+		$query = "select SQL_CACHE * from (
 				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`, IF(char_length(`description`)>0, `description`, 'No description') as description, (
 					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
 				) 

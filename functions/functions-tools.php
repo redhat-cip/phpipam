@@ -55,6 +55,7 @@ function calculateIpCalcResult ($cidr)
         $out['Broadcast']       = $net->broadcast; // 192.168.255.255
         $out['Subnet bitmask']  = $net->bitmask;   // 16
         $out['Subnet netmask']  = $net->netmask;   // 255.255.0.0
+        $out['Subnet wildcard'] = long2ip(~ip2long($net->netmask));	//0.0.255.255
         
         //calculate min/max IP address
         $out['Min host IP']     = long2ip(ip2long($out['Network']) + 1);
