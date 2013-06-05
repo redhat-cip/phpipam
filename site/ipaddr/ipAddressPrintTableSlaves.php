@@ -99,8 +99,14 @@ foreach ($slaves as $slave) {
 		# get IP type
 		if ( IdentifyAddress( $master['subnet'] ) == "IPv4") 	{ $type = 0; }
 		else 													{ $type = 1; }
+		
+		# set $diffAdd based on mask!
+		if($slaves[$m]['mask'] == "32")		{ $diffAdd = 0; }
+		elseif($slaves[$m]['mask'] == "31")	{ $diffAdd = 0; }
+		else								{ $diffAdd = 2; }
+		
 		# get max host for current
-		$slave['maxip'] = gmp_strval(gmp_add(MaxHosts($slave['mask'],$type),2));
+		$slave['maxip'] = gmp_strval(gmp_add(MaxHosts($slave['mask'],$type),$diffAdd));
 		# calculate diff
 		$diff = gmp_strval(gmp_sub($slaves[$m+1]['subnet'], gmp_strval(gmp_add($slave['subnet'],$slave['maxip']))));
 		
@@ -123,9 +129,15 @@ foreach ($slaves as $slave) {
 		# get IP type
 		if ( IdentifyAddress( $master['subnet'] ) == "IPv4") 	{ $type = 0; }
 		else 													{ $type = 1; }
+		
+		# set $diffAdd based on mask!
+		if($slaves[$m-1]['mask'] == "32")		{ $diffAdd = 0; }
+		elseif($slaves[$m-1]['mask'] == "31")	{ $diffAdd = 0; }
+		else									{ $diffAdd = 2; }
+		
 		# calculate end of master and last slave
 		$maxh_m = gmp_strval(gmp_add(MaxHosts( $master['mask'], $type ),2));
-		$maxh_s = gmp_strval(gmp_add(MaxHosts( $slave['mask'],  $type ),2));
+		$maxh_s = gmp_strval(gmp_add(MaxHosts( $slave['mask'],  $type ),$diffAdd));
 		
 		$max_m  = gmp_strval(gmp_add($master['subnet'], $maxh_m));
 		$max_s  = gmp_strval(gmp_add($slave['subnet'],  $maxh_s));

@@ -163,6 +163,9 @@ $(function () {
 		  	hoverable: true,
 		  	clickable: true
 	    },
+	    bars: {
+		    barWidth: 0.9
+	    },
         legend: {
 	        show: false
 	    },

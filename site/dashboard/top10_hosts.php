@@ -13,7 +13,6 @@ ini_set('display_errors', 0);
 # get subnets statistic
 $subnetHost = getSubnetStatsDashboard($type, 100);
 
-
 /* detect duplicates */
 $unique = array();	
 $numbering = array();													
@@ -117,7 +116,7 @@ $(function () {
             tickLength: 0,
             color: '#666',
             tickLength: 1,
-            show: true,
+            show: true
         },
         yaxis: {
         },
@@ -130,6 +129,9 @@ $(function () {
 	    grid: {
 		  	hoverable: true,
 		  	clickable: true
+	    },
+	    bars: {
+		    barWidth: 0.9
 	    },
         legend: {
 	        show: false

@@ -40,6 +40,7 @@
 	+ On VRF change all child subnets are updated also;
 	+ Fixed wrong maximum on dashboard top10 percentage;
 	+ Fixed Adding a vlan while editing a subnet resets the edit subnet form;
+	+ Fixed wrong free space calculation for nested subnets;
 
 == 0.7
 

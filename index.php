@@ -1,5 +1,11 @@
 <?php
-/* session_set_cookie_params(30); */
+
+/* set cookie parameters for max lifetime */
+/*
+ini_set('session.gc_maxlifetime', '86400');
+ini_set('session.save_path', '/tmp/php_sessions/');
+*/
+
 session_start();
 ob_start();
 

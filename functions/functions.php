@@ -23,7 +23,14 @@ else{
  * recode .po to .mo > msgfmt env_cp.po -o env_cp.mo
  */
 
-if(!isset($_SESSION)) { session_start();}				//fix for ajax-loaded windows
+if(!isset($_SESSION)) { 								//fix for ajax-loaded windows
+	/* set cookie parameters for max lifetime */
+	/*
+	ini_set('session.gc_maxlifetime', '86400');
+	ini_set('session.save_path', '/tmp/php_sessions/');
+	*/
+	session_start();
+}
  
 /* Get user lang */
 $query    = 'select `l_code` from `users` as `u`,`lang` as `l` where `l_id` = `lang` and `username` = "'.$_SESSION['ipamusername'].'";;';
