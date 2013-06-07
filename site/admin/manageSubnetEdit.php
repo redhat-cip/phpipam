@@ -10,14 +10,14 @@ require_once('../../functions/functions.php');
 /* verify that user has permissions if add */
 if($_POST['action'] == "add") {
 	$sectionPerm = checkSectionPermission ($_POST['sectionId']);
-	if($sectionPerm != "2") {
+	if($sectionPerm != 3) {
 		die("<div class='alert alert-error'>"._('You do not have permissions to add new subnet in this section')."!</div>");
 	}
 }
 /* otherwise check subnet permission */
 else {
 	$subnetPerm = checkSubnetPermission ($_POST['subnetId']);
-	if($subnetPerm != "2") {
+	if($subnetPerm != 3) {
 		die("<div class='alert alert-error'>"._('You do not have permissions to add edit/delete this subnet')."!</div>");
 	}
 }

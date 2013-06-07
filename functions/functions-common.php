@@ -356,8 +356,8 @@ function checkSectionPermission ($sectionId)
 	$user = getUserDetailsByName ($username);
 	$groups = json_decode($user['groups']);
 	
-	# if user is admin then return 2, otherwise check
-	if($user['role'] == "Administrator")	{ return "2"; }
+	# if user is admin then return 3, otherwise check
+	if($user['role'] == "Administrator")	{ return "3"; }
 	
 	# get section permissions
 	$section  = getSectionDetailsById($sectionId);
@@ -397,8 +397,8 @@ function checkSubnetPermission ($subnetId)
 	$user = getUserDetailsByName ($username);
 	$groups = json_decode($user['groups']);
 	
-	# if user is admin then return 2, otherwise check
-	if($user['role'] == "Administrator")	{ return "2"; }
+	# if user is admin then return 3, otherwise check
+	if($user['role'] == "Administrator")	{ return "3"; }
 
 	# get subnet permissions
 	$subnet  = getSubnetDetailsById($subnetId);
@@ -611,9 +611,10 @@ function ShortenText($text, $chars = 25) {
 function parsePermissions($perm)
 {
 	switch($perm) {
-		case "0": $r = _("No access");		break;
-		case "1": $r = _("Read");			break;
-		case "2": $r = _("Read / Write");	break;
+		case "0": $r = _("No access");				break;
+		case "1": $r = _("Read");					break;
+		case "2": $r = _("Read / Write");			break;
+		case "3": $r = _("Read / Write / Admin");	break;
 		default:  $r = _("error");
 	}
 	return $r;

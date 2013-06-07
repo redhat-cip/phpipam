@@ -56,6 +56,8 @@ $subnet = getSubnetDetailsById($_POST['subnetId']);
 		else								{ print " <input type='radio' name='group$g[g_id]' value='1'> ro"; }	
 		if($permissons[$g['g_id']] == "2")	{ print " <input type='radio' name='group$g[g_id]' value='2' checked> rw"; }			
 		else								{ print " <input type='radio' name='group$g[g_id]' value='2'> rw"; }			
+		if($permissons[$g['g_id']] == "3")	{ print " <input type='radio' name='group$g[g_id]' value='3' checked> rwa"; }			
+		else								{ print " <input type='radio' name='group$g[g_id]' value='3'> rwa"; }
 		print "</label>";
 
 		# hidden

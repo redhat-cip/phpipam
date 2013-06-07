@@ -155,7 +155,7 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 		print "<button class='btn btn-small btn-inverse disabled' 	href='' rel='tooltip' title='"._('You do not have permissions to edit subnet or IP addresses')."'>	<i class='icon-lock icon-white'></i></button> ";# lock info
 		print "<a class='btn btn-small disabled' href=''>			<i class='icon-plus icon-locked'></i></a> ";	# add IP
 		print "<a class='btn btn-small disabled' href=''>			<i class='icon-pencil'></i></a>";				# edit subnet
-		if($permissionsSection == "2") {
+		if($permissionsSection == 3) {
 		print "<a class='edit_subnet btn btn-small '				href='' rel='tooltip' title='"._('Add new nested subnet')."' 	data-subnetId='$SubnetDetails[id]' data-action='add' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";		# add new child subnet
 		}
 		else {
@@ -167,21 +167,30 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 			print "<a class='request_ipaddress btn btn-small btn-success' href='' rel='tooltip' title='"._('Request new IP address')."' data-subnetId='$SubnetDetails[id]'>	<i class='icon-plus-sign icon-white'>  </i></a>";	# request					
 		}
 	}
-	else if ($permission == "2") {
+	else if ($permission == 2) {
+		print "<a class='modIPaddr btn btn-small btn-success' 	href='' rel='tooltip' title='"._('Add new IP address')."' 			data-subnetId='$SubnetDetails[id]' data-action='add' data-id=''>											<i class='icon-plus icon-white'></i></a> ";	# add IP
+		print "<a class='btn btn-small disabled' 				href='' rel='tooltip' title='"._('Edit subnet properties')."'		>																											<i class='icon-pencil'></i></a>";			# edit subnet
+		print "<a class=' btn btn-small disabled' 				href='' rel='tooltip' title='"._('Manage subnet permissions')."'	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='show'>			<i class='icon-tasks'></i></a>";			# edit subnet
+		print "<a class='btn btn-small disabled' 				href='' rel='tooltip' title='"._('Add new nested subnet')."'> 		<i class='icon-plus-sign'></i></a> ";			# add new child subnet
+		
+		print "<a class='csvImport btn btn-small'     			href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
+		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
+	}
+	else if ($permission == 3) {
 		print "<a class='modIPaddr btn btn-small btn-success' 	href='' rel='tooltip' title='"._('Add new IP address')."' 			data-subnetId='$SubnetDetails[id]' data-action='add' data-id=''>											<i class='icon-plus icon-white'></i></a> ";	# add IP
 		print "<a class='edit_subnet btn btn-small' 			href='' rel='tooltip' title='"._('Edit subnet properties')."'		data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='edit'>			<i class='icon-pencil'></i></a>";			# edit subnet
 		if(checkAdmin (false, false)) {
 		print "<a class='showSubnetPerm btn btn-small' 			href='' rel='tooltip' title='"._('Manage subnet permissions')."'	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='show'>			<i class='icon-tasks'></i></a>";			# edit subnet
 		}
-		if($permissionsSection == "2") {
+		if($permissionsSection == 3) {
 		print "<a class='edit_subnet btn btn-small '			href='' rel='tooltip' title='"._('Add new nested subnet')."' 		data-subnetId='$SubnetDetails[id]' data-action='add' data-id='' data-sectionId='$SubnetDetails[sectionId]'> <i class='icon-plus-sign'></i></a> ";		# add new child subnet
 		}
 		else {
 		print "<a class='btn btn-small disabled' href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
-		}		print "<a class='csvImport btn btn-small'     	href='' rel='tooltip' title='"._('Import IP addresses')."'		data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
-		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'		data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
+		}		print "<a class='csvImport btn btn-small'     	href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
+		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
 	}
-	
+		
 	print "	</div>";
 	print "	</div>";
 	

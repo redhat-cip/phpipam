@@ -16,7 +16,7 @@ isUserAuthenticated ();
 
 /* verify that user has write access */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
-if($subnetPerm != "2") 	{ die('<div class="alert alert-error">'._('Cannot edit IP address').'!</div>'); }
+if($subnetPerm < 2) 	{ die('<div class="alert alert-error">'._('Cannot edit IP address').'!</div>'); }
 
 /* get posted values */
 if ( !empty($_REQUEST['ip_addr']) ) 	{ $ip['ip_addr'] = $_REQUEST['ip_addr']; }
@@ -211,7 +211,7 @@ else {
 	        updateLogTable ('Error '. $ip['action'] .' IP address '. $ip['ip_addr'], 'Error '. $ip['action'] .' IP address '. $ip['ip_addr'] .'<br>SubnetId: '. $ip['subnetId'], 2);
 	    }
 	    else {
-	        print '<div class="alert alert-success">'. ucwords($ip['action']) .' successful!</div>';
+	        print '<div class="alert alert-success">'._("IP $ip[action] successful").'!</div>';
 	        updateLogTable ($ip['action'] .' of IP address '. $ip['ip_addr'] .' succesfull!', $ip['action'] .' of IP address '. $ip['ip_addr'] .' succesfull!<br>SubnetId: '. $ip['subnetId'], 0);
 	    }
 	}

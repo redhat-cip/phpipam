@@ -68,11 +68,11 @@ else
 
 # add new subnet
 $sectionPermission = checkSectionPermission ($sectionId);
-if($sectionPermission == "2") {
+if($sectionPermission == 3) {
 	print "<div class='action'>";
 	if(isset($_REQUEST['subnetId'])) {
 	print "	<button class='btn btn-mini pull-left' id='hideSubnets' rel='tooltip' title='"._('Hide subnet list')."' data-placement='right'><i class='icon-gray icon-chevron-left'></i></button>";
 	}
 	print "	<span>"._('Add new subnet')." <button id='add_subnet' class='btn btn-small btn-success' style='margin-left:5px;' rel='tooltip' data-placement='top' title='"._('Add new subnet to')." $sectionName[name]'  data-subnetId='' data-sectionId='$sectionName[id]' data-action='add'><i class='icon-plus icon-white'></i></button></span>";
 	print "</div>";
-} 
+}

@@ -11,7 +11,7 @@ require_once('../../functions/functions.php');
 $permission = checkSubnetPermission ($_POST['subnetId']);
 
 # die if write not permitted
-if($permission != "2") { die("<div class='alert alert-error'>"._('You cannot write to this subnet')."!</div>"); }
+if($permission < 2) { die("<div class='alert alert-error'>"._('You cannot write to this subnet')."!</div>"); }
 
 /* verify post */
 CheckReferrer();

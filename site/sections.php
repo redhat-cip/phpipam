@@ -59,7 +59,7 @@ $setFields = explode(";", $setFieldsTemp);
 			foreach($sections as $section) {
 				# check permissions for user
 				$perm = checkSectionPermission ($section['id']);
-				if($perm == "1" || $perm == "2") {
+				if($perm > 0 ) {
 					if( ($section['name'] == $_REQUEST['section']) || ($section['id'] == $_REQUEST['section']) ) 	{ print "<li class='active'>"; }
 					else 																							{ print "<li>"; }
 				

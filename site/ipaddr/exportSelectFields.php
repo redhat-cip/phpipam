@@ -23,7 +23,7 @@ $settings = getAllSettings();
 # permissions
 $permission = checkSubnetPermission ($_POST['subnetId']);
 
-if($permission == "0") { die("<div class='alert alert-error'>"._('You cannot access this subnet')."!</div>"); }
+if($permission < 1) { die("<div class='alert alert-error'>"._('You cannot access this subnet')."!</div>"); }
 		
 # print 
 print '<form id="selectExportFields">';

@@ -25,7 +25,7 @@ $subnet = transform2long($subnet['subnet']) . "/" . $subnet['mask'];
 
 /* verify that user has write access */
 $subnetPerm = checkSubnetPermission ($subnetId);
-if($subnetPerm != "2") {
+if($subnetPerm < 2) {
 	print '<div class="pHeader">Edit IP address</div>';
 	print '<div class="pContent">';
 	print '<div class="alert alert-error">'._('Cannot edit IP address details').'! <br>'._('You do not have write access for this network').'!</div>';
@@ -76,11 +76,11 @@ else {
 
 
 /* Set title and button text */
-if ($action == "add") 			{ $btnName = _("add"); }
-else if ($action == "all-add")	{ $btnName = _("add"); }
-else if ($action == "edit") 	{ $btnName = _("edit"); }
-else if ($action == "all-edit")	{ $btnName = _("edit"); }
-else if ($action == "delete")	{ $btnName = _("delete"); }
+if ($action == "add") 			{ $btnName = _("add");		$act = "add"; }
+else if ($action == "all-add")	{ $btnName = _("add");  	$act = "add"; }
+else if ($action == "edit") 	{ $btnName = _("edit"); 	$act = "edit"; }
+else if ($action == "all-edit")	{ $btnName = _("edit"); 	$act = "edit"; }
+else if ($action == "delete")	{ $btnName = _("delete"); 	$act = "delete"; }
 else							{ $btnName = ""; }
 
 
@@ -114,7 +114,7 @@ $myFieldsSize = sizeof($myFields);
 			<input type="text" name="ip_addr" class="ip_addr" value="<?php print $details['ip_addr']; ?>" size="30" placeholder="<?php print _('IP address'); ?>">
     		<i class="icon-gray icon-bell" rel="tooltip" data-html='true' data-placement="bottom" title="<?php print _('You can add,edit or delete multiple IP addresses<br>by specifying IP range (e.g. 10.10.0.0-10.10.0.25)'); ?>"></i>
     		
-   			<input type="hidden" name="action" 	 	value="<?php print $btnName; 	?>">
+   			<input type="hidden" name="action" 	 	value="<?php print $act; 	?>">
 			<input type="hidden" name="id" 		 	value="<?php print $id; 		?>">
 			<input type="hidden" name="subnet"   	value="<?php print $subnet; 	?>">
 			<input type="hidden" name="subnetId" 	value="<?php print $subnetId; 	?>">		
@@ -131,7 +131,7 @@ $myFieldsSize = sizeof($myFields);
 		<td><?php print _('Description'); ?></td>
 		<td>
 			<input type="text" name="description" value="<?php if(isset($details['description'])) {print $details['description'];} ?>" size="30" 
-			<?php if ( $btnName == "Delete" ) { print " readonly";} ?> 
+			<?php if ( $act == "delete" ) { print " readonly";} ?> 
 			placeholder="<?php print _('Description'); ?>">
 		</td>
 	</tr>
@@ -331,7 +331,7 @@ $myFieldsSize = sizeof($myFields);
 	print "<button class='btn btn-small btn-danger' id='editIPAddressSubmit' data-action='all-delete'><i class='icon-white icon-trash'></i> "._('Delete IP')."</button>";		
 	}
 	?>
-	<button class="btn btn-small <?php if($action=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editIPAddressSubmit" data-action='<?php print $action; ?>'><i class="icon-white <?php if($btnName=="add") { print "icon-plus"; } else if ($btnName=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($btnName); ?> IP</button>
+	<button class="btn btn-small <?php if($action=="delete") { print "btn-danger"; } else { print "btn-success"; } ?>" id="editIPAddressSubmit" data-action='<?php print $action; ?>'><i class="icon-white <?php if($act=="add") { print "icon-plus"; } else if ($act=="delete") { print "icon-trash"; } else { print "icon-ok"; } ?>"></i> <?php print ucwords($btnName); ?> IP</button>
 
 	<!-- holder for result -->
 	<div class="addnew_check"></div>

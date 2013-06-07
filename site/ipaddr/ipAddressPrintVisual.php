@@ -36,7 +36,7 @@ if(sizeof($slaves) == 0 && $type == 0 && $SubnetDetails['mask']!="31" && $Subnet
 		$permission = checkSubnetPermission ($subnetId);
 		
 		# print box
-		if($permission == "2") {
+		if($permission > 1) {
 			print "<span class='ip-$class modIPaddr'  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";	
 		}	
 		else {

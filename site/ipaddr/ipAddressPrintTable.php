@@ -295,7 +295,7 @@ else {
 			print "	<div class='btn-toolbar'>";
 			print "	<div class='btn-group'>";
 			# write permitted
-			if( $permission == "2") {
+			if( $permission > 1) {
 				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='".$ipaddress[$n]['subnetId']."' data-id='".$ipaddress[$n]['id']."' href='#' 												   rel='tooltip' title='"._('Edit IP address details')."'>					<i class='icon-gray icon-pencil'>  </i></a>";
 				print "		<a class='search_ipaddress btn btn-mini         "; if(strlen($dnsResolved['name']) == 0) { print "disabled"; } print "' href='tools/search/$dnsResolved[name]' "; if(strlen($dnsResolved['name']) != 0)   { print "rel='tooltip' title='"._('Search same hostnames in db')."'"; } print ">	<i class='icon-gray icon-search'></i></a>";
 				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$ipaddress[$n]['id']."' rel='tooltip' title='"._('Send mail notification')."'>		<i class='icon-gray icon-envelope'></i></a>";

@@ -1050,7 +1050,7 @@ msgstr "ima"
 
 #: site/ipaddr/ipAddressPrintTableSlaves.php:25
 msgid "directly nested subnets"
-msgstr "neposredno pripadajoča podomrežja"
+msgstr "neposredno pripadajočih podomrežij"
 
 #: site/ipaddr/ipAddressPrintTableSlaves.php:33
 #: site/ipaddr/subnetDetailsSlaves.php:77 site/ipaddr/subnetDetails.php:79
@@ -1291,7 +1291,7 @@ msgstr "Premakni IP naslov"
 
 #: site/ipaddr/modifyIpAddress.php:31
 msgid "You do not have write access for this network'"
-msgstr "Nimaš pravic za pisanje v tem omrežju"
+msgstr "Nimate pravic za pisanje v tem omrežju"
 
 #: site/ipaddr/modifyIpAddress.php:31
 msgid "Cannot edit IP address details"
@@ -3711,3 +3711,33 @@ msgstr "Napaka pri izbrisu jezika"
 #: site/admin/lanuguageEditResult.php
 msgid "Language delete success"
 msgstr "Jezik izbrisan"
+
+
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet edit successfull"
+msgstr "Omrežje urejeno"
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet add successfull"
+msgstr "Omrežje dodano"
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet delete successfull"
+msgstr "Omrežje izbrisano"
+
+#: site/functons/functions-common.php
+msgid "Read / Write / Admin"
+msgstr "Branje / Pisanje / Administracija"
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP edit successful"
+msgstr "IP naslov urejen"
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP add successful"
+msgstr "IP naslov dodan"
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP delete successful"
+msgstr "IP naslov pobrisan"

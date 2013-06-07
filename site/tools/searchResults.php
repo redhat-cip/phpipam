@@ -222,7 +222,7 @@ else {
 			print "	<div class='btn-toolbar'>";
 			print "	<div class='btn-group'>";
 
-			if($permission == "2") {
+			if($permission > 1) {
 				print "		<a class='edit_ipaddress   btn btn-mini modIPaddr' data-action='edit'   data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#' 	rel='tooltip' title='"._('Edit IP address details')."'>		<i class='icon-gray icon-pencil'>  </i></a>";
 				print "		<a class='mail_ipaddress   btn btn-mini          ' href='#' data-id='".$line['id']."' rel='tooltip' title='"._('Send mail notification')."'>														<i class='icon-gray icon-envelope'></i></a>";
 				print "		<a class='delete_ipaddress btn btn-mini modIPaddr' data-action='delete' data-subnetId='$subnet[id]' data-id='".$line['id']."' href='#'  rel='tooltip' title='"._('Delete IP address')."'>			<i class='icon-gray icon-remove'>  </i></a>";

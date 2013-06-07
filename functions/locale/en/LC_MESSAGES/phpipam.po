@@ -3675,3 +3675,36 @@ msgstr ""
 #: site/admin/lanuguageEditResult.php
 msgid "Language delete success"
 msgstr ""
+
+
+#
+# Added 07/06/13
+#
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet edit successfull"
+msgstr ""
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet add successfull"
+msgstr ""
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet delete successfull"
+msgstr ""
+
+#: site/functons/functions-common.php
+msgid "Read / Write / Admin"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP edit successful"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP add successful"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP delete successful"
+msgstr ""
