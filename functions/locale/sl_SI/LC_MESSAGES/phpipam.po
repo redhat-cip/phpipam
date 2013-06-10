@@ -2302,7 +2302,7 @@ msgstr "Da"
 
 #: site/admin/customSubnetFieldsEdit.php:19
 msgid "custom subnet field"
-msgstr ""
+msgstr "poljubno polje za omrežja"
 
 #: site/admin/customSubnetFieldsEdit.php:31
 #: site/admin/customIPFieldsEdit.php:31 site/admin/customVLANFieldsEdit.php:31
