@@ -14,7 +14,7 @@ $root['pass'] = $_POST['mysqlrootpass'];
 
 /* try to install new database */
 if(installDatabase($root)) {
-	print '<div class="alert alert-success">Database installed successfully! <a href="login/">Please login to continue!</a></div>';
+	print '<div class="alert alert-block alert-success">Database installed successfully! <br> <a href="login/" class="btn btn-small">Login to phpIPAM</a><hr>Default credentials are <strong>Admin/ipamadmin</strong></div>';
 }
 
 ?>

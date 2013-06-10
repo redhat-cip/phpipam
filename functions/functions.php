@@ -7,14 +7,9 @@ require_once( dirname(__FILE__) . '/dbfunctions.php' );
 
 
 /* @debugging functions ------------------- */
-if ($debugging == 0) {
-  	ini_set('display_errors', 1);
-    error_reporting(E_ERROR | E_WARNING);
-}
-else{
-    ini_set('display_errors', 1); 
-    error_reporting(E_ALL ^ E_NOTICE);
-}
+ini_set('display_errors', 1);
+if (!$debugging) { error_reporting(E_ERROR ^ E_WARNING); }
+else			 { error_reporting(E_ALL ^ E_NOTICE); }
 
 
 /**
@@ -34,21 +29,25 @@ if(!isset($_SESSION)) { 								//fix for ajax-loaded windows
  
 /* Get user lang */
 $query    = 'select `l_code` from `users` as `u`,`lang` as `l` where `l_id` = `lang` and `username` = "'.$_SESSION['ipamusername'].'";;';
-$database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+@$database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
 
-/* execute */
-try { $details = $database->getArray( $query ); }
-catch (Exception $e) { 
-    $error =  $e->getMessage(); 
-    print ("<div class='alert alert-error'>"._('Error').": $error</div>");
-}
-$lang = $details[0]['l_code'];
-
-if(strlen($lang)>0) 	{ 
-	putenv("LC_ALL=$lang");
-	setlocale(LC_ALL, $lang);							// set language		
-	bindtextdomain("phpipam", "./functions/locale");	// Specify location of translation tables
-	textdomain("phpipam");								// Choose domain
+/* Check connection */
+if ($database->connect_error) {  }
+else {
+	/* execute */
+	try { $details = $database->getArray( $query ); }
+	catch (Exception $e) { 
+	    $error =  $e->getMessage(); 
+	    print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+	}
+	$lang = $details[0]['l_code'];
+	
+	if(strlen($lang)>0) 	{ 
+		putenv("LC_ALL=$lang");
+		setlocale(LC_ALL, $lang);							// set language		
+		bindtextdomain("phpipam", "./functions/locale");	// Specify location of translation tables
+		textdomain("phpipam");								// Choose domain
+	}	
 }
 
 

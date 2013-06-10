@@ -55,8 +55,8 @@ if(!tableExists("ipaddresses")) { ?>
 			<td>
 			<div class="alert alert-info">Clicking on install button will install required database files. Please fill in following database connection details:</div>
 			<form id="install">
-				<input type="text"     style='margin-bottom:5px;' name="mysqlrootuser"  value="root"> MySQL username (user with full permissions to MySQL database)<br>
-				<input type="password" style='margin-bottom:5px;' name="mysqlrootpass"> MySQL (root) password<br>
+				<input type="text"     style='margin-bottom:5px;' name="mysqlrootuser"  value="root"> MySQL username (user with permissions to create new MySQL database)<br>
+				<input type="password" style='margin-bottom:5px;' name="mysqlrootpass"> MySQL password<br>
 				<input type="text"     style='margin-bottom:5px;' name="mysqllocation" 	value="<?php print $db['host']; ?>" disabled> MySQL database location *<br>
 				<input type="text"     style='margin-bottom:5px;' name="mysqltable" 	value="<?php print $db['name']; ?>" disabled> Database name*<br>
 				<span style="color:gray;"> * Please change database name and location by modifying config.php file!</span><br>
