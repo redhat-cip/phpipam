@@ -3708,3 +3708,12 @@ msgstr ""
 #: site/ipaddr/modifyIpAddressCheck.php
 msgid "IP delete successful"
 msgstr ""
+
+
+#
+# Added 11/06/13
+#
+
+#: site/admin/subnetDetailsSlaves.php:134
+msgid "You do not have permissions to truncate subnet"
+msgstr ""

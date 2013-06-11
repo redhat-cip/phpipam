@@ -3712,8 +3712,6 @@ msgstr "Napaka pri izbrisu jezika"
 msgid "Language delete success"
 msgstr "Jezik izbrisan"
 
-
-
 #: site/admin/manageSubnetEditResult.php:169
 msgid "Subnet edit successfull"
 msgstr "Omrežje urejeno"
@@ -3741,3 +3739,7 @@ msgstr "IP naslov dodan"
 #: site/ipaddr/modifyIpAddressCheck.php
 msgid "IP delete successful"
 msgstr "IP naslov pobrisan"
+
+#: site/admin/subnetDetailsSlaves.php:134
+msgid "You do not have permissions to truncate subnet"
+msgstr "Nimate pravice za izbris IP naslovov v tem omrežju"

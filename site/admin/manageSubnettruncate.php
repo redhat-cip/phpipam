@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Print resize subnet
+ * Print truncate subnet
  *********************/
 
 /* required functions */
@@ -9,7 +9,7 @@ require_once('../../functions/functions.php');
 
 /* verify that user has write permissions for subnet */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
-if($subnetPerm != "2") 	{ die('<div class="alert alert-error">'._('You do not have permissions to resize subnet').'!</div>'); }
+if($subnetPerm < 2) 	{ die('<div class="alert alert-error">'._('You do not have permissions to truncate subnet').'!</div>'); }
 
 
 /* verify post */

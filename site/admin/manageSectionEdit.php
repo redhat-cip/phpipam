@@ -23,7 +23,7 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('Section'); ?></div>
+<div class="pHeader"><?php print ucwords(_($_POST['action'])); ?> <?php print _('Section'); ?></div>
 
 
 <!-- content -->
