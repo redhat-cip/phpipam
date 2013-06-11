@@ -37,19 +37,19 @@ else 							{ $formId = "vlanManagementEdit"; }
 	<form id="<?php print $formId; ?>">
 	
 	<table id="vlanManagementEdit2" class="table table-noborder table-condensed">
-	<!-- hostname  -->
-	<tr>
-		<td><?php print _('Name'); ?></td>
-		<td>
-			<input type="text" class="name" name="name" placeholder="<?php print _('VLAN name'); ?>" value="<?php if(isset($vlan['name'])) print $vlan['name']; ?>" <?php print $readonly; ?>>
-		</td>
-	</tr>
-
 	<!-- number -->
 	<tr>
 		<td><?php print _('Number'); ?></td>
 		<td>
 			<input type="text" class="number" name="number" placeholder="<?php print _('VLAN number'); ?>" value="<?php if(isset($vlan['number'])) print $vlan['number']; ?>" <?php print $readonly; ?>>
+		</td>
+	</tr>
+
+	<!-- hostname  -->
+	<tr>
+		<td><?php print _('Name'); ?></td>
+		<td>
+			<input type="text" class="name" name="name" placeholder="<?php print _('VLAN name'); ?>" value="<?php if(isset($vlan['name'])) print $vlan['name']; ?>" <?php print $readonly; ?>>
 		</td>
 	</tr>
 

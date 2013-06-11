@@ -14,16 +14,18 @@ if(sizeof($slaves) == 0 && $type == 0 && $SubnetDetails['mask']!="31" && $Subnet
 	# get max hosts
 	$max = MaxHosts($SubnetDetails['mask'], $type);
 	$max = $SubnetDetails['subnet'] + $max;
+	# set start
+	$start = gmp_strval(gmp_add($SubnetDetails['subnet'],1));
 	
-	for($m=$SubnetDetails['subnet']+1; $m<=$max; $m++) {
+	for($m=$start; $m<=$max; $m=gmp_strval(gmp_add($m,1))) {
 		# already exists
-		if (array_key_exists((int)$m, $ipVisual)) {
+		if (array_key_exists((string)$m, $ipVisual)) {
 		
 			# fix for empty states - if state is disabled, set to active
 			if(strlen($ipVisual[$m]['state'])==0) { $ipVisual[$m]['state'] = 1; }
 		
 			$class = $ipVisual[$m]['state'];
-			$id = $ipVisual[$m]['id'];
+			$id = (int)$ipVisual[$m]['id'];
 			$action = 'all-edit';
     	}
     	else {

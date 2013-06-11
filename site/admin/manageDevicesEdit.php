@@ -21,7 +21,7 @@ else 								{ $readonly = ""; }
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('device'); ?></div>
+<div class="pHeader"><?php print ucwords(_("$_POST[action]")); ?> <?php print _('device'); ?></div>
 
 
 <!-- content -->
