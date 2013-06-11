@@ -54,56 +54,58 @@ $settings = getallSettings();
 
 <?php
 /* print existing sections */
-foreach ($groups as $g)
-{
-	print '<tr>' . "\n";
-	
-	print '	<td>' . $g['g_name'] . '</td>'. "\n";
-	print '	<td>' . $g['g_desc'] . '</td>'. "\n";
-	
-	# users in group
-	print "	<td>";
-	$u = getUsersInGroup($g['g_id']);
-	if(sizeof($u)>0) {
-		foreach($u as $name) {
-			# get details
-			$user = getUserDetailsById($name);
-			print "$user[real_name]<br>";
+if(sizeof($groups)>0) {
+	foreach ($groups as $g)
+	{
+		print '<tr>' . "\n";
+		
+		print '	<td>' . $g['g_name'] . '</td>'. "\n";
+		print '	<td>' . $g['g_desc'] . '</td>'. "\n";
+		
+		# users in group
+		print "	<td>";
+		$u = getUsersInGroup($g['g_id']);
+		if(sizeof($u)>0) {
+			foreach($u as $name) {
+				# get details
+				$user = getUserDetailsById($name);
+				print "$user[real_name]<br>";
+			}
 		}
-	}
-	print "</td>";
-
+		print "</td>";
 	
-	# section permissions
-	print "	<td>";
-	$s = getSectionPermissionsByGroup($g['g_id']);
-	if(sizeof($s)>0) {
-		foreach($s as $sec=>$perm) {
-			# reformat permissions
-			$perm = parsePermissions($perm);
-			print $sec." : ".$perm."<br>";
+		
+		# section permissions
+		print "	<td>";
+		$s = getSectionPermissionsByGroup($g['g_id']);
+		if(sizeof($s)>0) {
+			foreach($s as $sec=>$perm) {
+				# reformat permissions
+				$perm = parsePermissions($perm);
+				print $sec." : ".$perm."<br>";
+			}
 		}
+		print "</td>";
+		
+		
+		# add/remove users
+		print "	<td class='actions'>";
+		print "	<div class='btn-group'>";
+		print "		<button class='btn btn-small addToGroup' 		data-groupid='$g[g_id]' data-action='add'    rel='tooltip' title='"._('add users to this group')."'>   	<i class='icon-gray icon-plus'></i></button>";
+		print "		<button class='btn btn-small removeFromGroup' 	data-groupid='$g[g_id]' data-action='remove' rel='tooltip' title='"._('remove users from this group')."'><i class='icon-gray icon-minus'></i></button>";
+		print "	</div>";
+		print "</td>";
+	
+		# edit, delete	
+		print "<td class='actions'>";	
+		print "	<div class='btn-group'>";
+		print "		<button class='btn btn-small editGroup'  		data-groupid='$g[g_id]' data-action='edit'   rel='tooltip' title='"._('edit group details')."'>	<i class='icon-gray icon-pencil'></i></button>";
+		print "		<button class='btn btn-small editGroup'  		data-groupid='$g[g_id]' data-action='delete' rel='tooltip' title='"._('remove group')."'>		<i class='icon-gray icon-remove'></i></button>";
+		print "	</div>";
+		print "</td>";
+		
+		print '</tr>' . "\n";
 	}
-	print "</td>";
-	
-	
-	# add/remove users
-	print "	<td class='actions'>";
-	print "	<div class='btn-group'>";
-	print "		<button class='btn btn-small addToGroup' 		data-groupid='$g[g_id]' data-action='add'    rel='tooltip' title='"._('add users to this group')."'>   	<i class='icon-gray icon-plus'></i></button>";
-	print "		<button class='btn btn-small removeFromGroup' 	data-groupid='$g[g_id]' data-action='remove' rel='tooltip' title='"._('remove users from this group')."'><i class='icon-gray icon-minus'></i></button>";
-	print "	</div>";
-	print "</td>";
-
-	# edit, delete	
-	print "<td class='actions'>";	
-	print "	<div class='btn-group'>";
-	print "		<button class='btn btn-small editGroup'  		data-groupid='$g[g_id]' data-action='edit'   rel='tooltip' title='"._('edit group details')."'>	<i class='icon-gray icon-pencil'></i></button>";
-	print "		<button class='btn btn-small editGroup'  		data-groupid='$g[g_id]' data-action='delete' rel='tooltip' title='"._('remove group')."'>		<i class='icon-gray icon-remove'></i></button>";
-	print "	</div>";
-	print "</td>";
-	
-	print '</tr>' . "\n";
 }
 
 ?>
