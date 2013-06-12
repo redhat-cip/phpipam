@@ -43,8 +43,8 @@ if(sizeof($errors) != 0) {
 	print '</div>'. "\n";
 }
 else {
-	if(!updateCustomVLANField($_POST)) 		{ print '<div class="alert alert-error"  >'._('Failed to').' '. _($_POST['action']) .' '._('field').'!</div>';}
-	else 									{ print '<div class="alert alert-success">'._('Field').' '.     _($_POST['action']) .' '._('success').'!</div>';}
+	if(!updateCustomVLANField($_POST)) 	{ print '<div class="alert alert-error"  >'._("Failed to $_POST[action] field").'!</div>';}
+	else 								{ print '<div class="alert alert-success">'._("Field $_POST[action] success").'!</div>';}
 }
 
 ?>

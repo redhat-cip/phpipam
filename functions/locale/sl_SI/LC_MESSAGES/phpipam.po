@@ -512,7 +512,7 @@ msgstr "Nalaganje"
 
 #: index.php:182
 msgid "Please select subnet from left menu"
-msgstr "Izberi omrežje iz levega menija"
+msgstr "Izberite omrežje iz levega menija"
 
 #: index.php:185 site/tools/showAll.php:4
 msgid "Please select tool from left menu!"
@@ -1947,7 +1947,7 @@ msgstr "kliknite za prikaz/skritje pripadajočih omrežij"
 
 #: site/admin/manageSubnet.php:89
 msgid "Add new subnet to section"
-msgstr "Dodaj novo omrežje v razdelek"
+msgstr "Ustvari novo omrežje v razdelku"
 
 #: site/admin/manageSubnet.php:89
 msgid "Add subnet"
@@ -2529,7 +2529,7 @@ msgstr "številka VLANa"
 
 #: site/admin/manageVLANEdit.php:97
 msgid "removing VLAN will also remove VLAN reference from belonging subnets"
-msgstr "odstranitev VLANa "
+msgstr "odstranitev VLANa bo odstranila tudi povezave na VLAN iz pripadajočih omrežij"
 
 #: site/admin/manageRequests.php:15
 msgid "List of all active IP addresses requests"
@@ -3486,11 +3486,11 @@ msgstr "Skrij seznam omrežij"
 
 #: site/subnets.php:76
 msgid "Add new subnet"
-msgstr "Dodaj novo omrežje"
+msgstr "Ustvari novo omrežje"
 
 #: site/subnets.php:76
 msgid "Add new subnet to"
-msgstr "Dodaj novo omrežje v"
+msgstr "Ustvari novo omrežje v razdelku "
 
 #: site/userMenu.php:22
 msgid "Search string"
@@ -3743,3 +3743,117 @@ msgstr "IP naslov pobrisan"
 #: site/admin/subnetDetailsSlaves.php:134
 msgid "You do not have permissions to truncate subnet"
 msgstr "Nimate pravice za izbris IP naslovov v tem omrežju"
+
+#: site/admin/manageDevicesEditResult
+msgid "Failed to add device"
+msgstr "Napaka pri dodajanju naprave"
+
+#: site/admin/manageDevicesEditResult
+msgid "Failed to edit device"
+msgstr "Napaka pri urejanju naprave"
+
+#: site/admin/manageDevicesEditResult
+msgid "Failed to delete device"
+msgstr "Napaka pri izbrisu naprave"
+
+#: site/admin/manageDevicesEditResult
+msgid "Device add successfull"
+msgstr "Naprava dodana"
+
+#: site/admin/manageDevicesEditResult
+msgid "Device edit successfull"
+msgstr "Naprava urejena"
+
+#: site/admin/manageDevicesEditResult
+msgid "Device delete successfull"
+msgstr "Naprava izbrisana"
+
+#: site/admin/manageVLANEditresult.php
+msgid "Failed to add VLAN"
+msgstr "Napaka pri dodajanju VLANa"
+
+#: site/admin/manageVLANEditresult.php
+msgid "Failed to edit VLAN"
+msgstr "Napaka pri urejanju VLANa"
+
+#: site/admin/manageVLANEditresult.php
+msgid "Failed to delete VLAN"
+msgstr "Napaka pri izbrisu VLANa"
+
+#: site/admin/manageVLANEditresult.php
+msgid "VLAN add successfull"
+msgstr "VLAN dodan"
+
+#: site/admin/manageVLANEditresult.php
+msgid "VLAN edit successfull"
+msgstr "VLAN urejen"
+
+#: site/admin/manageVLANEditresult.php
+msgid "VLAN delete successfull"
+msgstr "VLAN izbrisan"
+
+#: site/admin/manageVRFEditResult.php
+msgid "Failed to add VRF"
+msgstr "Napaka pri dodajnju VRF"
+
+#: site/admin/manageVRFEditResult.php
+msgid "Failed to edit VRF"
+msgstr "Napaka pri urejanju VRF"
+
+#: site/admin/manageVRFEditResult.php
+msgid "Failed to delete VRF"
+msgstr "Napaka pri izbrisu VRF"
+
+#: site/admin/manageVRFEditResult.php
+msgid "VRF add successfull"
+msgstr "VRF dodan"
+
+#: site/admin/manageVRFEditResult.php
+msgid "VRF edit successfull"
+msgstr "VRF urejen"
+
+#: site/admin/manageVRFEditResult.php
+msgid "VRF delete successfull"
+msgstr "VRF izbrisan"
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Failed to add field"
+msgstr "Napaka pri dodajaju polja"
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Failed to edit field"
+msgstr "Napaka pri urejanju polja"
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Failed to delete field"
+msgstr "Napaka pri izbrisu polja"
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Field add success"
+msgstr "Polje dodano"
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Field edit success"
+msgstr "Polje urejeno"
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Field delete success"
+msgstr "Polje izbrisano"

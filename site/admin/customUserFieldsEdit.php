@@ -16,7 +16,7 @@ else 							{ $_POST['oldname'] = $_POST['fieldName'];}
 ?>
 
 
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('custom User field'); ?></div>
+<div class="pHeader"><?php print ucwords(_("$_POST[action]")); ?> <?php print _('custom User field'); ?></div>
 
 
 <div class="pContent">

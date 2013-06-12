@@ -1,0 +1,159 @@
+#
+# List of changes in translation
+#
+
+
+#
+# Added 07/06/13
+#
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet edit successfull"
+msgstr ""
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet add successfull"
+msgstr ""
+
+#: site/admin/manageSubnetEditResult.php:169
+msgid "Subnet delete successfull"
+msgstr ""
+
+#: site/functons/functions-common.php
+msgid "Read / Write / Admin"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP edit successful"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP add successful"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddressCheck.php
+msgid "IP delete successful"
+msgstr ""
+
+
+#
+# Added 11/06/13
+#
+
+#: site/admin/subnetDetailsSlaves.php
+msgid "You do not have permissions to truncate subnet"
+msgstr ""
+
+#: site/admin/manageDevicesEditResult.php
+msgid "Failed to add device"
+msgstr ""
+
+#: site/admin/manageDevicesEditResult.php
+msgid "Failed to edit device"
+msgstr ""
+
+#: site/admin/manageDevicesEditResult.php
+msgid "Failed to delete device"
+msgstr ""
+
+#: site/admin/manageDevicesEditResult.php
+msgid "Device add successfull"
+msgstr ""
+
+#: site/admin/manageDevicesEditResult.php
+msgid "Device edit successfull"
+msgstr ""
+
+#: site/admin/manageDevicesEditResult.php
+msgid "Device delete successfull"
+msgstr ""
+
+#: site/admin/manageVLANEditresult.php
+msgid "Failed to add VLAN"
+msgstr ""
+
+#: site/admin/manageVLANEditresult.php
+msgid "Failed to edit VLAN"
+msgstr ""
+
+#: site/admin/manageVLANEditresult.php
+msgid "Failed to delete VLAN"
+msgstr ""
+
+#: site/admin/manageVLANEditresult.php
+msgid "VLAN add successfull"
+msgstr ""
+
+#: site/admin/manageVLANEditresult.php
+msgid "VLAN edit successfull"
+msgstr ""
+
+#: site/admin/manageVLANEditresult.php
+msgid "VLAN delete successfull"
+msgstr ""
+
+#: site/admin/manageVRFEditResult.php
+msgid "Failed to add VRF"
+msgstr ""
+
+#: site/admin/manageVRFEditResult.php
+msgid "Failed to edit VRF"
+msgstr ""
+
+#: site/admin/manageVRFEditResult.php
+msgid "Failed to delete VRF"
+msgstr ""
+
+#: site/admin/manageVRFEditResult.php
+msgid "VRF add successfull"
+msgstr ""
+
+#: site/admin/manageVRFEditResult.php
+msgid "VRF edit successfull"
+msgstr ""
+
+#: site/admin/manageVRFEditResult.php
+msgid "VRF delete successfull"
+msgstr ""
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Failed to add field"
+msgstr ""
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Failed to edit field"
+msgstr ""
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Failed to delete field"
+msgstr ""
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Field add success"
+msgstr ""
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Field edit success"
+msgstr ""
+
+#: site/admin/customIPFieldsEditResult.php
+#: site/admin/customSubnetFieldsEditResult.php
+#: site/admin/customVLANFieldsEditResult.php
+#: site/admin/customUserFieldsEditResult.php
+msgid "Field delete success"
+msgstr ""

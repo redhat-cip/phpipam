@@ -23,7 +23,7 @@ else 								{ $readonly = ""; }
 
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('VRF'); ?></div>
+<div class="pHeader"><?php print ucwords(_("$_POST[action]")); ?> <?php print _('VRF'); ?></div>
 
 <!-- content -->
 <div class="pContent">

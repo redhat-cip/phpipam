@@ -29,7 +29,7 @@ else 							{ $formId = "vlanManagementEdit"; }
 ?>
 
 <!-- header -->
-<div class="pHeader"><?php print ucwords($_POST['action']); ?> <?php print _('VLAN'); ?></div>
+<div class="pHeader"><?php print ucwords(_("$_POST[action]")); ?> <?php print _('VLAN'); ?></div>
 
 
 <!-- content -->
@@ -94,7 +94,7 @@ else 							{ $formId = "vlanManagementEdit"; }
 
 	<?php
 	//print delete warning
-	if($_POST['action'] == "delete")	{ print "<div class='alert alert-warn'><strong"._('Warning').':</strong> '._('removing VLAN will also remove VLAN reference from belonging subnets')."!</div>"; }
+	if($_POST['action'] == "delete")	{ print "<div class='alert alert-warn'><strong>"._('Warning').':</strong> '._('removing VLAN will also remove VLAN reference from belonging subnets')."!</div>"; }
 	?>
 </div>
 

@@ -39,21 +39,26 @@ $(function () {
     
     var data = [
     	<?php
-     	if($details['freehosts_percent']>0) 
-    	print "{ label: '"._('Free')."',     data: $details[freehosts_percent], color: '#D8D8D8' }, ";		# free hosts
-    	
-    	if($details['online_percent']>0)
-    	print "{ label: '"._('Active')."',   data: $details[online_percent],    color: '#A9C9A4' }, ";		# active hosts
-    	
-    	if($details['offline_percent']>0) 
-    	print "{ label: '"._('Offline')."',  data: $details[offline_percent],   color: '#F59C99'  },";		# offline hosts	    	
-
-    	if($details['reserved_percent']>0) 
-    	print "{ label: '"._('Reserved')."', data: $details[reserved_percent],  color: '#9AC0CD' },";			# reserved hosts	     	
-
-    	if($details['dhcp_percent']>0) 
-    	print "{ label: '"._('DHCP')."',     data: $details[dhcp_percent],      color: '#a9a9a9' },";		# dhcp hosts	 
-    	
+     	if($details['freehosts_percent']>0)  {
+    		$details['freehosts_percent'] = str_replace(",", ".", $details['freehosts_percent']);
+    		print "{ label: '"._('Free')."',     data: $details[freehosts_percent], color: '#D8D8D8' }, ";		# free hosts
+    	}
+    	if($details['online_percent']>0) {
+    	    $details['online_percent'] = str_replace(",", ".", $details['online_percent']);
+			print "{ label: '"._('Active')."',   data: $details[online_percent],    color: '#A9C9A4' }, ";		# active hosts
+    	}
+    	if($details['offline_percent']>0) {
+        	$details['offline_percent'] = str_replace(",", ".", $details['offline_percent']);
+    		print "{ label: '"._('Offline')."',  data: $details[offline_percent],   color: '#F59C99'  },";		# offline hosts	    	
+		}
+    	if($details['reserved_percent']>0) {
+    		$details['reserved_percent'] = str_replace(",", ".", $details['reserved_percent']);
+    		print "{ label: '"._('Reserved')."', data: $details[reserved_percent],  color: '#9AC0CD' },";			# reserved hosts	     	
+		}
+    	if($details['dhcp_percent']>0) {
+    		$details['dhcp_percent'] = str_replace(",", ".", $details['dhcp_percent']);
+    		print "{ label: '"._('DHCP')."',     data: $details[dhcp_percent],      color: '#a9a9a9' },";		# dhcp hosts	 
+    	}
     	?>
     
 
