@@ -57,6 +57,7 @@ for ($m = 0; $m <= $maxSubs; $m++) {
 
 # set maximum for graph
 $max = $subnetHost[0]['percentage'];
+$max = str_replace(",", ".", $max);
 
 ?>
 
@@ -75,6 +76,10 @@ $(function () {
 				if($sp != "0") {
 					$subnet['subnet'] = long2ip($subnet['subnet']);
 					$subnet['descriptionLong'] = $subnet['description'];
+					
+					# set percentage because of localisation
+					$subnet['percentage'] = str_replace(",", ".", $subnet['percentage']);
+					$subnet['percentage'] = $subnet['percentage'];
 			
 					# odd/even if more than 5 items
 					if(sizeof($subnetHost) > 5) {

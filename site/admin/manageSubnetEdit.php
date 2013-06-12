@@ -135,7 +135,7 @@ else															{ $readonly = false; }
            		$tmp[0]['number'] = _('No VLAN');
            		
            		# on-the-fly
-	          	$tmp[1]['vlanId'] = _('Add');
+	          	$tmp[1]['vlanId'] = 'Add';
 	           	$tmp[1]['number'] = _('+ Add new VLAN');	
            		
            		array_unshift($vlans, $tmp[0]);
