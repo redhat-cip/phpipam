@@ -157,3 +157,7 @@ msgstr ""
 #: site/admin/customUserFieldsEditResult.php
 msgid "Field delete success"
 msgstr ""
+
+#: site/tools/userMenuSelfMod.php
+msgid "To apply language change please log in again"
+msgstr ""

@@ -12,6 +12,9 @@ require_once('../../functions/functions.php');
 /* verify posted data */
 CheckReferrer();
 
+/* get old details */
+$user_old = getActiveUserDetails();
+
 /* get changed details */
 $modData = $_POST;
 
@@ -33,8 +36,12 @@ if (strlen($modData['password1']) != 0) {
 /* Print errors if present and die, else update */
 if ($error) { die('<div class="alert alert-error alert-absolute">'._('Please fix the following error').': <strong>'. $error .'<strong></div>'); }
 else {
-    if (!selfUpdateUser ($modData)) { die('<div class="alert alert-error alert-absolute">'._('Error updating').'!</div>'); }
-    else 							{ print '<div class="alert alert-success alert-absolute">'._('Account updated successfully').'!</div>'; }
+    if (!selfUpdateUser ($modData)) 		{ die('<div class="alert alert-error alert-absolute">'._('Error updating').'!</div>'); }
+    else 									{ print '<div class="alert alert-success alert-absolute">'._('Account updated successfully').'!</div>'; }
+    
+    # check if language has changed
+    if($user_old['lang']!=$modData['lang'])	{ print '<div class="alert alert-info alert-absolute" style="margin-top:50px;">'._("To apply language change please log in again").'!</div>'; }
+    
 }
 
 ?>

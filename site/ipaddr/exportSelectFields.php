@@ -1,3 +1,8 @@
+<?php 
+/* use required functions */
+require_once('../../functions/functions.php'); 
+?>
+
 <!-- header -->
 <div class="pHeader"><?php print _("Select fields to export"); ?></div>
 
@@ -6,9 +11,6 @@
 <div class="pContent">
 
 <?php
-/* use required functions */
-require_once('../../functions/functions.php');
-
 /* verify that user is authenticated! */
 isUserAuthenticated ();
 

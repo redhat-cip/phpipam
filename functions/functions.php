@@ -27,24 +27,11 @@ if(!isset($_SESSION)) { 								//fix for ajax-loaded windows
 	session_start();
 }
  
-/* Get user lang */
-$query    = 'select `l_code` from `users` as `u`,`lang` as `l` where `l_id` = `lang` and `username` = "'.$_SESSION['ipamusername'].'";;';
-@$database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
-
-/* Check connection */
-if ($database->connect_error) {  }
-else {
-	/* execute */
-	try { $details = $database->getArray( $query ); }
-	catch (Exception $e) { 
-	    $error =  $e->getMessage(); 
-	    print ("<div class='alert alert-error'>"._('Error').": $error</div>");
-	}
-	$lang = $details[0]['l_code'];
-	
-	if(strlen($lang)>0) 	{ 
-		putenv("LC_ALL=$lang");
-		setlocale(LC_ALL, $lang);							// set language		
+/* Check if lang is set */
+if(isset($_SESSION['ipamlanguage'])) {
+	if(strlen($_SESSION['ipamlanguage'])>0) 	{ 
+		putenv("LC_ALL=$_SESSION[ipamlanguage]");
+		setlocale(LC_ALL, $_SESSION['ipamlanguage']);		// set language		
 		bindtextdomain("phpipam", "./functions/locale");	// Specify location of translation tables
 		textdomain("phpipam");								// Choose domain
 	}	

@@ -3857,3 +3857,7 @@ msgstr "Polje urejeno"
 #: site/admin/customUserFieldsEditResult.php
 msgid "Field delete success"
 msgstr "Polje izbrisano"
+
+#: site/tools/userMenuSelfMod.php
+msgid "To apply language change please log in again"
+msgstr "Za uveljavitev spremembe jezika se prosimo ponovno prijavite"

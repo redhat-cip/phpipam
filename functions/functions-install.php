@@ -111,6 +111,52 @@ function getActiveUserDetails ()
 
 
 /**
+ * Get user lang
+ */
+function getUserLang ($username)
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'select `lang`,`l_id`,`l_code`,`l_name` from `users` as `u`,`lang` as `l` where `l_id` = `lang` and `username` = "'.$username.'";;';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;
+    } 
+    
+    /* return results */
+    return($details[0]);
+}
+
+
+/**
+ * Get lang by id
+ */
+function getLangById ($id)
+{
+    global $db;                                                                      # get variables from config file
+    /* set query, open db connection and fetch results */
+    $query    = 'select * from `lang` where `l_id` = "'.$id.'";';
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
+
+    /* execute */
+    try { $details = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;
+    } 
+    
+    /* return results */
+    return($details[0]);
+}
+
+
+/**
  * Get all site settings
  */
 function getAllSettings()
@@ -243,9 +289,13 @@ function checkLogin ($username, $md5password, $rawpassword)
    	/* locally registered */
     if (sizeof($result) !=0 ) 	{ 
 
+    	# get user lang
+    	$lang = getLangById ($result[0]['lang']);
+    	
     	/* start session and set variables */
     	session_start();
     	$_SESSION['ipamusername'] = $username;
+    	$_SESSION['ipamlanguage'] = $lang['l_code'];
     	session_write_close();
     	
     	# print success
@@ -263,7 +313,7 @@ function checkLogin ($username, $md5password, $rawpassword)
     		
     		/* verify that user is in database! */
     		$database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
-    		$query 		= 'select count(*) as count from `users` where `username` = binary "'. $username .'" and `domainUser` = "1" limit 1;';
+    		$query 		= 'select * from `users` where `username` = binary "'. $username .'" and `domainUser` = "1" limit 1;';
     		
     		/* execute */
     		try { $result = $database->getArray( $query ); }
@@ -276,15 +326,19 @@ function checkLogin ($username, $md5password, $rawpassword)
     		/* close database connection */
     		$database->close();
     		
-    		if($result[0]['count'] == "1") {
+    		if(sizeof($result)!=0) {
 
 				/* check if user exist in database and has domain user flag */		
 				$authAD = checkADLogin ($username, $rawpassword);
 		
 				if($authAD == "ok") {
+					# get user lang
+					$lang = getLangById ($result[0]['lang']);
+
 	    			/* start session and set variables */
 	    			session_start();
 	    			$_SESSION['ipamusername'] = $username;
+	    			$_SESSION['ipamlanguage'] = $lang['l_code'];
 	    			session_write_close();
 	    		
 	    			# print success
