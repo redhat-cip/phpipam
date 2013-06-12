@@ -975,7 +975,7 @@ msgstr "Moj račun"
 
 #: site/tools/searchResults.php:93
 msgid "Search results (IP address list)"
-msgstr "Rezultati iskanje (seznam IP naslovov)"
+msgstr "Rezultati iskanja (seznam IP naslovov)"
 
 #: site/tools/searchResults.php:93
 msgid "Export All results to XLS"
@@ -1018,7 +1018,7 @@ msgstr "Uredi podatke o omrežju (onemogočeno)"
 
 #: site/tools/searchResults.php:330
 msgid "Search results (VLANs)"
-msgstr "Rezultati iskanje (VLAN)"
+msgstr "Rezultati iskanja (VLAN)"
 
 #: site/tools/showAll.php:1
 msgid "phpIPAM tools"

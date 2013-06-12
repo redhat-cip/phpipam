@@ -304,7 +304,7 @@ else {
 			print ' <td>'. _($line['allowRequests']) .'</td>' . "\n";
 		
 			#locked for writing
-			if($permission == "2") {
+			if($permission > 1) {
 				print "	<td><button class='btn btn-mini edit_subnet' data-action='edit'   data-subnetId='$line[id]' data-sectionId='$line[sectionId]' href='#' rel='tooltip' title='"._('Edit subnet details')."'>		<i class='icon-gray icon-pencil'>  </i></a>";
 			}
 			else {

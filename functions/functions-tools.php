@@ -444,8 +444,19 @@ function searchSubnets ($searchterm, $searchTermEdited = "")
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
+    # get custom subnet fields
+    $myFields = getCustomSubnetFields();
+    $custom  = '';
+
+    if(sizeof($myFields) > 0) {
+		/* set inserts for custom */
+		foreach($myFields as $myField) {			
+			$custom  .= ' or `'.$myField['name'].'` like "%'.$searchterm.'%" ';
+		}
+	}
+    
     /* set query */    
-	$query = 'select * from `subnets` where `description` like "%'. $searchterm .'%" or `subnet` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'";';
+	$query = 'select * from `subnets` where `description` like "%'. $searchterm .'%" or `subnet` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" '.$custom.';';
 
     /* execute */
     try { $search = $database->getArray( $query ); }
@@ -468,9 +479,20 @@ function searchVLANs ($searchterm)
 {
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
-    
+
+    # get custom VLAN fields
+    $myFields = getCustomVLANFields();
+    $custom  = '';
+
+    if(sizeof($myFields) > 0) {
+		/* set inserts for custom */
+		foreach($myFields as $myField) {			
+			$custom  .= ' or `'.$myField['name'].'` like "%'.$searchterm.'%" ';
+		}
+	}
+	    
     /* set query */    
-	$query = 'select * from `vlans` where `name` like "%'. $searchterm .'%" or `description` like "%'. $searchterm .'%" or `number` like "%'. $searchterm .'%";';
+	$query = 'select * from `vlans` where `name` like "%'. $searchterm .'%" or `description` like "%'. $searchterm .'%" or `number` like "%'. $searchterm .'%" '.$custom.';';
 
     /* execute */
     try { $search = $database->getArray( $query ); }

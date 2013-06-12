@@ -102,7 +102,7 @@ $myFieldsSize = sizeof($myFields);
 	<?php if(in_array('owner', $setFields)) { ?>
 	<!-- owner -->
 	<tr>
-		<th>Owner'); ?></th>
+		<th><?php print _('Owner'); ?></th>
 		<td>
 			<input type="text" name="owner" id="owner" value="<?php if(isset($request['owner'])) { print $request['owner']; } ?>" size="30" placeholder="Enter IP owner'); ?>">
 		</td>
