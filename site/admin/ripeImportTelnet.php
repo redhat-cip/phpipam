@@ -10,8 +10,14 @@ require_once('../../functions/functions.php');
 /* verify that user is admin */
 checkAdmin();
 
-
+# get AS
 $as = $_POST['as'];
+
+# strip AS if provided, to get just the number
+if(substr($as, 0,2)=="AS" || substr($as, 0,2)=="as") {
+	$as = substr($as, 2);
+};
+
 
 //open connection
 $povezava = fsockopen("whois.ripe.net", 43, $errno, $errstr, 5); 

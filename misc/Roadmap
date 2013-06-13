@@ -5,9 +5,12 @@ features for next releases:
 	
 		+ implement phpmailer;
 		
+		+ checkbox for required fields;
+		
 		+ Custom devices field;
 		
 		+ Get next available subnet by providing mask;
+		
 		+ Compress DHCP, reserved and offline ranges;
 		
 		+ Create multiple networks with same bitmasks (when adding new);
@@ -17,6 +20,7 @@ features for next releases:
 		+ smtp auth;
 		
 		+ Logs search;
+		
 		+ User actvity display;
 		
 		+ VLAN header ordering;
@@ -25,18 +29,16 @@ features for next releases:
 		
 		
 		Martin Komon:
+		
 		+ Subnet importing via cli with switches;
+		
 		+ Notification of new hosts that become available;
 		
 	
 	- Requests
-		- SMTP auth;
-		- subnet splitting;
 		- API 
-		- search for available subnets;
 	
 	- Optional
-		- better exception handling (functions);
 		- RDNS zone file export (in admin!);
 		- IPv6 migration guide document;
 	

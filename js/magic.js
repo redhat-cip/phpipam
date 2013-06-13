@@ -105,6 +105,29 @@ function readCookie(name) {
 
 
 
+/* @dashboard graphs ----------  */
+
+//first
+$.post('site/dashboard/top10_percentage.php', function(data) {
+	$('#IPv4top10').html(data);
+	// second
+	$.post('site/dashboard/top10_hosts.php', {type:"IPv4"}, function(data) {
+		$('#IPv4top10Hosts').html(data);
+		//third
+		$.post('site/dashboard/top10_hosts.php', {type:"IPv6"}, function(data) {
+			$('#IPv6top10Hosts').html(data);
+		});		
+	});	
+});
+
+
+
+
+
+
+
+
+
 
 /* @subnets list ----------  */
 

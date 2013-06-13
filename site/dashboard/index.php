@@ -52,7 +52,9 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<div class="inner">
 		<h4><?php print _('Top 10 IPv4 subnets by usage percentage'); ?></h4>
 		<div class="hContent">
-			<?php $type = "IPv4"; include('top10_percentage.php'); ?>
+			<div id="IPv4top10" class="top10"  style="height:200px;width:95%;margin-left:3%;">
+				<div style="text-align:center;padding-top:50px;"><strong><?php print _('Loading statistics'); ?></strong><br><img src="css/images/loading_dash.gif"></div>
+			</div>
 		</div>
 	</div>
 	</div>
@@ -65,7 +67,9 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<div class="inner">
 		<h4><?php print _('Top 10 IPv4 subnets by number of hosts'); ?></h4>
 		<div class="hContent">
-			<?php $type = "IPv4"; include('top10_hosts.php'); ?>
+			<div id="IPv4top10Hosts" class="top10" style="height: 200px; width: 95%; margin-left: 3%; padding: 0px; position: relative; ">
+				<div style="text-align:center;padding-top:50px;"><strong><?php print _('Loading statistics'); ?></strong><br><img src="css/images/loading_dash.gif"></div>
+			</div>
 		</div>
 	</div>
 	</div>
@@ -75,7 +79,9 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	<div class="inner">
 		<h4><?php print _('Top 10 IPv6 subnets by number of hosts'); ?></h4>
 		<div class="hContent">
-			<?php $type = "IPv6"; include('top10_hosts.php');?>
+			<div id="IPv6top10Hosts" class="top10" style="height: 200px; width: 95%; margin-left: 3%; padding: 0px; position: relative; ">
+				<div style="text-align:center;padding-top:50px;"><strong><?php print _('Loading statistics'); ?></strong><br><img src="css/images/loading_dash.gif"></div>
+			</div>
 		</div>
 	</div>	
 	</div>

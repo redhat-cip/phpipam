@@ -6,12 +6,13 @@
  **********************************************/
 
 /* required functions */
-/* require_once('../../functions/functions.php');  */
+require_once( dirname(__FILE__) . '/../../functions/functions.php' );
 # no errors!
 ini_set('display_errors', 0);
 
 # get subnets statistic
-$subnetHost = getSubnetStatsDashboard($type, 100);
+$type = $_POST['type'];
+$subnetHost = getSubnetStatsDashboard($type, 10);
 
 /* detect duplicates */
 $unique = array();	
@@ -161,10 +162,3 @@ $(function () {
     $.plot($("#<?php print $type; ?>top10Hosts"), [ data ], options);
 });
 </script>
-
-
-
-<!-- graph holder -->
-<div id="<?php print $type; ?>top10Hosts" class="top10"  style="height:200px;width:95%;margin-left:3%;">
-	<div class="alert alert-warn"><strong><?php print _('Info'); ?>:</strong> <?php print _("No $type host configured"); ?>!</div>
-</div>
