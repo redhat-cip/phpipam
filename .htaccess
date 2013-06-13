@@ -3,11 +3,13 @@ RewriteEngine on
 # change rewrite base if not in root
 RewriteBase /
 
+# api
+RewriteRule ^(api)($|/) - [L]
+
 # index.php
 RewriteRule ^index.php$ - [L]
 # pass-through
 RewriteRule ^(css|js|site)/.*$ - [L]
-
 
 # redirect errors
 ErrorDocument 400 /error/400/

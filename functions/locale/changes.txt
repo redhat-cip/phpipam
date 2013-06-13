@@ -161,3 +161,25 @@ msgstr ""
 #: site/tools/userMenuSelfMod.php
 msgid "To apply language change please log in again"
 msgstr ""
+
+
+#
+# Added 13/06/13
+#
+
+#: site/dashboard/top10_percentage.php
+#: site/dashboard/top10_hosts.php
+msgid "No IPv4 hosts configured"
+msgstr ""
+
+#: site/dashboard/top10_hosts.php
+msgid "No IPv6 hosts configured"
+msgstr ""
+
+#: site/dashboard/top10_percentage.php
+msgid "Add some hosts to subnets to calculate usage percentage"
+msgstr ""
+
+#: site/dashboard/top10_hosts.php
+msgid "Add some hosts to subnets to show graph of used hosts per subnet"
+msgstr ""

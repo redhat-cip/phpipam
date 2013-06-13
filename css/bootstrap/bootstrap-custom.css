@@ -9,7 +9,10 @@
 /* @general ---------- */
 body {
 	font-size: 13px;
-	overflow-y: scroll;
+	font-weight: 300;
+}
+input {
+	font-weight: 300;
 }
 table.table-full {
 	width: 100%;
@@ -38,7 +41,8 @@ hr {
   border-bottom: 1px solid #ffffff;
 }
 h4 {
-	font-weight: normal;
+/* 	font-weight: normal; */
+	font-weight: 300;
 	text-shadow: 1px 1px 0px white;
 }
 
@@ -1273,18 +1277,8 @@ table.requestIP th {
 /* @leftovers from old css ---------- */
 
 /* page setup */
-html,
 body {
-/* 	height: 100%; */
-}
-body {
-/* 	background: #E6EAEF; */
 	background: #f9f9f9;
-/* 	background: #F2F2F2; */
-}
-div.wrapper,
-div.footer {
-/* 	min-width: 1024px; */
 }
 div.wrapper {
 /* 	min-height: 100%; */
@@ -1301,9 +1295,12 @@ div.footer {
 	vertical-align: text-top;
 	
 	color: #D5D5D5;
+
+	-webkit-transform: translateZ(0); 
 	
 	position: fixed;
 	width: 100%;
+	
 	bottom: 0px;
 	
 	height: 20px;

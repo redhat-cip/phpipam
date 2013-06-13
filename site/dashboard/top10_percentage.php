@@ -34,6 +34,10 @@ $max = str_replace(",", ".", $max);
 ?>
 
 
+<?php
+# only print if some hosts exist
+if(sizeof($subnetHost)>0) {
+?>
 <script type="text/javascript">
 $(function () {
     
@@ -171,3 +175,13 @@ $(function () {
     $.plot($("#<?php print $type; ?>top10"), [ data ], options);
 });
 </script>
+
+<?php
+}
+else {
+	print "<blockquote style='margin-top:90px;margin-left:50px;'>";
+	print "<p>"._("No $type hosts configured")."</p>";
+	print "<small>"._("Add some hosts to subnets to calculate usage percentage")."</small>";
+	print "</blockquote>";
+}
+?>

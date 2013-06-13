@@ -29,7 +29,10 @@ foreach($subnetHost as $line) {
 }
 ?>
 
-
+<?php
+# only print if some hosts exist
+if(sizeof($subnetHost)>0) {
+?>
 <script type="text/javascript">
 $(function () {
     
@@ -162,3 +165,13 @@ $(function () {
     $.plot($("#<?php print $type; ?>top10Hosts"), [ data ], options);
 });
 </script>
+
+<?php
+}
+else {
+	print "<blockquote style='margin-top:90px;margin-left:50px;'>";
+	print "<p>"._("No $type hosts configured")."</p>";
+	print "<small>"._("Add some hosts to subnets to show graph of used hosts per subnet")."</small>";
+	print "</blockquote>";
+}
+?>
