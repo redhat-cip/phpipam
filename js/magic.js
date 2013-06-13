@@ -111,7 +111,6 @@ if ($('#IPv4top10Hosts').length>0) {
 	//first
 	$.post('site/dashboard/top10_percentage.php', function(data) {
 		$('#IPv4top10').html(data);
-		alert('test');
 		// second
 		$.post('site/dashboard/top10_hosts.php', {type:"IPv4"}, function(data) {
 			$('#IPv4top10Hosts').html(data);
