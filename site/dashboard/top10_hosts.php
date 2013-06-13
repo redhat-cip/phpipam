@@ -12,7 +12,7 @@ ini_set('display_errors', 0);
 
 # get subnets statistic
 $type = $_POST['type'];
-$subnetHost = getSubnetStatsDashboard($type, 10);
+$subnetHost = getSubnetStatsDashboard($type, 10, false);
 
 /* detect duplicates */
 $unique = array();	

@@ -11,28 +11,7 @@ ini_set('display_errors', 0);
 $type = "IPv4";
 
 # get subnets statistic
-$subnetHost = getSubnetStatsDashboard($type, 0);
-
-$max = 0;
-if(sizeof($subnetHost) != 0) {
-	$i = 0;
-	/* we have subnets now. Calculate usage for each */
-	foreach ($subnetHost as $subnet)
-	{
-		$temp = calculateSubnetDetails ( $subnetHost[$i]['usage'], $subnetHost[$i]['mask'], $subnetHost[$i]['subnet'] );
-		$subnetHost[$i]['percentage'] = 100 - $temp['freehosts_percent'];
-		
-		$i++;
-	}
-	
-	/* sort by percentage - keys change! */
-	unset($usageSort);
-	foreach ($subnetHost as $key => $row) {
-	    $usageSort[$key]  = $row['percentage']; 	
-	}
-	array_multisort($usageSort, SORT_DESC, $subnetHost);	
-}
-
+$subnetHost = getSubnetStatsDashboard($type, 10, true);
 
 /* detect duplicates */
 $unique = array();	
@@ -46,16 +25,6 @@ foreach($subnetHost as $line) {
 	}
 	$unique[] = $subnetHost[$m]['description'];
 	$m++;
-}
-
-
-/* remove all but top 10 */
-$maxSubs = sizeof($subnetHost);
-
-for ($m = 0; $m <= $maxSubs; $m++) {
-	if ($m > 10) {
-		unset($subnetHost[$m]);
-	}
 }
 
 # set maximum for graph

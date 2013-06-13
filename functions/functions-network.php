@@ -1376,7 +1376,7 @@ function getAllSubnetsInVRF($vrfId)
 /**
  *	Get top 10 subnets by usage
  */
-function getSubnetStatsDashboard($type, $limit = "10")
+function getSubnetStatsDashboard($type, $limit = "10", $perc = false)
 {
     global $db;                                                                      # get variables from config file
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);  
@@ -1385,9 +1385,19 @@ function getSubnetStatsDashboard($type, $limit = "10")
     if($limit == "0")	{ $limit = ""; }
     else				{ $limit = "limit $limit"; }
     
+    # percentage
+    if($perc) {
+		$query = "select SQL_CACHE *,round(`usage`/pow(2,32-`mask`)*100,2) as `percentage` from (
+					select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
+						SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
+					) 
+					as `usage` from `subnets` as `s`
+					where cast(`subnet` as UNSIGNED) < '4294967295'
+					order by `usage` desc
+					) as `d` order by `percentage` desc $limit;";	    
+    }
 	# ipv4 stats
-	if($type == "IPv4") 
-	{
+	elseif($type == "IPv4") {
 		$query = "select SQL_CACHE * from (
 				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
 					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
@@ -1398,8 +1408,7 @@ function getSubnetStatsDashboard($type, $limit = "10")
 				) as `d` where `d`.`usage` > 0;";	
 	}
 	# IPv6 stats
-	else 
-	{
+	else {
 		$query = "select SQL_CACHE * from (
 				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`, IF(char_length(`description`)>0, `description`, 'No description') as description, (
 					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
