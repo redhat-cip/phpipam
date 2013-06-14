@@ -25,6 +25,7 @@
 	+ Added hostname validation;
 	+ Added Hostfile dump of IP addresses;
 	+ Search also searches in custom fields;
+	+ jQuery updated to v 1.9.1;
 
 	Bugfixes:
 	------------------------

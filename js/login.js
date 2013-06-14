@@ -50,7 +50,7 @@ $('form#login').submit(function() {
 
 /*	auto-suggest first available IP in selected subnet
 ********************************************************/
-$('select#subnetId').live('change', function() {
+$(document).on("change", "select#subnetId", function() {
 	showSpinner();
 	var subnetId = $('select#subnetId option:selected').attr('value');
 	//post it via json to requestIPfirstFree.php
@@ -62,7 +62,7 @@ $('select#subnetId').live('change', function() {
 
 /*	submit IP request
 *****************************************/
-$('#requestIP').live('submit', function() {
+$(document).on("submit", "#requestIP", function() {
 	var subnet = $('#requestIPsubnet').serialize();
 	var IPdata = $(this).serialize();
 	var postData = subnet + "&" + IPdata;

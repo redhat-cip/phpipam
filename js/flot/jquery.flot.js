@@ -1749,17 +1749,6 @@ Licensed under the MIT license.
                         y += line.height/2 + offset;
                         offset += line.height;
 
-                        if ($.browser.opera) {
-                            // FIXME: UGLY BROWSER DETECTION
-                            // round the coordinates since Opera
-                            // otherwise switches to more ugly
-                            // rendering (probably non-hinted) and
-                            // offset the y coordinates since it seems
-                            // to be off pretty consistently compared
-                            // to the other browsers
-                            x = Math.floor(x);
-                            y = Math.ceil(y - 2);
-                        }
                         ctx.fillText(line.text, x, y);
                     }
                 }

@@ -3878,3 +3878,10 @@ msgstr "Dodajte IP naslove v omrežja za izračun odstotka porabe"
 #: site/dashboard/top10_hosts.php
 msgid "Add some hosts to subnets to show graph of used hosts per subnet"
 msgstr "Dodajte IP naslove v omrežja za prikaz grafa uporabe omrežij"
+
+#: site/admin/usersEditPrint.php
+msgid "edit user"
+msgstr"Urejanje uporabnika"
+
+msgid "delete user"
+msgstr "Izbris uporabnika"

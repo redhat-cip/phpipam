@@ -40,8 +40,8 @@ function hidePopup2() {
     $('.popup_w700').css("z-index", "100");        //set popup back
     hideSpinner();
 }
-$('#popupOverlay, button.hidePopups').live('click', function() { hidePopups(); });
-$('button.hidePopup2').live('click', function() { hidePopup2(); });
+$(document).on("click", "#popupOverlay, button.hidePopups", function() { hidePopups(); });
+$(document).on("click", "button.hidePopup2", function() { hidePopup2(); });
 
 //prevent loading for disabled buttons
 $('a.disabled, button.disabled').click(function() { return false; });
@@ -68,9 +68,10 @@ function reloadPage() {
 }
 
 /* remove self on click */
-$('.selfDestruct').live('click', function() {
-    $(this).parent('div').fadeOut('fast');
+$(document).on("click", ".selfDestruct", function() {
+	$(this).parent('div').fadeOut('fast');
 });
+
 
 /* @cookies */
 function createCookie(name,value,days) {
@@ -200,7 +201,7 @@ $('#expandfolders').click(function() {
 /*    add / edit / delete IP address
 ****************************************/
 //show form
-$('.modIPaddr').live("click", function () {
+$(document).on("click", ".modIPaddr", function() {
     showSpinner();        
     var action    = $(this).attr('data-action');
     var id        = $(this).attr('data-id');
@@ -215,7 +216,7 @@ $('.modIPaddr').live("click", function () {
     return false;
 });
 //move orphaned IP address
-$('a.moveIPaddr').live("click", function () {
+$(document).on("click", "a.moveIPaddr", function() {
     showSpinner();        
     var action      = $(this).attr('data-action');
     var id        = $(this).attr('data-id');
@@ -229,8 +230,8 @@ $('a.moveIPaddr').live("click", function () {
     });
     return false;
 });
-//    resolve DNS name
-$('#refreshHostname').live('click', function() {
+//resolve DNS name
+$(document).on("click", "#refreshHostname", function() {
     showSpinner();
     var ipaddress = $('input.ip_addr').val();
     $.post('site/tools/resolveDNS.php', {ipaddress:ipaddress}, function(data) {
@@ -240,8 +241,8 @@ $('#refreshHostname').live('click', function() {
         hideSpinner();
     });
 });
-//    submit ip address change
-$('button#editIPAddressSubmit').live("click", function () {
+//submit ip address change
+$(document).on("click", "button#editIPAddressSubmit", function() {
     //show spinner
     showSpinner();
     var postdata = $('form.editipaddress').serialize();
@@ -263,7 +264,7 @@ $('button#editIPAddressSubmit').live("click", function () {
 /*    send notification mail
 ********************************/
 //show form
-$('a.mail_ipaddress').live("click", function () {
+$('a.mail_ipaddress').click(function () {
     //get IP address id
     var IPid = $(this).attr('data-id');
     $.post('site/ipaddr/mailNotifyIP.php', { id:IPid }, function(data) {
@@ -274,7 +275,7 @@ $('a.mail_ipaddress').live("click", function () {
     return false;
 });
 //send mail with IP details!
-$('#mailIPAddressSubmit').live('click', function () {
+$(document).on("click", "#mailIPAddressSubmit", function() {
     showSpinner();
     var mailData = $('form#mailNotify').serialize();
     //post to check script
@@ -293,7 +294,7 @@ $('#mailIPAddressSubmit').live('click', function () {
 
 /*    sort IP address list
 *********************************************************/
-$('table.ipaddresses th a.sort').live('click', function() {
+$(document).on("click", "table.ipaddresses th a.sort", function() {
     showSpinner();
     
     $(this).tooltip('hide');                            //hide tooltips fix for ajax-load
@@ -311,7 +312,7 @@ $('table.ipaddresses th a.sort').live('click', function() {
 
 /*    import IP addresses
 *************************/
-// load CSV import form
+//load CSV import form
 $('a.csvImport').click(function () {
     showSpinner();
     var subnetId = $(this).attr('data-subnetId');
@@ -322,8 +323,8 @@ $('a.csvImport').click(function () {
     });
     return false;
 });
-//    display uploaded file
-$('input#csvimportcheck').live('click', function () {
+//display uploaded file
+$(document).on("click", "input#csvimportcheck", function() {
     showSpinner();
     //get filetype
     var filetype = $('span.fname').html();
@@ -332,15 +333,15 @@ $('input#csvimportcheck').live('click', function () {
         hideSpinner();
     });
 });
-//    import file script
-$('input#csvImportNo').live('click',function () {
+//import file script
+$(document).on("click", "input#csvImportNo", function() {
     $('div.csvimportverify').hide('fast');
 });
-$('input#csvImportYes').live('click',function () {
+$(document).on("click", "input#csvImportYes", function() {
     showSpinner();
     //get filetype
     var filetype = $('span.fname').html();
-    /* get active subnet ID */
+    // get active subnet ID
     var xlsSubnetId  = $('a.csvImport').attr('data-subnetId');
     var postData = "subnetId=" + xlsSubnetId + "&filetype=" + filetype;
 
@@ -369,7 +370,7 @@ $('a.csvExport').click(function() {
     return false;
 });
 //export
-$('button#exportSubnet').live("click", function () {
+$(document).on("click", "button#exportSubnet", function() {
     var subnetId = $('a.csvExport').attr('data-subnetId');
     //get selected fields
     var exportFields = $('form#selectExportFields').serialize();
@@ -382,7 +383,7 @@ $('button#exportSubnet').live("click", function () {
 /*    request IP address for non-admins if locked or viewer
 *********************************************************/
 //show request form
-$('a.request_ipaddress').live("click", function () {
+$('a.request_ipaddress').click(function () {
     showSpinner();
     var subnetId  = $(this).attr('data-subnetId');
     $.post('site/tools/requestIPform.php', {subnetId:subnetId}, function(data) {
@@ -392,8 +393,8 @@ $('a.request_ipaddress').live("click", function () {
     });
     return false;
 });
-//    auto-suggest first available IP in selected subnet
-$('select#subnetId').live('change', function() {
+//auto-suggest first available IP in selected subnet
+$(document).on("click", "select#subnetId", function() {
     showSpinner();
     var subnetId = $('select#subnetId option:selected').attr('value');
     //post it via json to requestIPfirstFree.php
@@ -403,8 +404,8 @@ $('select#subnetId').live('change', function() {
     });
 });
 
-//    submit request
-$('button#requestIPAddressSubmit').live('click', function() {
+//submit request
+$(document).on("click", "button#requestIPAddressSubmit", function() {
     showSpinner();
     var request = $('form#requestIP').serialize();
     $.post('site/login/requestIPresult.php', request, function(data) {
@@ -419,7 +420,7 @@ $('button#requestIPAddressSubmit').live('click', function() {
 /*    IP address next/prev page
 *********************************************************/
 //prev
-$('a#prevItem').live('click', function() {
+$(document).on("click", "a#prevItem", function() {
     $('div.loading').fadeIn('fast');
     var active = $('table.ipaddresses').find("tbody.ipPart:visible");
     //not first!
@@ -436,7 +437,7 @@ $('a#prevItem').live('click', function() {
     return false;
 });
 //next
-$('a#nextItem').live('click', function() {
+$(document).on("click", "a#nextItem", function() {
     $('div.loading').fadeIn('fast');
     var active = $('table.ipaddresses').find("tbody.ipPart:visible");
     //not last!
@@ -481,7 +482,7 @@ $('select.jumptoPage').change(function() {
 
 /* ipCalc */
 //submit form
-$('form#ipCalc').live('submit', function () {
+$('form#ipCalc').submit(function () {
     showSpinner();
     var ipCalcData = $(this).serialize();
     $.post('site/tools/ipCalcResult.php', ipCalcData, function(data) {
@@ -491,7 +492,7 @@ $('form#ipCalc').live('submit', function () {
     return false;
 });
 //reset input
-$('form#ipCalc input.reset').live('click', function () {
+$('form#ipCalc input.reset').click(function () {
     $('form#ipCalc input[type="text"]').val('');
     $('div.ipCalcResult').fadeOut('fast');
 });
@@ -499,7 +500,7 @@ $('form#ipCalc input.reset').live('click', function () {
 
 /* search */
 //submit form
-$('form#search').live('submit', function () {
+$('form#search').submit(function () {
     showSpinner();
     var ip = $('form#search .search').val();
     //update search page
@@ -507,7 +508,7 @@ $('form#search').live('submit', function () {
     return false;
 });
 //search export
-$('a#exportSearch').live('click', function() {
+$('a#exportSearch').click(function() {
     var searchTerm = $('form#search .search').val();
     $("div.dl").remove();                                                //remove old innerDiv
     $('div.exportDIVSearch').append("<div style='display:none' class='dl'><iframe src='site/tools/searchResultsExport.php?searchTerm=" + searchTerm + "'></iframe></div>");
@@ -516,7 +517,7 @@ $('a#exportSearch').live('click', function() {
 
 
 /* switches */
-$('table#switchMainTable button[id^="switch-"]').live('click', function() {
+$('table#switchMainTable button[id^="switch-"]').click(function() {
     var swid = $(this).attr('id');                    //get id
     // change icon to down
     if( $('#content-'+swid).is(':visible') )     { $(this).children('i').removeClass('icon-chevron-down').addClass('icon-chevron-right'); }    //hide
@@ -536,7 +537,7 @@ $('#hosts').submit(function() {
 
 
 /* user menu selfchange */
-$('form#userModSelf').live('submit', function () {
+$('form#userModSelf').submit(function () {
     var selfdata = $(this).serialize();
     
     $('div.userModSelfResult').hide();
@@ -547,7 +548,7 @@ $('form#userModSelf').live('submit', function () {
     return false;
 });
 //    Generate random pass
-$('#randomPassSelf').live('click', function () {
+$(document).on("click", "#randomPassSelf", function() {
     var password = randomPass();
     $('input.userPass').val(password);
     $('#userRandomPass').html( password );
@@ -595,7 +596,7 @@ $('.editUser').click(function () {
     return false;
 });
 //submit form
-$('#editUserSubmit').live('click', function () {
+$(document).on("click", "#editUserSubmit", function() {
     showSpinner();
     var loginData = $('form#usersEdit').serialize();
     
@@ -609,7 +610,7 @@ $('#editUserSubmit').live('click', function () {
     return false;
 });
 //disable pass if domain user
-$('select#domainUser').live('change', function () {
+$(document).on("change", "select#domainUser", function() {
     //get details - we need Section, network and subnet bitmask
     var type = $(this).val();
     //we changed to domain
@@ -617,7 +618,7 @@ $('select#domainUser').live('change', function () {
     else             { $('input.userPass').removeAttr('disabled'); }
 });
 // generate random pass
-$('a#randomPass').live('click', function () {
+$(document).on("click", "a#randomPass", function() {
     var password = randomPass();
     $('input.userPass').val(password);
     $(this).html( password );
@@ -641,7 +642,7 @@ $('.editGroup').click(function () {
     return false;
 });
 //submit form
-$('#editGroupSubmit').live('click', function () {
+$(document).on("click", "#editGroupSubmit", function() {
     showSpinner();
     var loginData = $('form#groupEdit').serialize();
     
@@ -655,7 +656,7 @@ $('#editGroupSubmit').live('click', function () {
     return false;
 });
 //add users to group - show form
-$('.addToGroup').live('click', function() {
+$('.addToGroup').click(function() {
     showSpinner();
 	var g_id = $(this).attr('data-groupid');	
 
@@ -668,7 +669,7 @@ $('.addToGroup').live('click', function() {
 	return false;
 });
 //add users to group
-$('#groupAddUsersSubmit').live('click', function() {
+$(document).on("click", "#groupAddUsersSubmit", function() {
 	showSpinner();
 	var users = $('#groupAddUsers').serialize();
 
@@ -682,7 +683,7 @@ $('#groupAddUsersSubmit').live('click', function() {
 	return false;
 });
 //remove users frmo group - show form
-$('.removeFromGroup').live('click', function() {
+$('.removeFromGroup').click(function() {
     showSpinner();
 	var g_id = $(this).attr('data-groupid');	
 
@@ -695,7 +696,7 @@ $('.removeFromGroup').live('click', function() {
 	return false;
 });
 //add users to group
-$('#groupRemoveUsersSubmit').live('click', function() {
+$(document).on("click", "#groupRemoveUsersSubmit", function() {
 	showSpinner();
 	var users = $('#groupRemoveUsers').serialize();
 
@@ -771,7 +772,7 @@ $('form#logs').change(function () {
     });
 });
 //log files show details
-$('a.openLogDetail').live('click',function() {
+$(document).on("click", "a.openLogDetail", function() {
     var id = $(this).attr('data-logid');
     $.post('site/admin/logDetail.php', {id:id}, function(data) {
         $('div.popup_w500').html(data);
@@ -838,7 +839,7 @@ $('button.editSection').click(function() {
     });
 });
 //edit section result
-$('#editSectionSubmit').live('click', function() {
+$(document).on("click", "#editSectionSubmit", function() {
     showSpinner();
     var sectionData = $('form#sectionEdit').serialize();
     
@@ -904,7 +905,7 @@ $('button.editSubnet').click(function() {
     });
 });
 //resize / split subnet
-$('#resize, #split, #truncate').live('click', function() {
+$(document).on("click", "#resize, #split, #truncate", function() {
 	showSpinner();
 	var action = $(this).attr('id');
 	var subnetId = $(this).attr('data-subnetId');
@@ -918,7 +919,7 @@ $('#resize, #split, #truncate').live('click', function() {
 	return false;
 });
 //resize save
-$('button#subnetResizeSubmit').live('click', function() {
+$(document).on("click", "button#subnetResizeSubmit", function() {
 	showSpinner();
 	var resize = $('form#subnetResize').serialize();
 	$.post("site/admin/manageSubnetResizeSave.php", resize, function(data) {
@@ -930,7 +931,7 @@ $('button#subnetResizeSubmit').live('click', function() {
 	return false;
 });
 //split save
-$('button#subnetSplitSubmit').live('click', function() {
+$(document).on("click", "button#subnetSplitSubmit", function() {
 	showSpinner();
 	var split = $('form#subnetSplit').serialize();
 	$.post("site/admin/manageSubnetSplitSave.php", split, function(data) {
@@ -942,7 +943,7 @@ $('button#subnetSplitSubmit').live('click', function() {
 	return false;
 });
 //truncate save
-$('button#subnetTruncateSubmit').live('click', function() {
+$(document).on("click", "button#subnetTruncateSubmit", function() {
 	showSpinner();
 	var subnetId = $(this).attr('data-subnetId');
 	$.post("site/admin/manageSubnetTruncateSave.php", {subnetId:subnetId}, function(data) {
@@ -954,7 +955,7 @@ $('button#subnetTruncateSubmit').live('click', function() {
 	return false;
 });
 //save edit subnet changes
-$('.editSubnetSubmit').live('click',function () {
+$(document).on("click", ".editSubnetSubmit", function() {
     showSpinner();
     var subnetData = $('form#editSubnetDetails').serialize();
     
@@ -997,7 +998,7 @@ $('.editSubnetSubmit').live('click',function () {
 });
 
 //get subnet info from ripe database
-$('#get-ripe').live('click', function() {
+$(document).on("click", "#get-ripe", function() {
 	showSpinner();
 	var subnet = $('form#editSubnetDetails input[name=subnet]').val();
 	
@@ -1011,7 +1012,7 @@ $('#get-ripe').live('click', function() {
 	return false;
 });
 //change subnet permissions
-$('.showSubnetPerm').live('click', function() {
+$('.showSubnetPerm').click(function() {
 	showSpinner();
 	var subnetId  = $(this).attr('data-subnetId');
 	var sectionId = $(this).attr('data-sectionId');
@@ -1024,7 +1025,7 @@ $('.showSubnetPerm').live('click', function() {
 	return false;
 });
 //submit permission change
-$('.editSubnetPermissionsSubmit').live('click', function() {
+$(document).on("click", ".editSubnetPermissionsSubmit", function() {
 	showSpinner();
 	var perms = $('form#editSubnetPermissions').serialize();
 	$.post('site/admin/manageSubnetPermissionsSubmit.php', perms, function(data) {
@@ -1039,10 +1040,10 @@ $('.editSubnetPermissionsSubmit').live('click', function() {
 
 /*    Add subnet from IPCalc result
 *********************************/
-$('#createSubnetFromCalc').live('click', function () {
+$(document).on("click", "#createSubnetFromCalc", function() {
     $('tr#selectSection').show();
 });
-$('select#selectSectionfromIPCalc').live('change', function () {
+$(document).on("change", "select#selectSectionfromIPCalc", function() {
     //get details - we need Section, network and subnet bitmask
     var sectionId = $(this).val();
     var subnet      = $('table.ipCalcResult td#sub2').html();
@@ -1078,7 +1079,7 @@ $('a.edit_subnet, button.edit_subnet, button#add_subnet').click(function () {
 
 /* Show add new VLAN on subnet add/edit on-thy-fly
 ***************************************************/
-$('select[name=vlanId]').live('change', function() {
+$(document).on("change", "select[name=vlanId]", function() {
     var vlanId    = $(this).val();
     if(vlanId == 'Add') {
         showSpinner();            
@@ -1092,7 +1093,7 @@ $('select[name=vlanId]').live('change', function() {
     return false;    
 });
 //    Submit new VLAN on the fly
-$('.vlanManagementEditFromSubnetButton').live('click', function() {
+$(document).on("click", ".vlanManagementEditFromSubnetButton", function() {
     showSpinner();
     var postData = $('form#vlanManagementEditFromSubnet').serialize();    
     var parameter;
@@ -1125,7 +1126,7 @@ $('.vlanManagementEditFromSubnetButton').live('click', function() {
 /*    Switches
 ********************************/
 //open form
-$('.editSwitch').live('click', function() {
+$('.editSwitch').click(function() {
     showSpinner();
     var switchId = $(this).attr('data-switchid');
     var action   = $(this).attr('data-action');
@@ -1136,8 +1137,8 @@ $('.editSwitch').live('click', function() {
     });
     return false;    
 });
-//    Edit switch result
-$('#editSwitchsubmit').live('click', function() {
+//Edit switch result
+$(document).on("click", "#editSwitchsubmit", function() {
     showSpinner();
     var switchdata = $('form#switchManagementEdit').serialize();
     $.post('site/admin/manageDevicesEditResult.php', switchdata, function(data) {
@@ -1167,7 +1168,7 @@ $('.editVLAN').click(function() {
     return false;    
 });
 //result
-$('#editVLANsubmit').live('click', function() {
+$(document).on("click", "#editVLANsubmit", function() {
     showSpinner();
     var vlandata = $('form#vlanManagementEdit').serialize();
     $.post('site/admin/manageVLANEditResult.php', vlandata, function(data) {
@@ -1196,7 +1197,7 @@ $('button.vrfManagement').click(function() {
     return false;    
 });
 //Edit VRF details
-$('#editVRF').live('click', function() {
+$(document).on("click", "#editVRF", function() {
     showSpinner();
     var vrfdata = $('form#vrfManagementEdit').serialize();
     $.post('site/admin/manageVRFEditResult.php', vrfdata, function(data) {
@@ -1223,7 +1224,7 @@ $('table#requestedIPaddresses button').click(function() {
     return false;    
 });
 //approve / reject
-$('button.manageRequest').live('click', function() {
+$(document).on("click", "button.manageRequest", function() {
     showSpinner();
     var postValues = $('form.manageRequestEdit').serialize();
     var action     = $(this).attr('data-action');
@@ -1251,12 +1252,12 @@ $('form#ripeImport').submit(function() {
     return false;
 });
 // remove as line
-$('table.asImport .removeSubnet').live('click', function () {
+$(document).on("click", "table.asImport .removeSubnet", function() {
     $(this).parent('tr').remove();
     hideTooltips();
 });
 // add selected to db
-$('form#asImport').live('submit', function () {
+$(document).on("submit", "form#asImport", function() {
     showSpinner();
     //get subnets to add
     var importData = $(this).serialize();
@@ -1300,7 +1301,7 @@ $('table.customIP tbody#ip button[data-direction!=down]').click(function() {
     return false;
 });
 //custom IP field edit submit form
-$('#editcustomSubmit').live('click', function() {
+$(document).on("click", "#editcustomSubmit", function() {
     showSpinner();
     var field = $('form#editCustomIPFields').serialize();
     $.post('site/admin/customIPFieldsEditResult.php', field, function(data) {
@@ -1343,7 +1344,7 @@ $('table.customIP tbody#subnet button[data-direction!=down]').click(function() {
     return false;
 });
 //custom IP field edit submit form
-$('#editcustomSubnetSubmit').live('click', function() {
+$(document).on("click", "#editcustomSubnetSubmit", function() {
     showSpinner();
     var field = $('form#editCustomSubnetFields').serialize();
     $.post('site/admin/customSubnetFieldsEditResult.php', field, function(data) {
@@ -1386,7 +1387,7 @@ $('table.customIP tbody#vlan button[data-direction!=down]').click(function() {
     return false;
 });
 //custom IP field edit submit form
-$('#editcustomVLANSubmit').live('click', function() {
+$(document).on("click", "#editcustomVLANSubmit", function() {
     showSpinner();
     var field = $('form#editCustomVLANFields').serialize();
     $.post('site/admin/customVLANFieldsEditResult.php', field, function(data) {
@@ -1429,7 +1430,7 @@ $('table.customIP tbody#customUser button[data-direction!=down]').click(function
     return false;
 });
 //custom IP field edit submit form
-$('#editcustomUserSubmit').live('click', function() {
+$(document).on("click", "#editcustomUserSubmit", function() {
     showSpinner();
     var field = $('form#editCustomUserFields').serialize();
     $.post('site/admin/customUserFieldsEditResult.php', field, function(data) {
@@ -1472,8 +1473,8 @@ $('button.lang').click(function() {
     });
     return false;    
 });
-//Edit VRF details
-$('#langEditSubmit').live('click', function() {
+//Edit lang details
+$(document).on("click", "#langEditSubmit", function() {
     showSpinner();
     var ldata = $('form#langEdit').serialize();
     $.post('site/admin/languageEditResult.php', ldata, function(data) {

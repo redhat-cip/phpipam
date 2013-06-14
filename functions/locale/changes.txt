@@ -183,3 +183,15 @@ msgstr ""
 #: site/dashboard/top10_hosts.php
 msgid "Add some hosts to subnets to show graph of used hosts per subnet"
 msgstr ""
+
+
+#
+# Added 14/06/13
+#
+
+#: site/admin/usersEditPrint.php
+msgid "edit user"
+msgstr""
+
+msgid "delete user"
+msgstr ""

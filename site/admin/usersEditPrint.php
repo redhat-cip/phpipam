@@ -34,7 +34,7 @@ if (!$action) {
     //fetch all requested userdetails
     $user = getUserDetailsById($id);
     
-    if(!empty($user['real_name'])) 	{ print ucwords($action) .' '._('user').' '. $user['real_name']; }
+    if(!empty($user['real_name'])) 	{ print _("$action user").' '. $user['real_name']; }
     else 							{ print _('Add new user'); }
 }
 else {

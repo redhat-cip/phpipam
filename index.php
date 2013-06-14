@@ -72,8 +72,7 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 	<link rel="shortcut icon" href="css/images/favicon.ico">
 		
 	<!-- js -->
-	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
 <!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
 	<script type="text/javascript" src="js/magic.js"></script>

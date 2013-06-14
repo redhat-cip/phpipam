@@ -129,7 +129,7 @@ else															{ $readonly = false; }
             	<?php
            		$vlans = getAllVLANs();
            		
-           		if($_POST['action'] == "Add") { $vlan['vlanId'] = 0; }
+           		if($_POST['action'] == "add") { $vlan['vlanId'] = 0; }
 
            		$tmp[0]['vlanId'] = 0;
            		$tmp[0]['number'] = _('No VLAN');
@@ -220,7 +220,7 @@ else															{ $readonly = false; }
         	$slaves = subnetContainsSlaves($_POST['subnetId']);
         	?>
         	<button class="btn btn-small <?php if($slaves) print "disabled"; ?>" id="split"    rel="tooltip" title="<?php print _('Split subnet'); ?>"    data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-resize-full"></i></button>
-        	<button class="btn btn-small <?php if($slaves) print "disabled"; ?>" id="truncate" rel="tooltip" title="<?php print _('Truncate subnet'); ?>" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-trash"></i></button>
+        	<button class="btn btn-small" 										 id="truncate" rel="tooltip" title="<?php print _('Truncate subnet'); ?>" data-subnetId="<?php print $_POST['subnetId']; ?>"><i class="icon-gray icon-trash"></i></button>
 	    </div>
         </div>
         </td>

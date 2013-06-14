@@ -102,7 +102,7 @@ if( ($requestNum != 0) && (checkAdmin(false,false))) {
 	</div>
 	
 	<!-- IPv4 percentage -->
-	<div class="span6" id="homeIPv6Hosts">
+	<div class="span6" id="homeErrorLogs">
 	<div class="inner">
 		<h4><?php print _('Last 5 warning / error logs'); ?></h4>
 		<div class="hContent">

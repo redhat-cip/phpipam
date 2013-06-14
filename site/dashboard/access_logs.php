@@ -22,7 +22,7 @@ foreach($logs as $log) {
 	
 	print "<tr>";
 	print "	<td><span class='severity$log[severity]'>$log[severityText]</span></td>";
-	print "	<td>$log[command]</td>";
+	print "	<td><a class='openLogDetail' data-logid='$log[id]'>$log[command]</a></td>";
 	print "	<td>$log[date]</td>";
 	print "	<td>$log[username]</td>";
 

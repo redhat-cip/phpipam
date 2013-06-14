@@ -11,7 +11,8 @@ body {
 	font-size: 13px;
 	font-weight: 300;
 }
-input {
+input,
+select {
 	font-weight: 300;
 }
 table.table-full {
@@ -501,6 +502,13 @@ span.severity1 {
 }
 span.severity2 {
 	color: red;
+}
+
+#homeAccessLogs a,
+#homeErrorLogs a {
+	color: #333;
+	font-weight: 300;
+	cursor: pointer;
 }
 
 

@@ -25,8 +25,10 @@ isUserAuthenticated ();
     <tr class="th">
         <td></td>
         <td>
-            <input type="submit" class="btn btn-small" value="<?php print _('Calculate');?>">
-            <input type="button" class="btn btn-small" value="<?php print _('Reset');?>" class="reset">
+        	<div class="btn-group">
+            	<button type="submit" class="btn btn-small"><i class="icon-gray icon-ok"></i> <?php print _('Calculate');?></button>
+				<input type="button" class="btn btn-small reset" value="<?php print _('Reset');?>">
+        	</div>
         </td>
         <td></td>
     </tr>
