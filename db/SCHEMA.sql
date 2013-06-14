@@ -81,19 +81,6 @@ CREATE TABLE `logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-LOCK TABLES `logs` WRITE;
-/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-
-INSERT INTO `logs` (`id`, `severity`, `date`, `username`, `ipaddr`, `command`, `details`)
-VALUES
-	(1,1,'2013-02-22 15:05:52','','10.12.144.38','Database installed successfully!','version 0.8 installed'),
-	(2,0,'2013-02-22 15:05:57','Admin','10.12.144.38','User Admin logged in.',''),
-	(3,1,'2013-02-22 03:06:53','Admin','10.12.144.38','Section Customers edit ok',' permissions: {\"3\":\"1\",\"2\":\"2\"}<br> action: edit<br> name: Customers<br> description: Section for customers<br> id: 1<br> delegate: 1<br>'),
-	(4,1,'2013-02-22 03:07:00','Admin','10.12.144.38','Section Servers edit ok',' permissions: {\"3\":\"1\",\"2\":\"2\"}<br> action: edit<br> name: Servers<br> description: Section for servers<br> id: 2<br> delegate: 1<br>'),
-	(5,1,'2013-02-22 03:07:05','Admin','10.12.144.38','Section IPv6 edit ok',' permissions: {\"3\":\"1\",\"2\":\"2\"}<br> action: edit<br> name: IPv6<br> description: Section for IPv6 addresses<br> id: 3<br> delegate: 1<br>');
-
-/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table requests

@@ -22,18 +22,18 @@ if(!tableExists("ipaddresses")) { ?>
 				$("table.dbUpgrade a#"+div+" i").removeClass("icon-chevron-right").addClass('icon-chevron-down');	
 				
 			return false; 
-		}); 
-		$(document).on("click", "input.upgrade", function() { 
-			$("div.loading").fadeIn("fast"); 
-			var postData = $("#install").serialize(); 
-			$.post("site/admin/databaseInstall.php", postData, function(data) { 
-				$("div.upgradeResult").html(data).slideDown("fast"); 
-				$("div.loading").fadeOut("fast"); 
 			}); 
-		}); 
-		$("div.error").live("click", function() { 
-			$(this).stop(true,true).show(); 
-		}); 
+			$(document).on("click", "input.upgrade", function() { 
+				$("div.loading").fadeIn("fast"); 
+				var postData = $("#install").serialize(); 
+				$.post("site/admin/databaseInstall.php", postData, function(data) { 
+					$("div.upgradeResult").html(data).slideDown("fast"); 
+					$("div.loading").fadeOut("fast"); 
+				}); 
+			}); 
+			$(document).on("click", "div.error", function() { 
+				$(this).stop(true,true).show(); 
+			}); 
 		}); 
 		</script> 
 	
