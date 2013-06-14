@@ -66,7 +66,7 @@ else if($settings['version'] != VERSION) {
 				$("table.dbUpgrade a#"+div+" i").removeClass("icon-chevron-right").addClass('icon-chevron-down');	
 				return false;		
 			});		
-			$("input.upgrade").live("click", function() {		
+			$(document).on("click", "input.upgrade", function() {	
 				$(this).removeClass("upgrade");		
 				$("div.loading").fadeIn("fast");		
 				var version = $(this).attr("version");		
@@ -74,8 +74,8 @@ else if($settings['version'] != VERSION) {
 					$("div.upgradeResult").html(data).slideDown("fast");		
 					$("div.loading").fadeOut("fast");		
 				});		
-			});		
-			$("div.error").live("click", function() {		
+			});	
+			$(document).on("click", "div.error", function() {	
 				$(this).stop(true,true).show();		
 			});		
 		});		

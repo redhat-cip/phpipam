@@ -23,7 +23,7 @@ if(!tableExists("ipaddresses")) { ?>
 				
 			return false; 
 		}); 
-		$("input.upgrade").live("click", function() { 
+		$(document).on("click", "input.upgrade", function() { 
 			$("div.loading").fadeIn("fast"); 
 			var postData = $("#install").serialize(); 
 			$.post("site/admin/databaseInstall.php", postData, function(data) { 
