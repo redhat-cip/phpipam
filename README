@@ -39,12 +39,13 @@ Requirements
     + + ldap                : Adds LDAP support (Lightweight Directory Access Protocol)
     + + json				: Adds supports for JSON data-interexchange format
     + + SimpleXML			: Adds SimpleXML support for parsin XML files
+    + + gettext				: Add support for gettext translations
 - PHP PEAR support (dev-php/pear)
 
 
 Install 
 =======
-- see INSTALL file for details
+- see INSTALL.txt file for details
 
 Update 
 =======
@@ -78,7 +79,8 @@ Special thanks to following donors:
 	- Suretec Systems Ltd.
 	- Uplifting Host
 	- Alun James
-	- 
+	- Maxim Kravets
+	- VIBIZNES
 
 special thank also to Hosterdam team (http://www.hosterdam.com) for VPS server 
 that is used for development of phpIPAM and for demo site.

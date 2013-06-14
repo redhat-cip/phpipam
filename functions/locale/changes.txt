@@ -193,5 +193,6 @@ msgstr ""
 msgid "edit user"
 msgstr""
 
+#: site/admin/usersEditPrint.php
 msgid "delete user"
 msgstr ""

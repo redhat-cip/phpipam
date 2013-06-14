@@ -169,7 +169,9 @@ $(function () {
 <?php
 }
 else {
-	print "<blockquote style='margin-top:90px;margin-left:50px;'>";
+	print "<hr>";
+
+	print "<blockquote style='margin-top:20px;margin-left:20px;'>";
 	print "<p>"._("No $type hosts configured")."</p>";
 	print "<small>"._("Add some hosts to subnets to show graph of used hosts per subnet")."</small>";
 	print "</blockquote>";

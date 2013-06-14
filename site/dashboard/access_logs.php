@@ -33,6 +33,8 @@ print "</table>";
 
 # print if none
 if(sizeof($logs) == 0) {
-	print "<div class='alert alert-info'>"._('No logs available')."</div>";
+	print "<blockquote style='margin-top:20px;margin-left:20px;'>";
+	print "<p>"._("No logs available")."</p>";
+	print "</blockquote>";
 }
 ?>
