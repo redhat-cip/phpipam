@@ -75,8 +75,14 @@ foreach ($slaves as $slave) {
     print "	<td class='small description'><a href='subnets/$section[id]/$slave[id]/'>$slave[description]</a></td>";
     print "	<td><a href='subnets/$section[id]/$slave[id]/'>".transform2long($slave['subnet'])."/$slave[mask]</a></td>";
     
-    # details
-    $ipCount = countIpAddressesBySubnetId ($slave['id']);
+    # count IP addresses
+	$hasSlaves = getAllSlaveSubnetsBySubnetId ($slave['id']); 
+
+	# slaves details are provided with ipaddressprintslaves script
+	if(sizeof($hasSlaves)>0)	{ $ipCount = sizeof(getIpAddressesBySubnetIdSlavesSort ($slave['id'])); }	//ip count - slaves
+	else 						{ $ipCount = countIpAddressesBySubnetId ($slave['id']);	}					//ip count - direct subnet  
+
+    
 	$calculate = calculateSubnetDetails ( gmp_strval($ipCount), $slave['mask'], $slave['subnet'] );
     print ' <td class="small">'. $calculate['used'] .'/'. $calculate['maxhosts'] .'</td>'. "\n";
     print '	<td class="small">'. $calculate['freehosts_percent'] .'</td>';

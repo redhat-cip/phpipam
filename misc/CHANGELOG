@@ -42,6 +42,7 @@
 	+ Fixed wrong maximum on dashboard top10 percentage;
 	+ Fixed Adding a vlan while editing a subnet resets the edit subnet form;
 	+ Fixed wrong free space calculation for nested subnets;
+	+ Fixed IP use statistics not cumulative up the hierarchy if subnes has slaves;
 
 == 0.7
 

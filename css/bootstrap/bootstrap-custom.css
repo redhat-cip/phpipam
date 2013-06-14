@@ -1320,6 +1320,10 @@ div.footer {
 div.footer a {
 	color: #D5D5D5;
 }
+div.footer,
+div.footer a {
+	font-weight: 400;
+}
 table.donate {
 	white-space: nowrap;
 	margin: auto;
