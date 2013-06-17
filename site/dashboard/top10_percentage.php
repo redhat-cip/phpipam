@@ -73,7 +73,7 @@ $(function () {
 	?>
 	];
 	
-
+	//show tooltips
     function showTooltip(x, y, contents) {
         $('<div id="tooltip">' + contents + '</div>').css( {
             position: 'absolute',
@@ -88,6 +88,19 @@ $(function () {
             color: 'white'
         }).appendTo("body").fadeIn(500);
     }
+    
+    //set JS array for clickable event
+    <?php
+    $allLinks = json_encode($subnetHost);
+    echo "var all_links = ". $allLinks. ";\n";
+    ?>
+
+	//open link
+	$('#IPv4top10').bind('plotclick', function(event, pos, item) {
+		//get from array
+		var plink = "subnets" + "/" + all_links[item.datapoint[0]]['sectionId'] + "/" + all_links[item.datapoint[0]]['id'] + "/";
+		document.location = plink;
+	});
 
     var previousPoint = null;
     $("#<?php print $type; ?>top10").bind("plothover", function (event, pos, item) {
@@ -106,10 +119,12 @@ $(function () {
                     			
                                 data[x][2] + "<br>" + y + "% used");
                 }
+                $("#<?php print $type; ?>top10").css({'cursor':'pointer'});
             }
             else {
                 $("#tooltip").remove();
-                previousPoint = null;            
+                previousPoint = null;   
+                $("#<?php print $type; ?>top10").css({'cursor':'default'});         
             }
         
     });

@@ -63,13 +63,26 @@ $(function () {
 	}
 	?>
 	];
-	
 
+    //set JS array for clickable event
+    <?php
+    $allLinks = json_encode($subnetHost);
+    echo "var all_links = ". $allLinks. ";\n";
+    ?>
+
+	//open link
+	$('#<?php print $type; ?>top10Hosts').bind('plotclick', function(event, pos, item) {
+		//get from array
+		var plink = "subnets" + "/" + all_links[item.datapoint[0]]['sectionId'] + "/" + all_links[item.datapoint[0]]['id'] + "/";
+		document.location = plink;
+	});	
+
+	//show tooltips
     function showTooltip(x, y, contents) {
         $('<div id="tooltip">' + contents + '</div>').css( {
             position: 'absolute',
             display: 'none',
-            top: y - 29,
+            top: y - 35,
             left: x,
             border: '1px solid white',
             'border-radius': '4px',
@@ -97,10 +110,13 @@ $(function () {
                     			
                                 data[x][2] + "<br>" + y + " hosts");
                 }
+                
+                $("#<?php print $type; ?>top10Hosts").css({'cursor':'pointer'});
             }
             else {
                 $("#tooltip").remove();
-                previousPoint = null;            
+                previousPoint = null;   
+                $("#<?php print $type; ?>top10Hosts").css({'cursor':'default'});         
             }
         
     });

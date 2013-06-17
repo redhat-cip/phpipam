@@ -1387,19 +1387,19 @@ function getSubnetStatsDashboard($type, $limit = "10", $perc = false)
     
     # percentage
     if($perc) {
-		$query = "select SQL_CACHE *,round(`usage`/pow(2,32-`mask`)*100,2) as `percentage` from (
-					select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
+		$query = "select SQL_CACHE *,round(`usage`/(pow(2,32-`mask`)-2)*100,2) as `percentage` from (
+					select `sectionId`,`id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
 						SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
 					) 
 					as `usage` from `subnets` as `s`
-					where cast(`subnet` as UNSIGNED) < '4294967295'
+					where `mask` < 31 and cast(`subnet` as UNSIGNED) < '4294967295'
 					order by `usage` desc
 					) as `d` order by `percentage` desc $limit;";	    
     }
 	# ipv4 stats
 	elseif($type == "IPv4") {
 		$query = "select SQL_CACHE * from (
-				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
+				select `sectionId`,`id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`,IF(char_length(`description`)>0, `description`, 'No description') as description, (
 					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
 				) 
 				as `usage` from `subnets` as `s`
@@ -1410,7 +1410,7 @@ function getSubnetStatsDashboard($type, $limit = "10", $perc = false)
 	# IPv6 stats
 	else {
 		$query = "select SQL_CACHE * from (
-				select `id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`, IF(char_length(`description`)>0, `description`, 'No description') as description, (
+				select `sectionId`,`id`,`subnet`,cast(`subnet` as UNSIGNED) as cmp,`mask`, IF(char_length(`description`)>0, `description`, 'No description') as description, (
 					SELECT COUNT(*) FROM `ipaddresses` as `i` where `i`.`subnetId` = `s`.`id`
 				) 
 				as `usage` from `subnets` as `s`
