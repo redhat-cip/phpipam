@@ -13,7 +13,7 @@ $filetype = end(explode(".", $filetype));
 /* get $outFile based on provided filetype */
 if ($filetype == "csv") {
 	/* get file to string */
-	$outFile = file_get_contents('csvupload/import.csv') or die (_('Cannot open csvupload/import.csv'));
+	$outFile = file_get_contents('csvupload/import.csv') or die (_('<div class="alert alert-error">Cannot open csvupload/import.csv</div>'));
 
 	/* format file */
 	$outFile = str_replace( array("\r\n","\r") , "\n" , $outFile);	//replace windows and Mac line break

@@ -89,6 +89,15 @@ table.customIP h5 {
 }
 
 
+/* import li */
+ul.progressUl {
+	margin: 5px;
+}
+ul.progressUl li {
+	list-style: none;
+}
+
+
 
 /* @icons gray ---------- */
 

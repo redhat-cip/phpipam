@@ -3,41 +3,34 @@
  * CSV import verify + parse data
  *************************************************/
 
-/* required functions */
-/* require_once('../../functions/functions.php');  */
-
-/* verify that user is admin */
-/* checkAdmin(); */
-
-/* verify post */
-/* CheckReferrer(); */
-
-
 /* get extension */
 $filename = $_FILES['file']['name'];
 $filename = end(explode(".", $filename));
 
+/* list of permitted file extensions */
+$allowed = array('xls','csv');
 
-/* upload */
-if ($_FILES["file"]["error"] > 0){
-	//if upload fails
-	print '<div id="output">failed</div>';
-	print '<div id="message">'._('Cannot upload - Return Code:').' ' . $_FILES["file"]["error"] . '</div>';
-}
-else {
+/* no errors */
+if(isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+	//wrong extension
+    if(!in_array(strtolower($filename), $allowed)) {
+		echo '{"status":"error", "error":"Invalid document type"}';
+        exit;
+    }
+
 	//if cannot move
-	if(!move_uploaded_file($_FILES["file"]["tmp_name"], "csvupload/import.". $filename )) {
-		print '<div id="output">failed</div>';
-		print '<div id="message">'._('Cannot move file to upload dir').'!</div>';
+	else if(!move_uploaded_file($_FILES["file"]["tmp_name"], "csvupload/import.".$filename )) {
+		echo '{"status":"error", "error":"Cannot move file to upload dir"}';
+		exit;
 	}
 	else {
-		//upload is ok, file overwritten!
-		print '<div id="output">'._('Success').'</div>';
-		print '<div id="message">';
-		print '</div>';
-	}
-}	
+	//default - success
+	echo '{"status":"success"}';
+	exit;
+	}	
+}
 
-print '</div>';
-
+/* default - error */
+echo '{"status":"error","error":"Empty file"}';
+exit;
 ?>

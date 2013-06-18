@@ -78,6 +78,7 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 <!-- 	<script type="text/javascript" src="js/magic.js"></script> -->
 	<script type="text/javascript" src="js/login.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	
 
 	<?php 
 	if ($settings['showTooltips'] == 1) { 
