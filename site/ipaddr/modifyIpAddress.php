@@ -144,7 +144,7 @@ $myFieldsSize = sizeof($myFields);
 		print '	<td>'._('DNS name').'</td>'. "\n";
 		print '	<td>'. "\n";
 		print ' <input type="text" name="dns_name" placeholder="'._('Hostname').'" value="'. $details['dns_name']. '" size="30">'. "\n";
-		print "	<i class='icon-gray icon-repeat' id='refreshHostname' rel='tooltip' title='"._('Click to check for hostname')."'></i>";
+		print "	<span class='btn btn-small'><i class='icon-gray icon-repeat' id='refreshHostname' rel='tooltip' title='"._('Click to check for hostname')."'></i></span>";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
 	?>

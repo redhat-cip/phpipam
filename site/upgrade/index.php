@@ -97,7 +97,7 @@ else if($settings['version'] != VERSION) {
 		<tr>		
 		<td>
 			Clicking on upgrade button will update database to newest version.
-			<div class="alert alert-warn alert-nomargin"><strong>Warning!</strong> Update database first before attempting to upgrade it! You have been warned.</div>
+			<div class="alert alert-warn alert-nomargin"><strong>Warning!</strong> Backup database first before attempting to upgrade it! You have been warned.</div>
 			<input type="button" class="upgrade btn" version="<?php print $version; ?>" value="Upgrade phpipam database">
 			<div class="upgradeResult"></div>			
 		</td>		

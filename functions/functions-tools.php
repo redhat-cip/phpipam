@@ -201,7 +201,7 @@ function updateLogTable ($command, $details = NULL, $severity = 0)
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
     
     /* set variable */
-    $date = date("Y-m-d h:i:s");
+    $date = date("Y-m-d H:i:s");
     $user = getActiveUserDetails();
     $user = $user['username'];
     

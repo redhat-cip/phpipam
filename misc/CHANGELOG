@@ -3,6 +3,7 @@
 	New features:
 	----------------------------	
 	+ New group and permission management;
+	+ Support for translations;
 	+ Subnet resizing;
 	+ Subnet splitting into smaller subnets;
 	+ Added free space display for nested subnets;

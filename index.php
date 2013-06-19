@@ -91,10 +91,7 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 	<?php
 	} 
 	?>
-	<!--[if IE 6]>
-	<script type="text/javascript" src="js/dieIE.js"></script>
-	<![endif]-->
-	<!--[if IE 7]>
+	<!--[if lt IE 9]>
 	<script type="text/javascript" src="js/dieIE.js"></script>
 	<![endif]-->
 </head>
