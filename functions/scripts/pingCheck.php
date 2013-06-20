@@ -1,22 +1,13 @@
 <?php
 
-require( dirname(__FILE__) . '/../../config.php' );
-require( dirname(__FILE__) . '/../dbfunctions.php' );
-require( dirname(__FILE__) . '/../functions-network.php' );
-
-require_once( 'Thread.php' );
-
-// test to see if threading is available
-if( !Thread::available() ) {
-    die( 'Threads not supported'."\n" );
-}
-
-$MAX_THREADS = 256;
+require_once( dirname(__FILE__) . '/../../config.php' );
+require_once( dirname(__FILE__) . '/../dbfunctions.php' );
+require_once( dirname(__FILE__) . '/../functions-network.php' );
 
 function pingHost ($hostAddress)
 {
-    exec("ping -c 3 -W 1 -n $hostAddress 1>/dev/null 2>&1", $output, $retval);
-    exit($retval);
+    exec("ping -c 1 -W 1 -n $hostAddress 1>/dev/null 2>&1", $output, $retval);
+	return $retval;
 }
 
 function getTypeOfAddress($ip_addr) {
@@ -28,61 +19,39 @@ function getTypeOfAddress($ip_addr) {
     }
 }
 
-function scanSubnetById ($subnetId) {
+function pingSubnetById ($subnetId) {
     global $db;
-    global $MAX_THREADS;
     $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
 
     /* get subnet */
-    $query      = 'SELECT * from subnets where id = "'. $subnetId .'";';
+    $query      = 'SELECT ip_addr FROM ipaddresses WHERE subnetId = "'. $subnetId .'";';
     $subnets = $database->getArray($query);
 
     if (empty($subnets)) {
-        print "The subnet does not exist!\n";
+        print "The subnet is empty or does not exist!\n";
         return false;
     }
 
-    /* the first record is the result subnet */
-    $subnet = $subnets[0];
+	$ipcount = count($subnets);
 
-    $size = MaxHosts( $subnet["mask"], getTypeOfAddress($subnet["subnet"]) );
-    $lastAddress = $subnet["subnet"] + $size;
+	/* $update1 query will only update addresses that DO ping but were set otherwise*/
+	/* $update0 query will only update addresses that DON'T ping but were set otherwise */
+    $update1 = 'UPDATE ipaddresses set state = \'1\' where (state = \'0\' or state = \'\') and ip_addr = \''; 
+    $update0 = 'UPDATE ipaddresses set state = \'0\' where (state = \'1\' or state = \'\') and ip_addr = \'';
 
-    /* an array to store the statuses of IP addresses */
-    $statuses = array();
-
-    for ($ip_addr = $subnet["subnet"]+1; $ip_addr < $lastAddress; $ip_addr += $MAX_THREADS) {
-
-        /* create threads */
-        $threads = array();
-        for ($i = 0; $i < $MAX_THREADS && $ip_addr+$i <= $lastAddress; $i++) {
-            $threads[$ip_addr+$i] = new Thread( 'pingHost' );
-            $threads[$ip_addr+$i]->start( Transform2long($ip_addr+$i) );
-        }
-
-        /* wait for all the threads to finish */
-        while( !empty( $threads ) ) {
-            foreach( $threads as $index => $thread ) {
-                if( ! $thread->isAlive() ) {
-                    $statuses[$index] = $thread->getExitCode();
-                    unset( $threads[$index] );
-                }
-            }
-            sleep(1);
-        }
-    }
-
-    ksort($statuses);
-
-    foreach ($statuses as $ip_addr => $status) {
-        if ( $status == 0 ) {
-            print Transform2long($ip_addr) . "\t1\n";
-        } else {
-            print Transform2long($ip_addr) . "\t0\n";
-        }
-    }
+	for ($i = 0; $i < $ipcount; $i += 1) {
+		$status = pingHost(Transform2long($subnets[$i]['ip_addr']));
+		if ($status == '0') {
+			$update = $update1.$subnets[$i]['ip_addr'].'\';';
+		}
+		else {
+			$update = $update0.$subnets[$i]['ip_addr'].'\';';
+		}
+		$database->executeQuery($update);
+	}
+	$database->close();
 }
 
-scanSubnetById(2);
-
+$subnetId= $_REQUEST['subnetId'];
+pingSubnetById($subnetId);
 ?>
