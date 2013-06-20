@@ -654,14 +654,8 @@ ul#subnets li.leaf.active i {
 	padding-left: 0px;
 	padding-right: 3px;
 }
-/* Set background color for offline addresses in subnet ip table */
-.table.ipaddresses tr.Offline td {
-    background: #FFD5D2 !important;
-}
-
-/* Set background color for reserved addresses in subnet ip table */
-.table.ipaddresses tr.Reserved td {
-    background: #CBE1FF !important;
+.table.ipaddresses tr.offline td.ipaddress {
+/* 	text-decoration: line-through; */
 }
 
 .table.searchTable td.btn-actions .btn-toolbar,
