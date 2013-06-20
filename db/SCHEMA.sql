@@ -384,3 +384,8 @@ CREATE TABLE `vrf` (
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`vrfId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+# update version
+# ------------------------------------------------------------
+UPDATE `settings` set `version` = '0.81';

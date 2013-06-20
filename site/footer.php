@@ -4,7 +4,7 @@
 <table class="donate">
 <tr>
 	<td>
-		<a href="https://sourceforge.net/projects/phpipam/">phpIPAM IP address management <?php print '[v'. $settings['version']. ']'; ?></a>
+		<a href="https://sourceforge.net/projects/phpipam/">phpIPAM IP address management <?php print '[v'. $settings['version']. ']'; ?><?php if(REVISION > 0) { print " rev".REVISION; } ?></a>
 	</td>
 	<?php
 	# print if dev installed and which revision
