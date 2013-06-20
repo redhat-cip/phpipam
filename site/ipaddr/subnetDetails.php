@@ -162,7 +162,8 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 		print "<a class='btn btn-small disabled' href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
 		}
 		print "<a class='btn btn-small disabled' href=''>			<i class='icon-upload'></i></a>";				# import
-		print "<a class='csvExport btn btn-small' 					href='' rel='tooltip' title='"._('Export IP addresses')."'		data-subnetId='$SubnetDetails[id]'>		<i class='icon-download'></i></a>";			# export		
+		print "<a class='csvExport btn btn-small' 					href='' rel='tooltip' title='"._('Export IP addresses')."'		data-subnetId='$SubnetDetails[id]'>		<i class='icon-download'></i></a>";			# export	
+		print "<a class='ping btn btn-small btn-warning'            href='' rel='tooltip' title='Ping subnet addresses'             data-subnetId='$SubnetDetails[id]'>     <i class='icon-refresh'></i></a>";          # ping	
 		if($SubnetDetails['allowRequests'] == 1)  {
 			print "<a class='request_ipaddress btn btn-small btn-success' href='' rel='tooltip' title='"._('Request new IP address')."' data-subnetId='$SubnetDetails[id]'>	<i class='icon-plus-sign icon-white'>  </i></a>";	# request					
 		}
@@ -181,6 +182,7 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 		
 		print "<a class='csvImport btn btn-small'     			href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
 		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
+		print "<a class='ping btn btn-small btn-warning'        href='' rel='tooltip' title='Ping subnet addresses'             	data-subnetId='$SubnetDetails[id]'>     																	<i class='icon-refresh'></i></a>";          # ping
 	}
 	else if ($permission == 3) {
 		# if full prevent new
@@ -200,6 +202,7 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 		print "<a class='btn btn-small disabled' href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
 		}		print "<a class='csvImport btn btn-small'     	href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
 		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
+		print "<a class='ping btn btn-small btn-warning'        href='' rel='tooltip' title='Ping subnet addresses'             	data-subnetId='$SubnetDetails[id]'>     																	<i class='icon-refresh'></i></a>";          # ping
 	}
 		
 	print "	</div>";
