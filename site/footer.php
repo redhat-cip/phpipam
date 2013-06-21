@@ -4,18 +4,9 @@
 <table class="donate">
 <tr>
 	<td>
-		<a href="https://sourceforge.net/projects/phpipam/">phpIPAM IP address management <?php print '[v'. $settings['version']. ']'; ?><?php if(REVISION > 0) { print " rev".REVISION; } ?></a>
+		<a href="https://sourceforge.net/projects/phpipam/">phpIPAM IP address management <?php print '[v'. VERSION. ']'; ?><?php if(REVISION > 0) { print " rev".REVISION; } ?></a>
 	</td>
-	<?php
-	# print if dev installed and which revision
-/*
-	if(strlen($ver = getSVNversion()) > 0) {
-		print "<td>";
-		print "SVN version ". $ver;
-		print "</td>";
-	}
-*/
-	?>
+	
 	<td>
 		<?php print _('In case of problems please contact').' <a href="mailto:'. $settings['siteAdminMail'] .'">'. $settings['siteAdminName'] .'</a>'; ?>
 	</td>

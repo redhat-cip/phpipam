@@ -18,13 +18,13 @@ $reqTables = array("instructions", "ipaddresses", "logs", "requests", "sections"
 
 /* required fields for each table */
 $fields['instructions']   = array("instructions");
-$fields['ipaddresses'] 	  = array("subnetId", "ip_addr", "description", "dns_name", "mac", "owner", "switch", "port", "owner", "state", "note");
+$fields['ipaddresses'] 	  = array("subnetId", "ip_addr", "description", "dns_name", "mac", "owner", "switch", "port", "owner", "state", "note", "lastSeen", "excludePing");
 $fields['logs']			  = array("severity", "date", "username", "ipaddr", "command", "details");
 $fields['requests']		  = array("subnetId", "ip_addr", "description", "dns_name", "owner", "requester", "comment", "processed", "accepted", "adminComment");
 $fields['sections']		  = array("name", "description", "permissions", "strictMode");
-$fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "siteDomain", "siteURL", "domainAuth", "showTooltips", "enableIPrequests", "enableVRF", "enableDNSresolving", "version", "donate", "IPfilter", "printLimit", "visualLimit", "vlanDuplicate", "htmlMail", "subnetOrdering");
+$fields['settings']		  = array("siteTitle", "siteAdminName", "siteAdminMail", "siteDomain", "siteURL", "domainAuth", "showTooltips", "enableIPrequests", "enableVRF", "enableDNSresolving", "version", "donate", "IPfilter", "printLimit", "visualLimit", "vlanDuplicate", "htmlMail", "subnetOrdering", "pingStatus");
 $fields['settingsDomain'] = array("account_suffix", "base_dn", "domain_controllers", "use_ssl", "use_tls", "ad_port");
-$fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "vlanId", "showName", "permissions");
+$fields['subnets'] 		  = array("subnet", "mask", "sectionId", "description", "masterSubnetId", "vrfId", "allowRequests", "vlanId", "showName", "permissions", "pingSubnet");
 $fields['switches'] 	  = array("hostname", "ip_addr", "type", "vendor", "model", "version", "description", "sections");
 $fields['users'] 	  	  = array("username", "password", "groups", "role", "real_name", "email", "domainUser", "lang");
 $fields['vrf'] 	  	  	  = array("name", "rd", "description");

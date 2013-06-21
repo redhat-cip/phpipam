@@ -1658,11 +1658,11 @@ function SetInsertQuery( $ip )
 	if( $ip['action'] == "add" ) 
 	{
 		$query  = "insert into `ipaddresses` ";
-		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note` ". $myFieldsInsert['query'] .") ";
+		$query .= "(`subnetId`,`description`,`ip_addr`, `dns_name`,`mac`, `owner`, `state`, `switch`, `port`, `note`, `excludePing` ". $myFieldsInsert['query'] .") ";
 		$query .= "values ";
 		$query .= "('". $ip['subnetId'] ."', '". $ip['description'] ."', '". Transform2decimal( $ip['ip_addr'] ) ."', ". "\n"; 
 		$query .= " '". $ip['dns_name'] ."', '". $ip['mac'] ."', '". $ip['owner'] ."', '". $ip['state'] ."', ". "\n";
-		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."'". $myFieldsInsert['values'] .");";
+		$query .= " '". $ip['switch'] ."', '". $ip['port'] ."', '". $ip['note'] ."', '". @$ip['excludePing'] ."' ". $myFieldsInsert['values'] .");";
 	}
 	/* edit multiple */
 	else if( ($ip['action'] == "edit") && ($ip['type'] == "series") ) 
@@ -1676,6 +1676,7 @@ function SetInsertQuery( $ip )
 		$query .= "`state` = '". $ip['state'] ."',";
 		$query .= "`switch` = '". $ip['switch'] ."',";
 		$query .= "`port` = '". $ip['port'] ."',";
+		$query .= "`excludePing` = '". @$ip['excludePing'] ."',";
 		
 		# custom!
 		foreach($myFields as $myField) {
@@ -1697,7 +1698,7 @@ function SetInsertQuery( $ip )
 		}
 		
 		$query .= "`owner` = '". $ip['owner'] ."' , `state` = '". $ip['state'] ."', `switch` = '". $ip['switch'] ."', ". "\n"; 
-		$query .= "`port` = '". $ip['port'] ."', `note` = '". $ip['note'] ."' ";
+		$query .= "`port` = '". $ip['port'] ."', `note` = '". $ip['note'] ."', `excludePing` = '". @$ip['excludePing'] ."' ";
 		$query .= "where `id` = '". $ip['id'] ."';";	
 	}
 	/* delete multiple */
@@ -2265,6 +2266,84 @@ function getIPaddressesBySwitchName ( $name )
     return $ip;
 }
 
+
+
+
+
+
+
+
+
+
+
+/* $ping ---------- */
+
+/**
+ * Ping host
+ */
+function pingHost ($ip, $wait=1000, $count="1", $exit=false)
+{
+	//set and execute
+	$cmd = "/sbin/ping -c $count -W $wait -n $ip 1>/dev/null 2>&1";
+    exec($cmd, $output, $retval);
+    
+    //exit codes
+    //	0 = online
+    //	1,2 = offline
+        
+	//return result for web or cmd
+	if(!$exit) 	{ return $retval; }
+	else	  	{ exit($retval); }
+}
+
+
+/**
+ * Update host lastSeen
+ */
+function updateLastSeen($ip_id)
+{
+    global $db;                                                                      # get variables from config file
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    /* get all vlans, descriptions and subnets */
+    $query = 'update `ipaddresses` set `lastSeen` = NOW() where `id` = "'.$ip_id.'";';
+
+	//update
+    try { $res = $database->executeQuery( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print ("<div class='alert alert-error'>"._('Error').":$error</div>");
+        return false;
+    } 	
+    
+    //default
+    return true;
+}
+
+
+/**
+ *	Get all IP addresses for scan
+ */
+function getAllIPsforScan($cli = false)
+{
+    global $db;                                                                     
+    $database    = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    //set query
+    $query = 'select `i`.`id`,`subnetId`,`ip_addr`,`lastSeen`,`lastSeen` as `oldStamp` from `ipaddresses` as `i`, `subnets` as `s` where `i`.`subnetId`=`s`.`id` and `s`.`pingSubnet` = 1 and `i`.`excludePing` != 1 order by `lastSeen` desc;';
+
+	//get IP addresses
+    try { $res = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage();
+        	//output error
+        	if($cli) 	{ print ("Error:$error"); }
+			else		{ print ("<div class='alert alert-error'>"._('Error').":$error</div>"); } 
+        return false;
+    } 
+    //return
+    return $res;
+}
 
 
 

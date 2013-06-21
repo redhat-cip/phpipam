@@ -638,7 +638,7 @@ function setModifySubnetDetailsQuery ($subnetDetails)
 		}
         
         $query  = 'insert into subnets '. "\n";
-        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName`, `permissions` '.$myFieldsInsert['query'].') ' . "\n";
+        $query .= '(`subnet`, `mask`, `sectionId`, `description`, `vlanId`, `vrfId`, `masterSubnetId`, `allowRequests`, `showName`, `permissions`, `pingSubnet` '.$myFieldsInsert['query'].') ' . "\n";
         $query .= 'values (' . "\n";
         $query .= ' "'. $subnetDetails['subnet'] 		 .'", ' . "\n"; 
         $query .= ' "'. $subnetDetails['mask'] 			 .'", ' . "\n"; 
@@ -649,7 +649,8 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= ' "'. $subnetDetails['masterSubnetId'] .'", ' . "\n"; 
         $query .= ''. isCheckbox($subnetDetails['allowRequests']) .','."\n";
         $query .= ''. isCheckbox($subnetDetails['showName']) .','."\n";  
-        $query .= ' "'. $subnetDetails['permissions'] .'"'."\n"; 
+        $query .= ' "'. $subnetDetails['permissions'] .'", '."\n"; 
+        $query .= ''. isCheckbox($subnetDetails['pingSubnet']) .''."\n";  
         $query .= $myFieldsInsert['values'];
         $query .= ' );';
     }
@@ -691,7 +692,8 @@ function setModifySubnetDetailsQuery ($subnetDetails)
         $query .= '`vrfId`        	= "'. $subnetDetails['vrfId'] 			.'", '. "\n";
         $query .= '`masterSubnetId` = "'. $subnetDetails['masterSubnetId'] 	.'", '. "\n";
         $query .= '`allowRequests`  = "'. isCheckbox($subnetDetails['allowRequests']) 	.'", '. "\n";
-        $query .= '`showName`   	= "'. isCheckbox($subnetDetails['showName']) 		.'" '. "\n";
+        $query .= '`showName`   	= "'. isCheckbox($subnetDetails['showName']) 		.'", '. "\n";
+        $query .= '`pingSubnet`   	= "'. isCheckbox($subnetDetails['pingSubnet']) 		.'" '. "\n";
         $query .= $myFieldsInsert['query'];
         $query .= 'where id      	= "'. $subnetDetails['subnetId'] .'"; '."\n";
     
@@ -844,6 +846,10 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				if($option['value']['allowRequests'] == 1) 			{ $requests = "enabled"; }												# requests enabled
 				else 												{ $requests = ""; }														# request disabled				
 
+				# hosts check
+				if($option['value']['pingSubnet'] == 1) 			{ $pCheck = "enabled"; }												# ping check enabled
+				else 												{ $pCheck = ""; }														# ping check disabled
+
 				#vrf
 				if($vrf == "1") {
 					# get VRF details
@@ -867,6 +873,7 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				$html[] = "	<td>$vrfText</td>";
 				}
 				$html[] = "	<td>$requests</td>";
+				$html[] = "	<td>$pCheck</td>";
 				if($actions) {
 				$html[] = "	<td class='actions'>";
 				$html[] = "	<div class='btn-group'>";
@@ -1460,7 +1467,8 @@ function updateSettings($settings)
     $query   .= '`printLimit` 	      = "'. $settings['printLimit'] .'", ' . "\n"; 
     $query   .= '`visualLimit` 	      = "'. $settings['visualLimit'] .'", ' . "\n"; 
     $query   .= '`vlanDuplicate` 	  = "'. isCheckbox($settings['vlanDuplicate']) .'", ' . "\n"; 
-    $query   .= '`subnetOrdering` 	  = "'. $settings['subnetOrdering'] .'" ' . "\n"; 
+    $query   .= '`subnetOrdering` 	  = "'. $settings['subnetOrdering'] .'", ' . "\n"; 
+    $query   .= '`pingStatus` 	  	  = "'. $settings['pingStatus'] .'" ' . "\n"; 
 	$query   .= 'where id = 1;' . "\n"; 
 
 	/* set log file */
@@ -1754,7 +1762,7 @@ function getCustomIPaddrFields()
 	
 	/* unset standard fields */
 	unset($res['id'], $res['subnetId'], $res['ip_addr'], $res['description'], $res['dns_name'], $res['switch']);
-	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note']);
+	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note'], $res['lastSeen'], $res['excludePing']);
 	
 	return $res;
 }
@@ -1787,7 +1795,7 @@ function getCustomIPaddrFieldsNumArr()
 	
 	/* unset standard fields */
 	unset($res['id'], $res['subnetId'], $res['ip_addr'], $res['description'], $res['dns_name'], $res['switch']);
-	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note']);
+	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note'], $res['lastSeen'], $res['excludePing']);
 	
 	/* reindex */
 	foreach($res as $line) {
@@ -1886,6 +1894,7 @@ function getCustomSubnetFields()
 	/* unset standard fields */
 	unset($res['id'], $res['subnet'], $res['mask'], $res['sectionId'], $res['description'], $res['masterSubnetId']);
 	unset($res['vrfId'], $res['allowRequests'], $res['adminLock'], $res['vlanId'], $res['showName'],$res['permissions']);
+	unset($res['pingSubnet']);
 	
 	return $res;
 }

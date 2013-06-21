@@ -53,8 +53,8 @@ if(sizeof($sections) > 0) {
 	foreach($sections as $section)
 	{
 		# set colcount
-		if($settings['enableVRF'] == 1)		{ $colCount = "7"; }
-		else								{ $colCount = "6"; }
+		if($settings['enableVRF'] == 1)		{ $colCount = "8"; }
+		else								{ $colCount = "7"; }
 		
 		# print name
 		print "<tbody id='subnet-$m'>";
@@ -80,6 +80,7 @@ if(sizeof($sections) > 0) {
 		print "	<th>"._('VRF')."</th>";
 		}
 		print "	<th>"._('Requests')."</th>";
+		print "	<th>"._('Hosts check')."</th>";
 		print "	<th class='actions' style='width:140px;white-space:nowrap;'></th>";
 		print "</tr>";
 

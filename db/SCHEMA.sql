@@ -37,6 +37,8 @@ CREATE TABLE `ipaddresses` (
   `switch` varchar(32) DEFAULT NULL,
   `port` varchar(32) DEFAULT NULL,
   `note` text,
+  `lastSeen` DATETIME  NULL  DEFAULT '0000-00-00 00:00:00',
+  `excludePing` BINARY  NULL  DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -159,6 +161,7 @@ CREATE TABLE `settings` (
   `subnetOrdering` varchar(16) DEFAULT 'subnet,asc',
   `visualLimit` int(2) NOT NULL DEFAULT '0',
   `htmlMail` binary(1) NOT NULL DEFAULT '1',
+  `pingStatus` VARCHAR(12)  NOT NULL  DEFAULT '1800;3600',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -217,6 +220,7 @@ CREATE TABLE `subnets` (
   `vlanId` int(11) DEFAULT NULL,
   `showName` tinyint(1) DEFAULT '0',
   `permissions` varchar(1024) DEFAULT NULL,
+  `pingSubnet` BOOL  NOT NULL  DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

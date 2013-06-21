@@ -5,6 +5,8 @@ features for next releases:
 	
 		+ implement phpmailer;
 		
+		+ Scan subnet for alive hosts and import;
+		
 		+ checkbox for required fields;
 		
 		+ Custom devices field;
@@ -41,7 +43,3 @@ features for next releases:
 	- Optional
 		- RDNS zone file export (in admin!);
 		- IPv6 migration guide document;
-	
-	- Problematic
-		- Subnet scan for alive IP addresses (ICMP);
-		- ICMP check if IP is alive;

@@ -274,6 +274,17 @@ else															{ $readonly = false; }
         print '	<td class="info">'._('Show Subnet name instead of subnet IP address').'</td>' . "\n";
     	print '</tr>' . "\n";	    
 
+		#
+		if( isset($subnetDataOld['pingSubnet']) && ($subnetDataOld['pingSubnet'] == 1) )	{ $checked = "checked"; }
+		else																				{ $checked = ""; }
+	
+		print '<tr>' . "\n";
+        print '	<td>'._('Check hosts status').'</td>' . "\n";
+        print '	<td>' . "\n";
+        print '		<input type="checkbox" name="pingSubnet" value="1" '.$checked.'>'. "\n";
+        print '	</td>' . "\n";
+        print '	<td class="info">'._('Ping hosts inside subnet to check avalibility').'</td>' . "\n";
+        
 
     	# custom Subnet fields
 	    if(sizeof($customSubnetFields) > 0) {

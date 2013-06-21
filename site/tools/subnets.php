@@ -28,7 +28,7 @@ foreach ($sections as $section) {
 	if($permission != "0") {
 
 		# set colspan
-		$colSpan = 8 + (sizeof($custom));
+		$colSpan = 9 + (sizeof($custom));
 
 		# section names
 		print "<tbody>";
@@ -49,6 +49,7 @@ foreach ($sections as $section) {
 		print "	<th>"._('Used')."</th>";
 		print "	<th>"._('free')." [%]</th>";
 		print "	<th>"._('Requests')."</th>";
+		print "	<th>"._('Hosts check')."</th>";
 		if(sizeof($custom) > 0) {
 			foreach($custom as $field) {
 				print "	<th>$field[name]</th>";
@@ -102,6 +103,10 @@ foreach ($sections as $section) {
 	
 				# allow requests
 				if($subnet['allowRequests'] == 1) 			{ print '<td class="allowRequests requests">'._('enabled').'</td>'; }
+				else 										{ print '<td class="allowRequests"></td>'; }
+
+				# Hosts check
+				if($subnet['pingSubnet'] == 1) 				{ print '<td class="allowRequests requests">'._('enabled').'</td>'; }
 				else 										{ print '<td class="allowRequests"></td>'; }
 
 				# custom

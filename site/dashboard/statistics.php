@@ -51,5 +51,5 @@ $userCount = getNumberOfUsers();
 		<td class="title"><?php print _('Number of users'); ?></td>
 		<td><?php print $userCount; ?></td>
 	</tr>
-
+	
 </table>

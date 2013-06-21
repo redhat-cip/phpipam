@@ -54,13 +54,16 @@ if(sizeof($myFields) > 0) {
 }
 
 // those values must be present	
-$ip['action']  = $_REQUEST['action'];
-$ip['subnet']  = $_REQUEST['subnet'];
-$ip['subnetId']= $_REQUEST['subnetId'];
-$ip['section'] = $_REQUEST['section'];
-$ip['id']      = $_REQUEST['id'];
-$ip['state']   = $_REQUEST['state'];
+$ip['action']  		= $_REQUEST['action'];
+$ip['subnet']  		= $_REQUEST['subnet'];
+$ip['subnetId']		= $_REQUEST['subnetId'];
+$ip['section'] 		= $_REQUEST['section'];
+$ip['id']      		= $_REQUEST['id'];
+$ip['state']   		= $_REQUEST['state'];
+$ip['excludePing']	= $_REQUEST['excludePing'];
 
+# set excludePing
+if($ip['excludePing'] != "1") { $ip['excludePing'] = "0"; }
 
 //delete form visual
 if(isset($_REQUEST['action-visual'])) {

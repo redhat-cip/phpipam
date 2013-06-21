@@ -3849,3 +3849,75 @@ msgstr""
 
 msgid "delete user"
 msgstr ""
+
+#: site/admin/manageSubnetEdit.php
+msgid "Check hosts status"
+msgstr ""
+
+#: site/admin/manageSubnetEdit.php
+msgid "Ping hosts inside subnet to check avalibility"
+msgstr ""
+
+#: site/ipaddr/subnetDetials.php
+msgid "Hosts check"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddress.php
+msgid "Ping exclude"
+msgstr ""
+
+#: site/ipaddr/modifyIpAddress.php
+msgid "Exclude from ping status checks"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Check avalibility"
+msgstr ""
+
+#: site/ipaddr/pingCheck.php
+msgid "Insufficient permissions"
+msgstr ""
+
+#: site/ipaddr/pingCheck.php
+msgid "is alive"
+msgstr ""
+
+#: site/ipaddr/pingCheck.php
+msgid "is not alive"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Ping status intervals"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Ping status intervals for IP addresses in seconds - warning;offline (Default: 1800;3600)"
+msgstr ""
+
+#: site/admin/settingsEdit.php
+msgid "Invalid ping status intervals"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device is alive"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device warning"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device is offline"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device status unknown"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Last seen"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Never"
+msgstr ""

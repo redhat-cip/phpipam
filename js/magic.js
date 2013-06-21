@@ -259,6 +259,19 @@ $(document).on("click", "button#editIPAddressSubmit", function() {
     });    
     return false;
 });
+//ping check
+$(".ping_ipaddress").click(function() {
+	showSpinner();
+	var id       = $(this).attr('data-id');
+	var subnetId = $(this).attr('data-subnetId');
+	//check
+	$.post('site/ipaddr/pingCheck.php', {id:id, subnetId:subnetId}, function(data) {
+        $('div.popup_w400').html(data);
+        showPopup('popup_w400');
+		hideSpinner();
+	});
+	return false;
+});
 
 
 /*    send notification mail

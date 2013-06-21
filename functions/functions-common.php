@@ -621,6 +621,40 @@ function parsePermissions($perm)
 }
 
 
+/**
+ * secunds to hms 
+ */
+function sec2hms($sec, $padHours = false) 
+  {
+    // holds formatted string
+    $hms = "";
+    
+    // get the number of hours
+    $hours = intval(intval($sec) / 3600); 
+
+    // add to $hms, with a leading 0 if asked for
+    $hms .= ($padHours) 
+          ? str_pad($hours, 2, "0", STR_PAD_LEFT). ':'
+          : $hours. ':';
+     
+    // get the seconds
+    $minutes = intval(($sec / 60) % 60); 
+
+    // then add to $hms (with a leading 0 if needed)
+    $hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT). ':';
+
+    // seconds 
+    $seconds = intval($sec % 60); 
+
+    // add to $hms, again with a leading 0 if needed
+    $hms .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
+
+    // return hms
+    return $hms;
+}
+
+
+
 
 
 

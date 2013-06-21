@@ -261,6 +261,18 @@ $settings = getAllSettings();
 </tr>
 
 
+<!-- Ping status intervals -->
+<tr>
+	<td class="title"><?php print _('Ping status intervals'); ?></td>
+	<td>
+		<input type="text" name="pingStatus" value="<?php print $settings['pingStatus']; ?>">
+	</td>
+	<td class="info">
+		<?php print _('Ping status intervals for IP addresses in seconds - warning;offline (Default: 1800;3600)'); ?>
+	</td>
+</tr>
+
+
 <!-- Submit -->
 <tr class="th">
 	<td class="title"></td>

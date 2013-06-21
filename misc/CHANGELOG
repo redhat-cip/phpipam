@@ -2,6 +2,8 @@
 
 	New features:
 	----------------------------
+	+ ICMP check IP status;
+	+ Cron script to check status for selected subnets/hosts with threading suport (pcntl php extension required);
 
 	Enhancements:
 	----------------------------

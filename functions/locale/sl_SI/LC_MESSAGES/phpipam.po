@@ -3885,3 +3885,75 @@ msgstr"Urejanje uporabnika"
 
 msgid "delete user"
 msgstr "Izbris uporabnika"
+
+#: site/admin/manageSubnetEdit.php
+msgid "Check hosts status"
+msgstr "Preverjanje dosegljivosti"
+
+#: site/admin/manageSubnetEdit.php
+msgid "Ping hosts inside subnet to check avalibility"
+msgstr "Preverjanje dosegljivosti IP s pingom"
+
+#: site/ipaddr/subnetDetails.php
+msgid "Hosts check"
+msgstr "Preverjanje dosegljivosti"
+
+#: site/ipaddr/modifyIpAddress.php
+msgid "Ping exclude"
+msgstr "Dosegljivost"
+
+#: site/ipaddr/modifyIpAddress.php
+msgid "Exclude from ping status checks"
+msgstr "Izključi preverjanje statusa"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Check avalibility"
+msgstr "Preveri dosegljivost"
+
+#: site/ipaddr/pingCheck.php
+msgid "Insufficient permissions"
+msgstr "Nezadostne pravice"
+
+#: site/ipaddr/pingCheck.php
+msgid "is alive"
+msgstr "je dosegljiv"
+
+#: site/ipaddr/pingCheck.php
+msgid "is not alive"
+msgstr "ni dosegljiv"
+
+#: site/admin/settings.php
+msgid "Ping status intervals"
+msgstr "Intervali preverjanja"
+
+#: site/admin/settings.php
+msgid "Ping status intervals for IP addresses in seconds - warning;offline (Default: 1800;3600)"
+msgstr "Intervali preverjanja IP naslovov v sekundah - opozorilo;nedosegljivost (Privzeto: 1800;3600)"
+
+#: site/admin/settingsEdit.php
+msgid "Invalid ping status intervals"
+msgstr "Napačni intervali preverjanja"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device is alive"
+msgstr "Naprava je dosegljiva"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device warning"
+msgstr "Opozorilo"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device is offline"
+msgstr "Naprava ni dosegljiva"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Device status unknown"
+msgstr "Status neznan"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Last seen"
+msgstr "Nazadnje aktivna"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Never"
+msgstr "Nikoli"

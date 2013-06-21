@@ -74,7 +74,6 @@ else {
  *	Get first available IP address!
  */
 
-
 /* Set title and button text */
 if ($action == "add") 			{ $btnName = _("add");		$act = "add"; }
 else if ($action == "all-add")	{ $btnName = _("add");  	$act = "add"; }
@@ -250,6 +249,22 @@ $myFieldsSize = sizeof($myFields);
 		print '		</select>'. "\n";
 		print '	</td>'. "\n";
 		print '</tr>'. "\n";
+	}
+	?>
+	<!-- exclude Ping -->
+	<?php
+	if($subnet2['pingSubnet']==1) {
+		//we can exclude individual IP addresses from ping
+		if(@$details['excludePing'] == "1")	{ $checked = "checked='checked'"; }
+		else								{ $checked = ""; }
+		
+		print '<tr>';
+	 	print '<td>'._("Ping exclude").'</td>';
+	 	print '<td>';
+		print ' 	<input type="checkbox" name="excludePing" value="1" '.$checked.'>';
+		print ' 	<div class="help-inline">'. _('Exclude from ping status checks').'</div>';
+	 	print '</td>';
+	 	print '</tr>';
 	}
 	?>
 	<tr>

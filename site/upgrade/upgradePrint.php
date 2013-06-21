@@ -65,7 +65,7 @@ $(document).ready(function () {
 		$dir = "db/";
 		$files = scandir($dir);
 		foreach($files as $f) {
-			//get only UPGRADE- for specific version
+			//get only UPDATE- for specific version
 			if(substr($f, 0, 6) == "UPDATE") {
 				$ver = str_replace(".sql", "",substr($f, 8));
 				if($ver>$settings['version']) {
