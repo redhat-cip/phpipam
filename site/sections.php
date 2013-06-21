@@ -16,7 +16,7 @@
 
 
 <?php
-
+require_once ( dirname(__FILE__) . '/../config.php' );
 /**
  * Script to print sections and admin link on top of page
  ********************************************************/
@@ -71,6 +71,21 @@ $setFields = explode(";", $setFieldsTemp);
 		</ul>		
 		</div>
 	</td>
+
+<?php
+    global $db;
+    if ($db['glpi_name'] != '')
+    {
+    print '<!-- discovery -->
+    <td class="fixed instr">
+        <ul class="nav nav-tabs pull-right" style="cursor: pointer;">
+            <li>
+                <a class="discovery" rel="tooltip" data-placement="bottom" title="Discover new machines"><img src="css/images/discovery.png" style="width:20px;"></a>
+            </li>
+        </ul>
+    </td>';
+    }
+?>
 
 	<!-- instructions -->	
 	<td class="fixed instr">	

@@ -134,6 +134,15 @@ if ($('#IPv4top10Hosts').length>0) {
 
 /* @subnets list ----------  */
 
+/* discovery button */
+$('a.discovery').click(function() {
+	;showSpinner();
+	$('a.discovery').attr("disabled", 'disabled');
+	$.post('functions/scripts/discovery.php', function() {
+		hideSpinner();location.reload();
+	});
+	return false;});
+
 /* leftmenu toggle submenus */
 // default hide
 $('ul.submenu.submenu-close').hide();

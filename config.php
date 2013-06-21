@@ -7,6 +7,15 @@ $db['user'] = "phpipam";
 $db['pass'] = "phpipamadmin";
 $db['name'] = "phpipam";
 
+/* glpi database connection details
+   LEAVE EMPTY IF NOT USING GLPI
+************************************/
+$db['glpi_host'] = "";
+$db['glpi_user'] = "";
+$db['glpi_pass'] = "";
+$db['glpi_name'] = "";
+
+
 /**
  * php debugging on/off
  *
