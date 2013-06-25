@@ -39,7 +39,6 @@ CREATE TABLE `ipaddresses` (
   `note` text,
   `lastSeen` DATETIME  NULL  DEFAULT '0000-00-00 00:00:00',
   `excludePing` BINARY  NULL  DEFAULT '0',
-  `id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -129,9 +128,10 @@ LOCK TABLES `sections` WRITE;
 
 INSERT INTO `sections` (`id`, `name`, `description`, `permissions`)
 VALUES
-	(1,'Customers','Section for customers','{\"3\":\"1\",\"2\":\"2\"}'),
-	(2,'Servers','Section for servers','{\"3\":\"1\",\"2\":\"2\"}'),
-	(3,'IPv6','Section for IPv6 addresses','{\"3\":\"1\",\"2\":\"2\"}');
+	(1,'Section 1','','{\"3\":\"1\",\"2\":\"2\"}'),
+	(2,'Section 2','','{\"3\":\"1\",\"2\":\"2\"}'),
+	(3,'Section 3','','{\"3\":\"1\",\"2\":\"2\"}'),
+    (4,'Discovery','','{\"3\":\"1\",\"2\":\"2\"}');
 
 /*!40000 ALTER TABLE `sections` ENABLE KEYS */;
 UNLOCK TABLES;
