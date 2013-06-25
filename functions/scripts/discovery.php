@@ -180,7 +180,7 @@ $discovered_ip_list = find_new_ips($glpi_ip_list, $phpipam_ip_list);
 $section_id = get_section_id($databaseipam);
 $ip_to_add = create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $section_id);
 add_ip_addresses($ip_to_add, $databaseipam);
-#link_to_glpi($databaseipam, $databaseglpi, $section_id);
+link_to_glpi($databaseipam, $databaseglpi, $section_id);
 
 $databaseglpi->close();
 $databaseipam->close();
