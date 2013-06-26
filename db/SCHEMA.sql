@@ -39,6 +39,7 @@ CREATE TABLE `ipaddresses` (
   `note` text,
   `lastSeen` DATETIME  NULL  DEFAULT '0000-00-00 00:00:00',
   `excludePing` BINARY  NULL  DEFAULT '0',
+  `glpiId` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

@@ -3,9 +3,9 @@
 /*	database connection details
  ******************************/
 $db['host'] = "localhost";
-$db['user'] = "phpipam";
-$db['pass'] = "phpipamadmin";
-$db['name'] = "phpipam";
+$db['user'] = "user";
+$db['pass'] = "password";
+$db['name'] = "dbname";
 
 /* glpi database connection details
    LEAVE EMPTY IF NOT USING GLPI
@@ -14,6 +14,12 @@ $db['glpi_host'] = "";
 $db['glpi_user'] = "";
 $db['glpi_pass'] = "";
 $db['glpi_name'] = "";
+
+/* GLPI URL
+   e.g. www.myglpi.com
+		192.168.1.1
+************************************/
+$glpiurl = "";
 
 
 /**

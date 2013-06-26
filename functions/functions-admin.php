@@ -1763,7 +1763,7 @@ function getCustomIPaddrFields()
 	/* unset standard fields */
 	unset($res['id'], $res['subnetId'], $res['ip_addr'], $res['description'], $res['dns_name'], $res['switch']);
 	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note'], $res['lastSeen'], $res['excludePing']);
-	
+
 	return $res;
 }
 

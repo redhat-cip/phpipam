@@ -5,6 +5,8 @@ $('body').tooltip({ selector: '[rel=tooltip]' });
 
 <?php
 
+require_once( dirname(__FILE__) . '/../../config.php' );
+
 /**
  * Print sorted IP addresses
  ***********************************************************************/
@@ -61,6 +63,7 @@ if(sizeof($SubnetDetails) == 0) { die('<div class="alert alert-error">'._('Subne
 
 /* get all selected fields */
 $myFields = getCustomIPaddrFields();
+unset($myFields['glpiId']);
 $myFieldsSize = sizeof($myFields);
 	
 /* set colspan */
@@ -265,9 +268,14 @@ else {
 		    }
 		    
 		    #ip
-		    print "	<td class='ipaddress'><span class='status status-$hStatus' $hTooltip></span>".Transform2long( $ipaddress[$n]['ip_addr']);
-		    if(in_array('state', $setFields)) 				{ print reformatIPState($ipaddress[$n]['state']); }	
-		    print "</td>";
+            if ($ipaddress[$n]['glpiId'] != '' and $ipaddress[$n]['glpiId'] != 0){
+                print " <td class='ipaddress'><span class='status status-$hStatus' $hTooltip></span><a href=\"http://".$glpiurl."/glpi/front/computer.form.php?id=".$ipaddress[$n]['glpiId']."\" target=\"_blank\">".Transform2long( $ipaddress[$n]['ip_addr'])."</a>";
+            }
+            else{
+                print " <td class='ipaddress'><span class='status status-$hStatus' $hTooltip></span>".Transform2long( $ipaddress[$n]['ip_addr']);
+            }
+			if(in_array('state', $setFields))              { print reformatIPState($ipaddress[$n]['state']); } 
+            print "</td>";
 
 		    # resolve dns name if not provided, else print it - IPv4 only!
 		    if ( (empty($ipaddress[$n]['dns_name'])) and ($settings['enableDNSresolving'] == 1) and (IdentifyAddress($ipaddress[$n]['ip_addr']) == "IPv4") ) {

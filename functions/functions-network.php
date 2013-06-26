@@ -1645,6 +1645,22 @@ function SetInsertQuery( $ip )
 	$myFields = getCustomIPaddrFields();
 	$myFieldsInsert['query']  = '';
 	$myFieldsInsert['values'] = '';
+
+	if( $ip['action'] == "add" and $ip['glpiId'] == '' )
+	{
+		global $db;
+        /* Find the glpiId of the newly added ip addresse */
+        $database = new database($db['glpi_host'], $db['glpi_user'], $db['glpi_pass'], $db['glpi_name']);
+        $query  = "SELECT DISTINCT glpi_networkports.items_id ";
+        $query .= "FROM glpi_networkports ";
+        $query .= "INNER JOIN glpi_computers ON glpi_networkports.ip = '". $ip['ip_addr'] ."' ";
+        $query .= "AND glpi_computers.is_deleted = 0 ";
+        $query .= "AND glpi_networkports.items_id = glpi_computers.id;";
+        $glpiId = $database->getRow($query);
+        if (count($glpiId > 0)) {$ip['glpiId'] = $glpiId[0];}
+        
+	}
+
 	
 	if(sizeof($myFields) > 0) {
 		/* set inserts for custom */

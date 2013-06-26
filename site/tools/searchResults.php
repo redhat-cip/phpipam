@@ -169,8 +169,22 @@ else {
 	
 			//print table
 			print '<tr class="ipSearch '.$stateClass.'" id="'. $line['id'] .'" subnetId="'. $line['subnetId'] .'" sectionId="'. $subnet['sectionId'] .'" link="'. $section['name'] .'|'. $subnet['id'] .'">'. "\n";
+
+
+			if ($line['glpiId'] != '' and $line['glpiId'] != 0){
+                print " <td><a href=\"http://".$glpiurl."/glpi/front/computer.form.php?id=".$line['glpiId']."\" target=\"_blank\">".Transform2long( $line['ip_addr'])."</a>";
+            }
+            else{
+                print " <td>".Transform2long( $line['ip_addr']);
+            }
+            print "</td>";
+
+
+
+
+
 	
-			print ' <td>'. transform2long($line['ip_addr']);
+			#print ' <td>'. transform2long($line['ip_addr']);
 			if(in_array('state', $setFields)) 				{ print reformatIPState($line['state']); }	
 			print ' </td>' . "\n";
 			print ' <td>'. $vlan['number']  .'</td>' . "\n";
