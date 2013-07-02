@@ -52,20 +52,7 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	}
 	$query = substr_replace($query, ';', -4, -1);
 	$existing_subnets = $databaseipam->getArray($query);
-/*
-	foreach ($subnets as $key => $subnet)
-	{	
-		foreach ($existing_subnets as $existing_subnet)
-		{
-			if (($subnet['subnet'] == intval($existing_subnet['subnet'])) AND ($subnet['netmask'] == intval($existing_subnet['mask'])))
-			{
-				$ip_to_add = array_merge($ip_to_add,array(array("subnet_id" => $existing_subnet['id'], "ip" => $subnet['ip'], "name" => $subnet['name'])));
-				unset($subnets[$key]);
-			}
-		}
-	}
-/*
-*/
+	
 	foreach ($subnets as $subnet)
 	{
 		$query_subnet_id = 'SELECT id FROM subnets WHERE '.
@@ -90,6 +77,9 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	return $ip_to_add;
 }
 
+/* This function make sure that only the specified subnet in config.php will be retrieved from
+   the glpi database. At the moment, it only works with netmask >= 24 and only make sure that
+   the first 24 last bits of the ipaddresses are matched. */
 function subnet_query_builder()
 {
 	global $glpisubnets;
