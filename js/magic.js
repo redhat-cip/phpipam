@@ -15,6 +15,26 @@ $(document).ready(function () {
 function showSpinner() { $('div.loading').show(); }
 function hideSpinner() { $('div.loading').fadeOut('fast'); }
 
+/* hide error div if jquery loads ok
+*********************************************/
+$('div.jqueryError').hide();
+
+/* Show / hide JS error */
+function showError(errorText) {
+	$('div.jqueryError').fadeIn('fast');
+	if(errorText.length>0)  { $('.jqueryErrorText').html(errorText).show(); }
+	hideSpinner();
+}
+function hideError() {
+	$('.jqueryErrorText').html();
+	$('div.jqueryError').fadeOut('fast');
+}
+//hide error popup
+$(document).on("click", "#hideError", function() {
+	hideError();
+	return false;
+});
+
 /* tooltip hiding fix */
 function hideTooltips() { $('.tooltip').hide(); }
 
@@ -212,7 +232,7 @@ $(document).on("click", ".modIPaddr", function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //move orphaned IP address
@@ -227,7 +247,7 @@ $(document).on("click", "a.moveIPaddr", function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //resolve DNS name
@@ -239,7 +259,7 @@ $(document).on("click", "#refreshHostname", function() {
             $('input[name=dns_name]').val(data);
         }
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 //submit ip address change
 $(document).on("click", "button#editIPAddressSubmit", function() {
@@ -256,7 +276,7 @@ $(document).on("click", "button#editIPAddressSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });    
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //ping check
@@ -269,7 +289,7 @@ $(".ping_ipaddress").click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
 		hideSpinner();
-	});
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 
@@ -284,7 +304,7 @@ $('a.mail_ipaddress').click(function () {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //send mail with IP details!
@@ -298,7 +318,7 @@ $(document).on("click", "#mailIPAddressSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){hidePopups();}, 1500); }
         else                             { hideSpinner(); }    
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -318,9 +338,36 @@ $(document).on("click", "table.ipaddresses th a.sort", function() {
     $.post('site/ipaddr/ipAddressPrintTable.php', {direction:direction, subnetId:subnetId}, function(data) {
         $('div.ipaddresses_overlay').html(data);
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
+
+
+/*    scan subnet
+*************************/
+//open popup
+$('a.scan_subnet').click(function() {
+	showSpinner();
+	var subnetId = $(this).attr('data-subnetId');
+	$.post('site/ipaddr/subnetScan.php', {subnetId:subnetId}, function(data) {
+        $('div.popup_w700').html(data);
+        showPopup('popup_w700');
+		hideSpinner();
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
+	return false;
+});
+//start scanning
+$(document).on('click','#subnetScanSubmit', function() {
+	showSpinner();
+	var subnetId = $(this).attr('data-subnetId');
+	var pingType = $('select[name=scanType]').find(":selected").val();
+	$('#alert-scan').slideUp('fast');
+	$.post('site/ipaddr/subnetScan'+pingType+".php", {subnetId:subnetId, pingType:pingType}, function(data) {
+        $('#subnetScanResult').html(data);
+		hideSpinner();
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
+	return false;
+})
 
 
 /*    import IP addresses
@@ -333,7 +380,7 @@ $('a.csvImport').click(function () {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //display uploaded file
@@ -344,7 +391,7 @@ $(document).on("click", "input#csvimportcheck", function() {
     $.post('site/admin/CSVimportShowFile.php', { filetype : filetype }, function(data) {
         $('div.csvimportverify').html(data).slideDown('fast');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 //import file script
 $(document).on("click", "input#csvImportNo", function() {
@@ -363,8 +410,7 @@ $(document).on("click", "input#csvImportYes", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 
 
@@ -379,7 +425,7 @@ $('a.csvExport').click(function() {
 	    $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });   
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //export
@@ -403,7 +449,7 @@ $('a.request_ipaddress').click(function () {
         $('div.popup_w500').html(data);
         showPopup('popup_w500');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //auto-suggest first available IP in selected subnet
@@ -414,7 +460,7 @@ $(document).on("click", "select#subnetId", function() {
     $.post('site/login/requestIPfirstFree.php', { subnetId:subnetId}, function(data) {
         $('input.ip_addr').val(data);
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 
 //submit request
@@ -424,64 +470,22 @@ $(document).on("click", "button#requestIPAddressSubmit", function() {
     $.post('site/login/requestIPresult.php', request, function(data) {
         $('div#requestIPresult').html(data).slideDown('fast');
         hideSpinner();
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
 
-/*    IP address next/prev page
-*********************************************************/
-//prev
-$(document).on("click", "a#prevItem", function() {
-    $('div.loading').fadeIn('fast');
-    var active = $('table.ipaddresses').find("tbody.ipPart:visible");
-    //not first!
-    var index = active.index();
-    var dolzina = ($('table.ipaddresses tbody').length) - 1;
-    if(index != 1) {
-        $(active).prev('tbody:hidden').css({'display':'table-row-group'});
-        $(active).css({'display':'none'});    
-        $('span.stran').html("Page " + (index-1) + '/' + dolzina);    //change text
-        //change select
-        $("select.jumptoPage").val('page-'+(index-2));
-    }
-    $('div.loading').fadeOut('fast');
-    return false;
-});
-//next
-$(document).on("click", "a#nextItem", function() {
-    $('div.loading').fadeIn('fast');
-    var active = $('table.ipaddresses').find("tbody.ipPart:visible");
-    //not last!
-    var index = active.index();
-    var dolzina = ($('table.ipaddresses tbody').length) - 1;
-    
-    if(index != dolzina) {
-        $(active).next('tbody:hidden').css({'display':'table-row-group'});
-        $(active).css({'display':'none'});    
-        $('span.stran').html("Page " + (index+1) + '/' + dolzina);    //change text
-        //change select
-        $("select.jumptoPage").val('page-'+index);
-    }
-    $('div.loading').fadeOut('fast');
-    return false;
-});
+
+
 //jump to page
 $('select.jumptoPage').change(function() {
-    $('div.loading').fadeIn('fast');
-    var page = $(this).val();        //get page id
-    var pageTemp = page.replace("page-","");
-    var active = $('table.ipaddresses').find("tbody.ipPart:visible");
-    
-    $('table.ipaddresses tbody.'+page).css({'display':'table-row-group'});    //show new
-    $(active).css({'display':'none'});
-    
-    pageTemp++;
-    var dolzina = ($('table.ipaddresses tbody').length) - 1;
-    $('span.stran').html("Page " + pageTemp + '/' + dolzina);        //change text
-    $('div.loading').fadeOut('fast');
+	var active    = $(this).find(":selected");
+	var sectionId = active.attr('data-sectionId');
+	var subnetId  = active.attr('data-subnetId');
+    var page 	  = active.val(); 
+    window.location.href = "subnets/"+sectionId+"/"+subnetId+"/"+page+"/";
 });
+
 
 
 
@@ -501,7 +505,7 @@ $('form#ipCalc').submit(function () {
     $.post('site/tools/ipCalcResult.php', ipCalcData, function(data) {
         $('div.ipCalcResult').html(data).fadeIn('fast');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //reset input
@@ -551,13 +555,12 @@ $('#hosts').submit(function() {
 
 /* user menu selfchange */
 $('form#userModSelf').submit(function () {
-    var selfdata = $(this).serialize();
-    
+    var selfdata = $(this).serialize(); 
     $('div.userModSelfResult').hide();
     
     $.post('site/tools/userMenuSelfMod.php', selfdata, function(data) {
         $('div.userModSelfResult').html(data).fadeIn('fast').delay(2000).fadeOut('slow');
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //    Generate random pass
@@ -578,7 +581,7 @@ $(document).on("click", "#randomPassSelf", function() {
 
 /* @administration ---------- */
 
-/*    save server settings */
+/* save server settings */
 $('#settings').submit(function() {
     showSpinner();
     var settings = $(this).serialize();
@@ -586,9 +589,9 @@ $('#settings').submit(function() {
     $.post('site/admin/settingsEdit.php', settings, function(data) {
         $('div.settingsEdit').html(data).slideDown('fast');
         //reload after 1 second if all is ok!
-        if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1000); }
+        if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1000); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -605,7 +608,7 @@ $('.editUser').click(function () {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //submit form
@@ -618,8 +621,7 @@ $(document).on("click", "#editUserSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
-    
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //disable pass if domain user
@@ -651,7 +653,7 @@ $('.editGroup').click(function () {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //submit form
@@ -664,8 +666,7 @@ $(document).on("click", "#editGroupSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             	{ hideSpinner(); }
-    });
-    
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});    
     return false;
 });
 //add users to group - show form
@@ -677,8 +678,7 @@ $('.addToGroup').click(function() {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
-	
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});	
 	return false;
 });
 //add users to group
@@ -691,8 +691,7 @@ $(document).on("click", "#groupAddUsersSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             	{ hideSpinner(); }
-    });
-	
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});	
 	return false;
 });
 //remove users frmo group - show form
@@ -704,8 +703,7 @@ $('.removeFromGroup').click(function() {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
-	
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});	
 	return false;
 });
 //add users to group
@@ -718,8 +716,7 @@ $(document).on("click", "#groupRemoveUsersSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             	{ hideSpinner(); }
-    });
-	
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});	
 	return false;
 });
 
@@ -733,7 +730,7 @@ $('form#ad').submit(function() {
     $.post('site/admin/manageADresult.php', addata, function(data) {
         $('div.manageADresult').html(data).slideDown('fast').delay(2000).fadeOut('slow');
             hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //check AD settings
@@ -742,7 +739,7 @@ $('#checkAD').click(function() {
     var addata = $('form#ad').serialize();
     $.post('site/admin/manageADcheck.php', addata, function(data) {
         $('div.manageADresult').html(data).slideDown('fast'); hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -758,7 +755,7 @@ $('#instructionsForm').submit(function () {
         $('div.instructionsResult').html(data).fadeIn('fast');
         if(data.search("error") == -1)     	{ $('div.instructionsResult').delay(2000).fadeOut('slow'); hideSpinner(); }
         else                             	{ hideSpinner(); }      
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 $('#preview').click(function () {
@@ -768,7 +765,7 @@ $('#preview').click(function () {
     $.post('site/admin/instructionsPreview.php', {instructions:instructions}, function(data) {
         $('div.instructionsPreview').html(data).fadeIn('fast');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -782,7 +779,7 @@ $('form#logs').change(function () {
     $.post('site/admin/logResult.php', logSelection, function(data) {
         $('div.logs').html(data);
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 //log files show details
 $(document).on("click", "a.openLogDetail", function() {
@@ -791,7 +788,7 @@ $(document).on("click", "a.openLogDetail", function() {
         $('div.popup_w500').html(data);
         showPopup('popup_w500');
         hideSpinner();        
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //log files page change
@@ -813,7 +810,7 @@ $('#logDirection button').click(function() {
     $.post('site/admin/logResult.php', postData, function(data1) {
         $('div.logs').html(data1);
         hideSpinner();
-    }); 
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;   
 });
 //logs export 
@@ -829,9 +826,10 @@ $('#downloadLogs').click(function() {
 //logs clear
 $('#clearLogs').click(function() {
     showSpinner();
-    $('div.logs').load('site/admin/logClear.php', function() {
+    $.post('site/admin/logClear.php', function(data) {
+    	$('div.logs').html(data);
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -849,7 +847,7 @@ $('button.editSection').click(function() {
         $('div.popup_w500').html(data);
         showPopup('popup_w500');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 //edit section result
 $(document).on("click", "#editSectionSubmit", function() {
@@ -863,8 +861,7 @@ $(document).on("click", "#editSectionSubmit", function() {
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner();
         }
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -915,7 +912,7 @@ $('button.editSubnet').click(function() {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 //resize / split subnet
 $(document).on("click", "#resize, #split, #truncate", function() {
@@ -928,7 +925,7 @@ $(document).on("click", "#resize, #split, #truncate", function() {
         showPopup('popup_w500');
         $('.popup_w700').css("z-index", "99");        //set behind popup
         hideSpinner();
-    });	
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 //resize save
@@ -940,7 +937,7 @@ $(document).on("click", "button#subnetResizeSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner(); }
-	});
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 //split save
@@ -952,7 +949,7 @@ $(document).on("click", "button#subnetSplitSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner(); }
-	});
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 //truncate save
@@ -964,7 +961,7 @@ $(document).on("click", "button#subnetTruncateSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner(); }
-	});
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 //save edit subnet changes
@@ -1006,7 +1003,7 @@ $(document).on("click", ".editSubnetSubmit", function() {
         else {
             hideSpinner();
         }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1034,7 +1031,7 @@ $('.showSubnetPerm').click(function() {
         $('div.popup_w500').html(data);
         showPopup('popup_w500');
 		hideSpinner();
-	});
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 //submit permission change
@@ -1046,7 +1043,7 @@ $(document).on("click", ".editSubnetPermissionsSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner(); }
-	});
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 	return false;
 });
 
@@ -1069,7 +1066,7 @@ $(document).on("change", "select#selectSectionfromIPCalc", function() {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });    
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
 });
 
 /*    Edit subnet from ip address list
@@ -1085,7 +1082,7 @@ $('a.edit_subnet, button.edit_subnet, button#add_subnet').click(function () {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });        
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1101,7 +1098,7 @@ $(document).on("change", "select[name=vlanId]", function() {
             showPopup('popup_w400');
             $('.popup_w700').css("z-index", "99");        //set behind popup
             hideSpinner();
-        });
+		}).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     }
     return false;    
 });
@@ -1124,7 +1121,7 @@ $(document).on("click", ".vlanManagementEditFromSubnetButton", function() {
                 //bring to front
                 $('.popup_w700').delay(1000).css("z-index", "101");        //bring to front
                 hideSpinner();
-            });        
+			}).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
             //hide popup after 1 second
             setTimeout(function (){hidePopup('popup_w400'); parameter = null;}, 1000);
         }
@@ -1147,7 +1144,7 @@ $('.editSwitch').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;    
 });
 //Edit switch result
@@ -1161,7 +1158,7 @@ $(document).on("click", "#editSwitchsubmit", function() {
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); hideSpinner();
         }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1177,7 +1174,7 @@ $('.editVLAN').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;    
 });
 //result
@@ -1189,7 +1186,7 @@ $(document).on("click", "#editVLANsubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                               { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1206,7 +1203,7 @@ $('button.vrfManagement').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;    
 });
 //Edit VRF details
@@ -1218,7 +1215,7 @@ $(document).on("click", "#editVRF", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1233,7 +1230,7 @@ $('table#requestedIPaddresses button').click(function() {
         $('div.popup_w700').html(data);
         showPopup('popup_w700');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;    
 });
 //approve / reject
@@ -1247,7 +1244,7 @@ $(document).on("click", "button.manageRequest", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1261,7 +1258,7 @@ $('form#ripeImport').submit(function() {
     $.post('site/admin/ripeImportTelnet.php', as, function(data) {
         $('div.ripeImportTelnet').html(data).fadeIn('fast');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 // remove as line
@@ -1279,7 +1276,7 @@ $(document).on("submit", "form#asImport", function() {
         //hide after 2 seconds
         if(data.search("error") == -1)     { $('table.asImport').delay(1000).fadeOut('fast'); hideSpinner(); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1294,7 +1291,7 @@ $('button#filterIPSave').click(function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { $('div.filterIPResult').delay(2000).fadeOut('slow');    hideSpinner(); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1310,7 +1307,7 @@ $('table.customIP tbody#ip button[data-direction!=down]').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //custom IP field edit submit form
@@ -1323,8 +1320,7 @@ $(document).on("click", "#editcustomSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 // field ordering
@@ -1337,7 +1333,7 @@ $('table.customIP tbody#ip button.down').click(function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1000); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1353,7 +1349,7 @@ $('table.customIP tbody#subnet button[data-direction!=down]').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //custom IP field edit submit form
@@ -1366,8 +1362,7 @@ $(document).on("click", "#editcustomSubnetSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 // field ordering
@@ -1380,7 +1375,7 @@ $('table.customIP tbody#subnet button.down').click(function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1000); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1396,7 +1391,7 @@ $('table.customIP tbody#vlan button[data-direction!=down]').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //custom IP field edit submit form
@@ -1409,8 +1404,7 @@ $(document).on("click", "#editcustomVLANSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 // field ordering
@@ -1423,7 +1417,7 @@ $('table.customIP tbody#vlan button.down').click(function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     { setTimeout(function (){window.location.reload();}, 1000); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1439,7 +1433,7 @@ $('table.customIP tbody#customUser button[data-direction!=down]').click(function
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 //custom IP field edit submit form
@@ -1448,12 +1442,10 @@ $(document).on("click", "#editcustomUserSubmit", function() {
     var field = $('form#editCustomUserFields').serialize();
     $.post('site/admin/customUserFieldsEditResult.php', field, function(data) {
         $('div.customUserEditResult').html(data).slideDown('fast');
-        
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1500); }
         else                             { hideSpinner(); }
-    });
-
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 // field ordering
@@ -1466,7 +1458,7 @@ $('table.customIP tbody#customUser button.down').click(function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)   { setTimeout(function (){window.location.reload();}, 1000); }
         else                             { hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1483,7 +1475,7 @@ $('button.lang').click(function() {
         $('div.popup_w400').html(data);
         showPopup('popup_w400');
         hideSpinner();
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;    
 });
 //Edit lang details
@@ -1495,7 +1487,7 @@ $(document).on("click", "#langEditSubmit", function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1)     	{ setTimeout(function (){window.location.reload();}, 1500); }
         else                             	{ hideSpinner(); }
-    });
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 
@@ -1512,7 +1504,7 @@ $('button#searchReplaceSave').click(function() {
     $.post('site/admin/searchReplaceResult.php', searchData, function(data) {
         $('div.searchReplaceResult').html(data);
         hideSpinner();
-    });  
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
     return false;
 });
 

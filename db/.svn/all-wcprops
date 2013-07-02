@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/p/phpipam/code/!svn/ver/317/db
+END
+SCHEMA.sql
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/p/phpipam/code/!svn/ver/317/db/SCHEMA.sql
+END
+UPDATE-v0.81.sql
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/p/phpipam/code/!svn/ver/311/db/UPDATE-v0.81.sql
+END
+UPDATE-v0.82.sql
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/p/phpipam/code/!svn/ver/312/db/UPDATE-v0.82.sql
+END
+UPDATE-v0.83.sql
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/p/phpipam/code/!svn/ver/317/db/UPDATE-v0.83.sql
+END

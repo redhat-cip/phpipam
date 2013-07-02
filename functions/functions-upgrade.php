@@ -125,13 +125,13 @@ function upgradeDatabase($version)
 		//get only UPGRADE- for specific version
 		if(substr($f, 0, 6) == "UPDATE") {
 			$ver = str_replace(".sql", "",substr($f, 8));
-			if($ver>$settings['version']) {
+			if($ver>$version) {
 				//printout
 				$query .= file_get_contents($dir.$f);
 			}
 		}
 	}
-    
+	
     /* execute */
     try {
     	$database->executeMultipleQuerries( $query );

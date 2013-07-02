@@ -4,10 +4,10 @@
 # miha petkovsek <miha.petkovsek@gmail.com>, 2013.
 #
 
-# "Project-Id-Version: 0.8\n"
+# "Project-Id-Version: 0.83.001\n"
 # "Report-Msgid-Bugs-To: Miha Petkovsek <miha.petkovsek@gmail.com>\n"
 # "POT-Creation-Date: 2013-04-02 14:33+0200\n"
-# "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+# "PO-Revision-Date: 2013-06-28 14:33+0200\n"
 # "Last-Translator: Miha Petkovsek <miha.petkovsek@gmail.com>\n"
 # "Language: Slovenian (sl_SI)\n"
 # "MIME-Version: 1.0\n"
@@ -3957,3 +3957,51 @@ msgstr "Nazadnje aktivna"
 #: site/ipaddr/ipAddressPrintTable.php
 msgid "Never"
 msgstr "Nikoli"
+
+#: site/tools/ipCalcResult.php:40
+msgid "Number of hosts"
+msgstr "Število naslovov"
+
+#: site/ipaddr/subnetDetails.php
+msgid "Scan subnet for new hosts"
+msgstr "Skeniranje omrežja za nove naprave"
+
+#: site/ipaddr/subnetScan.php
+msgid "You do not have permissions to modify hosts in this subnet"
+msgstr "Nimate pravic za urejanje naprav v tem omrežju"
+
+#: site/ipaddr/subnetScan.php
+msgid "Scan subnet"
+msgstr "Skeniraj omrežje"
+
+#: site/ipaddr/subnetScan.php
+msgid "Select Scan type"
+msgstr "Izberite tip skeniranje"
+
+#: site/ipaddr/subnetScan.php
+msgid "scan"
+msgstr "skeniranje"
+
+#: site/ipaddr/subnetScan.php
+msgid "You can set parameters for scan under functions/config-scan.php"
+msgstr "Parametre skeniranja lahko spreminjate v functions/config-scan.php"
+
+#: site/ipaddr/subnetScan.php
+msgid "Discovery scans"
+msgstr "Odkrivanje novih naprav"
+
+#: site/ipaddr/subnetScan.php
+msgid "Status update scans"
+msgstr "Posodobitve statusev"
+
+#: site/ipaddr/subnetScanUpdatePing.php
+msgid "Scan results"
+msgstr "Rezultati skeniranja"
+
+#: site/admin/settings.php
+msgid "Default language"
+msgstr "Privzet jezik"
+
+#: site/admin/settings.php
+msgid "Select default language"
+msgstr "Izberite privzet jezik"

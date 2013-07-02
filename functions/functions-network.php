@@ -2281,10 +2281,15 @@ function getIPaddressesBySwitchName ( $name )
 /**
  * Ping host
  */
-function pingHost ($ip, $wait=1000, $count="1", $exit=false)
+function pingHost ($ip, $count="1", $exit=false)
 {
+	global $pathPing;
+	
+	// timeout is set differenylt on FreeBSD (-W in ms), on Linux (-W sec) and win (-I)
+	// so if you must add flag manually here after $count
+	
 	//set and execute
-	$cmd = "/sbin/ping -c $count -W $wait -n $ip 1>/dev/null 2>&1";
+	$cmd = "$pathPing -c $count -n $ip 1>/dev/null 2>&1";
     exec($cmd, $output, $retval);
     
     //exit codes

@@ -75,8 +75,8 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/jclock.jquery.js"></script>
 <!-- 	<script type="text/javascript" src="js/magic.min.js"></script> -->
-	<script type="text/javascript" src="js/magic.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
+	<script type="text/javascript" src="js/magic.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	
 
@@ -103,7 +103,7 @@ else								 		{ $url = "http://$_SERVER[SERVER_NAME]".BASE; }
 <div class="wrapper">
 
 <!-- jQuery error -->
-<div class="jqueryError">jQuery error!</div>
+<div class="jqueryError">jQuery error!<div class="jqueryErrorText"></div><br><a href="" class="btn btn-small" id="hideError" style="margin-top:10px;">Hide</a></div>
 
 <!-- Popups -->
 <div id="popupOverlay"></div>

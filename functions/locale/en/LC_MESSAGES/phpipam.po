@@ -4,12 +4,12 @@
 # miha petkovsek <miha.petkovsek@gmail.com>, 2013.
 #
 
-# "Project-Id-Version: 0.8\n"
+# "Project-Id-Version: 0.83.001\n"
 # "Report-Msgid-Bugs-To: Miha Petkovsek <miha.petkovsek@gmail.com>\n"
 # "POT-Creation-Date: 2013-04-02 14:33+0200\n"
 # "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 # "Last-Translator: \n"
-# "Language: \n"
+# "Language: English\n"
 # "MIME-Version: 1.0\n"
 # "Content-Type: text/plain; charset=UTF-8\n"
 # "Content-Transfer-Encoding: 8bit\n"
@@ -3920,4 +3920,52 @@ msgstr ""
 
 #: site/ipaddr/ipAddressPrintTable.php
 msgid "Never"
+msgstr ""
+
+#: site/tools/ipCalcResult.php:40
+msgid "Number of hosts"
+msgstr ""
+
+#: site/ipaddr/subnetDetails.php
+msgid "Scan subnet for new hosts"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "You do not have permissions to modify hosts in this subnet"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Scan subnet"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Select Scan type"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "scan"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "You can set parameters for scan under functions/config-scan.php"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Discovery scans"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Status update scans"
+msgstr ""
+
+#: site/ipaddr/subnetScanUpdatePing.php
+msgid "Scan results"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Default language"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Select default language"
 msgstr ""

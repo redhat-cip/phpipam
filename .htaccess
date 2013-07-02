@@ -43,6 +43,7 @@ RewriteRule ^install/$ index.php?page=install
 RewriteRule ^dashboard/$ index.php?page=dashboard
 
 # subnets
+RewriteRule ^subnets/(.*)/(.*)/(.*)/$ index.php?page=subnets&section=$1&subnetId=$2&sPage=$3 [L]
 RewriteRule ^subnets/(.*)/(.*)/$ index.php?page=subnets&section=$1&subnetId=$2 [L]
 RewriteRule ^subnets/(.*)/$ index.php?page=subnets&section=$1 [L]
 

@@ -1468,7 +1468,8 @@ function updateSettings($settings)
     $query   .= '`visualLimit` 	      = "'. $settings['visualLimit'] .'", ' . "\n"; 
     $query   .= '`vlanDuplicate` 	  = "'. isCheckbox($settings['vlanDuplicate']) .'", ' . "\n"; 
     $query   .= '`subnetOrdering` 	  = "'. $settings['subnetOrdering'] .'", ' . "\n"; 
-    $query   .= '`pingStatus` 	  	  = "'. $settings['pingStatus'] .'" ' . "\n"; 
+    $query   .= '`pingStatus` 	  	  = "'. $settings['pingStatus'] .'", ' . "\n"; 
+    $query   .= '`defaultLang` 	  	  = "'. $settings['defaultLang'] .'" ' . "\n"; 
 	$query   .= 'where id = 1;' . "\n"; 
 
 	/* set log file */

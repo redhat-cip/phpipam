@@ -10,8 +10,8 @@ $db['name'] = "phpipam";
 /**
  * php debugging on/off
  *
- * 1 = SHOW all php errors
- * 0 = HIDE all php errors
+ * true  = SHOW all php errors
+ * false = HIDE all php errors
  ******************************/
 $debugging = false;
 

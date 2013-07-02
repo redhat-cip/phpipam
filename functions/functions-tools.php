@@ -60,7 +60,7 @@ function calculateIpCalcResult ($cidr)
         //calculate min/max IP address
         $out['Min host IP']     = long2ip(ip2long($out['Network']) + 1);
         $out['Max host IP']     = long2ip(ip2long($out['Broadcast']) - 1);
-        $out['Numbet of hosts'] = ip2long($out['Broadcast']) - ip2long($out['Min host IP']);
+        $out['Number of hosts'] = ip2long($out['Broadcast']) - ip2long($out['Min host IP']);
         
         //subnet class
         $out['Subnet Class']    = checkIpv4AddressType ($out['Network'], $out['Broadcast']);
