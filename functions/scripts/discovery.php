@@ -1,6 +1,7 @@
 <?php
 require_once( dirname(__FILE__) . '/../../config.php' );
 require_once( dirname(__FILE__) . '/../dbfunctions.php' );
+require_once( dirname(__FILE__) . '/../functions-network.php' );
 
 /* Find ip addresses that exist in the glpi database but not the phpipam one  */
 function find_new_ips($glpi_ip_list, $phpipam_ip_list)
@@ -35,18 +36,8 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	}
 	$query = substr_replace($query, ') ', -1);
 	$query .= 'AND c.is_deleted = 0 AND '.
-			      'n.subnet NOT LIKE \'94.143.110%\' AND '.
-                  'n.subnet NOT LIKE \'94.143.111%\' AND '.
-                  'n.subnet NOT LIKE \'46.231.136%\' AND '.
-                  'n.subnet NOT LIKE \'46.231.137%\' AND '.
-                  'n.subnet NOT LIKE \'46.231.138%\' AND '.
-                  'n.subnet NOT LIKE \'46.231.139%\' AND '.
-                  '(n.subnet LIKE \'94.143.11%\' OR '.
-                   'n.subnet LIKE \'46.231.128%\' OR '.
-                   'n.subnet LIKE \'46.231.129%\' OR '.
-                   'n.subnet LIKE \'46.231.13%\' OR '.
-                   'n.subnet LIKE \'198.154.188%\' OR '.
-                   'n.subnet LIKE \'198.154.189%\');';
+                  '(n.subnet LIKE '.subnet_query_builder();
+   
 	$subnets = $databaseglpi->getArray($query);
 
 
@@ -61,7 +52,7 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	}
 	$query = substr_replace($query, ';', -4, -1);
 	$existing_subnets = $databaseipam->getArray($query);
-
+/*
 	foreach ($subnets as $key => $subnet)
 	{	
 		foreach ($existing_subnets as $existing_subnet)
@@ -73,7 +64,8 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 			}
 		}
 	}
-
+/*
+*/
 	foreach ($subnets as $subnet)
 	{
 		$query_subnet_id = 'SELECT id FROM subnets WHERE '.
@@ -96,6 +88,41 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	}
 
 	return $ip_to_add;
+}
+
+function subnet_query_builder()
+{
+	global $glpisubnets;
+	$query = '';
+	$subnets = explode(',', $glpisubnets);
+
+	foreach ($subnets as $subnet)
+	{
+    	$cidr = explode('/', $subnet);
+    	$cidr = parseIpAddress($cidr[0], $cidr[1]);
+
+    	$first = explode('.', $cidr['network']);
+    	$last = explode('.', $cidr['broadcast']);
+    	$diff = $last[2] - $first[2];
+
+    	if (!($subnet === end($subnets)))
+    	{
+        	for ($i = 0; $i <= $diff; $i += 1)
+        	{
+        	    $query .= '\''.$first[0].'.'.$first[1].'.'.($first[2]+$i).'%\' '.
+            	          'OR n.subnet LIKE ';
+        	}
+    	}
+    	else
+    	{
+        	for ($i = 0; $i <= $diff; $i += 1)
+        	{
+            	$query .= '\''.$first[0].'.'.$first[1].'.'.($first[2]+$i).'%\'';
+        	}
+        	$query .= ');';
+    	}
+	}
+	return $query;
 }
 
 /* Add the discovered ip addresses under the its subnet */

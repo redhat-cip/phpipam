@@ -1925,7 +1925,7 @@ function parseIpAddress( $ip, $mask )
     /* IPv4 address */
     if ( IdentifyAddress( $ip ) == "IPv4" )
     {
-		require('/PEAR/Net/IPv4.php');        
+		require_once(dirname(__FILE__) . '/PEAR/Net/IPv4.php');        
         $Net_IPv4 = new Net_IPv4();
         
         $net = $Net_IPv4->parseAddress( $ip .'/'. $mask );

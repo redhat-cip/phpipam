@@ -21,6 +21,11 @@ $db['glpi_name'] = "";
 ************************************/
 $glpiurl = "";
 
+/* glpi discovery subnets
+   $glpisubnets = '192.168.132.0/24,127.0.0.1/30'
+   separate the subnets with a coma
+**************************************************/
+$glpisubnets = "";
 
 /**
  * php debugging on/off
