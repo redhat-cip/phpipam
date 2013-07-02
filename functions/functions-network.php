@@ -1925,8 +1925,7 @@ function parseIpAddress( $ip, $mask )
     /* IPv4 address */
     if ( IdentifyAddress( $ip ) == "IPv4" )
     {
-        
-        require('PEAR/Net/IPv4.php');
+		require('/PEAR/Net/IPv4.php');        
         $Net_IPv4 = new Net_IPv4();
         
         $net = $Net_IPv4->parseAddress( $ip .'/'. $mask );
@@ -1936,7 +1935,6 @@ function parseIpAddress( $ip, $mask )
         $out['broadcast'] = $net->broadcast; // 192.168.255.255
         $out['bitmask']   = $net->bitmask;   // 16
         $out['netmask']   = $net->netmask;   // 255.255.0.0
-
     }
     /* IPv6 address */
     else

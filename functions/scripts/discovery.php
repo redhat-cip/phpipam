@@ -6,15 +6,13 @@ require_once( dirname(__FILE__) . '/../dbfunctions.php' );
 function find_new_ips($glpi_ip_list, $phpipam_ip_list)
 {
 	$discovered_ip_list = array();
-
-    for ($i = 0; $i < count($glpi_ip_list); $i += 1)
-    {
-        if (!array_search($glpi_ip_list[$i], $phpipam_ip_list))
+	foreach ($glpi_ip_list as $ip)
+	{
+		if (!array_search($ip, $phpipam_ip_list))
         {
-            array_push($discovered_ip_list, $glpi_ip_list[$i]);
+            array_push($discovered_ip_list, $ip);
         }
-    }
-	
+	}
 	unset($GLOBALS['glpi_ip_list']);
 	unset($GLOBALS['phpipam_ip_list']);
 	return $discovered_ip_list;
@@ -27,72 +25,92 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	$ip_to_add = array();
 	$j = 0;
 
-/* TODO : automate the subnet selection in $query */
-	for ($i = 0; $i < count($discovered_ip_list); $i += 1)
+	$query = 'SELECT DISTINCT n.id, n.subnet, n.netmask, n.items_id, n.ip, c.name '.
+             'FROM glpi_networkports n LEFT JOIN glpi_computers c '.
+                'ON n.items_id = c.id '.
+				'WHERE n.ip IN (';
+	foreach($discovered_ip_list as $ip)
 	{
-		$query = 'SELECT DISTINCT n.subnet, n.netmask, n.items_id, c.name '.
-				 'FROM glpi_networkports n LEFT JOIN glpi_computers c '.
-					'ON n.items_id = c.id '.
-					'WHERE ip = \''. long2ip($discovered_ip_list[$i]) .'\' '.
-					'AND subnet NOT LIKE \'94.143.110%\' AND '.
-                        'subnet NOT LIKE \'94.143.111%\' AND '.
-						'subnet NOT LIKE \'46.231.136%\' AND '.
-                        'subnet NOT LIKE \'46.231.137%\' AND '.
-                        'subnet NOT LIKE \'46.231.138%\' AND '.
-                        'subnet NOT LIKE \'46.231.139%\' AND '.
-						'(subnet LIKE \'94.143.11%\' OR '.
-						 'subnet LIKE \'46.231.128%\' OR '.
-                         'subnet LIKE \'46.231.129%\' OR '.
-                         'subnet LIKE \'46.231.13%\' OR '.
-                         'subnet LIKE \'198.154.188%\' OR '.
-                         'subnet LIKE \'198.154.189%\');';
-		$subnet = $databaseglpi->getArray($query);
+		$query .= '\''. long2ip($ip) .'\',';
+	}
+	$query = substr_replace($query, ') ', -1);
+	$query .= 'AND c.is_deleted = 0 AND '.
+			      'n.subnet NOT LIKE \'94.143.110%\' AND '.
+                  'n.subnet NOT LIKE \'94.143.111%\' AND '.
+                  'n.subnet NOT LIKE \'46.231.136%\' AND '.
+                  'n.subnet NOT LIKE \'46.231.137%\' AND '.
+                  'n.subnet NOT LIKE \'46.231.138%\' AND '.
+                  'n.subnet NOT LIKE \'46.231.139%\' AND '.
+                  '(n.subnet LIKE \'94.143.11%\' OR '.
+                   'n.subnet LIKE \'46.231.128%\' OR '.
+                   'n.subnet LIKE \'46.231.129%\' OR '.
+                   'n.subnet LIKE \'46.231.13%\' OR '.
+                   'n.subnet LIKE \'198.154.188%\' OR '.
+                   'n.subnet LIKE \'198.154.189%\');';
+	$subnets = $databaseglpi->getArray($query);
 
-		/* Check if a ip address' subnet already exists in phpipam */
-		if (count($subnet) > 0)
+
+	$query = 'SELECT id, subnet, mask '.
+             'FROM subnets WHERE ';
+	foreach ($subnets as &$subnet)
+	{
+		$subnet['subnet'] = ip2long($subnet['subnet']);
+		$subnet['netmask'] = mask2cidr($subnet['netmask']);
+		$query .= '(subnet = \''. $subnet['subnet'] .'\' '.
+				  'AND mask = \''. $subnet['netmask'] .'\') OR ';
+	}
+	$query = substr_replace($query, ';', -4, -1);
+	$existing_subnets = $databaseipam->getArray($query);
+
+	foreach ($subnets as $key => $subnet)
+	{	
+		foreach ($existing_subnets as $existing_subnet)
 		{
-			$query = 'SELECT id '.
-					 'FROM subnets '.
-						'WHERE subnet = \''. ip2long($subnet[0]['subnet']) .'\' '.
-						'AND mask = \''. mask2cidr($subnet[0]['netmask']) .'\';';
-			$subnet_id = $databaseipam->getRow($query);
-
-			$machine_name = $subnet[0]['name'];
-
-			/* If the subnet already exists, append the ip to the ip_to_add list */
-			if (count($subnet_id) > 0)
+			if (($subnet['subnet'] == intval($existing_subnet['subnet'])) AND ($subnet['netmask'] == intval($existing_subnet['mask'])))
 			{
-				$ip_to_add[$j] = array($subnet_id[0], $discovered_ip_list[$i], $machine_name);
+				$ip_to_add = array_merge($ip_to_add,array(array("subnet_id" => $existing_subnet['id'], "ip" => $subnet['ip'], "name" => $subnet['name'])));
+				unset($subnets[$key]);
 			}
-			/* Else add the subnet in the phpipam database and then append the ip to the list */
-			else
-			{
-				$query2 = 'INSERT into subnets (subnet, mask, sectionId, masterSubnetId) '.
-						  'VALUES (\''. ip2long($subnet[0]['subnet']) .'\', \''. 
-										mask2cidr($subnet[0]['netmask']) .'\', \''. 
-										$section_id .'\', \'0\');';
-				$databaseipam->executeQuery($query2);
-				$subnet_id = $databaseipam->getRow($query);
-				$ip_to_add[$j] = array($subnet_id[0], $discovered_ip_list[$i], $machine_name);	
-			}
-			$j += 1;
 		}
 	}
+
+	foreach ($subnets as $subnet)
+	{
+		$query_subnet_id = 'SELECT id FROM subnets WHERE '.
+                 'subnet = \''.$subnet['subnet'].'\' AND '.
+                 'mask = \''.$subnet['netmask'].'\';';
+        $subnet_id = $databaseipam->getRow($query_subnet_id);
+
+		if (count($subnet_id) == 0)
+		{
+			$query = 'INSERT INTO subnets (subnet, mask, sectionId, masterSubnetId) VALUES '.
+            	     '(\''.$subnet['subnet'].'\', '.
+                	 '\''.$subnet['netmask'].'\', '.
+                 	 '\''.$section_id.'\', '.
+                 	 '\'0\');';
+        	$databaseipam->executeQuery($query);
+			$subnet_id = $databaseipam->getRow($query_subnet_id);
+		}
+
+		$ip_to_add = array_merge($ip_to_add,array(array("subnet_id" => $subnet_id[0], "ip" => $subnet['ip'], "name" => $subnet['name'])));
+	}
+
 	return $ip_to_add;
 }
 
 /* Add the discovered ip addresses under the its subnet */
 function add_ip_addresses($ip_to_add, $databaseipam)
 {
-	for ($i = 0; $i < count($ip_to_add); $i += 1)
+	$query = 'INSERT INTO ipaddresses (subnetId, ip_addr, dns_name, description) VALUES ';
+
+	foreach ($ip_to_add as $ip)
 	{
-		$query = 'INSERT INTO ipaddresses (subnetId, ip_addr, dns_name, description) '.
-				 'VALUES (\''. $ip_to_add[$i][0] .'\', '.
-				 		 '\''. $ip_to_add[$i][1] .'\', '.
-						 '\''. $ip_to_add[$i][2] .'\', '.
-						 '\'Discovery\');';
-		$databaseipam->executeQuery($query);
+		$query .= ' (\''. $ip['subnet_id'] .'\','.
+				  ' \''. ip2long($ip['ip']) .'\','.
+                  ' \''. $ip['name'] .'\','.
+                  ' \'Discovery\'),';
 	}
+		$databaseipam->executeQuery(substr_replace($query, ';', -1));
 }
 
 function link_to_glpi ($databaseipam, $databaseglpi, $section_id)
@@ -145,6 +163,15 @@ function mask2cidr($mask){
 }
 
 
+
+
+
+
+
+
+
+
+
 /* Open a connection to both the phpipam and glpi data */
 $databaseipam = new database($db['host'], $db['user'], $db['pass'], $db['name']);
 $databaseglpi = new database($db['glpi_host'], $db['glpi_user'], $db['glpi_pass'], $db['glpi_name']);
@@ -161,20 +188,18 @@ $glpi_ip_list = $databaseglpi->getArray($query_glpi);
 
 /* Gather the ip list (machine list) from the phpipam database */
 $query_ipam = 'SELECT DISTINCT ip_addr '.
-			  'FROM ipaddresses '.
-				'WHERE ip_addr != \'0\';';
+			  'FROM ipaddresses;';
 $phpipam_ip_list = $databaseipam->getArray($query_ipam);
 
 /* Rearrange the glpi and phpipam ip list for better comparison */
-for ($i = 0; $i < count($phpipam_ip_list); $i += 1)
+foreach($glpi_ip_list as &$ip)
 {
-	$phpipam_ip_list[$i] = $phpipam_ip_list[$i]['ip_addr'];
+	$ip = ip2long($ip['ip']);
 }
-for ($i = 0; $i < count($glpi_ip_list); $i += 1)
+foreach($phpipam_ip_list as &$ip)
 {
-	$glpi_ip_list[$i] = ip2long($glpi_ip_list[$i]['ip']);
+	$ip = $ip['ip_addr'];
 }
-
 
 $discovered_ip_list = find_new_ips($glpi_ip_list, $phpipam_ip_list);
 $section_id = get_section_id($databaseipam);
