@@ -19,7 +19,7 @@ if($subnetPerm < 2) {
 $ip = getIpAddrDetailsById ($_POST['id']);
 
 //try to ping it
-if(pingHost($ip['ip_addr'], 2000, 1) == '0')  {
+if(pingHost($ip['ip_addr'], 1) == '0')  {
 	$status = "Online";
 	@updateLastSeen($_POST['id']);
 }

@@ -46,6 +46,11 @@ else {
 	
 	print _('Add new user');
 }
+
+# set default language
+if(isset($settings['defaultLang']) && !is_null($settings['defaultLang']) && $action=="add" ) {
+	$user['lang']=$settings['defaultLang'];
+}
 ?>
 </div>
 
@@ -118,8 +123,8 @@ else {
 			<select name="lang">
 				<?php
 				foreach($langs as $lang) {
-					if($lang['l_id']==$user['lang'])	{ print "<option value='$lang[l_id]' selected>$lang[l_name]</option>"; }
-					else								{ print "<option value='$lang[l_id]'>$lang[l_name]</option>"; }
+					if($lang['l_id']==$user['lang'])	{ print "<option value='$lang[l_id]' selected>$lang[l_name] ($lang[l_code])</option>"; }
+					else								{ print "<option value='$lang[l_id]'		 >$lang[l_name] ($lang[l_code])</option>"; }
 				}
 				?>
 			</select>

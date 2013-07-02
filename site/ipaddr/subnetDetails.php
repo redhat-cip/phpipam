@@ -187,7 +187,7 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 		print "<a class='btn btn-small disabled' 				href='' rel='tooltip' title='"._('Edit subnet properties')."'		>																											<i class='icon-pencil'></i></a>";			# edit subnet
 		print "<a class=' btn btn-small disabled' 				href='' rel='tooltip' title='"._('Manage subnet permissions')."'	data-subnetId='$SubnetDetails[id]' data-sectionId='$SubnetDetails[sectionId]' data-action='show'>			<i class='icon-tasks'></i></a>";			# edit subnet
 		print "<a class='btn btn-small disabled' 				href='' rel='tooltip' title='"._('Add new nested subnet')."'> 		<i class='icon-plus-sign'></i></a> ";			# add new child subnet
-		
+		print "<a class='scan_subnet btn btn-small '			href='' rel='tooltip' title='"._('Scan subnet for new hosts')."' 	data-subnetId='$SubnetDetails[id]'> 																		<i class='icon-star'></i></a> ";		# add new child subnet		
 		print "<a class='csvImport btn btn-small'     			href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
 		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
 	}
@@ -207,7 +207,9 @@ if($permission == "0")	{ die("<div class='alert alert-error'>"._('You do not hav
 		}
 		else {
 		print "<a class='btn btn-small disabled' href=''> 			<i class='icon-plus-sign'></i></a> ";			# add new child subnet
-		}		print "<a class='csvImport btn btn-small'     	href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
+		}		
+		print "<a class='scan_subnet btn btn-small '			href='' rel='tooltip' title='"._('Scan subnet for new hosts')."' 	data-subnetId='$SubnetDetails[id]'> 																		<i class='icon-star'></i></a> ";		# add new child subnet		
+		print "<a class='csvImport btn btn-small'     			href='' rel='tooltip' title='"._('Import IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-upload'></i></a>";			# import
 		print "<a class='csvExport btn btn-small' 				href='' rel='tooltip' title='"._('Export IP addresses')."'			data-subnetId='$SubnetDetails[id]'>																			<i class='icon-download'></i></a>";			# export		
 	}
 		

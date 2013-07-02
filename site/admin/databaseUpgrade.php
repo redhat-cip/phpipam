@@ -15,7 +15,7 @@ $settings = getAllSettings();
 if(!checkAdmin(false)) { die('<div class="alert alert-error">Admin user required!</div>'); }
 
 /* get version */
-$version = $_POST['version'];
+$version = $settings['version'];
 
 /* try to upgrade database */
 if(upgradeDatabase($version)) {

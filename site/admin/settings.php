@@ -9,6 +9,9 @@ checkAdmin();
 
 /* fetch all settings */
 $settings = getAllSettings();
+
+/* get all languages */
+$langs = getLanguages ();
 ?>
 
 <!-- title -->
@@ -48,6 +51,25 @@ $settings = getAllSettings();
 		<input type="text" size="50" name="siteURL" value="<?php print $settings['siteURL']; ?>">
 	</td>
 	<td class="info"><?php print _('Set site URL'); ?></td>
+</tr>
+<!-- Default language -->
+<tr>
+	<td class="title"><?php print _('Default language'); ?></td>
+	<td>
+		<select name="defaultLang">
+		<?php
+		if(sizeof($langs)>0) {
+			//default
+			print "<option value='0'>Default</option>";
+			foreach($langs as $lang) {
+				if($lang['l_id']==$settings['defaultLang']) { print "<option value='$lang[l_id]' selected='selected'>$lang[l_name] ($lang[l_code])</option>"; }
+				else										{ print "<option value='$lang[l_id]' 					>$lang[l_name] ($lang[l_code])</option>"; }
+			}
+		}
+		?>
+		</select>
+	</td>
+	<td class="info"><?php print _('Select default language'); ?></td>
 </tr>
 
 

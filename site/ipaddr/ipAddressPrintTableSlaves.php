@@ -35,6 +35,7 @@ print "	<th>"._('Subnet')."</th>";
 print "	<th class='small'>"._('Used')."</th>";
 print "	<th class='small'>% "._('Free')."</th>";
 print "	<th class='small'>"._('Requests')."</th>";
+print " <th></th>";
 print "</tr>";
 
 /* print each slave */
@@ -96,6 +97,11 @@ foreach ($slaves as $slave) {
 	# allow requests
 	if($slave['allowRequests'] == 1) 			{ print '<td class="allowRequests small">enabled</td>'; }
 	else 										{ print '<td class="allowRequests small"></td>'; }
+	
+	# edit
+	$subnetPerm = checkSubnetPermission ($slave['id']);
+	if($subnetPerm == 3) 						{ print "<td class='small'><a href='' class='edit_subnet btn btn-small' data-action='edit' data-subnetId='$slave[id]' data-sectionid='$slave[sectionId]' rel='tooltip' data-title='"._('Edit subnet details')."'><i class='icon-pencil'><i></a></td>"; }
+	else										{ print "<td class='small'><a href='' class='disabled btn btn-small'><i class='icon-pencil'><i></a></td>"; }
 
 	print '</tr>' . "\n";
 	
