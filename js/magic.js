@@ -40,9 +40,17 @@ function hidePopup2() {
     $('.popup_w700').css("z-index", "100");        //set popup back
     hideSpinner();
 }
+function hidePopup3() {
+    $('#popupOverlay').fadeOut('fast');
+    $('.popup').fadeOut('fast');
+    $('body').removeClass('stop-scrolling');        //enable scrolling back
+    $('.popup_w700').css("z-index", "100");        //set popup back
+    hideSpinner();
+	location.reload();
+}
 $(document).on("click", "#popupOverlay, button.hidePopups", function() { hidePopups(); });
 $(document).on("click", "button.hidePopup2", function() { hidePopup2(); });
-
+$(document).on("click", "#popupOverlay, button.hidePopup3", function() { hidePopup3(); });
 //prevent loading for disabled buttons
 $('a.disabled, button.disabled').click(function() { return false; });
 
@@ -138,10 +146,14 @@ if ($('#IPv4top10Hosts').length>0) {
 $('a.discovery').click(function() {
 	;showSpinner();
 	$('a.discovery').attr("disabled", 'disabled');
-	$.post('functions/scripts/discovery.php', function() {
-		hideSpinner();location.reload();
+	$.post('functions/scripts/discovery.php', function(data) {
+		$('div.popup_w700').html(data);
+		showPopup('popup_w700');
+		hideSpinner();
 	});
 	return false;});
+
+
 
 /* leftmenu toggle submenus */
 // default hide

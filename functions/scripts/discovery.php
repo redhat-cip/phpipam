@@ -52,7 +52,20 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	}
 	$query = substr_replace($query, ';', -4, -1);
 	$existing_subnets = $databaseipam->getArray($query);
-	
+/*
+	foreach ($subnets as $key => $subnet)
+	{	
+		foreach ($existing_subnets as $existing_subnet)
+		{
+			if (($subnet['subnet'] == intval($existing_subnet['subnet'])) AND ($subnet['netmask'] == intval($existing_subnet['mask'])))
+			{
+				$ip_to_add = array_merge($ip_to_add,array(array("subnet_id" => $existing_subnet['id'], "ip" => $subnet['ip'], "name" => $subnet['name'])));
+				unset($subnets[$key]);
+			}
+		}
+	}
+/*
+*/
 	foreach ($subnets as $subnet)
 	{
 		$query_subnet_id = 'SELECT id FROM subnets WHERE '.
@@ -77,9 +90,6 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	return $ip_to_add;
 }
 
-/* This function make sure that only the specified subnet in config.php will be retrieved from
-   the glpi database. At the moment, it only works with netmask >= 24 and only make sure that
-   the first 24 last bits of the ipaddresses are matched. */
 function subnet_query_builder()
 {
 	global $glpisubnets;
@@ -127,7 +137,7 @@ function add_ip_addresses($ip_to_add, $databaseipam)
                   ' \''. $ip['name'] .'\','.
                   ' \'Discovery\'),';
 	}
-		$databaseipam->executeQuery(substr_replace($query, ';', -1));
+	$databaseipam->executeQuery(substr_replace($query, ';', -1));
 }
 
 function link_to_glpi ($databaseipam, $databaseglpi, $section_id)
@@ -221,9 +231,51 @@ foreach($phpipam_ip_list as &$ip)
 $discovered_ip_list = find_new_ips($glpi_ip_list, $phpipam_ip_list);
 $section_id = get_section_id($databaseipam);
 $ip_to_add = create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $section_id);
-add_ip_addresses($ip_to_add, $databaseipam);
+
+if (count($ip_to_add) > 0)
+{
+	add_ip_addresses($ip_to_add, $databaseipam);
+}
+
 link_to_glpi($databaseipam, $databaseglpi, $section_id);
 
 $databaseglpi->close();
 $databaseipam->close();
 ?>
+
+<!-- header -->
+<div class="pHeader">Discovery result</div>
+<div class="pContent">
+    <table class="table table-noborder table-condensed">
+
+    <?php
+        if (count($ip_to_add) == 0)
+        {
+            echo '<td class="info">No new ip addresses discovered.</td>'.
+                 '</div></table>'.
+                 '<div class="pFooter">'.
+                     '<button class="btn btn-small hidePopups">Done</button>'.
+                 '</div>';
+            exit;
+        }
+
+        foreach($ip_to_add as $ip)
+        {
+    ?>
+
+    <tr>
+        <td class="middle"><?php echo 'ip : '.$ip['ip']; ?></td>
+        <td class="info"><?php echo '   hostname : '.$ip['name']; ?></td>
+    </tr>
+
+    <?php
+        }
+    ?>
+
+    </div>
+</table>
+
+<div class="pFooter">
+    <button class="btn btn-small hidePopup3">Done</button>
+</div>
+
