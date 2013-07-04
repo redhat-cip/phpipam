@@ -16,9 +16,9 @@ $setFieldsTemp = getSelectedIPaddrFields();
 /* format them to array! */
 $setFields = explode(";", $setFieldsTemp);
 
-
 /* unset mandatory fields -> id,subnetid,ip_addr */
-unset($fields['id'], $fields['subnetId'], $fields['ip_addr'], $fields['description'], $fields['dns_name']);
+unset($fields['id'], $fields['subnetId'], $fields['ip_addr'], $fields['description'], $fields['dns_name'], $fields['lastSeen'], $fields['excludePing']);
+
 /* unset custom! */
 $custom = getCustomIPaddrFields();
 if(sizeof($custom) > 0) {

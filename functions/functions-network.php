@@ -279,7 +279,7 @@ function fetchSections ()
 {
     global $db;                                                                      # get variables from config file
     /* set query */
-    $query 	  = 'select * from `sections` order by `id` asc;';
+    $query 	  = 'select * from `sections` order by IF(ISNULL(`order`),1,0),`order`,`id` asc;';
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
 
     /* execute */
@@ -437,7 +437,17 @@ function fetchSubnets ($sectionId, $orderType = "subnet", $orderBy = "asc" )
     /* check for sorting in settings and override */
     $settings = getAllSettings();
     
-    if(isset($settings['subnetOrdering']))	{
+    /* get section details to check for ordering */
+    $section = getSectionDetailsById ($sectionId);
+    
+    // section ordering
+    if($section['subnetOrdering']!="default" && strlen($section['subnetOrdering'])>0 ) {
+	    $sort = explode(",", $section['subnetOrdering']);
+	    $orderType = $sort[0];
+	    $orderBy   = $sort[1];	    
+    }
+    // default - set via settings
+    elseif(isset($settings['subnetOrdering']))	{
 	    $sort = explode(",", $settings['subnetOrdering']);
 	    $orderType = $sort[0];
 	    $orderBy   = $sort[1];
@@ -446,7 +456,7 @@ function fetchSubnets ($sectionId, $orderType = "subnet", $orderBy = "asc" )
     /* set query, open db connection and fetch results */
     $query 	  = "select * from `subnets` where `sectionId` = '$sectionId' ORDER BY `masterSubnetId`,`$orderType` $orderBy;";
     $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
-
+    
     /* execute */
     try { $subnets = $database->getArray( $query ); }
     catch (Exception $e) { 
@@ -614,8 +624,11 @@ function getIpAddressesForVisual ($subnetId)
     
     /* reformat array */
     foreach($ipaddresses as $ip) {
-	    $out[$ip['ip_addr']]['state'] = $ip['state'];
-	    $out[$ip['ip_addr']]['id']    = $ip['id'];
+	    $out[$ip['ip_addr']]['state'] 		= $ip['state'];
+	    $out[$ip['ip_addr']]['id']    		= $ip['id'];
+	    $out[$ip['ip_addr']]['ip_addr']    	= $ip['ip_addr'];
+	    $out[$ip['ip_addr']]['desc']  		= $ip['description'];
+	    $out[$ip['ip_addr']]['dns_name']  	= $ip['dns_name'];
     }
 
     /* return ip address array */
@@ -1764,6 +1777,33 @@ function moveIPAddress ($id, $subnetId)
 
 
 /**
+ *	Insert scan results
+ */
+function insertScanResults($res, $subnetId)
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);    # open db
+    
+    # set queries
+    foreach($res as $ip) {
+	    $query[] = "insert into `ipaddresses` (`ip_addr`,`subnetId`,`description`,`dns_name`,`lastSeen`) values ('".transform2decimal($ip['ip_addr'])."', '$subnetId', '$ip[description]', '$ip[dns_name]', NOW()); ";
+    }
+    # glue
+    $query = implode("\n", $query);
+
+    # execute query
+    try { $database->executeMultipleQuerries($query); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print "<div class='alert alert-error'>$error</div>";
+        return false;
+    }
+    # default ok
+    return true;
+}
+
+
+/**
  * Get IP address details
  */
 function getIpAddrDetailsById ($id) 
@@ -1935,6 +1975,7 @@ function parseIpAddress( $ip, $mask )
         $out['broadcast'] = $net->broadcast; // 192.168.255.255
         $out['bitmask']   = $net->bitmask;   // 16
         $out['netmask']   = $net->netmask;   // 255.255.0.0
+
     }
     /* IPv6 address */
     else
@@ -2295,12 +2336,17 @@ function getIPaddressesBySwitchName ( $name )
 /**
  * Ping host
  */
-function pingHost ($ip, $wait=1000, $count="1", $exit=false)
+function pingHost ($ip, $count="1", $exit=false)
 {
+	global $pathPing;
+	
+	// timeout is set differenylt on FreeBSD (-W in ms), on Linux (-W sec) and win (-I)
+	// so if you must add flag manually here after $count
+	
 	//set and execute
-	$cmd = "ping -c $count -W $wait -n $ip 1>/dev/null 2>&1";
+	$cmd = "$pathPing -c $count -W 1 -n $ip 1>/dev/null 2>&1";
     exec($cmd, $output, $retval);
-    
+
     //exit codes
     //	0 = online
     //	1,2 = offline

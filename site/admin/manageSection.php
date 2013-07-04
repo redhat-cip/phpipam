@@ -16,8 +16,10 @@ $sections = fetchSections ();
 <hr>
 
 <!-- Add new section -->
-<button class='btn btn-small editSection' data-action='add'   data-sectionid='' style='margin-bottom:10px;'><i class='icon-gray icon-plus'></i> <?php print _('Add section'); ?></button>
-
+<div class="btn-group" style='margin-bottom:20px;margin-top:10px;'>
+	<button class='btn btn-small editSection' data-action='add'><i class='icon-gray icon-plus'></i> <?php print _('Add section'); ?></button>
+	<button class='btn btn-small sectionOrder' ><i class='icon-gray icon-tasks'></i> <?php print _('Section order'); ?></button>
+</div>
 
 <!-- show sections -->
 <?php if(sizeof($sections) > 0) { ?>

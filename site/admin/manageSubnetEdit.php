@@ -45,7 +45,9 @@ else {
 	# for selecting master subnet if added from subnet details!
 	if(strlen($_REQUEST['subnetId']) > 0) {
     	$tempData = getSubnetDetailsById ($_POST['subnetId']);	
-    	$subnetDataOld['masterSubnetId'] = $tempData['id'];
+    	$subnetDataOld['masterSubnetId'] = $tempData['id'];			// same master subnet ID for nested
+    	$subnetDataOld['vlanId'] 		 = $tempData['vlanId'];		// same default vlan for nested
+    	$subnetDataOld['vrfId'] 		 = $tempData['vrfId'];		// same default vrf for nested
 	}
 	$sectionName = getSectionDetailsById ($_POST['sectionId']);
 }

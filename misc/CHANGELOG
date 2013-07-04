@@ -1,12 +1,22 @@
-== 0.9
+== 0.84.005
 
 	New features:
 	----------------------------
-	+ ICMP check IP status;
+	+ Support for ICMP network discovery;
 	+ Cron script to check status for selected subnets/hosts with threading suport (pcntl php extension required);
+	+ ICMP check IP status in demand;
 
 	Enhancements:
 	----------------------------
+	+ Added French translation (Denis Darré);
+	+ Added error catching/displaying for ajax-loaded php scripts;
+	+ Added default language for login/requests display and new users;
+	+ Added direct links to different pages in IP address table;
+	+ Subnets can now be edited directly from nested subnets list;
+	+ When adding nested subnets default vlan/vrf is selected from parent;
+	+ Added Section ordering;
+	+ Added per/section subnet ordering (overrides dafault form settings);
+	+ Clicking on section now shows all subnets and belonging details;
 
 	Bugfixes:
 	----------------------------

@@ -74,8 +74,8 @@ if($ipamusername['domainUser'] == "0") {
 		<select name="lang">
 			<?php
 			foreach($langs as $lang) {
-				if($lang['l_id']==$ipamusername['lang'])	{ print "<option value='$lang[l_id]' selected>$lang[l_name]</option>"; }
-				else										{ print "<option value='$lang[l_id]'>$lang[l_name]</option>"; }
+				if($lang['l_id']==$ipamusername['lang'])	{ print "<option value='$lang[l_id]' selected>$lang[l_name] ($lang[l_code])</option>"; }
+				else										{ print "<option value='$lang[l_id]'		 >$lang[l_name] ($lang[l_code])</option>"; }
 			}
 			?>
 		</select>

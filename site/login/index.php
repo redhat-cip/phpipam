@@ -8,6 +8,17 @@ if ($_REQUEST['page'] == "logout") 	{ updateLogTable ('User '. $_SESSION['ipamus
 /* destroy session */
 session_start();
 session_destroy();
+
+# set default language
+if(isset($settings['defaultLang']) && !is_null($settings['defaultLang']) ) {
+	# get language
+	$lang = getLangById ($settings['defaultLang']);
+	
+	putenv("LC_ALL=$lang[l_code]");
+	setlocale(LC_ALL, $lang['l_code']);		// set language		
+	bindtextdomain("phpipam", "./functions/locale");	// Specify location of translation tables
+	textdomain("phpipam");								// Choose domain
+}
 ?>
 	
 <?php 

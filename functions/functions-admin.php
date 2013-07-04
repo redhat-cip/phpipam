@@ -875,7 +875,7 @@ function printAdminSubnets( $subnets, $actions = true, $vrf = "0" )
 				$html[] = "	<td>$requests</td>";
 				$html[] = "	<td>$pCheck</td>";
 				if($actions) {
-				$html[] = "	<td class='actions'>";
+				$html[] = "	<td class='actions' style='padding:0px;>";
 				$html[] = "	<div class='btn-group'>";
 				$html[] = "		<button class='btn btn-small editSubnet'     data-action='edit'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-pencil'></i></button>";
 				$html[] = "		<button class='btn btn-small showSubnetPerm' data-action='show'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-tasks'></i></button>";
@@ -999,14 +999,14 @@ function setUpdateSectionQuery ($update)
 	# add section
     if ($update['action'] == "add") 
     {
-        $query = 'Insert into sections (`name`,`description`,`permissions`,`strictMode`) values ("'.$update['name'].'", "'.$update['description'].'", "'.$update['permissions'].'", "'.$update['strictMode'].'");';
+        $query = 'Insert into sections (`name`,`description`,`permissions`,`strictMode`,`subnetOrdering`) values ("'.$update['name'].'", "'.$update['description'].'", "'.$update['permissions'].'", "'.$update['strictMode'].'", "'.$update['subnetOrdering'].'");';
     }
     # edit section
     else if ($update['action'] == "edit") 
     {
         $section_old = getSectionDetailsById ( $update['id'] );												# Get old section name for update
-        # Update section name
-        $query   = "update `sections` set `name` = '$update[name]', `description` = '$update[description]', `permissions` = '$update[permissions]', `strictMode`='$update[strictMode]' where `id` = '$update[id]';";	
+        # Update section
+        $query   = "update `sections` set `name` = '$update[name]', `description` = '$update[description]', `permissions` = '$update[permissions]', `strictMode`='$update[strictMode]', `subnetOrdering`='$update[subnetOrdering]' where `id` = '$update[id]';";	
         
         # delegate permissions if set
         if($update['delegate'] == 1) {
@@ -1035,6 +1035,35 @@ function setUpdateSectionQuery ($update)
     
     /* return query */
     return $query;
+}
+
+
+/**
+ * Update section ordering
+ */
+function UpdateSectionOrder ($order) 
+{
+    global $db;                                                                     # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']);	# open db connection  
+
+	// set querries for each section
+	$query = "";
+	foreach($order as $key=>$o) {
+		$query .= "update `sections` set `order` = $o where `id` = $key; \n";
+	}
+	//log
+	$log = prepareLogFromArray ($order);
+	//execute multiple queries
+	try { $result = $database->executeMultipleQuerries($query); }
+	catch (Exception $e) { 
+		$error =  $e->getMessage(); 
+        updateLogTable ('Section reordering failed ('. $update['name']. ') - '.$error, $log, 2);	# write error log
+        print ('<div class="alert alert-error">'._("Cannot reorder sections").' - '.$error.'!</div>');
+		return false;
+	}
+	# success
+    updateLogTable ('Section reordering ok', $log, 1);			# write success log
+    return true;
 }
 
 
@@ -1468,7 +1497,8 @@ function updateSettings($settings)
     $query   .= '`visualLimit` 	      = "'. $settings['visualLimit'] .'", ' . "\n"; 
     $query   .= '`vlanDuplicate` 	  = "'. isCheckbox($settings['vlanDuplicate']) .'", ' . "\n"; 
     $query   .= '`subnetOrdering` 	  = "'. $settings['subnetOrdering'] .'", ' . "\n"; 
-    $query   .= '`pingStatus` 	  	  = "'. $settings['pingStatus'] .'" ' . "\n"; 
+    $query   .= '`pingStatus` 	  	  = "'. $settings['pingStatus'] .'", ' . "\n"; 
+    $query   .= '`defaultLang` 	  	  = "'. $settings['defaultLang'] .'" ' . "\n"; 
 	$query   .= 'where id = 1;' . "\n"; 
 
 	/* set log file */
@@ -1763,7 +1793,7 @@ function getCustomIPaddrFields()
 	/* unset standard fields */
 	unset($res['id'], $res['subnetId'], $res['ip_addr'], $res['description'], $res['dns_name'], $res['switch']);
 	unset($res['port'], $res['mac'], $res['owner'], $res['state'], $res['note'], $res['lastSeen'], $res['excludePing']);
-
+	
 	return $res;
 }
 

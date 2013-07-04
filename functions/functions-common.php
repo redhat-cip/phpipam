@@ -331,6 +331,20 @@ function verifyTranslation ($code)
 }
 
 
+/**
+ * Verify translation version
+ */
+function getTranslationVersion ($code)
+{
+	//check for version
+	$ver = shell_exec("grep 'Project-Id-Version:' ".dirname(__FILE__)."/locale/$code/LC_MESSAGES/phpipam.po");
+	//parse
+	$ver = str_replace(array("Project-Id-Version:", " ", '"', "#",'\n', ":"), "", $ver);
+	//return version
+	return $ver;
+}
+
+
 
 
 
@@ -654,6 +668,28 @@ function sec2hms($sec, $padHours = false)
 }
 
 
+/**
+ *	get php exec path
+ */
+function getPHPExecutableFromPath() 
+{
+	$paths = explode(PATH_SEPARATOR, getenv('PATH'));
+	foreach ($paths as $path) {
+		// we need this for XAMPP (Windows)
+		if (strstr($path, 'php.exe') && isset($_SERVER["WINDIR"]) && file_exists($path) && is_file($path)) {
+			return $path;
+	}
+	else {
+		$php_executable = $path . DIRECTORY_SEPARATOR . "php" . (isset($_SERVER["WINDIR"]) ? ".exe" : "");
+			if (file_exists($php_executable) && is_file($php_executable)) {
+				return $php_executable;
+			}
+		}
+	}
+	return FALSE; // not found
+}
+
+
 
 
 
@@ -694,18 +730,20 @@ function get_menu_html( $subnets, $rootId = 0 )
 		{
 			# count levels
 			$count = count( $parent_stack ) + 1;
-			
+
 			# set opened or closed tag for displaying proper folders
-			if(in_array($option['value']['id'], $allParents))		{ $open = "open"; }
-			else													{ $open = "close"; }
+			if(in_array($option['value']['id'], $allParents))			{ $open = "open"; }
+			else														{ $open = "close"; }
+						
+			# show also child's by default
+			if($option['value']['id']==$_REQUEST['subnetId']) {
+				if(subnetContainsSlaves($_REQUEST['subnetId']))			{ $open = "open"; }
+				else													{ $open = "close"; }
+			}			
 			
 			# override if cookie is set
 			if(isset($_COOKIE['expandfolders'])) {
 				if($_COOKIE['expandfolders'] == "1")					{ $open='open'; }
-				else									{ 
-					if(in_array($option['value']['id'], $allParents))	{ $open = "open"; }
-					else												{ $open = "close"; }
-				}
 			}
 			
 			# for active class
@@ -768,6 +806,136 @@ function get_menu_html( $subnets, $rootId = 0 )
 		# Close menu
 		$html[] = '</ul>';
 		
+		return implode( "\n", $html );
+}
+
+
+/**
+ * Print subnets structure
+ */
+function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() )
+{
+		$html = array();
+		
+		$rootId = 0;									# root is 0
+
+		if(sizeof($subnets) > 0) {
+		foreach ( $subnets as $item ) {
+			$children[$item['masterSubnetId']][] = $item;
+		}
+		}
+		
+		# loop will be false if the root has no children (i.e., an empty menu!)
+		$loop = !empty( $children[$rootId] );
+		
+		# initializing $parent as the root
+		$parent = $rootId;
+		$parent_stack = array();
+		
+		# display selected subnet as opened
+		if(isset($_REQUEST['subnetId']))
+		$allParents = getAllParents ($_REQUEST['subnetId']);
+		
+		# return table content (tr and td's)
+		while ( $loop && ( ( $option = each( $children[$parent] ) ) || ( $parent > $rootId ) ) )
+		{
+			# repeat 
+			$repeat  = str_repeat( " - ", ( count($parent_stack)) );
+			# dashes
+			if(count($parent_stack) == 0)	{ $dash = ""; }
+			else							{ $dash = "-"; }
+
+			if(count($parent_stack) == 0) {
+				$margin = "0px";
+				$padding = "0px";
+			}
+			else {
+				# padding
+				$padding = "10px";			
+
+				# margin
+				$margin  = (count($parent_stack) * 10) -10;
+				$margin  = $margin *2;
+				$margin  = $margin."px";				
+			}
+							
+			# count levels
+			$count = count( $parent_stack ) + 1;
+			
+			# get subnet details
+				# get VLAN
+				$vlan = subnetGetVLANdetailsById($option['value']['vlanId']);
+				$vlan = $vlan['number'];
+				if(empty($vlan) || $vlan == "0") 	{ $vlan = ""; }			# no VLAN
+
+				# description
+				if(strlen($option['value']['description']) == 0) 	{ $description = "/"; }													# no description
+				else 												{ $description = $option['value']['description']; }						# description		
+				
+				# requests
+				if($option['value']['allowRequests'] == 1) 			{ $requests = _("enabled"); }											# requests enabled
+				else 												{ $requests = ""; }														# request disabled				
+
+				# hosts check
+				if($option['value']['pingSubnet'] == 1) 			{ $pCheck = _("enabled"); }												# ping check enabled
+				else 												{ $pCheck = ""; }														# ping check disabled
+
+				#vrf
+				if($vrf == "1") {
+					# get VRF details
+					if(($option['value']['vrfId'] != "0") && ($option['value']['vrfId'] != "NULL") ) {
+						$vrfTmp = getVRFDetailsById ($option['value']['vrfId']);
+						$vrfText = $vrfTmp['name'];
+					}
+					else {
+						$vrfText = "";
+					}
+				}				
+			
+			# print table line
+			if(strlen($option['value']['subnet']) > 0) { 
+				// verify permission
+				$permission = checkSubnetPermission ($option['value']['id']);
+				// print item
+				if($permission != 0) {
+					$html[] = "<tr>";
+					$html[] = "	<td class='level$count'><span class='structure' style='padding-left:$padding; margin-left:$margin;'></span><a href='subnets/".$option['value']['sectionId']."/".$option['value']['id']."/'>  ".transform2long($option['value']['subnet']) ."/".$option['value']['mask']."</a></td>";
+					$html[] = "	<td class='level$count'><span class='structure' style='padding-left:$padding; margin-left:$margin;'></span> $description</td>";
+					$html[] = "	<td>$vlan</td>";
+					#vrf
+					if($vrf == "1") {
+					$html[] = "	<td>$vrfText</td>";
+					}
+					$html[] = "	<td>$requests</td>";
+					$html[] = "	<td>$pCheck</td>";
+					# custom
+					if(sizeof($custom)>0) {
+						foreach($custom as $field) {
+				    		$html[] =  "	<td>".$option['value'][$field['name']]."</td>"; 
+				    	}
+					}
+					if($actions) {
+					$html[] = "	<td class='actions' style='padding:0px;'>";
+					$html[] = "	<div class='btn-group'>";
+					$html[] = "		<button class='btn btn-mini editSubnet'     data-action='edit'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-pencil'></i></button>";
+					$html[] = "		<button class='btn btn-mini showSubnetPerm' data-action='show'   data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-tasks'></i></button>";
+					$html[] = "		<button class='btn btn-mini editSubnet'     data-action='delete' data-subnetid='".$option['value']['id']."'  data-sectionid='".$option['value']['sectionId']."'><i class='icon-gray icon-remove'></i></button>";
+					$html[] = "	</div>";
+					$html[] = "	</td>";
+					}
+					$html[] = "</tr>";
+				}
+			}
+			
+			if ( $option === false ) { $parent = array_pop( $parent_stack ); }
+			# Has slave subnets
+			elseif ( !empty( $children[$option['value']['id']] ) ) {														
+				array_push( $parent_stack, $option['value']['masterSubnetId'] );
+				$parent = $option['value']['id'];
+			}
+			# Last items
+			else { }
+		}
 		return implode( "\n", $html );
 }
 

@@ -27,19 +27,25 @@ if(sizeof($slaves) == 0 && $type == 0 && $SubnetDetails['mask']!="31" && $Subnet
 			$class = $ipVisual[$m]['state'];
 			$id = (int)$ipVisual[$m]['id'];
 			$action = 'all-edit';
+			
+			# tooltip
+			$title = transform2long($ipVisual[$m]['ip_addr']);
+			if(strlen($ipVisual[$m]['dns_name'])>0)		{ $title .= "<br>".$ipVisual[$m]['dns_name']; }
+			if(strlen($ipVisual[$m]['desc'])>0)			{ $title .= "<br>".$ipVisual[$m]['desc']; }
     	}
     	else {
     		# print add
     		$class = 9;
     		$id = $m;
     		$action = 'all-add';
+    		$title = "";
     	}
    		# permissions
 		$permission = checkSubnetPermission ($subnetId);
 		
 		# print box
 		if($permission > 1) {
-			print "<span class='ip-$class modIPaddr'  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";	
+			print "<span class='ip-$class modIPaddr'  data-action='$action' rel='tooltip' title='$title' data-position='top' data-html='true' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";	
 		}	
 		else {
 			print "<span class='ip-$class '  data-action='$action' data-subnetId='".$subnetId."' data-id='$id'>.".substr(strrchr(transform2long($m), "."), 1)."</span>";				

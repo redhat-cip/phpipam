@@ -34,6 +34,7 @@ $langs = getLanguages ();
 		print "	<th>"._('Language code')."</th>";
 		print "	<th>"._('Language name')."</th>";
 		print "	<th>"._('Validity')."</th>";
+		print "	<th>"._('Version')."</th>";
 		print "	<th></th>";
 		print "</tr>";
 		
@@ -43,6 +44,14 @@ $langs = getLanguages ();
 			# verify validity
 			$valid = verifyTranslation($lang['l_code']);
 			
+			# check version
+			if($valid) {
+				$tversion = getTranslationVersion($lang['l_code']);
+			}
+			else {
+				$tversion = "NA";
+			}
+			
 			if($valid)  { $vPrint = "<span class='alert alert-success'>"._('Valid')."</span>"; }
 			else		{ $vPrint = "<span class='alert alert-error'>"._('Invalid')."</span>"; }
 		
@@ -50,6 +59,7 @@ $langs = getLanguages ();
 			print "	<td>$lang[l_code]</td>";
 			print "	<td>$lang[l_name]</td>";
 			print "	<td>$vPrint</td>";
+			print "	<td>$tversion</td>";
 			print "	<td>";
 			print "	<div class='btn-group'>";
 			print "		<button class='btn btn-small lang' data-action='edit' data-langid='$lang[l_id]'><i class='icon-pencil'></i></button>";
@@ -60,12 +70,6 @@ $langs = getLanguages ();
 		}
 	}
 	?>
-	<!-- result -->
-	<tr>
-		<td colspan="4" class="result">
-			<div class="customIPResult"></div>
-		</td>
-	</tr>
 
 
 </table>

@@ -66,6 +66,31 @@ $section = getSectionDetailsById ($_POST['sectionId']);
 			</td>
 		</tr>
 
+		<!-- Subnet ordering -->
+		<tr>
+			<td class="title"><?php print _('Subnet ordering'); ?></td>
+			<td colspan="2">
+				<select name="subnetOrdering" style="width:auto;">
+					<?php
+					$opts = array(
+						"default"			=> _("Default"),
+						"subnet,asc"		=> _("Subnet, ascending"),
+						"subnet,desc"		=> _("Subnet, descending"),
+						"description,asc"	=> _("Description, ascending"),
+						"description,desc"	=> _("Description, descending"),
+					);
+					
+					foreach($opts as $key=>$line) {
+						if($section['subnetOrdering'] == $key) 	{ print "<option value='$key' selected>$line</option>"; }
+						else 									{ print "<option value='$key'>$line</option>"; }
+					}
+					
+					?>
+				</select>
+				<span class="help-inline"><?php print _('How to order display of subnets'); ?></span>
+			</td>
+		</tr>
+
 		<tr>
 			<td colspan="3">
 				<hr>

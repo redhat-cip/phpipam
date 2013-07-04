@@ -591,6 +591,10 @@ ul#subnets li.active a {
 	font-weight: bold;
 	color: #333;
 }
+ul#subnets li.active li a {
+	font-weight: 300;
+	color: #333;
+}
 ul#subnets li.leaf.active i {
 	padding-left: 0px;
 }
@@ -654,13 +658,30 @@ ul#subnets li.leaf.active i {
 	padding-left: 0px;
 	padding-right: 3px;
 }
-.table.ipaddresses tr.offline td.ipaddress {
-/* 	text-decoration: line-through; */
+
+/* Set background color for offline addresses in subnet ip table */
+.table.ipaddresses tr.Offline td {
+	background: #FFD5D2 !important; /*FFB0AA*/
+}
+
+/* Set background color for reserved addresses in subnet ip table */
+.table.ipaddresses tr.Reserved td {
+    background: #CBE1FF !important; /*FFB0AA*/
 }
 
 .table.searchTable td.btn-actions .btn-toolbar,
 .table.ipaddresses td.btn-actions .btn-toolbar {
 	margin: 0px;
+}
+
+/* Set background color for offline addresses in search table */
+.table.searchTable tr.Offline td {
+    background: #FFD5D2 !important; /*FFB0AA*/
+}
+
+/* Set background color for reserved addresses in search table */
+.table.searchTable tr.Reserved td {
+    background: #CBE1FF !important; /*FFB0AA*/
 }
 
 .ipaddress_subnet th {
@@ -1267,9 +1288,9 @@ table.requestIP th {
      -moz-background-clip: padding-box;
           background-clip: padding-box;
 }
-.popup .pContent::-webkit-scrollbar { 
+/*.popup .pContent::-webkit-scrollbar { 
     display: none; 
-}
+}*/
 .popup .pHeader {
   	padding: 9px 15px;
   	border-bottom: 1px solid #eee;
@@ -1479,10 +1500,26 @@ div.jqueryError {
     color: white;
     
     display: none;
+    font-weight: bold;
 }
 div.jqueryError.dieIE {
 
 	background-color: #ccc;
 	color: white;
 	z-index: 110;
+}
+div.jqueryErrorText {
+	width: 400px;
+	padding: 10px;
+	margin: auto;
+	margin-top: 10px;
+	font-weight: 300;
+	display: none;
+	
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+div.jqueryError a {
+	clear: both;
+	margin-top: 10px;
 }

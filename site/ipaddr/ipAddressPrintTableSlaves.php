@@ -35,6 +35,7 @@ print "	<th>"._('Subnet')."</th>";
 print "	<th class='small'>"._('Used')."</th>";
 print "	<th class='small'>% "._('Free')."</th>";
 print "	<th class='small'>"._('Requests')."</th>";
+print " <th></th>";
 print "</tr>";
 
 /* print each slave */
@@ -96,6 +97,27 @@ foreach ($slaves as $slave) {
 	# allow requests
 	if($slave['allowRequests'] == 1) 			{ print '<td class="allowRequests small">enabled</td>'; }
 	else 										{ print '<td class="allowRequests small"></td>'; }
+	
+	# edit
+	$subnetPerm = checkSubnetPermission ($slave['id']);
+	if($subnetPerm == 3) {
+		print "	<td class='small'>";
+		print "	<div class='btn-group'>";
+		print "		<button class='btn btn-mini editSubnet'     data-action='edit'   data-subnetid='".$slave['id']."'  data-sectionid='".$slave['sectionId']."'><i class='icon-gray icon-pencil'></i></button>";
+		print "		<button class='btn btn-mini showSubnetPerm' data-action='show'   data-subnetid='".$slave['id']."'  data-sectionid='".$slave['sectionId']."'><i class='icon-gray icon-tasks'></i></button>";
+		print "		<button class='btn btn-mini editSubnet'     data-action='delete' data-subnetid='".$slave['id']."'  data-sectionid='".$slave['sectionId']."'><i class='icon-gray icon-remove'></i></button>";
+		print "	</div>";
+		print " </td>";
+	}
+	else {
+		print "	<td class='small'>";
+		print "	<div class='btn-group'>";
+		print "		<button class='btn btn-mini disabled'><i class='icon-gray icon-pencil'></i></button>";
+		print "		<button class='btn btn-mini disabled'><i class='icon-gray icon-tasks'></i></button>";
+		print "		<button class='btn btn-mini disabled'><i class='icon-gray icon-remove'></i></button>";
+		print "	</div>";
+		print " </td>";		
+	}
 
 	print '</tr>' . "\n";
 	

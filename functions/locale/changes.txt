@@ -272,3 +272,115 @@ msgstr ""
 #: site/ipaddr/ipAddressPrintTable.php
 msgid "Never"
 msgstr ""
+
+#
+# Added 21/06/13
+#
+
+#: site/tools/ipCalcResult.php
+msgid "Number of hosts"
+msgstr ""
+
+#
+# Added 26/06/13
+#
+
+#: site/ipaddr/subnetDetails.php
+msgid "Scan subnet for new hosts"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "You do not have permissions to modify hosts in this subnet"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Scan subnet"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Select Scan type"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "scan"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "You can set parameters for scan under functions/scan/config-scan.php"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Discovery scans"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Status update scans"
+msgstr ""
+
+#: site/ipaddr/subnetScanUpdatePing.php
+msgid "Scan results"
+msgstr ""
+
+
+####### 0.82.006 #######
+
+#: site/admin/settings.php
+msgid "Default language"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Select default language"
+msgstr ""
+
+#: site/admin/languages.php
+msgid "Version"
+msgstr ""
+
+
+### 0.84.001 ###
+
+#: site/admin/manageSection.php
+msgid "Section order"
+msgstr ""
+
+#: site/admin/manageSectionOrder.php
+msgid "You can manually set order in which sections are displayed in. Default is creation date."
+msgstr ""
+
+#: site/admin/manageSectionOrder.php
+msgid "Order"
+msgstr ""
+
+#: site/admin/manageSectionOrderResult.php
+msgid "Section reordering successful"
+msgstr ""
+
+#: site/functions/functions-admin.php
+msgid "Cannot reorder sections"
+msgstr ""
+
+
+### 0.84.002 ###
+
+#: site/admin/manageSectionEdit.php
+msgid "Default"
+msgstr ""
+
+
+### 0.84.005 ###
+
+#: site/ipaddr/subnetDiscoveryPing.php
+msgid "Threading is required for scanning subnets. Please recompile PHP with pcntl extension"
+msgstr ""
+
+#: site/ipaddr/subnetDiscoveryPing.php
+msgid "Add discovered hosts"
+msgstr ""
+
+#: site/ipaddr/subnetDiscoveryPingResult.php
+msgid "Scan results added to database"
+msgstr ""
+
+#: site/ipaddr/subnetScan.php
+msgid "Invalid ping path"
+msgstr ""

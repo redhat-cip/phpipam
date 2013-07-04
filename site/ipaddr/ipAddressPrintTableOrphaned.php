@@ -182,4 +182,5 @@ foreach($ipaddresses as $ipaddress)
 }	
 }
 ?>
+
 </table>	<!-- end IP address table -->

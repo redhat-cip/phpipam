@@ -39,6 +39,7 @@ features for next releases:
 	
 	- Requests
 		- API 
+		- Section nesting
 	
 	- Optional
 		- RDNS zone file export (in admin!);

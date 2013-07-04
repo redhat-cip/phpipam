@@ -62,11 +62,11 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 
 		if (count($subnet_id) == 0)
 		{
-			$query = 'INSERT INTO subnets (subnet, mask, sectionId, masterSubnetId) VALUES '.
+			$query = 'INSERT INTO subnets (subnet, mask, sectionId, masterSubnetId, description) VALUES '.
             	     '(\''.$subnet['subnet'].'\', '.
                 	 '\''.$subnet['netmask'].'\', '.
                  	 '\''.$section_id.'\', '.
-                 	 '\'0\');';
+                 	 '\'0\', \'Discovered subnet\');';
         	$databaseipam->executeQuery($query);
 			$subnet_id = $databaseipam->getRow($query_subnet_id);
 		}
@@ -122,7 +122,7 @@ function add_ip_addresses($ip_to_add, $databaseipam)
 		$query .= ' (\''. $ip['subnet_id'] .'\','.
 				  ' \''. ip2long($ip['ip']) .'\','.
                   ' \''. $ip['name'] .'\','.
-                  ' \'Discovery\'),';
+                  ' \'Discovered ip address\'),';
 	}
 	$databaseipam->executeQuery(substr_replace($query, ';', -1));
 }

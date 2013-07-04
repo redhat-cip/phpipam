@@ -179,12 +179,6 @@ else {
             }
             print "</td>";
 
-
-
-
-
-	
-			#print ' <td>'. transform2long($line['ip_addr']);
 			if(in_array('state', $setFields)) 				{ print reformatIPState($line['state']); }	
 			print ' </td>' . "\n";
 			print ' <td>'. $vlan['number']  .'</td>' . "\n";
