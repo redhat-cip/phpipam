@@ -694,7 +694,7 @@ ul#subnets li.leaf.active i {
 }
 /*Set background color for subnet will more than 20% free ip addresses */
 .table#manageSubnets tr.SubnetNotFull td {
-    background: #ADFFAD !important;
+    background: #ADEBAD !important;
 }
 
 .ipaddress_subnet th {
