@@ -661,12 +661,12 @@ ul#subnets li.leaf.active i {
 
 /* Set background color for offline addresses in subnet ip table */
 .table.ipaddresses tr.Offline td {
-	background: #FFD5D2 !important; /*FFB0AA*/
+	background: #FFD5D2 !important; 
 }
 
 /* Set background color for reserved addresses in subnet ip table */
 .table.ipaddresses tr.Reserved td {
-    background: #CBE1FF !important; /*FFB0AA*/
+    background: #CBE1FF !important; 
 }
 
 .table.searchTable td.btn-actions .btn-toolbar,
@@ -676,12 +676,25 @@ ul#subnets li.leaf.active i {
 
 /* Set background color for offline addresses in search table */
 .table.searchTable tr.Offline td {
-    background: #FFD5D2 !important; /*FFB0AA*/
+    background: #FFD5D2 !important;
 }
 
 /* Set background color for reserved addresses in search table */
 .table.searchTable tr.Reserved td {
-    background: #CBE1FF !important; /*FFB0AA*/
+    background: #CBE1FF !important;
+}
+
+/* Set background color for subnet will less than 5% free ip addresses */
+.table#manageSubnets tr.SubnetFull td {
+    background: #FFD5D2 !important;
+}
+/* Set background color for subnet will less than 20% free ip addresses */
+.table#manageSubnets tr.SubnetAlmostFull td {
+    background: #FFCC99 !important;
+}
+/*Set background color for subnet will more than 20% free ip addresses */
+.table#manageSubnets tr.SubnetNotFull td {
+    background: #ADFFAD !important;
 }
 
 .ipaddress_subnet th {

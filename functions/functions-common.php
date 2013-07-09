@@ -908,6 +908,7 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 				
 					$subnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $option['value']['mask'], $option['value']['subnet'] );
 					$freeHosts += intval($subnetDetails['freehosts']);
+					$percentFreeHosts = ($freeHosts/$countAddresses)*100;
 				}
 
 			# print table line
@@ -916,7 +917,9 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 				$permission = checkSubnetPermission ($option['value']['id']);
 				// print item
 				if($permission != 0) {
-					$html[] = "<tr>";
+					if ($percentFreeHosts <= 5) {$html[] = "<tr class=\"SubnetFull\">";}
+					elseif ($percentFreeHosts <= 20) {$html[] = "<tr class=\"SubnetAlmostFull\">";}
+					else {$html[] = "<tr class=\"SubnetNotFull\">";}
 					$html[] = "	<td class='level$count'><span class='structure' style='padding-left:$padding; margin-left:$margin;'></span><a href='subnets/".$option['value']['sectionId']."/".$option['value']['id']."/'>  ".transform2long($option['value']['subnet']) ."/".$option['value']['mask']."</a></td>";
 					$html[] = "	<td class='level$count'><span class='structure' style='padding-left:$padding; margin-left:$margin;'></span> $description</td>";
 					$html[] = "	<td>$vlan</td>";
