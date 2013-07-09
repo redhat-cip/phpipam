@@ -176,13 +176,29 @@ function mask2cidr($mask){
   return 32-log(($long ^ $base)+1,2);
 }
 
+function updateHostsName($databaseipam, $databaseglpi)
+{
+	$query = "SELECT glpiId, dns_name FROM ipaddresses WHERE glpiId != '';";
+	$ipAddresses = $databaseipam->getArray($query);
 
+	$query = 'SELECT id, name from glpi_computers WHERE id IN (';
+	foreach ($ipAddresses as $ip)
+	{
+    	$query .= "'$ip[glpiId]',";
+	}
+	$query = substr_replace($query, ');', -1);
+	
+	$names = $databaseglpi->getArray($query);
 
-
-
-
-
-
+	foreach ($names as $name)
+	{
+    	if ($name['name'] != '')
+    	{
+        	$query = "UPDATE ipaddresses SET dns_name = '$name[name]' WHERE glpiId = '$name[id]';";
+        	$databaseipam->executeQuery($query);
+    	}
+	}
+}
 
 
 
@@ -225,6 +241,7 @@ if (count($ip_to_add) > 0)
 }
 
 link_to_glpi($databaseipam, $databaseglpi, $section_id);
+updateHostsName($databaseipam, $databaseglpi);
 
 $databaseglpi->close();
 $databaseipam->close();
