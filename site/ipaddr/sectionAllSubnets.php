@@ -65,7 +65,7 @@ if($permission != "0") {
 				print "	<th>$field[name]</th>";
 			}
 		}
-		print " <th>"._('Offline')."</th>";
+		print " <th>"._('Reserved')."</th>";
 		print " <th>"._('Free')."</th>";
 		print "	<th class='actions' style='width:140px;white-space:nowrap;'></th>";
 		print "</tr>";

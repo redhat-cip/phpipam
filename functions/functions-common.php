@@ -899,11 +899,11 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					$countAddresses = count($ipaddresses);
 
 					$freeHosts = 0;
-					$offlineHosts = 0;
+					$reservedHosts = 0;
 					foreach($ipaddresses as $ip)
 					{
-						if ( ($ip['state'] == "0") && ($ip['dns_name'] == "")) {$freeHosts += 1;$offlineHosts += 1;}
-						elseif ($ip['state'] == "0" ) {$offlineHosts += 1;}
+						if ( ($ip['state'] == "0") && ($ip['dns_name'] == "")) {$freeHosts += 1;}
+						elseif ($ip['state'] == "2" ) {$reservedHosts += 1;}
 					}
 				
 					$subnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $option['value']['mask'], $option['value']['subnet'] );
@@ -917,9 +917,7 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 				$permission = checkSubnetPermission ($option['value']['id']);
 				// print item
 				if($permission != 0) {
-					if ($percentFreeHosts <= 5) {$html[] = "<tr class=\"SubnetFull\">";}
-					elseif ($percentFreeHosts <= 20) {$html[] = "<tr class=\"SubnetAlmostFull\">";}
-					else {$html[] = "<tr class=\"SubnetNotFull\">";}
+					$html[] = "<tr>";
 					$html[] = "	<td class='level$count'><span class='structure' style='padding-left:$padding; margin-left:$margin;'></span><a href='subnets/".$option['value']['sectionId']."/".$option['value']['id']."/'>  ".transform2long($option['value']['subnet']) ."/".$option['value']['mask']."</a></td>";
 					$html[] = "	<td class='level$count'><span class='structure' style='padding-left:$padding; margin-left:$margin;'></span> $description</td>";
 					$html[] = "	<td>$vlan</td>";
@@ -935,8 +933,10 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 				    	}
 					}
 
-					$html[] = "<td>$offlineHosts</td>";
-                    $html[] = "<td>$freeHosts</td>";
+					$html[] = "<td>$reservedHosts</td>";
+					if ($percentFreeHosts <= 5) {$html[] = "<td class=\"SubnetFull\">$freeHosts</td>";}
+					elseif ($percentFreeHosts <= 20) {$html[] = "<td class=\"SubnetAlmostFull\">$freeHosts</td>";}
+					else {$html[] = "<td class=\"SubnetNotFull\">$freeHosts</td>";}
 
 					if($actions) {
 					$html[] = "	<td class='actions' style='padding:0px;'>";

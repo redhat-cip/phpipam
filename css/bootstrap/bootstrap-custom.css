@@ -684,17 +684,20 @@ ul#subnets li.leaf.active i {
     background: #CBE1FF !important;
 }
 
-/* Set background color for subnet will less than 5% free ip addresses */
-.table#manageSubnets tr.SubnetFull td {
-    background: #FFD5D2 !important;
+/* Set font color for subnet will less than 5% free ip addresses */
+.table#manageSubnets td.SubnetFull {
+    color: #FF3030 !important;
+	font-weight:bold;
 }
-/* Set background color for subnet will less than 20% free ip addresses */
-.table#manageSubnets tr.SubnetAlmostFull td {
-    background: #FFCC99 !important;
+/* Set font color for subnet will less than 20% free ip addresses */
+.table#manageSubnets td.SubnetAlmostFull {
+    color: #E65C00 !important;
+	font-weight:bold;
 }
-/*Set background color for subnet will more than 20% free ip addresses */
-.table#manageSubnets tr.SubnetNotFull td {
-    background: #ADEBAD !important;
+/* Set font color for subnet will more than 20% free ip addresses */
+.table#manageSubnets td.SubnetNotFull {
+    color: #33CC33 !important;
+	font-weight:bold;
 }
 
 .ipaddress_subnet th {
