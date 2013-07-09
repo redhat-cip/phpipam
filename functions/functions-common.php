@@ -892,20 +892,22 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					}
 				}	
 
+				# count the number of free and offline hosts
 				if ( IdentifyAddress( $option['value']['subnet'] ) == "IPv4")
 				{
-				#EDIT
-				$ipaddresses = getIpAddressesBySubnetId($option['value']['id']);
-				$countAddresses = count($ipaddresses);
+					$ipaddresses = getIpAddressesBySubnetId($option['value']['id']);
+					$countAddresses = count($ipaddresses);
 
-				#offline hosts
-				$offlineHosts = 0;
-				foreach($ipaddresses as $ip)
-				{
-					if ($ip['state'] == "0" ) {$offlineHosts += 1;}
-				}
-				#free hosts
-				$subnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $option['value']['mask'], $option['value']['subnet'] );
+					$freeHosts = 0;
+					$offlineHosts = 0;
+					foreach($ipaddresses as $ip)
+					{
+						if ( ($ip['state'] == "0") && ($ip['dns_name'] == "")) {$freeHosts += 1;$offlineHosts += 1;}
+						elseif ($ip['state'] == "0" ) {$offlineHosts += 1;}
+					}
+				
+					$subnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $option['value']['mask'], $option['value']['subnet'] );
+					$freeHosts += intval($subnetDetails['freehosts']);
 				}
 
 			# print table line
@@ -922,8 +924,6 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					if($vrf == "1") {
 					$html[] = "	<td>$vrfText</td>";
 					}
-#EDIT					$html[] = "	<td>$requests</td>";
-#EDIT					$html[] = "	<td>$pCheck</td>";
 
 					# custom
 					if(sizeof($custom)>0) {
@@ -933,7 +933,7 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					}
 
 					$html[] = "<td>$offlineHosts</td>";
-                    $html[] = "<td>$subnetDetails[freehosts]</td>";
+                    $html[] = "<td>$freeHosts</td>";
 
 					if($actions) {
 					$html[] = "	<td class='actions' style='padding:0px;'>";
