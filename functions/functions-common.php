@@ -890,8 +890,24 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					else {
 						$vrfText = "";
 					}
-				}				
-			
+				}	
+
+				if ( IdentifyAddress( $option['value']['subnet'] ) == "IPv4")
+				{
+				#EDIT
+				$ipaddresses = getIpAddressesBySubnetId($option['value']['id']);
+				$countAddresses = count($ipaddresses);
+
+				#offline hosts
+				$offlineHosts = 0;
+				foreach($ipaddresses as $ip)
+				{
+					if ($ip['state'] == "0" ) {$offlineHosts += 1;}
+				}
+				#free hosts
+				$subnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $option['value']['mask'], $option['value']['subnet'] );
+				}
+
 			# print table line
 			if(strlen($option['value']['subnet']) > 0) { 
 				// verify permission
@@ -906,14 +922,19 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					if($vrf == "1") {
 					$html[] = "	<td>$vrfText</td>";
 					}
-					$html[] = "	<td>$requests</td>";
-					$html[] = "	<td>$pCheck</td>";
+#EDIT					$html[] = "	<td>$requests</td>";
+#EDIT					$html[] = "	<td>$pCheck</td>";
+
 					# custom
 					if(sizeof($custom)>0) {
 						foreach($custom as $field) {
 				    		$html[] =  "	<td>".$option['value'][$field['name']]."</td>"; 
 				    	}
 					}
+
+					$html[] = "<td>$offlineHosts</td>";
+                    $html[] = "<td>$subnetDetails[freehosts]</td>";
+
 					if($actions) {
 					$html[] = "	<td class='actions' style='padding:0px;'>";
 					$html[] = "	<div class='btn-group'>";

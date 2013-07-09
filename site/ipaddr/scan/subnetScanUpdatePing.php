@@ -45,12 +45,12 @@ foreach($addresses as $ip) {
 		if ($code == 0)
 		{
 			$queryOnline = $queryOnline.'\''.$ip['ip_addr'].'\''.",";
-			$offline = true;
+			$online = true;
 		}
-		else
+		elseif ($code ==1)
 		{
 			$queryOffline = $queryOffline.'\''.$ip['ip_addr'].'\''.",";
-			$online = true;
+			$offline = true;
 		}
 	}
 

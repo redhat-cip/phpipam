@@ -1786,7 +1786,18 @@ function insertScanResults($res, $subnetId)
     
     # set queries
     foreach($res as $ip) {
-	    $query[] = "insert into `ipaddresses` (`ip_addr`,`subnetId`,`description`,`dns_name`,`lastSeen`) values ('".transform2decimal($ip['ip_addr'])."', '$subnetId', '$ip[description]', '$ip[dns_name]', NOW()); ";
+
+		$database_glpi = new database($db['glpi_host'], $db['glpi_user'], $db['glpi_pass'], $db['glpi_name']);
+        $query_glpi  = "SELECT DISTINCT glpi_networkports.items_id ";
+        $query_glpi .= "FROM glpi_networkports ";
+        $query_glpi .= "INNER JOIN glpi_computers ON glpi_networkports.ip = '". $ip['ip_addr'] ."' ";
+        $query_glpi .= "AND glpi_computers.is_deleted = 0 ";
+        $query_glpi .= "AND glpi_networkports.items_id = glpi_computers.id;";
+        $glpiId = $database_glpi->getRow($query_glpi);
+        if (count($glpiId > 0)) {$ip['glpiId'] = $glpiId[0];}
+
+
+	    $query[] = "insert into `ipaddresses` (`ip_addr`,`subnetId`,`description`,`dns_name`,`lastSeen`, `glpiId`) values ('".transform2decimal($ip['ip_addr'])."', '$subnetId', '$ip[description]', '$ip[dns_name]', NOW(), '$ip[glpiId]'); ";
     }
     # glue
     $query = implode("\n", $query);
