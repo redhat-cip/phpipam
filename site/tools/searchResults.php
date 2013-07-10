@@ -162,8 +162,8 @@ else {
 		
 			$stateClass = "";
 			if(in_array('state', $setFields)) {
-			    if ($line['state'] == "0") 	 	{ $stateClass = "offline"; }
-			    else if ($line['state'] == "2") { $stateClass = "reserved"; }
+			    if ($line['state'] == "0") 	 	{ $stateClass = "Offline"; }
+			    else if ($line['state'] == "2") { $stateClass = "Reserved"; }
 			    else if ($line['state'] == "3") { $stateClass = "DHCP"; }
 			}
 	
@@ -177,7 +177,6 @@ else {
             else{
                 print " <td>".Transform2long( $line['ip_addr']);
             }
-            print "</td>";
 
 			if(in_array('state', $setFields)) 				{ print reformatIPState($line['state']); }	
 			print ' </td>' . "\n";
