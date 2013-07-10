@@ -50,7 +50,7 @@ $vlans = searchVLANs ($searchTerm);
 
 # get all custom fields 
 $myFields = getCustomIPaddrFields();
-
+unset($myFields['glpiId']);
 
 /* set the query */
 $query  = 'select * from ipaddresses where ';
