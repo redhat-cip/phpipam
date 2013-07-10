@@ -934,9 +934,9 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					}
 
 					$html[] = "<td>$reservedHosts</td>";
-					if ($percentFreeHosts <= 5) {$html[] = "<td class=\"SubnetFull\">$freeHosts</td>";}
-					elseif ($percentFreeHosts <= 20) {$html[] = "<td class=\"SubnetAlmostFull\">$freeHosts</td>";}
-					else {$html[] = "<td class=\"SubnetNotFull\">$freeHosts</td>";}
+					if ($percentFreeHosts <= 5) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetFull\">$freeHosts</a></td>";}
+					elseif ($percentFreeHosts <= 20) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetAlmostFull\">$freeHosts</a></td>";}
+					else {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetNotFull\">$freeHosts</a></td>";}
 
 					if($actions) {
 					$html[] = "	<td class='actions' style='padding:0px;'>";

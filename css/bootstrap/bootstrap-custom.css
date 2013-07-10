@@ -685,17 +685,17 @@ ul#subnets li.leaf.active i {
 }
 
 /* Set font color for subnet will less than 5% free ip addresses */
-.table#manageSubnets td.SubnetFull {
+.table#manageSubnets a.SubnetFull {
     color: #FF3030 !important;
 	font-weight:bold;
 }
 /* Set font color for subnet will less than 20% free ip addresses */
-.table#manageSubnets td.SubnetAlmostFull {
+.table#manageSubnets a.SubnetAlmostFull {
     color: #E65C00 !important;
 	font-weight:bold;
 }
 /* Set font color for subnet will more than 20% free ip addresses */
-.table#manageSubnets td.SubnetNotFull {
+.table#manageSubnets a.SubnetNotFull {
     color: #33CC33 !important;
 	font-weight:bold;
 }
