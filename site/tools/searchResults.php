@@ -1,6 +1,7 @@
 <?php
 
 /*
+ * eNovance : 54, 87, 167-168, 176-181
  * Script to display search results
  **********************************/
 
@@ -83,6 +84,7 @@ $setFields = explode(";", $setFieldsTemp);
 
 /* get all selected fields */
 $myFields = getCustomIPaddrFields();
+unset($myFields['glpiId']);
 
 # set col size
 $fieldSize 	= sizeof($setFields);

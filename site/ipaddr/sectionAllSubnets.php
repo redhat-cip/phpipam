@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * eNovance : 64, 70-71
  * Script to print subnets
  ***************************/
 
@@ -60,6 +61,7 @@ if($permission != "0") {
 		if($settings['enableVRF'] == 1) {
 		print "	<th>"._('VRF')."</th>";
 		}
+		#Removed 'Requests' and 'Hosts check' column since they are not necessary for us
 		if(sizeof($custom) > 0) {
 			foreach($custom as $field) {
 				print "	<th>$field[name]</th>";

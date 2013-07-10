@@ -2,6 +2,7 @@
 
 /**
  * Network functions
+ * eNovance : 1663-1676, 1791-1798, 1980, 2359
  *
  */
 

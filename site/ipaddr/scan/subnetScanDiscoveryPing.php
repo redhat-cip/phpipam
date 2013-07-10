@@ -1,11 +1,15 @@
 <?php
 
 /*
+ * eNovance : 39-43
  * Discover new hosts with ping
  *******************************/
 
 /* required functions */
 require_once('../../../functions/functions.php'); 
+
+/* verify that user is logged in */
+isUserAuthenticated(true);
 
 /* verify that user has write permissions for subnet */
 $subnetPerm = checkSubnetPermission ($_REQUEST['subnetId']);
@@ -31,6 +35,7 @@ for($m=1; $m<=$max;$m++) {
 		$ip[] = $subnet['subnet']+$m;
 	}
 }
+
 # create 1 line for $argv
 if(count($ip) == 0)
 {

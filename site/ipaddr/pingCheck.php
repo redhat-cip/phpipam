@@ -2,6 +2,8 @@
 
 /**
  *	Script that checks if IP is alive
+ *  eNovance : 12-13, 35-40, 44-49
+ *
  */
 
 
@@ -10,6 +12,8 @@ require_once('../../functions/functions.php');
 require_once('../../functions/dbfunctions.php');
 global $db;
 
+/* verify that user is logged in */
+isUserAuthenticated(false);
 
 // verify that user has write access
 $subnetPerm = checkSubnetPermission ($_POST['subnetId']);

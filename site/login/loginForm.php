@@ -19,6 +19,12 @@
             <th><?php print _('Password'); ?></th>
             <td>
                 <input type="password" id="password" name="ipampassword" class="login" placeholder="<?php print _('Password'); ?>"></input>
+                <?php
+                // add requested var for redirect
+                if(isset($_SESSION['phpipamredirect'])) {
+	                print "<input type='hidden' name='phpipamredirect' id='phpipamredirect' value='$_SESSION[phpipamredirect]'>";
+                }
+                ?>
             </td>
         </tr>
             

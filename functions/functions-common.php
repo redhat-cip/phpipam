@@ -2,7 +2,7 @@
 
 /**
  * Common phpIPAM functions
- *
+ * eNovance : 901-918, 935, 944-947
  * Common functions that are used
  * in phpipam. 
  *
@@ -34,16 +34,20 @@ function CheckReferrer()
  * Functions to check if user is authenticated properly for ajax-loaded pages
  *
  */
-function isUserAuthenticated() 
+function isUserAuthenticated($die = true) 
 {
     /* open session and get username / pass */
 	if (!isset($_SESSION)) {  session_start(); }
     /* redirect if not authenticated */
     if (empty($_SESSION['ipamusername'])) {
+    	# save requested page
+    	$_SESSION['phpipamredirect'] = $_SERVER['HTTP_REFERER'];												//here we need referrer
+    	
     	if($_SERVER['SERVER_PORT'] == "443") { $url = "https://".$_SERVER['SERVER_NAME'].BASE; }
     	else								 { $url = "http://".$_SERVER['SERVER_NAME'].BASE; }
     	# die
-    	die('<div class="error"><a href="'.$url.'login/">'._('Please login first').'!</a></div>');
+    	if($die) { die('<div class="alert alert-error"><a href="'.$url.'login/">'._('Please login first').'!</a></div>'); }
+    	else	 { die("<div class='pHeader'>"._('Error')."</div><div class='pContent'><div class='alert alert-error'>"._('Please login first')."!</div></div><div class='pFooter'><a class='btn btn-small' href='".$url."login/'>"._('Login')."</a>"); }
     }
     /* close session */
     session_write_close();
@@ -61,7 +65,9 @@ function isUserAuthenticatedNoAjax ()
 	if (!isset($_SESSION)) { session_start(); }
     /* redirect if not authenticated */
     if (empty($_SESSION['ipamusername'])) {
-    
+    	# save requested page
+    	$_SESSION['phpipamredirect'] = $_SERVER['SCRIPT_URI'];
+    	
     	if($_SERVER['SERVER_PORT'] == "443") { $url = "https://".$_SERVER['SERVER_NAME'].BASE; }
     	else								 { $url = "http://".$_SERVER['SERVER_NAME'].BASE; }
     	# redirect
@@ -925,6 +931,8 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					if($vrf == "1") {
 					$html[] = "	<td>$vrfText</td>";
 					}
+
+					#Removed $requests and $pCheck since it was not necessary for us
 
 					# custom
 					if(sizeof($custom)>0) {

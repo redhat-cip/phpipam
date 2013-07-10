@@ -1,7 +1,7 @@
 /**
  *
  * Javascript / jQuery functions
- *
+ * eNovance : 63-70, 165-174
  *
  */
 
@@ -172,8 +172,6 @@ $('a.discovery').click(function() {
 		hideSpinner();
 	});
 	return false;});
-
-
 
 /* leftmenu toggle submenus */
 // default hide

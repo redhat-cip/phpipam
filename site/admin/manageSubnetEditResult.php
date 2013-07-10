@@ -7,6 +7,9 @@
 /* required functions */
 require_once('../../functions/functions.php');
 
+/* verify that user is logged in */
+isUserAuthenticated(true);
+
 /* verify that user has permissions if add */
 if($_POST['action'] == "add") {
 	$sectionPerm = checkSectionPermission ($_POST['sectionId']);

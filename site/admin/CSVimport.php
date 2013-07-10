@@ -7,6 +7,9 @@
 /* required functions */
 require_once('../../functions/functions.php'); 
 
+/* verify that user is logged in */
+isUserAuthenticated(false);
+
 # permissions
 $permission = checkSubnetPermission ($_POST['subnetId']);
 

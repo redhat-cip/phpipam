@@ -2276,4 +2276,62 @@ function reorderCustomUserField($next, $current)
 
 
 
+
+
+
+
+/* @api --------------------*/
+
+/**
+ * Get all API keys
+ */
+function getAPIkeys()
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    # set query
+    $query  = 'select * from `api`;';
+    # get result
+    try { $apis = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print $error;
+        return false;
+    } 
+	
+	return $apis;
+}
+
+
+/**
+ * Get API key by name
+ */
+function getAPIkeyByName($app_id, $reformat = false)
+{
+    global $db;                                                                      # get variables from config file
+    $database = new database($db['host'], $db['user'], $db['pass'], $db['name']); 
+    
+    # set query
+    $query  = "select * from `api` where `app_id` = '$app_id';";
+    # get result
+    try { $api = $database->getArray( $query ); }
+    catch (Exception $e) { 
+        $error =  $e->getMessage(); 
+        print $error;
+        return false;
+    } 
+	
+	# reformat?
+	if($reformat) {
+		$out[$api[0]['app_id']] = $api[0]['app_code'];
+		return $out;
+	}
+	else {
+		return $api[0];
+	}
+}
+
+
+
 ?>

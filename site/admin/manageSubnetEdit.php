@@ -7,18 +7,21 @@
 /* required functions */
 require_once('../../functions/functions.php'); 
 
+/* verify that user is logged in */
+isUserAuthenticated(false);
+
 /* verify that user has permissions if add */
 if($_POST['action'] == "add") {
 	$sectionPerm = checkSectionPermission ($_POST['sectionId']);
 	if($sectionPerm != 3) {
-		die("<div class='alert alert-error'>"._('You do not have permissions to add new subnet in this section')."!</div>");
+		die("<div class='pHeader'>"._('Error')."</div><div class='pContent'><div class='alert alert-error'>"._('You do not have permissions to add new subnet in this section')."!</div></div><div class='pFooter'><button class='btn btn-small hidePopups'>"._('Close')."</button>");
 	}
 }
 /* otherwise check subnet permission */
 else {
 	$subnetPerm = checkSubnetPermission ($_POST['subnetId']);
 	if($subnetPerm != 3) {
-		die("<div class='alert alert-error'>"._('You do not have permissions to add edit/delete this subnet')."!</div>");
+		die("<div class='pHeader'>"._('Error')."</div><div class='pContent'><div class='alert alert-error'>"._('You do not have permissions to add edit/delete this subnet')."!</div></div><div class='pFooter'><button class='btn btn-small hidePopups'>"._('Close')."</button>");
 	}
 }
 
@@ -190,7 +193,7 @@ else															{ $readonly = false; }
         print '<option disabled="disabled">'._('Select VRF').'</option>';
         print '<option value="0">'._('None').'</option>';
         
-        if(sizeof($VRFs) > 0) {
+        if($VRFs!=false) {
         foreach($VRFs as $vrf) {
         
         	if ($vrf['vrfId'] == $subnetDataOld['vrfId']) 	{ print '<option value="'. $vrf['vrfId'] .'" selected>'. $vrf['name'] .'</option>'; }

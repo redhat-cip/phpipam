@@ -12,7 +12,7 @@ require_once('../../functions/functions.php');
 
 <?php
 /* verify that user is authenticated! */
-isUserAuthenticated ();
+isUserAuthenticated (false);
 
 /* get all selected fields for IP print */
 $setFieldsTemp = getSelectedIPaddrFields();

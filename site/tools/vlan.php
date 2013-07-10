@@ -36,7 +36,6 @@ if(sizeof($custom) > 0) {
 }
 print '</tr>' . "\n";
 
-
 $m = 0;
 foreach ($vlans as $vlan) {
 	
@@ -60,7 +59,6 @@ foreach ($vlans as $vlan) {
 		else 																	 { $masterSubnet = false;}	
 	}
 
-
 	# check permission
 	$permission = checkSubnetPermission ($vlan['id']);
 		
@@ -82,10 +80,10 @@ foreach ($vlans as $vlan) {
 
 		if ($vlan['subnetId'] != null) {
 			# subnet
-			print " <td><a href='/subnets/$section[id]/$vlan[subnetId]/'>". transform2long($vlan['subnet']) ."/$vlan[mask]</a></td>";
+			print " <td><a href='subnets/$section[id]/$vlan[subnetId]/'>". transform2long($vlan['subnet']) ."/$vlan[mask]</a></td>";
 
 			# section
-			print " <td><a href='/subnets/$section[id]/'>$section[name]</a></td>";
+			print " <td><a href='subnets/$section[id]/'>$section[name]</a></td>";
 
 			# details
 			if( (!$masterSubnet) || (!subnetContainsSlaves($vlan['subnetId']))) {

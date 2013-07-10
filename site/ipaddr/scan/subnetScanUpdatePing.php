@@ -1,12 +1,16 @@
 <?php
 
 /*
+ * eNovance : 10, 15-16, 31-34, 47-59, 63-64, 69
  * Update alive status of all hosts in subnet
  ***************************/
 
 /* required functions */
 require_once('../../../functions/functions.php'); 
 require_once('../../../functions/dbfunctions.php');
+
+/* verify that user is logged in */
+isUserAuthenticated(true);
 
 global $db;
 $database = new database ($db['host'], $db['user'], $db['pass'], $db['name']);
@@ -37,7 +41,7 @@ foreach($addresses as $ip) {
 	}
 	//ping
 	else {
-		$code = pingHost (transform2long($ip['ip_addr']));
+		$code = pingHost (transform2long($ip['ip_addr']), $count, false);
 	}
 
 	if ( intval($ip['state']) == $code )

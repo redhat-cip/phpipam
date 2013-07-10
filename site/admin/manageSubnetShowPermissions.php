@@ -7,6 +7,9 @@
 /* required functions */
 require_once('../../functions/functions.php'); 
 
+/* verify that user is logged in */
+isUserAuthenticated(false);
+
 /* verify that user is admin */
 if (!checkAdmin()) die('');
 

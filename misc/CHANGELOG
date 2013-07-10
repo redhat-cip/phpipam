@@ -1,4 +1,4 @@
-== 0.84.005
+== 0.84.008
 
 	New features:
 	----------------------------
@@ -17,9 +17,13 @@
 	+ Added Section ordering;
 	+ Added per/section subnet ordering (overrides dafault form settings);
 	+ Clicking on section now shows all subnets and belonging details;
+	+ If session timeouts after re-login last requested page will be opened;
 
 	Bugfixes:
 	----------------------------
+	+ Fixed wrong VLAN display in tools;
+	+ Fixed subnet/section links from VLANS if base not /;
+	+ Fixed warning in apache log on subnet editing if no VRFs are configured;
 
 == 0.8
 

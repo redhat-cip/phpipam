@@ -18,6 +18,7 @@
 <?php
 require_once ( dirname(__FILE__) . '/../config.php' );
 /**
+ * eNovance : 19, 76-89
  * Script to print sections and admin link on top of page
  ********************************************************/
 

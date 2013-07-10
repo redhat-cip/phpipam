@@ -11,7 +11,7 @@ require_once('../../functions/functions.php');
 CheckReferrer();
 
 /* verify that user is authenticated! */
-isUserAuthenticated ();
+isUserAuthenticated (false);
 
 /* get all site settings */
 $settings = getAllSettings();

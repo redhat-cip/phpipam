@@ -4,6 +4,9 @@
  *	Script to inserte imported file to database!
  **********************************************/
  
+/* verify that user is logged in */
+isUserAuthenticated(true);
+ 
 /* we need functions */
 require_once('../../functions/functions.php');
 

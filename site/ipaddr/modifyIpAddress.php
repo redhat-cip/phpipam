@@ -23,6 +23,9 @@ $subnet = getSubnetDetailsById($subnetId);
 $subnet2 = $subnet;
 $subnet = transform2long($subnet['subnet']) . "/" . $subnet['mask'];
 
+/* verify that user is logged in */
+isUserAuthenticated(false);
+
 /* verify that user has write access */
 $subnetPerm = checkSubnetPermission ($subnetId);
 if($subnetPerm < 2) {

@@ -1,6 +1,7 @@
 /**
  *
  *	Bootstrap fixes for phpipam
+ *	eNovance : 663-671, 678-702, 1309-1313
  *
  */
  
@@ -1304,9 +1305,13 @@ table.requestIP th {
      -moz-background-clip: padding-box;
           background-clip: padding-box;
 }
-/*.popup .pContent::-webkit-scrollbar { 
+
+/* Commented out since this code was hiding the necesseray scroll bar when displaying discovered items
+.popup .pContent::-webkit-scrollbar { 
     display: none; 
-}*/
+}
+*/
+
 .popup .pHeader {
   	padding: 9px 15px;
   	border-bottom: 1px solid #eee;

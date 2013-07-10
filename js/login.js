@@ -42,7 +42,9 @@ $('form#login').submit(function() {
         //reload after 2 seconds if succeeded!
         if(data.search("error") == -1) {
             showSpinner();
-            setTimeout(loginRedirect, 1000);
+            //search for redirect
+            if($('form#login input#phpipamredirect').length > 0) { setTimeout(function (){window.location=$('form#login input#phpipamredirect').val();}, 1500); }
+            else 												 { setTimeout(loginRedirect, 1000);	}
         }
     });
     return false;
