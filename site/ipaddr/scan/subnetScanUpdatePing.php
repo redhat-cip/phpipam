@@ -41,7 +41,7 @@ foreach($addresses as $ip) {
 	}
 	//ping
 	else {
-		$code = pingHost (transform2long($ip['ip_addr']), $count, false);
+		$code = pingHost (transform2long($ip['ip_addr']), 1, false);
 	}
 
 	if ( intval($ip['state']) == $code )
