@@ -3,6 +3,7 @@
 /**
  * Script to check edited / deleted / new IP addresses
  * If all is ok write to database
+ * eNovance : 75
  *************************************************/
  
 /* include required scripts */
@@ -71,11 +72,7 @@ if(isset($_REQUEST['action-visual'])) {
 	if($_REQUEST['action-visual'] == "delete") { $ip['action'] = "delete"; }	
 }
 
-//detect proper hostname
-if(strlen($_POST['dns_name'])>0 && !validateHostname($_REQUEST['dns_name'])) {
-	die('<div class="alert alert-error">'._('Invalid hostname').'!</div>');
-}
-
+#Hostname can be pretty much anything. Removed its verification.
 
 //no strict checks - for range networks and /31, /32
 if(isset($_POST['nostrict'])) {
