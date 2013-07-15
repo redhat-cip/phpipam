@@ -37,9 +37,8 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	$query = substr_replace($query, ') ', -1);
 	$query .= 'AND c.is_deleted = 0 AND '.
                   '(n.subnet LIKE '.subnet_query_builder();
-   
+  
 	$subnets = $databaseglpi->getArray($query);
-
 
 	$query = 'SELECT id, subnet, mask '.
              'FROM subnets WHERE ';
@@ -53,7 +52,7 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 	$query = substr_replace($query, ';', -4, -1);
 	$existing_subnets = $databaseipam->getArray($query);
 
-	foreach ($subnets as $subnet)
+	foreach ($subnets as &$subnet)
 	{
 		$query_subnet_id = 'SELECT id FROM subnets WHERE '.
                  'subnet = \''.$subnet['subnet'].'\' AND '.
@@ -106,7 +105,7 @@ function subnet_query_builder()
         	{
             	$query .= '\''.$first[0].'.'.$first[1].'.'.($first[2]+$i).'%\'';
         	}
-        	$query .= ');';
+        	$query .= ') group by n.ip;';
     	}
 	}
 	return $query;
@@ -131,11 +130,7 @@ function link_to_glpi ($databaseipam, $databaseglpi, $section_id)
 {
 	$query = 'SELECT ip_addr '.
 			 'FROM ipaddresses '.
-				'WHERE (glpiId = \'\' OR glpiId is NULL) '.
-				'AND subnetId in ('.
-					'SELECT id '.
-					'FROM subnets '.
-						'WHERE sectionId = \''. $section_id .'\');';
+				'WHERE (glpiId = \'\' OR glpiId is NULL);';
 	$ip_not_linked = $databaseipam->getArray($query);
 
 	for ($i = 0; $i < count($ip_not_linked); $i += 1)
