@@ -32,6 +32,8 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 
 <h4><?php print _('Custom fields'); ?></h4>
 <hr>
+<div class="alert alert-info alert-absolute"><?php print _('You can add additional custom fields to IP addresses and subnets (like CustomerId, location, ...)'); ?>.</div>
+<hr style="margin-top:50px;">
 
 <table class="customIP table table-striped table-auto table-top" style="min-width:400px;">
 
@@ -299,6 +301,3 @@ $myFieldsNumUser = getCustomUserFieldsNumArr();
 
 
 </table>
-
-<hr>
-<div class="alert alert-info"><?php print _('You can add additional custom fields to IP addresses and subnets (like CustomerId, location, ...)'); ?>.</div>

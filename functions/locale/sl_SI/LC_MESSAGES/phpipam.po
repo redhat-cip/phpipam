@@ -4,7 +4,7 @@
 # miha petkovsek <miha.petkovsek@gmail.com>, 2013.
 #
 
-# "Project-Id-Version: 0.84.005\n"
+# "Project-Id-Version: 0.85.002\n"
 # "Report-Msgid-Bugs-To: Miha Petkovsek <miha.petkovsek@gmail.com>\n"
 # "POT-Creation-Date: 2013-04-02 14:33+0200\n"
 # "PO-Revision-Date: 2013-06-28 14:33+0200\n"
@@ -3881,7 +3881,7 @@ msgstr "Dodajte IP naslove v omrežja za prikaz grafa uporabe omrežij"
 
 #: site/admin/usersEditPrint.php
 msgid "edit user"
-msgstr"Urejanje uporabnika"
+msgstr "Urejanje uporabnika"
 
 msgid "delete user"
 msgstr "Izbris uporabnika"
@@ -4045,3 +4045,141 @@ msgstr "Rezultati skeniranja dodani v bazo"
 #: site/ipaddr/subnetScan.php
 msgid "Invalid ping path"
 msgstr "Napačna pot do programa ping"
+
+
+
+
+
+
+#: site/admin/settings.php
+msgid "Display settings"
+msgstr "Nastavitve prikazovanja"
+
+#: site/admin/settings.php
+msgid "Enable or disable API server module"
+msgstr "Vklop ali izklop API modula"
+
+#: site/admin/api.php
+msgid "Please enable API module under server management"
+msgstr "Prosimo vklopite API modul v nastavitvah"
+
+#: site/admin/adminMenu.php
+#: site/admin/api.php
+msgid "API management"
+msgstr "API nastavitve"
+
+#: site/admin/api.php
+msgid "Create API key"
+msgstr "Nov API ključ"
+
+#: site/admin/api.php
+msgid "App id"
+msgstr "ID"
+
+#: site/admin/api.php
+msgid "App code"
+msgstr "koda"
+
+#: site/admin/api.php
+msgid "App permissions"
+msgstr "pravice"
+
+#: site/admin/api.php
+msgid "edit app details"
+msgstr "Uredi app"
+
+#: site/admin/api.php
+msgid "remove app"
+msgstr "Izbriši app"
+
+#: site/admin/api.php
+msgid "No Apps available"
+msgstr "Na voljo ni nobene aplikacije"
+
+#: site/admin/api.php
+msgid "API instructions"
+msgstr "Navodila za uporabo"
+
+#: site/admin/api.php
+msgid "API documentation"
+msgstr "API dokumentacija"
+
+#: site/admin/api.php
+msgid "The following PHP extensions for API server are missing"
+msgstr "Sledeče zahtevane PHP razširitve za API strežnik manjkajo"
+
+#: site/admin/api.php
+msgid "Please recompile PHP to include missing extensions for API server"
+msgstr "Prosimo naložite php s podporo za manjkajoče razširitve"
+
+#: site/admin/apiEdit.php
+msgid "Add new api key"
+msgstr "Dodaj nov API ključ"
+
+#: site/admin/apiEdit.php
+msgid "Enter application identifier"
+msgstr "Identifikator aplikacije"
+
+#: site/admin/apiEdit.php
+msgid "Application code"
+msgstr "Koda za aplikacijo"
+
+#: site/admin/apiEdit.php
+msgid "Regenerate"
+msgstr "Zamenjaj"
+
+#: site/admin/apiEdit.php
+msgid "Disabled"
+msgstr "Onemogočeno"
+
+#: site/admin/apiEditResult.php
+msgid "Invalid application code"
+msgstr "Neveljavna koda aplikacije"
+
+#: site/admin/apiEditResult.php
+msgid "Invalid application id"
+msgstr "Neveljaven identifikator aplikacije"
+
+#: site/admin/apiEditResult.php
+msgid "Invalid permissions"
+msgstr "Neveljavne pravice"
+
+#: site/admin/apiEditResult.php
+msgid "API add error"
+msgstr "Napaka pri dodajanju API"
+
+#: site/admin/apiEditResult.php
+msgid "API edit error"
+msgstr "Napaka pri urejanju API"
+
+#: site/admin/apiEditResult.php
+msgid "API delete error"
+msgstr "Napaka pri izbrisu API"
+
+#: site/admin/apiEditResult.php
+msgid "API add success"
+msgstr "API dodan"
+
+#: site/admin/apiEditResult.php
+msgid "API edit success"
+msgstr "API urejen"
+
+#: site/admin/apiEditResult.php
+msgid "API delete success"
+msgstr "API izbrisan"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "DHCP range"
+msgstr "DHCP razpon"
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Check avalibility (disabled)"
+msgstr "Preveri razpoložljivost (onemogočeno)"
+
+#: site/admin/settings.php
+msgid "DHCP compress"
+msgstr "DHCP stiskanje"
+
+#: site/admin/settings.php
+msgid "Compress DHCP ranges in IP table"
+msgstr "Združevanje zaporednih DHCP IP naslovov"

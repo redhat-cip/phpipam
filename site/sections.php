@@ -16,9 +16,9 @@
 
 
 <?php
+// <eNovance>
 require_once ( dirname(__FILE__) . '/../config.php' );
 /**
- * eNovance : 19, 76-89
  * Script to print sections and admin link on top of page
  ********************************************************/
 
@@ -73,6 +73,8 @@ $setFields = explode(";", $setFieldsTemp);
 		</div>
 	</td>
 
+<!-- <eNovance> -->
+<!-- Add the discovery button -->
 <?php
     global $db;
     if ($db['glpi_name'] != '')
@@ -87,6 +89,7 @@ $setFields = explode(";", $setFieldsTemp);
     </td>';
     }
 ?>
+<!-- </eNovance> -->
 
 	<!-- instructions -->	
 	<td class="fixed instr">	
@@ -134,7 +137,7 @@ $setFields = explode(";", $setFieldsTemp);
 			if(!isset($_REQUEST['adminId'])) { $_REQUEST['adminId'] = ""; }
 		
 			print '<td class="fixed">';
-			print "<ul class='nav nav-tabs' style='margin-right:0px;'>";
+			print "<ul class='nav nav-tabs pull-right' style='margin-right:0px;'>";
 			print "	<li class='dropdown'>";
 			# title
 			print "	<a class='dropdown-toggle btn-danger' data-toggle='dropdown' href='administration/' id='admin' rel='tooltip' data-placement='bottom' title='"._('Show Administration menu')."'><i class='icon-cog icon-white'></i> "._('Administration')." <b class='caret'></b></a>";

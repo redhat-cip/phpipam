@@ -70,9 +70,14 @@ function create_subnets($discovered_ip_list, $databaseglpi, $databaseipam, $sect
 			$subnet_id = $databaseipam->getRow($query_subnet_id);
 		}
 
-		$ip_to_add = array_merge($ip_to_add,array(array("subnet_id" => $subnet_id[0], "ip" => $subnet['ip'], "name" => $subnet['name'])));
-	}
+		$query = 'SELECT id FROM ipaddresses WHERE ip_addr = \''.ip2long($subnet['ip']).'\'';
+		$exists = $databaseipam->getRow($query);
 
+		if( (count($exists)) == 0)
+		{
+		$ip_to_add = array_merge($ip_to_add,array(array("subnet_id" => $subnet_id[0], "ip" => $subnet['ip'], "name" => $subnet['name'])));
+		}
+	}
 	return $ip_to_add;
 }
 

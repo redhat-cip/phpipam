@@ -13,9 +13,10 @@ checkAdmin();
 <h4><?php print _('phpIPAM database export'); ?></h4>
 <hr><br>
 
-<div class="alert alert-info"><?php print _('You can download MySQL dump of database or generate XLS file of IP addresses'); ?>!</div>
+<div class="alert alert-info alert-absolute"><?php print _('You can download MySQL dump of database or generate XLS file of IP addresses'); ?>!</div>
 
 <!-- MySQL dump -->
+<hr style="margin-top:50px;">
 <h4><?php print _('Create MySQL database dump'); ?></h4>
 <button class="btn btn-small" id="MySQLdump"><i class="icon-gray icon-download"></i> <?php print _('Prepare MySQL dump'); ?></button>
 

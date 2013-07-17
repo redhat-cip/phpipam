@@ -112,13 +112,29 @@ else {
 	                	//update IP status
 						@updateLastSeen($addresses[$index]['id']);
 						//set new seen
-						$addresses[$index]['newSeen'] = date("Y-m-d H:i:s");	
-                	} else {
+						$addresses[$index]['newSeen'] = date("Y-m-d H:i:s");
+						//if old is offline than check for time diff
+						if($addresses[$index]['oldStatus']==2) {
+							//calculate diff since last alive
+							$tDiff2 = time() - strtotime($addresses[$index]['lastSeen']);
+							//set New status
+							if($tDiff2 >= $statuses[1])	{ 
+								$stateDiff[] = $addresses[$index];	 				//change
+							}							
+						}	
+                	} 
+                	else {
+                		//now offline
 						$exitCode = 2;
-					}
-					//check for status change
-					if($addresses[$index]['oldStatus'] != $exitCode) {
-						$stateDiff[] = $addresses[$index];					//save to change array
+						//if online before change
+						if($addresses[$index]['oldStatus']==0) {
+							//calculate diff since last alive
+							$tDiff2 = time() - strtotime($addresses[$index]['lastSeen']);							
+							//set New status
+							if($tDiff2 >= $statuses[1])	{ 
+								$stateDiff[] = $addresses[$index];	 				//change
+							}	
+						}
 					}
                 	//save exit code for host
                     $addresses[$index]['newStatus'] = $exitCode;

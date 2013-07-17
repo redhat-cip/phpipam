@@ -46,6 +46,8 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
     	<td>
     		<select name="scanType">
     			<!-- Discovery scans -->
+				<!-- <eNovance> -->
+				<!-- Disable options that cannot yet be used -->
 	    		<optgroup label="<?php print _('Discovery scans');?>">
 		    		<option value="DiscoveryPing">Ping <?php print _('scan');?></option>
 		    		<option value="DiscoveryNmap" disabled="disabled">NMap <?php print _('scan');?></option>
@@ -56,6 +58,7 @@ $ip_addr = getIpAddressesBySubnetId ($_POST['subnetId']) ;
 		    		<option value="UpdatePing">Ping <?php print _('scan');?></option>
 		    		<option value="UpdateNmap" disabled="disabled">NMap <?php print _('scan');?></option>
 	    		</optgroup>
+				<!-- </eNovance> -->
 
 			</select>
     	</td>

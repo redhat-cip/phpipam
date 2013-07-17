@@ -1,14 +1,15 @@
-== 0.84.008
+== 0.86.001
 
 	New features:
 	----------------------------
 	+ Support for ICMP network discovery;
 	+ Cron script to check status for selected subnets/hosts with threading suport (pcntl php extension required);
 	+ ICMP check IP status in demand;
+	+ Compressed (grouped) DHCP IP ranges;
+	+ API server version 0.1;
 
 	Enhancements:
 	----------------------------
-	+ Added French translation (Denis Darré);
 	+ Added error catching/displaying for ajax-loaded php scripts;
 	+ Added default language for login/requests display and new users;
 	+ Added direct links to different pages in IP address table;
@@ -18,12 +19,19 @@
 	+ Added per/section subnet ordering (overrides dafault form settings);
 	+ Clicking on section now shows all subnets and belonging details;
 	+ If session timeouts after re-login last requested page will be opened;
+	+ Searh for IP address now returns also subnet, even if IP is not existing;
+	
+	Translations:
+	----------------------------
+	+ Added French translation (Denis Darré);
+	+ Added Dutch translation (Michiel Visser);
 
 	Bugfixes:
 	----------------------------
 	+ Fixed wrong VLAN display in tools;
 	+ Fixed subnet/section links from VLANS if base not /;
 	+ Fixed warning in apache log on subnet editing if no VRFs are configured;
+	+ Fixed admin menu off-screen overflow;
 
 == 0.8
 

@@ -2,15 +2,15 @@
 
 /**
  *	Script that checks if IP is alive
- *  eNovance : 12-13, 35-40, 44-49
- *
  */
 
 
 /* include required scripts */
 require_once('../../functions/functions.php');
+// <eNovance>
 require_once('../../functions/dbfunctions.php');
 global $db;
+// </eNovance>
 
 /* verify that user is logged in */
 isUserAuthenticated(false);
@@ -32,6 +32,8 @@ if(!file_exists($pathPing)) { $pingError = true; }
 if(pingHost($ip['ip_addr'], 1) == '0')  {
 	$status = "Online";
 	@updateLastSeen($_POST['id']);
+	// <eNovance>
+	// Set the new state of an ip addresse
 	if ( intval($ip['state']) == 0 )
 	{
 		$database    = new database($db['host'], $db['user'], $db['pass'], $db['name']);
@@ -47,6 +49,7 @@ else {
         $query = 'UPDATE ipaddresses SET state = 0 WHERE id = '.$ip['id'].';';
 		$database->executeQuery($query);
     }
+	// </eNovance>
 }
 ?>
 
@@ -67,5 +70,6 @@ else {
 
 <!-- footer -->
 <div class="pFooter">
+	<!-- <eNovance> -->
 	<button class="btn btn-small hidePopup3"><?php print _('Close window'); ?></button>
 </div>

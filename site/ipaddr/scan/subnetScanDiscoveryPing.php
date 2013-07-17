@@ -1,7 +1,6 @@
 <?php
 
 /*
- * eNovance : 39-43
  * Discover new hosts with ping
  *******************************/
 
@@ -37,11 +36,14 @@ for($m=1; $m<=$max;$m++) {
 }
 
 # create 1 line for $argv
+// <eNovance>
+// Print a message if no host is found then exit
 if(count($ip) == 0)
 {
 	print "<div class='alert alert-info'>All host already listed</div>";
 	exit;
 }
+// </eNovance>
 $ip = implode(";", $ip);
 
 # get php exec path

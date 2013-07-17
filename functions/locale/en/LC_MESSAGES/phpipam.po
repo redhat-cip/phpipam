@@ -4,7 +4,7 @@
 # miha petkovsek <miha.petkovsek@gmail.com>, 2013.
 #
 
-# "Project-Id-Version: 0.84.005\n"
+# "Project-Id-Version: 0.85.002\n"
 # "Report-Msgid-Bugs-To: Miha Petkovsek <miha.petkovsek@gmail.com>\n"
 # "POT-Creation-Date: 2013-04-02 14:33+0200\n"
 # "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -4008,4 +4008,137 @@ msgstr ""
 
 #: site/ipaddr/subnetScan.php
 msgid "Invalid ping path"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Display settings"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Enable or disable API server module"
+msgstr ""
+
+#: site/admin/api.php
+msgid "Please enable API module under server management"
+msgstr ""
+
+#: site/admin/adminMenu.php
+#: site/admin/api.php
+msgid "API management"
+msgstr ""
+
+#: site/admin/api.php
+msgid "Create API key"
+msgstr ""
+
+#: site/admin/api.php
+msgid "App id"
+msgstr ""
+
+#: site/admin/api.php
+msgid "App code"
+msgstr ""
+
+#: site/admin/api.php
+msgid "App permissions"
+msgstr ""
+
+#: site/admin/api.php
+msgid "edit app details"
+msgstr ""
+
+#: site/admin/api.php
+msgid "remove app"
+msgstr ""
+
+#: site/admin/api.php
+msgid "No Apps available"
+msgstr ""
+
+#: site/admin/api.php
+msgid "API instructions"
+msgstr ""
+
+#: site/admin/api.php
+msgid "API documentation"
+msgstr ""
+
+#: site/admin/api.php
+msgid "The following PHP extensions for API server are missing"
+msgstr ""
+
+#: site/admin/api.php
+msgid "Please recompile PHP to include missing extensions for API server"
+msgstr ""
+
+#: site/admin/apiEdit.php
+msgid "Add new api key"
+msgstr ""
+
+#: site/admin/apiEdit.php
+msgid "Enter application identifier"
+msgstr ""
+
+#: site/admin/apiEdit.php
+msgid "Application code"
+msgstr ""
+
+#: site/admin/apiEdit.php
+msgid "Regenerate"
+msgstr ""
+
+#: site/admin/apiEdit.php
+msgid "Disabled"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "Invalid application code"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "Invalid application id"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "Invalid permissions"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "API add error"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "API edit error"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "API delete error"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "API add success"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "API edit success"
+msgstr ""
+
+#: site/admin/apiEditResult.php
+msgid "API delete success"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "DHCP range"
+msgstr ""
+
+#: site/ipaddr/ipAddressPrintTable.php
+msgid "Check avalibility (disabled)"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "DHCP compress"
+msgstr ""
+
+#: site/admin/settings.php
+msgid "Compress DHCP ranges in IP table"
 msgstr ""

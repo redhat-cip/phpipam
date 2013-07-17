@@ -456,16 +456,41 @@ function searchSubnets ($searchterm, $searchTermEdited = "")
 	}
     
     /* set query */    
-	$query = 'select * from `subnets` where `description` like "%'. $searchterm .'%" or `subnet` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" '.$custom.';';
-
-    /* execute */
-    try { $search = $database->getArray( $query ); }
-    catch (Exception $e) { 
-        $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
-        return false;
-    } 
+	$query[] = 'select * from `subnets` where `description` like "%'. $searchterm .'%" or `subnet` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" '.$custom.';';
+	
+	/* search inside subnets even if IP does not exist! */
+	if($searchTermEdited['low']==$searchTermEdited['high']) {
+		$allSubnets = fetchAllSubnets ();
+		foreach($allSubnets as $s) {
+			// first verify address type  
+			$type = IdentifyAddress($s['subnet']);
+			if($type == "IPv4") {
+				require_once 'PEAR/Net/IPv4.php';
+				$net = Net_IPv4::parseAddress(transform2long($s['subnet']).'/'.$s['mask']);
+							
+				if($searchTermEdited['low']>transform2decimal($net->network) && $searchTermEdited['low']<transform2decimal($net->broadcast)) {
+					$query[] = "select * from `subnets` where `id` = $s[id]; \n";
+				}			
+			}
+		}
+	}
+    /* execute each query */
+    foreach($query as $q) {
+	    try { $search[] = $database->getArray( $q ); }
+	    catch (Exception $e) { 
+	        $error =  $e->getMessage(); 
+	    } 
+    }
     
+    /* filter results - remove blank */
+    $search = array_filter($search);
+    
+    /* die if errors */
+    if(isset($error)) {
+        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
+        return false;	    
+    }
+       
     /* return result */
     return $search;
 }
@@ -523,14 +548,12 @@ function reformatIPv4forSearch ($ip)
 	}
 	
 	/* check if subnet provided, then we have all we need */
-	$subnet = strpos($ip, "/");
-	
-	if ($subnet) {
+	if (strpos($ip, "/")>0) {
 		require_once 'PEAR/Net/IPv4.php';
-		$net = Net_IPv4::parseAddress($subnet);
+		$net = Net_IPv4::parseAddress($ip);
 		
-		$result['low']   = $net->network;
-		$result['high']	 = $net->broadcast;
+		$result['low']   = transform2decimal($net->network);
+		$result['high']	 = transform2decimal($net->broadcast);
 	}
 	else {
 		/* if subnet is not provided maye wildcard is, so explode it to array */

@@ -2,7 +2,7 @@
 
 /**
  * Common phpIPAM functions
- * eNovance : 901-918, 935, 944-947
+ *
  * Common functions that are used
  * in phpipam. 
  *
@@ -898,7 +898,8 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					}
 				}	
 
-				# count the number of free and offline hosts
+				// <eNovance>
+				// count the number of free and offline hosts
 				if ( IdentifyAddress( $option['value']['subnet'] ) == "IPv4")
 				{
 					$ipaddresses = getIpAddressesBySubnetId($option['value']['id']);
@@ -916,6 +917,7 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					$freeHosts += intval($subnetDetails['freehosts']);
 					$percentFreeHosts = ($freeHosts/$countAddresses)*100;
 				}
+				// </eNovance>
 
 			# print table line
 			if(strlen($option['value']['subnet']) > 0) { 
@@ -932,7 +934,9 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					$html[] = "	<td>$vrfText</td>";
 					}
 
-					#Removed $requests and $pCheck since it was not necessary for us
+					// <eNovance>
+					// Removed $requests and $pCheck since it was not necessary for us
+					// </eNovance>
 
 					# custom
 					if(sizeof($custom)>0) {
@@ -941,10 +945,13 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 				    	}
 					}
 
+					// <eNovance>
+					// Set the 'reserved' and 'free' hosts columns' value
 					$html[] = "<td>$reservedHosts</td>";
 					if ($percentFreeHosts <= 5) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetFull\">$freeHosts</a></td>";}
 					elseif ($percentFreeHosts <= 20) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetAlmostFull\">$freeHosts</a></td>";}
 					else {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetNotFull\">$freeHosts</a></td>";}
+					// </eNovance>
 
 					if($actions) {
 					$html[] = "	<td class='actions' style='padding:0px;'>";

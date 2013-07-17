@@ -3,7 +3,6 @@
 /**
  * Script to check edited / deleted / new IP addresses
  * If all is ok write to database
- * eNovance : 75
  *************************************************/
  
 /* include required scripts */
@@ -72,7 +71,9 @@ if(isset($_REQUEST['action-visual'])) {
 	if($_REQUEST['action-visual'] == "delete") { $ip['action'] = "delete"; }	
 }
 
-#Hostname can be pretty much anything. Removed its verification.
+// <eNovance>
+// Hostname can be pretty much anything. Removed its verification.
+// </eNovance>
 
 //no strict checks - for range networks and /31, /32
 if(isset($_POST['nostrict'])) {

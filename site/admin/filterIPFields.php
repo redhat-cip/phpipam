@@ -33,10 +33,10 @@ if(sizeof($custom) > 0) {
 <h4><?php print _('Filter which fields to display in IP list'); ?></h4>
 <hr>
 
-<div class="alert alert-info"><?php print _('You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory'); ?>.</div>
+<div class="alert alert-info alert-absolute"><?php print _('You can select which fields are actually being used for IP management, so you dont show any overhead if not used. IP, hostname and description are mandatory'); ?>.</div>
 
 
-<form id="filterIP">
+<form id="filterIP" style="margin-top:50px;">
 <table class="filterIP table table-auto table-striped table-top">
 
 <!-- headers -->

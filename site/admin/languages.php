@@ -75,7 +75,7 @@ $langs = getLanguages ();
 </table>
 
 <hr>
-<div class="alert alert-info alert-block alert-auto">
+<div class="alert alert-info alert-block alert-auto alert-absolute">
 	<?php print _('Instructions'); ?>:<hr>
 	<ol>
 		<li><?php print _('Add translation file to directory functions/locale/ in phpipam'); ?></li>

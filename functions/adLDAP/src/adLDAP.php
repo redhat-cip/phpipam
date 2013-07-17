@@ -727,13 +727,16 @@ class adLDAP {
         $ret = true;
         
         //OpenLDAP?
+		// <eNovance>
+		// Our LDAP require 'cn=' rather than 'uid=' in order to allow an account to bind
         if($this->openLDAP == true) { $this->ldapBind = @ldap_bind($this->ldapConnection, "cn=".$username . $this->accountSuffix, $password); }
         else 						{ $this->ldapBind = @ldap_bind($this->ldapConnection, $username . $this->accountSuffix, $password); }
         
         if (!$this->ldapBind){ 
             $ret = false; 
         }
-        
+		// </eNovance>        
+
         // Cnce we've checked their details, kick back into admin mode if we have it
         if ($this->adminUsername !== NULL && !$preventRebind) {
             $this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername . $this->accountSuffix , $this->adminPassword);

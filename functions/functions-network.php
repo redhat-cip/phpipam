@@ -2,7 +2,6 @@
 
 /**
  * Network functions
- * eNovance : 1663-1676, 1791-1798, 1980, 2359
  *
  */
 
@@ -634,6 +633,65 @@ function getIpAddressesForVisual ($subnetId)
 
     /* return ip address array */
     return($out);       
+}
+
+
+/**
+ * Compress DHCP ranges
+ */
+function compressDHCPranges ($ipaddresses) 
+{
+	//loop through IP addresses
+	for($c=0; $c<sizeof($ipaddresses); $c++) {			
+		// gap between this and previous
+		if(gmp_strval( @gmp_sub($ipaddresses[$c]['ip_addr'], $ipaddresses[$c-1]['ip_addr'])) != 1) {
+			//remove index flag
+			unset($fIndex);	
+			//save IP address
+			$ipFormatted[$c] = $ipaddresses[$c];
+			$ipFormatted[$c]['class'] = "ip";
+			
+			// no gap this -> next
+			if(gmp_strval( @gmp_sub($ipaddresses[$c]['ip_addr'], $ipaddresses[$c+1]['ip_addr'])) == -1 && $ipaddresses[$c]['state']==3) {
+				//is state the same?
+				if($ipaddresses[$c]['state']==$ipaddresses[$c+1]['state']) {
+					$fIndex = $c;
+					$ipFormatted[$fIndex]['startIP'] = $ipaddresses[$c]['ip_addr'];
+					$ipFormatted[$c]['class'] = "range-dhcp";
+				}
+			}
+		}
+		// no gap between this and previous
+		else {
+			// is state same as previous?
+			if($ipaddresses[$c]['state']==$ipaddresses[$c-1]['state'] && $ipaddresses[$c]['state']==3) {
+				//add stop IP
+				$ipFormatted[$fIndex]['stopIP'] = $ipaddresses[$c]['ip_addr'];
+				//add range span
+				$ipFormatted[$fIndex]['numHosts'] = gmp_strval( gmp_add(@gmp_sub($ipaddresses[$c]['ip_addr'], $ipFormatted[$fIndex]['ip_addr']),1));
+			}
+			// different state
+			else {
+				//remove index flag
+				unset($fIndex);
+				//save IP address
+				$ipFormatted[$c] = $ipaddresses[$c];
+				$ipFormatted[$c]['class'] = "ip";
+				
+				//check if state is same as next to start range
+				if($ipaddresses[$c]['state']==$ipaddresses[$c+1]['state'] &&  gmp_strval( @gmp_sub($ipaddresses[$c]['ip_addr'], $ipaddresses[$c+1]['ip_addr'])) == -1 && $ipaddresses[$c]['state']==3) {
+					$fIndex = $c;
+					$ipFormatted[$fIndex]['startIP'] = $ipaddresses[$c]['ip_addr'];
+					$ipFormatted[$c]['class'] = "range-dhcp";
+				}
+			}
+		}
+	}
+	//overrwrite ipaddresses and rekey
+	$ipaddresses = @array_values($ipFormatted);
+		
+	//return
+	return $ipaddresses;
 }
 
 
@@ -1293,7 +1351,7 @@ function getAllVlans($tools = false)
 	}
 		
     /* check if it came from tools and use different query! */
-    if($tools) 	{ $query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id'.$myFieldsInsert['id'].' AS subnetId,subnets.sectionId FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;'; }
+    if($tools) 	{ $query = 'SELECT vlans.number,vlans.name,vlans.description,subnets.subnet,subnets.mask,subnets.id AS subnetId,subnets.sectionId'.$myFieldsInsert['id'].' FROM vlans LEFT JOIN subnets ON subnets.vlanId = vlans.vlanId ORDER BY vlans.number ASC;'; }
     else 		{ $query = 'select * from `vlans` order by `number` asc;'; }
 
     /* execute */
@@ -1660,6 +1718,8 @@ function SetInsertQuery( $ip )
 	$myFieldsInsert['query']  = '';
 	$myFieldsInsert['values'] = '';
 
+	// <eNovance>
+	// Finds the GLPI id of a new ip address.
 	if( $ip['action'] == "add" and $ip['glpiId'] == '' )
 	{
 		global $db;
@@ -1674,7 +1734,7 @@ function SetInsertQuery( $ip )
         if (count($glpiId > 0)) {$ip['glpiId'] = $glpiId[0];}
         
 	}
-
+	// </eNovance>
 	
 	if(sizeof($myFields) > 0) {
 		/* set inserts for custom */
@@ -1788,6 +1848,8 @@ function insertScanResults($res, $subnetId)
     # set queries
     foreach($res as $ip) {
 
+		// <eNovance>
+		// Finds the GLPI id of a new ip address.
 		$database_glpi = new database($db['glpi_host'], $db['glpi_user'], $db['glpi_pass'], $db['glpi_name']);
         $query_glpi  = "SELECT DISTINCT glpi_networkports.items_id ";
         $query_glpi .= "FROM glpi_networkports ";
@@ -1796,7 +1858,7 @@ function insertScanResults($res, $subnetId)
         $query_glpi .= "AND glpi_networkports.items_id = glpi_computers.id;";
         $glpiId = $database_glpi->getRow($query_glpi);
         if (count($glpiId > 0)) {$ip['glpiId'] = $glpiId[0];}
-
+		// </eNovance>
 
 	    $query[] = "insert into `ipaddresses` (`ip_addr`,`subnetId`,`description`,`dns_name`,`lastSeen`, `glpiId`) values ('".transform2decimal($ip['ip_addr'])."', '$subnetId', '$ip[description]', '$ip[dns_name]', NOW(), '$ip[glpiId]'); ";
     }
@@ -1977,8 +2039,12 @@ function parseIpAddress( $ip, $mask )
     /* IPv4 address */
     if ( IdentifyAddress( $ip ) == "IPv4" )
     {
+
+		// <eNovance>
+		// Changed to require_once, since it was causing errors when called in a loop
 		require_once(dirname(__FILE__) . '/PEAR/Net/IPv4.php');        
         $Net_IPv4 = new Net_IPv4();
+		// </eNovance>
         
         $net = $Net_IPv4->parseAddress( $ip .'/'. $mask );
         
@@ -2356,8 +2422,11 @@ function pingHost ($ip, $count="1", $exit=false)
 	// so if you must add flag manually here after $count
 	
 	//set and execute
+	// <eNovance>
+	// Added -W 1 option to speed up the scan
 	$cmd = "$pathPing -c $count -W 1 -n $ip 1>/dev/null 2>&1";
     exec($cmd, $output, $retval);
+	// </eNovance>
 
     //exit codes
     //	0 = online

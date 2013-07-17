@@ -122,14 +122,14 @@ $langs = getLanguages ();
 	</td>
 </tr>
 
-<!-- Tooltips -->
+<!-- API -->
 <tr>
-	<td class="title"><?php print _('Tooltips'); ?></td>
+	<td class="title"><?php print _('API'); ?></td>
 	<td>
-		<input type="checkbox" value="1" name="showTooltips" <?php if($settings['showTooltips'] == 1) print 'checked'; ?>>
+		<input type="checkbox" value="1" name="api" <?php if($settings['api'] == 1) print 'checked'; ?>>
 	</td>
 	<td class="info">
-		<?php print _('Enable or disable tooltips'); ?>
+		<?php print _('Enable or disable API server module'); ?>
 	</td>
 </tr>
 
@@ -174,6 +174,46 @@ $langs = getLanguages ();
 	</td>
 	<td class="info">
 		<?php print _('Allow duplicate VLAN numbers'); ?>
+	</td>
+</tr>
+
+<!-- Ping status intervals -->
+<tr>
+	<td class="title"><?php print _('Ping status intervals'); ?></td>
+	<td>
+		<input type="text" name="pingStatus" value="<?php print $settings['pingStatus']; ?>">
+	</td>
+	<td class="info">
+		<?php print _('Ping status intervals for IP addresses in seconds - warning;offline (Default: 1800;3600)'); ?>
+	</td>
+</tr>
+
+
+
+<!-- Display -->
+<tr class="settings-title">
+	<th colspan="3"><h4><?php print _('Display settings'); ?></h4></th>
+</tr>
+
+<!-- DHCP compress -->
+<tr>
+	<td class="title"><?php print _('DHCP compress'); ?></td>
+	<td>
+		<input type="checkbox" value="1" name="dhcpCompress" <?php if($settings['dhcpCompress'] == 1) print 'checked'; ?>>
+	</td>
+	<td class="info">
+		<?php print _('Compress DHCP ranges in IP table'); ?>
+	</td>
+</tr>
+
+<!-- Tooltips -->
+<tr>
+	<td class="title"><?php print _('Tooltips'); ?></td>
+	<td>
+		<input type="checkbox" value="1" name="showTooltips" <?php if($settings['showTooltips'] == 1) print 'checked'; ?>>
+	</td>
+	<td class="info">
+		<?php print _('Enable or disable tooltips'); ?>
 	</td>
 </tr>
 
@@ -284,17 +324,6 @@ $langs = getLanguages ();
 	</td>
 </tr>
 
-
-<!-- Ping status intervals -->
-<tr>
-	<td class="title"><?php print _('Ping status intervals'); ?></td>
-	<td>
-		<input type="text" name="pingStatus" value="<?php print $settings['pingStatus']; ?>">
-	</td>
-	<td class="info">
-		<?php print _('Ping status intervals for IP addresses in seconds - warning;offline (Default: 1800;3600)'); ?>
-	</td>
-</tr>
 
 <!-- result -->
 <tr class="th">

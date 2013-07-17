@@ -1,7 +1,6 @@
 /**
  *
  *	Bootstrap fixes for phpipam
- *	eNovance : 663-671, 678-702, 1309-1313
  *
  */
  
@@ -660,46 +659,50 @@ ul#subnets li.leaf.active i {
 	padding-right: 3px;
 }
 
-/* Set background color for offline addresses in subnet ip table */
+/* <eNovance> */
+/* Set background color for offline and reserved addresses in subnet ip table */
 .table.ipaddresses tr.Offline td {
 	background: #FFD5D2 !important; 
 }
-
-/* Set background color for reserved addresses in subnet ip table */
 .table.ipaddresses tr.Reserved td {
     background: #CBE1FF !important; 
 }
+/* </eNovance> */
 
 .table.searchTable td.btn-actions .btn-toolbar,
 .table.ipaddresses td.btn-actions .btn-toolbar {
 	margin: 0px;
 }
+.table.ipaddresses tr.dhcp td {
+	background: rgba(225,225,225,0.7) !important;
+	text-shadow: 1px 1px 1px white;
+}
 
+/* <eNovance> */
 /* Set background color for offline addresses in search table */
 .table.searchTable tr.Offline td {
     background: #FFD5D2 !important;
 }
-
 /* Set background color for reserved addresses in search table */
 .table.searchTable tr.Reserved td {
     background: #CBE1FF !important;
 }
-
-/* Set font color for subnet will less than 5% free ip addresses */
+/* Set font color for subnet with less than 5% free ip addresses */
 .table#manageSubnets a.SubnetFull {
     color: #FF3030 !important;
 	font-weight:bold;
 }
-/* Set font color for subnet will less than 20% free ip addresses */
+/* Set font color for subnet with less than 20% free ip addresses */
 .table#manageSubnets a.SubnetAlmostFull {
     color: #E65C00 !important;
 	font-weight:bold;
 }
-/* Set font color for subnet will more than 20% free ip addresses */
+/* Set font color for subnet with more than 20% free ip addresses */
 .table#manageSubnets a.SubnetNotFull {
     color: #33CC33 !important;
 	font-weight:bold;
 }
+/* </eNovance> */
 
 .ipaddress_subnet th {
 	text-align: right;
@@ -1306,11 +1309,13 @@ table.requestIP th {
           background-clip: padding-box;
 }
 
+/* <eNovance> */
 /* Commented out since this code was hiding the necesseray scroll bar when displaying discovered items
 .popup .pContent::-webkit-scrollbar { 
     display: none; 
 }
 */
+/* </eNovance> */
 
 .popup .pHeader {
   	padding: 9px 15px;

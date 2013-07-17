@@ -34,6 +34,12 @@ $settings = getAllSettings();
 		<a href="administration/manageAD/"><i class="icon-chevron-right pull-right icon-gray"></i> <?php print _('OpenLDAP connection settings'); ?></a>
 	</li>
 	<?php } ?>
+    <?php # show API settings if enabled in config!
+    if($settings['api'] == 1) { ?>
+	<li <?php if($_REQUEST['adminId'] == "api") print "class='active'"; ?>>
+		<a href="administration/api/"><i class="icon-chevron-right pull-right icon-gray"></i> <?php print _('API management'); ?></a>
+	</li>
+	<?php } ?>
 	<li <?php if($_REQUEST['adminId'] == "languages") print "class='active'"; ?>>
 		<a href="administration/languages/"><i class="icon-chevron-right pull-right icon-gray"></i> <?php print _('Languages'); ?></a>
 	</li>	

@@ -15,6 +15,8 @@ $scanIPv6 		= false;			// not yet
 $MAX_THREADS = 256;					// set max concurrent threads
 
 // ping path
+// <eNovance>
+// Basic path in our machines is /bin/ping rather than /sbin/ping
 $pathPing = "/bin/ping";
 
 // nmap path

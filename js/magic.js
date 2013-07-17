@@ -1,7 +1,7 @@
 /**
  *
  * Javascript / jQuery functions
- * eNovance : 63-70, 165-174
+ *
  *
  */
 
@@ -60,6 +60,8 @@ function hidePopup2() {
     $('.popup_w700').css("z-index", "100");        //set popup back
     hideSpinner();
 }
+// <eNovance>
+// Added the location.reload() action for status update button
 function hidePopup3() {
     $('#popupOverlay').fadeOut('fast');
     $('.popup').fadeOut('fast');
@@ -68,6 +70,7 @@ function hidePopup3() {
     hideSpinner();
 	location.reload();
 }
+// </eNovance> 
 $(document).on("click", "#popupOverlay, button.hidePopups", function() { hidePopups(); });
 $(document).on("click", "button.hidePopup2", function() { hidePopup2(); });
 $(document).on("click", "#popupOverlay, button.hidePopup3", function() { hidePopup3(); });
@@ -162,7 +165,8 @@ if ($('#IPv4top10Hosts').length>0) {
 
 /* @subnets list ----------  */
 
-/* discovery button */
+// <eNovance>
+// discovery button 
 $('a.discovery').click(function() {
 	;showSpinner();
 	$('a.discovery').attr("disabled", 'disabled');
@@ -172,6 +176,7 @@ $('a.discovery').click(function() {
 		hideSpinner();
 	});
 	return false;});
+// </eNovance>
 
 /* leftmenu toggle submenus */
 // default hide
@@ -1559,6 +1564,43 @@ $(document).on("click", "#langEditSubmit", function() {
     return false;
 });
 
+
+
+/* API
+*********/
+//Load edit API form
+$('button.editAPI').click(function() {
+    showSpinner();
+    var appid    = $(this).attr('data-appid');
+    var action   = $(this).attr('data-action');
+    $.post('site/admin/apiEdit.php', {appid:appid, action:action}, function(data) {
+        $('div.popup_w700').html(data);
+        showPopup('popup_w700');
+        hideSpinner();
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
+    return false;    
+});
+//Edit API details
+$(document).on("click", "#apiEditSubmit", function() {
+    showSpinner();
+    var apidata = $('form#apiEdit').serialize();
+    $.post('site/admin/apiEditResult.php', apidata, function(data) {
+        $('div.apiEditResult').html(data).slideDown('fast');
+        //reload after 2 seconds if succeeded!
+        if(data.search("error") == -1)     	{ setTimeout(function (){window.location.reload();}, 1500); }
+        else                             	{ hideSpinner(); }
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
+    return false;
+});
+//regenerate API key
+$(document).on('click', "#regApiKey", function() {
+	showSpinner();
+    $.post('site/admin/apiKeyGenerate.php', function(data) {
+        $('input#appcode').val(data);
+        hideSpinner();
+    }).fail(function(xhr, textStatus, errorThrown) { showError(xhr.statusText);});
+    return false;
+});
 
 
 
