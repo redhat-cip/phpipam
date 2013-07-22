@@ -3,9 +3,9 @@
 /* database connection details
 *******************************/
 $db['host'] = "localhost";
-$db['user'] = "root";
-$db['pass'] = "1qaz2wsx";
-$db['name'] = "3ipam";
+$db['user'] = "phpipam";
+$db['pass'] = "phpipamadmin";
+$db['name'] = "phpipam";
 
 /* glpi database connection details
    LEAVE EMPTY IF NOT USING GLPI
