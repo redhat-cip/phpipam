@@ -900,23 +900,14 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 
 				// <eNovance>
 				// count the number of free and offline hosts
-				if ( IdentifyAddress( $option['value']['subnet'] ) == "IPv4")
-				{
-					$ipaddresses = getIpAddressesBySubnetId($option['value']['id']);
-					$countAddresses = count($ipaddresses);
-
-					$freeHosts = 0;
-					$reservedHosts = 0;
-					foreach($ipaddresses as $ip)
-					{
-						if ( ($ip['state'] == "0") && ($ip['dns_name'] == "")) {$freeHosts += 1;}
-						elseif ($ip['state'] == "2" ) {$reservedHosts += 1;}
-					}
-				
-					$subnetDetails = calculateSubnetDetails ( gmp_strval(sizeof($ipaddresses)), $option['value']['mask'], $option['value']['subnet'] );
-					$freeHosts += intval($subnetDetails['freehosts']);
-					$percentFreeHosts = ($freeHosts/$countAddresses)*100;
-				}
+				$ipaddresses = getIpAddressesBySubnetId($option['value']['id']);
+				$reservedHosts = 0;
+				foreach($ipaddresses as $ip)
+                {
+                    if ($ip['state'] == "2" ) {$reservedHosts += 1;}
+                }
+				$subnetDetails = calculateSubnetDetails(count($ipaddresses), $option['value']['mask'], $option['value']['subnet']);
+				$freeHosts = $subnetDetails['freehosts'];
 				// </eNovance>
 
 			# print table line
@@ -948,8 +939,8 @@ function printSubnets( $subnets, $actions = true, $vrf = "0", $custom = array() 
 					// <eNovance>
 					// Set the 'reserved' and 'free' hosts columns' value
 					$html[] = "<td>$reservedHosts</td>";
-					if ($percentFreeHosts <= 5) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetFull\">$freeHosts</a></td>";}
-					elseif ($percentFreeHosts <= 20) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetAlmostFull\">$freeHosts</a></td>";}
+					if ($subnetDetails['freehosts_percent'] <= 5) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetFull\">$freeHosts</a></td>";}
+					elseif ($subnetDetails['freehosts_percent'] <= 20) {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetAlmostFull\">$freeHosts</a></td>";}
 					else {$html[] = "<td><a href=\"subnets/".$option['value']['sectionId']."/".$option['value']['id']."/\" class=\"SubnetNotFull\">$freeHosts</a></td>";}
 					// </eNovance>
 

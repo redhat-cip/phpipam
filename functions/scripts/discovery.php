@@ -79,7 +79,7 @@ function getGlpiIpList($database_glpi, $ip_ranges)
 }
 
 /* Compare the ipam ip list with the glpi one and find missing ip addresses */
-function findNewIpAddresses($glpi_ip_list, $ipam_ip_list)
+function findNewIpAddresses($glpi_ip_list, $ipam_ip_list, $database_ipam)
 {
 	$discovered_ip_list = [];
 
@@ -87,7 +87,11 @@ function findNewIpAddresses($glpi_ip_list, $ipam_ip_list)
 	{
 		if (!array_search($glpi_ip['ip'], $ipam_ip_list))
 		{
-			array_push($discovered_ip_list, $glpi_ip);
+			$query = "SELECT id FROM ipaddresses WHERE ip_addr LIKE '$glpi_ip[ip]';";
+			if (count($database_ipam->getRow($query)) == 0)
+			{
+				array_push($discovered_ip_list, $glpi_ip);
+			}
 		}
 	}
 
@@ -201,14 +205,16 @@ $database_glpi = new database($db['glpi_host'], $db['glpi_user'], $db['glpi_pass
 $ip_ranges = getIpRanges();
 $ipam_ip_list = getIpamIpList($database_ipam);
 $glpi_ip_list = getGlpiIpList($database_glpi, $ip_ranges);
-$discovered_ip_list = findNewIpAddresses($glpi_ip_list, $ipam_ip_list);
+$discovered_ip_list = findNewIpAddresses($glpi_ip_list, $ipam_ip_list, $database_ipam);
 $discovery_section_id = getDiscoverySectionId($database_ipam);
 
-createNewSubnets($discovered_ip_list, $discovery_section_id, $database_ipam);
-createNewIpAddresses($discovered_ip_list, $database_ipam);
-link_ip_to_glpi($ipam_ip_list, $database_glpi, $database_ipam);
-updateHostsName($database_ipam, $database_glpi);
-
+if (count($discovered_ip_list) > 0)
+{
+	createNewSubnets($discovered_ip_list, $discovery_section_id, $database_ipam);
+	createNewIpAddresses($discovered_ip_list, $database_ipam);
+	link_ip_to_glpi($ipam_ip_list, $database_glpi, $database_ipam);
+	updateHostsName($database_ipam, $database_glpi);
+}
 $database_glpi->close();
 $database_ipam->close();
 ?>
