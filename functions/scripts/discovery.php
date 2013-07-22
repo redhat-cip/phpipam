@@ -212,3 +212,42 @@ updateHostsName($database_ipam, $database_glpi);
 $database_glpi->close();
 $database_ipam->close();
 ?>
+
+<!-- header -->
+<div class="pHeader">Discovery result</div>
+<div class="pContent">
+    <table class="table table-noborder table-condensed">
+
+    <?php
+        if (count($discovered_ip_list) == 0)
+        {
+            echo '<td class="info">No new ip addresses discovered.</td>'.
+                 '</div></table>'.
+                 '<div class="pFooter">'.
+                     '<button class="btn btn-small hidePopups">Done</button>'.
+                 '</div>'.
+				 '</table>'.
+				 '</div>';
+            exit;
+        }
+
+        foreach($discovered_ip_list as $ip)
+        {
+    ?>
+
+    <tr>
+        <td class="middle"><?php echo 'ip : '.long2ip($ip['ip']); ?></td>
+        <td class="info"><?php echo '   hostname : '.$ip['name']; ?></td>
+    </tr>
+
+    <?php
+        }
+    ?>
+
+    </div>
+</table>
+
+<div class="pFooter">
+    <button class="btn btn-small hidePopup3">Done</button>
+</div>
+
