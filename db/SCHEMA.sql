@@ -325,7 +325,7 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `username` varchar(32) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `password` varchar(32) COLLATE utf8_bin DEFAULT NULL,
   `groups` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   `role` text CHARACTER SET utf8,

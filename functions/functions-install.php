@@ -267,6 +267,9 @@ function getADSettings()
  * First we try to authenticate via local database
  * if it fails we querry the AD, if set in config file
  */
+// <eNovance>
+// This method has been modified to keep proceeding with the authentication even if a user is
+// not in the ipam database. See the checkAdLogin method for more details
 function checkLogin ($username, $md5password, $rawpassword) 
 {
     global $db;                                                                      # get variables from config file
@@ -311,84 +314,54 @@ function checkLogin ($username, $md5password, $rawpassword)
     	/* if local failed and AD/OpenLDAP is selected try to authenticate */
     	if ( $settings['domainAuth'] != "0") {
     		
-    		/* verify that user is in database! */
-    		$database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
-    		$query 		= 'select * from `users` where `username` = binary "'. $username .'" and `domainUser` = "1" limit 1;';
-    		
-    		/* execute */
-    		try { $result = $database->getArray( $query ); }
-    		catch (Exception $e) { 
-	    		$error =  $e->getMessage(); 
-	    		print ("<div class='alert alert-error'>"._('Error').": $error</div>");
-	    		return false;
-	    	} 
-    		
-    		/* close database connection */
-    		$database->close();
-    		
-    		if(sizeof($result)!=0) {
+			/* check if user exist in database and has domain user flag */		
+			$authAD = checkADLogin ($username, $rawpassword);
+	
+			if($authAD == "ok") {
+				# get user lang
+				$lang = getLangById ($result[0]['lang']);
 
-				/* check if user exist in database and has domain user flag */		
-				$authAD = checkADLogin ($username, $rawpassword);
-		
-				if($authAD == "ok") {
-					# get user lang
-					$lang = getLangById ($result[0]['lang']);
-
-	    			/* start session and set variables */
-	    			session_start();
-	    			$_SESSION['ipamusername'] = $username;
-	    			$_SESSION['ipamlanguage'] = $lang['l_code'];
-	    			session_write_close();
+	    		/* start session and set variables */
+	    		session_start();
+	    		$_SESSION['ipamusername'] = $username;
+	    		$_SESSION['ipamlanguage'] = $lang['l_code'];
+	    		session_write_close();
 	    		
-	    			# print success
-	    			if($settings['domainAuth'] == "1") {
-		    			print('<div class="alert alert-success">'._('AD login successful').'!</div>');	
-		    			updateLogTable ('User '. $username .' logged in.', "", 0); 	
-		    		}
-		    		else {
-		    			print('<div class="alert alert-success">'._('LDAP login successful').'!</div>');	
-		    			updateLogTable ('User '. $username .' logged in.', "", 0); 			    	
-		    		}
-		    	}
-		    	# failed to connect
-		    	else if ($authAD == 'Failed to connect to AD!') {
-					# print error
-					if($settings['domainAuth'] == "1") {
-					    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to connect to AD server').'!</div>');	
-					    updateLogTable ('Failed to connect to AD!', "", 2); 	
-					}
-					else {
-				    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to connect to LDAP server').'!</div>');	
-				    	updateLogTable ('Failed to connect to LDAP!', "", 2); 						
-				    }
+	    		# print success
+	    		if($settings['domainAuth'] == "1") {
+		   			print('<div class="alert alert-success">'._('AD login successful').'!</div>');	
+		   			updateLogTable ('User '. $username .' logged in.', "", 0); 	
+		   		}
+		   		else {
+		   			print('<div class="alert alert-success">'._('LDAP login successful').'!</div>');	
+		   			updateLogTable ('User '. $username .' logged in.', "", 0); 			    	
+		   		}
+		   	}
+		   	# failed to connect
+		   	else if ($authAD == 'Failed to connect to AD!') {
+				# print error
+				if($settings['domainAuth'] == "1") {
+				    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to connect to AD server').'!</div>');	
+				    updateLogTable ('Failed to connect to AD!', "", 2); 	
 				}
-				# failed to authenticate
-				else if ($authAD == 'Failed to authenticate user via AD!') {
-					# print error
-					if($settings['domainAuth'] == "1") {
-					    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to authenticate user against AD').'!</div>');	
-					    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 	
-					}
-					else {
-				    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to authenticate user against LDAP').'!</div>');	
-				    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
-				    }
-				}
-				# wrong user/pass
 				else {
-					# print error
-					if($settings['domainAuth'] == "1") {
-					    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Wrong username or password').'!</div>');
-					    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 
-					}
-					else {
-				    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Wrong username or password').'!</div>');
-				    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
-				    }
-				}
+			    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to connect to LDAP server').'!</div>');	
+			    	updateLogTable ('Failed to connect to LDAP!', "", 2); 						
+			    }
 			}
-			# user not in db
+			# failed to authenticate
+			else if ($authAD == 'Failed to authenticate user via AD!') {
+				# print error
+				if($settings['domainAuth'] == "1") {
+				    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to authenticate user against AD').'!</div>');	
+				    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 	
+				}
+				else {
+			    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Failed to authenticate user against LDAP').'!</div>');	
+			    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
+			    }
+			}
+			# wrong user/pass
 			else {
 				# print error
 				if($settings['domainAuth'] == "1") {
@@ -396,9 +369,9 @@ function checkLogin ($username, $md5password, $rawpassword)
 				    updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2); 
 				}
 				else {
-				    print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Wrong username or password').'!</div>');
-				    updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
-				}				
+			    	print('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button>'._('Wrong username or password').'!</div>');
+			    	updateLogTable ('User '. $username .' failed to authenticate against LDAP.', "", 2); 					
+			    }
 			}
     	}
     	/* only local set, print error! */
@@ -412,75 +385,82 @@ function checkLogin ($username, $md5password, $rawpassword)
 }
 
 
-
+// <eNovance>
+// The follow method has been modified to add a user into the ipam database if he's
+// not already registered but manage to authenticate with LDAP
 /**
  * Check user against AD
  */
 function checkADLogin ($username, $password)
 {
-	/* first checked if it is defined in database - username and ad option */
-    global $db;                                                                      # get variables from config file
-/*     global $ad; */
-    
-    /* check if user exists in local database */
-    $database 	= new database($db['host'], $db['user'], $db['pass'], $db['name']);
-    $query 		= 'select count(*) as count from users where `username` = binary "'. $username .'" and `domainUser` = "1";';
-    
-    /* execute */
-    try { $result = $database->getArray( $query ); }
-    catch (Exception $e) { 
-        $error =  $e->getMessage(); 
-        print ("<div class='alert alert-error'>"._('Error').": $error</div>");
-        return false;
-    } 
-
-    /* close database connection */
-    $database->close();
-
     /* get All settings */
     $settings = getAllSettings();
     
-    /* if yes try with AD */
-    if($result[0]['count'] == "1") {
-		//include login script
-		include (dirname(__FILE__) . "/adLDAP/src/adLDAP.php");
+	//include login script
+	include (dirname(__FILE__) . "/adLDAP/src/adLDAP.php");
 	
-		//open connection
-		try {
-			//get settings for connection
-			$ad = getADSettings();
+	//open connection
+	try 
+	{
+		//get settings for connection
+		$ad = getADSettings();
 			
-			//AD
-	    	$adldap = new adLDAP(array( 'base_dn'=>$ad['base_dn'], 'account_suffix'=>$ad['account_suffix'], 
-	    								'domain_controllers'=>$ad['domain_controllers'], 'use_ssl'=>$ad['use_ssl'],
-	    								'use_tls'=> $ad['use_tls'], 'ad_port'=> $ad['ad_port']
-	    								));
+		//AD
+	   	$adldap = new adLDAP(array( 'base_dn'=>$ad['base_dn'], 'account_suffix'=>$ad['account_suffix'], 
+	   								'domain_controllers'=>$ad['domain_controllers'], 'use_ssl'=>$ad['use_ssl'],
+	   								'use_tls'=> $ad['use_tls'], 'ad_port'=> $ad['ad_port']
+	   								));
 	    	
-	    	// set OpenLDAP flag
-	    	if($settings['domainAuth'] == "2") { $adldap->setUseOpenLDAP(true); }
+	   	// set OpenLDAP flag
+	   	if($settings['domainAuth'] == "2") { $adldap->setUseOpenLDAP(true); }
 	    	
-		}
-		catch (adLDAPException $e) {
-			die('<div class="alert alert-error">'. $e .'</div>');
+	}
+	catch (adLDAPException $e) 
+	{
+		die('<div class="alert alert-error">'. $e .'</div>');
+	}
+
+	//user authentication
+	$authUser = $adldap->authenticate($username, $password);
+		
+	if($authUser == true) 
+	{
+		global $db;
+		$database = new database($db['host'], $db['user'], $db['pass'], $db['name']);
+		$query = "SELECT id FROM users WHERE username = '$username';";
+		$user_id = $database->getRow($query);
+
+		if (count($user_id) == 0)
+		{
+			$real_name = str_replace('.', ' ', $username);
+			$real_name = ucwords($real_name);
+			$email = $username."@enovance.com";
+
+			$query = "INSERT INTO users (username, role, real_name, email, domainUser, lang) VALUES ('$username', 'Administrator', '$real_name', '$email', 1, 1);";
+			$database->executeQuery($query);
+			$user_id = $database->insert_id;
+			if (count($user_id) > 0) {updateLogTable ('Created user '.$username.' successfully', "", 0);}
 		}
 
-		//user authentication
-		$authUser = $adldap->authenticate($username, $password);
-		
-		if($authUser == true) { 
+		$database->close();
+
+		if (count($user_id) > 0)
+		{
 			updateLogTable ('User '. $username .' authenticated against AD.', "", 0);
 			return 'ok'; 
 		}
-		else { 
-			updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2);
-			$err = $adldap->getLastError();
-			return 'Failed to authenticate user via AD!'; 
+		else
+		{
+			updateLogTable ('Failed to create user .'. $username, "", 2);
+			return "Failed to creater user $username";
 		}
-    }
-    //user not defined as AD user or user not existing
-    else {
-    	return false;
-    }
+	}
+	else 
+	{ 
+		updateLogTable ('User '. $username .' failed to authenticate against AD.', "", 2);
+		$err = $adldap->getLastError();
+		return 'Failed to authenticate user via AD!'; 
+	}
 }
 
 
