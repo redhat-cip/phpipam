@@ -15,10 +15,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }
 
-
 /* hide errors! */
 ini_set('display_errors', 0);
 
+// <eNovance>
+// Try to search with a partial ip address. Will only work if 2 or 3 bytes of the ip address are provided
+$glpisubnets = explode(',', $glpisubnets);
+
+//Remove . character if it is the first or last character of the researched string
+$ip = $searchTerm;
+if((substr($ip, 0, 1)) == '.') $ip = substr($ip, 1);
+if((substr($ip, -1)) == '.') $ip = substr($ip, 0, -1);
+
+
+$bytes_provided = substr_count($ip, '.') + 1;
+//2 or 3 bytes provided
+$ips = array();
+if ($bytes_provided > 1)
+{
+	foreach ($glpisubnets as $subnet)
+	{
+		$subnet = explode('.', $subnet);
+		if ($bytes_provided == 2) 
+		{
+			array_push($ips, "$subnet[0].$subnet[1].$ip");
+		}
+		else if ($bytes_provided == 3) 
+		{
+			array_push($ips, "$subnet[0].$ip");
+
+		}
+	}
+}
+// </eNovance>
 
 /* change * to % for database wildchar */
 $searchTerm = str_replace("*", "%", $searchTerm);
@@ -57,6 +86,10 @@ unset($myFields['glpiId']);
 $query  = 'select * from ipaddresses where ';
 /* $query .= 'ip_addr like "' . $searchTerm . '%" '; */					//ip address in decimal
 $query .= '`ip_addr` between "'. $searchTermEdited['low'] .'" and "'. $searchTermEdited['high'] .'" ';	//ip range
+foreach ($ips as $ip)
+{
+	$query .= "or ip_addr like '".ip2long($ip)."' ";
+}
 $query .= 'or `dns_name` like "%' . $searchTerm . '%" ';					//hostname
 $query .= 'or `owner` like "%' . $searchTerm . '%" ';						//owner
 # custom!
@@ -72,7 +105,6 @@ $query .= 'or `description` like "%' . $searchTerm . '%" ';					//descriptions
 $query .= 'or `note` like "%' . $searchTerm . '%" ';						//note
 $query .= 'or `mac` like "%' . $searchTerm . '%" ';							//mac
 $query .= 'order by `ip_addr` asc;';
-
 
 /* get result */
 $result = searchAddresses ($query);
