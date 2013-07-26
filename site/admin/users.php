@@ -8,6 +8,7 @@
 /* verify that user is admin */
 checkAdmin();
 
+$userDetails = getActiveUserDetails ();
 /**
  * First print table of existing users with edit / delete links!
  */
@@ -114,7 +115,8 @@ foreach ($users as $user)
 	print "	<td class='actions'>";
 	print "	<div class='btn-group'>";
 	print "		<button class='btn btn-small editUser' data-userid='$user[id]' data-action='edit'  ><i class='icon-gray icon-pencil'></i></button>";
-	print "		<button class='btn btn-small editUser' data-userid='$user[id]' data-action='delete'><i class='icon-gray icon-remove'></i></button>";
+	if ($userDetails['id'] != $user['id']) print "     <button class='btn btn-small editUser' data-userid='$user[id]' data-action='delete'><i class='icon-gray icon-remove'></i></button>";
+	else print "		<button class='btn btn-small disabled' data-userid='$user[id]' data-action='delete'><i class='icon-gray icon-remove'></i></button>";
 	print "	</div>";
 	print "	</td>";
 	
