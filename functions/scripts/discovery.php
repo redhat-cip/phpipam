@@ -65,11 +65,13 @@ function getGlpiIpList($database_glpi, $ip_ranges)
   				$base = ip2long('255.255.255.255');
   				$mask = 32-log(($long ^ $base)+1,2);
 
-
+                if (ip2long($glpi_ip['ip']) > 0)
+                {
             	$glpi_ip_list[$key]['ip'] = ip2long($glpi_ip['ip']);
 				$glpi_ip_list[$key]['subnet'] = ip2long($glpi_ip['subnet']);
 				$glpi_ip_list[$key]['netmask'] = $mask;
             	$in_range = 1;
+				}
         	}
     	}
     	if ($in_range == 0) {unset($glpi_ip_list[$key]);}
